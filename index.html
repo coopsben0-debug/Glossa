@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+        
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; }
+        
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h2 { font-size: 48px; margin-bottom: 20px; }
+        .hero p { font-size: 18px; color: #aaa; max-width: 600px; margin: 0 auto 40px; }
+        .hero button {
+            background: #7c6af7;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 60px 20px;
+        }
+        .card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 30px;
+            width: 220px;
+            text-align: center;
+        }
+        .card h3 { color: #7c6af7; margin-bottom: 10px; }
+        .card p { color: #aaa; font-size: 14px; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Languages</a>
+            <a href="#">Chat</a>
+            <a href="#">Login</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h2>Learn Any Language,<br>Ancient or Modern</h2>
+        <p>Glossa is a comprehensive language learning platform for both ancient and modern languages — from Biblical Greek and Hebrew to French and Spanish.</p>
+        <button>Get Started</button>
+    </div>
+
+    <div class="features">
+        <div class="card">
+            <h3>Parse Trainer</h3>
+            <p>Master verb tenses, cases and grammar through interactive drills</p>
+        </div>
+        <div class="card">
+            <h3>Live Chat</h3>
+            <p>Practice in real time with learners from around the world</p>
+        </div>
+        <div class="card">
+            <h3>Word Library</h3>
+            <p>Searchable dictionary across dozens of languages</p>
+        </div>
+        <div class="card">
+            <h3>Grammar Guides</h3>
+            <p>Clear guides from beginner basics to advanced syntax</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
+</body>
+</html>
