@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa - Biblical Greek</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        .hero h2 { font-size: 42px; margin-bottom: 15px; }
+        .hero p { color: #aaa; font-size: 18px; }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: 2px solid #7c6af7;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            background: transparent;
+        }
+        .tab.active { background: #7c6af7; }
+
+        .section { display: none; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .section.active { display: block; }
+
+        .grammar-card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .grammar-card h3 { color: #7c6af7; font-size: 20px; margin-bottom: 10px; }
+        .grammar-card p { color: #aaa; line-height: 1.7; }
+        .grammar-card table { width: 100%; margin-top: 15px; border-collapse: collapse; }
+        .grammar-card th { background: #7c6af7; padding: 10px; text-align: left; }
+        .grammar-card td { padding: 10px; border-bottom: 1px solid #333; color: #aaa; }
+
+        .search-box {
+            width: 100%;
+            padding: 15px;
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .word-card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .word-card .greek { font-size: 28px; color: #7c6af7; }
+        .word-card .english { font-size: 18px; }
+        .word-card .type { color: #aaa; font-size: 14px; }
+
+        .quiz-box {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+        .quiz-word { font-size: 64px; color: #7c6af7; margin-bottom: 10px; }
+        .quiz-question { color: #aaa; font-size: 18px; margin-bottom: 30px; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .option {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: 2px solid #333;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            background: transparent;
+        }
+        .option.correct { border-color: #6bffb8; color: #6bffb8; }
+        .option.wrong { border-color: #ff6b6b; color: #ff6b6b; }
+        .result { font-size: 18px; margin: 10px 0; min-height: 30px; }
+        .next-btn {
+            padding: 12px 40px;
+            background: #7c6af7;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .score { color: #aaa; margin-top: 15px; font-size: 16px; }
+
+        footer { text-align: center; padding: 30px; color: #555; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="#">Chat</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h2>🏛️ Biblical Greek</h2>
+        <p>Koine Greek of the New Testament</p>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('grammar')">Grammar Guide</button>
+        <button class="tab" onclick="showTab('words')">Word Library</button>
+        <button class="tab" onclick="showTab('parse')">Parse Trainer</button>
+    </div>
+
+    <!-- GRAMMAR GUIDE -->
+    <div class="section active" id="grammar">
+        <div class="grammar-card">
+            <h3>The Greek Alphabet</h3>
+            <p>Biblical Greek uses a 24 letter alphabet. Each letter has a name and sound.</p>
+            <table>
+                <tr><th>Letter</th><th>Name</th><th>Sound</th></tr>
+                <tr><td>Α α</td><td>Alpha</td><td>a (father)</td></tr>
+                <tr><td>Β β</td><td>Beta</td><td>b</td></tr>
+                <tr><td>Γ γ</td><td>Gamma</td><td>g</td></tr>
+                <tr><td>Δ δ</td><td>Delta</td><td>d</td></tr>
+                <tr><td>Ε ε</td><td>Epsilon</td><td>e (met)</td></tr>
+                <tr><td>Ζ ζ</td><td>Zeta</td><td>z</td></tr>
+                <tr><td>Η η</td><td>Eta</td><td>e (they)</td></tr>
+                <tr><td>Θ θ</td><td>Theta</td><td>th</td></tr>
+                <tr><td>Ι ι</td><td>Iota</td><td>i</td></tr>
+                <tr><td>Κ κ</td><td>Kappa</td><td>k</td></tr>
+                <tr><td>Λ λ</td><td>Lambda</td><td>l</td></tr>
+                <tr><td>Μ μ</td><td>Mu</td><td>m</td></tr>
+                <tr><td>Ν ν</td><td>Nu</td><td>n</td></tr>
+                <tr><td>Ξ ξ</td><td>Xi</td><td>x</td></tr>
+                <tr><td>Ο ο</td><td>Omicron</td><td>o (not)</td></tr>
+                <tr><td>Π π</td><td>Pi</td><td>p</td></tr>
+                <tr><td>Ρ ρ</td><td>Rho</td><td>r</td></tr>
+                <tr><td>Σ σ/ς</td><td>Sigma</td><td>s</td></tr>
+                <tr><td>Τ τ</td><td>Tau</td><td>t</td></tr>
+                <tr><td>Υ υ</td><td>Upsilon</td><td>u</td></tr>
+                <tr><td>Φ φ</td><td>Phi</td><td>ph</td></tr>
+                <tr><td>Χ χ</td><td>Chi</td><td>ch</td></tr>
+                <tr><td>Ψ ψ</td><td>Psi</td><td>ps</td></tr>
+                <tr><td>Ω ω</td><td>Omega</td><td>o (tone)</td></tr>
+            </table>
+        </div>
+
+        <div class="grammar-card">
+            <h3>Noun Cases</h3>
+            <p>Greek nouns change their endings depending on their role in a sentence. There are 5 cases.</p>
+            <table>
+                <tr><th>Case</th><th>Role</th><th>Example</th></tr>
+                <tr><td>Nominative</td><td>Subject</td><td>The God loves</td></tr>
+                <tr><td>Genitive</td><td>Possession</td><td>of God</td></tr>
+                <tr><td>Dative</td><td>Indirect object</td><td>to God</td></tr>
+                <tr><td>Accusative</td><td>Direct object</td><td>loves God</td></tr>
+                <tr><td>Vocative</td><td>Direct address</td><td>O God!</td></tr>
+            </table>
+        </div>
+
+        <div class="grammar-card">
+            <h3>Verb Tenses</h3>
+            <p>Greek verbs carry a lot of information including tense, mood, voice, person and number.</p>
+            <table>
+                <tr><th>Tense</th><th>Meaning</th></tr>
+                <tr><td>Present</td><td>Ongoing action now</td></tr>
+                <tr><td>Imperfect</td><td>Ongoing action in past</td></tr>
+                <tr><td>Aorist</td><td>Simple past action</td></tr>
+                <tr><td>Perfect</td><td>Past action with present results</td></tr>
+                <tr><td>Future</td><td>Action yet to come</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- WORD LIBRARY -->
+    <div class="section" id="words">
+        <input class="search-box" type="text" placeholder="Search Greek or English..." oninput="searchWords(this.value)">
+        <div id="word-list"></div>
+    </div>
+
+    <!-- PARSE TRAINER -->
+    <div class="section" id="parse">
+        <div class="quiz-box">
+            <div class="quiz-word" id="quiz-word"></div>
+            <div class="quiz-question">What tense is this verb?</div>
+            <div class="options" id="options"></div>
+            <div class="result" id="result"></div>
+            <button class="next-btn" onclick="nextQuestion()">Next →</button>
+            <div class="score" id="score">Score: 0 / 0</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
+    <script>
+        // Tab switching
+        function showTab(tab) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Word Library
+        const words = [
+            { greek: 'λόγος', english: 'word, reason', type: 'Noun' },
+            { greek: 'θεός', english: 'God', type: 'Noun' },
+            { greek: 'ἀγάπη', english: 'love', type: 'Noun' },
+            { greek: 'πίστις', english: 'faith, belief', type: 'Noun' },
+            { greek: 'χάρις', english: 'grace', type: 'Noun' },
+            { greek: 'εἰρήνη', english: 'peace', type: 'Noun' },
+            { greek: 'ζωή', english: 'life', type: 'Noun' },
+            { greek: 'κύριος', english: 'Lord, master', type: 'Noun' },
+            { greek: 'ἄνθρωπος', english: 'man, human', type: 'Noun' },
+            { greek: 'υἱός', english: 'son', type: 'Noun' },
+            { greek: 'πνεῦμα', english: 'spirit, breath', type: 'Noun' },
+            { greek: 'ἁμαρτία', english: 'sin', type: 'Noun' },
+            { greek: 'λύω', english: 'I loosen, destroy', type: 'Verb' },
+            { greek: 'πιστεύω', english: 'I believe', type: 'Verb' },
+            { greek: 'ἀγαπάω', english: 'I love', type: 'Verb' },
+            { greek: 'λέγω', english: 'I say, speak', type: 'Verb' },
+            { greek: 'ἔρχομαι', english: 'I come, go', type: 'Verb' },
+            { greek: 'ἀκούω', english: 'I hear', type: 'Verb' },
+            { greek: 'βλέπω', english: 'I see', type: 'Verb' },
+            { greek: 'γινώσκω', english: 'I know', type: 'Verb' },
+        ];
+
+        function renderWords(list) {
+            const container = document.getElementById('word-list');
+            container.innerHTML = list.map(w => `
+                <div class="word-card">
+                    <div class="greek">${w.greek}</div>
+                    <div class="info">
+                        <div class="english">${w.english}</div>
+                        <div class="type">${w.type}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function searchWords(query) {
+            const filtered = words.filter(w =>
+                w.greek.includes(query) ||
+                w.english.toLowerCase().includes(query.toLowerCase())
+            );
+            renderWords(filtered);
+        }
+
+        renderWords(words);
+
+        // Parse Trainer
+        const questions = [
+            { word: 'λύω', answer: 'Present', options: ['Present', 'Aorist', 'Perfect', 'Future'] },
+            { word: 'ἔλυσα', answer: 'Aorist', options: ['Present', 'Aorist', 'Imperfect', 'Future'] },
+            { word: 'λέλυκα', answer: 'Perfect', options: ['Present', 'Aorist', 'Perfect', 'Future'] },
+            { word: 'ἔλυον', answer: 'Imperfect', options: ['Present', 'Imperfect', 'Aorist', 'Perfect'] },
+            { word: 'λύσω', answer: 'Future', options: ['Present', 'Aorist', 'Perfect', 'Future'] },
+            { word: 'πιστεύω', answer: 'Present', options: ['Present', 'Aorist', 'Perfect', 'Future'] },
+            { word: 'ἐπίστευσα', answer: 'Aorist', options: ['Present', 'Aorist', 'Imperfect', 'Future'] },
+        ];
+
+        let current = 0;
+        let score = 0;
+        let total = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            const q = questions[current];
+            document.getElementById('quiz-word').textContent = q.word;
+            document.getElementById('result').textContent = '';
+            answered = false;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = q.options.map(o => `
+                <button class="option" onclick="checkAnswer('${o}')">${o}</button>
+            `).join('');
+        }
+
+        function checkAnswer(selected) {
+            if (answered) return;
+            answered = true;
+            total++;
+            const q = questions[current];
+            const buttons = document.querySelectorAll('.option');
+            buttons.forEach(btn => {
+                if (btn.textContent === q.answer) btn.classList.add('correct');
+                else if (btn.textContent === selected) btn.classList.add('wrong');
+            });
+            if (selected === q.answer) {
+                score++;
+                document.getElementById('result').textContent = '✅ Correct!';
+            } else {
+                document.getElementById('result').textContent = `❌ It was ${q.answer}`;
+            }
+            document.getElementById('score').textContent = `Score: ${score} / ${total}`;
+        }
+
+        function nextQuestion() {
+            current = (current + 1) % questions.length;
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
