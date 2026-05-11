@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa - Languages</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        .hero h2 { font-size: 42px; margin-bottom: 15px; }
+        .hero p { color: #aaa; font-size: 18px; }
+
+        .section-title {
+            text-align: center;
+            font-size: 22px;
+            color: #7c6af7;
+            margin: 40px 0 20px;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 20px 60px;
+        }
+
+        .lang-card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 30px 20px;
+            width: 160px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+        .lang-card:hover { transform: scale(1.05); }
+        .lang-card .flag { font-size: 48px; margin-bottom: 10px; }
+        .lang-card h3 { font-size: 18px; margin-bottom: 5px; }
+        .lang-card p { color: #aaa; font-size: 12px; }
+
+        .coming-soon { opacity: 0.5; cursor: default; }
+
+        footer { text-align: center; padding: 30px; color: #555; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="#">Chat</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h2>Choose Your Language</h2>
+        <p>Ancient scripts or modern conversation — we've got you covered</p>
+    </div>
+
+    <div class="section-title">⛪ Ancient Languages</div>
+    <div class="grid">
+        <a href="greek.html" class="lang-card">
+            <div class="flag">🏛️</div>
+            <h3>Biblical Greek</h3>
+            <p>Koine Greek of the New Testament</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">✡️</div>
+            <h3>Biblical Hebrew</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🏺</div>
+            <h3>Latin</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">𓂀</div>
+            <h3>Aramaic</h3>
+            <p>Coming soon</p>
+        </a>
+    </div>
+
+    <div class="section-title">🌍 Modern Languages</div>
+    <div class="grid">
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇫🇷</div>
+            <h3>French</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇪🇸</div>
+            <h3>Spanish</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇩🇪</div>
+            <h3>German</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇮🇹</div>
+            <h3>Italian</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇸🇦</div>
+            <h3>Arabic</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇯🇵</div>
+            <h3>Japanese</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇨🇳</div>
+            <h3>Mandarin</h3>
+            <p>Coming soon</p>
+        </a>
+        <a href="#" class="lang-card coming-soon">
+            <div class="flag">🇬🇷</div>
+            <h3>Modern Greek</h3>
+            <p>Coming soon</p>
+        </a>
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
+</body>
+</html>
