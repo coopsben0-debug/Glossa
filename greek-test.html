@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa - Biblical Greek Level Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero h2 { font-size: 36px; margin-bottom: 10px; }
+        .hero p { color: #aaa; font-size: 16px; }
+
+        .test-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .progress-bar {
+            background: #1a1a2e;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c6af7, #a78bfa);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .question-box {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question-number { color: #aaa; font-size: 14px; margin-bottom: 15px; }
+        .question-text { font-size: 22px; margin-bottom: 10px; }
+        .greek-word { font-size: 52px; color: #7c6af7; margin: 20px 0; }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .option {
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            background: transparent;
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+        .option:hover { border-color: #7c6af7; }
+        .option.correct { border-color: #6bffb8; color: #6bffb8; background: #6bffb810; }
+        .option.wrong { border-color: #ff6b6b; color: #ff6b6b; background: #ff6b6b10; }
+
+        .result-box {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            display: none;
+        }
+        .result-box h2 { font-size: 32px; margin-bottom: 10px; }
+        .result-box p { color: #aaa; margin-bottom: 20px; }
+        .level-result {
+            font-size: 80px;
+            color: #7c6af7;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .level-desc { color: #aaa; font-size: 18px; margin-bottom: 30px; }
+        .score-text { color: #aaa; margin-bottom: 30px; font-size: 16px; }
+
+        .btn {
+            padding: 15px 40px;
+            background: #7c6af7;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #7c6af7;
+            color: #7c6af7;
+        }
+
+        .start-box {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        .start-box h2 { font-size: 32px; margin-bottom: 15px; }
+        .start-box p { color: #aaa; margin-bottom: 10px; line-height: 1.7; }
+        .start-box ul { color: #aaa; margin: 20px auto; text-align: left; max-width: 300px; line-height: 2; }
+
+        footer { text-align: center; padding: 30px; color: #555; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="#">Chat</a>
+            <a href="login.html">Login</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h2>🏛️ Biblical Greek Level Test</h2>
+        <p>Find out your official CEFR level — A1 to C2</p>
+    </div>
+
+    <div class="test-container">
+
+        <!-- Start Screen -->
+        <div class="start-box" id="start-box">
+            <h2>Ready to be tested?</h2>
+            <p>This test will assess your Biblical Greek across vocabulary, grammar, and parsing.</p>
+            <ul>
+                <li>📝 20 questions</li>
+                <li>⏱️ No time limit</li>
+                <li>🎓 Official CEFR level result</li>
+                <li>💾 Saved to your profile</li>
+            </ul>
+            <button class="btn" onclick="startTest()">Start Test →</button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progress-bar" style="display:none">
+            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+
+        <!-- Question Box -->
+        <div class="question-box" id="question-box" style="display:none">
+            <div class="question-number" id="question-number"></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="greek-word" id="greek-word"></div>
+            <div class="options" id="options"></div>
+        </div>
+
+        <!-- Result Box -->
+        <div class="result-box" id="result-box">
+            <h2>Your Result</h2>
+            <div class="level-result" id="level-result"></div>
+            <div class="level-desc" id="level-desc"></div>
+            <div class="score-text" id="score-text"></div>
+            <a href="profile.html" class="btn">View Profile →</a>
+            <button class="btn btn-outline" onclick="location.reload()">Retake Test</button>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
+            authDomain: "glossa-48dd8.firebaseapp.com",
+            projectId: "glossa-48dd8",
+            storageBucket: "glossa-48dd8.firebasestorage.app",
+            messagingSenderId: "234142191158",
+            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const questions = [
+            // A1 Level
+            { level: 'A1', word: 'θεός', question: 'What does this word mean?', options: ['God', 'Man', 'Lord', 'Spirit'], answer: 'God' },
+            { level: 'A1', word: 'Α α', question: 'What is the name of this Greek letter?', options: ['Alpha', 'Beta', 'Gamma', 'Delta'], answer: 'Alpha' },
+            { level: 'A1', word: 'λόγος', question: 'What does this word mean?', options: ['Love', 'Word', 'Life', 'Peace'], answer: 'Word' },
+            { level: 'A1', word: 'ζωή', question: 'What does this word mean?', options: ['Death', 'Faith', 'Life', 'Grace'], answer: 'Life' },
+            // A2 Level
+            { level: 'A2', word: 'ἀγάπη', question: 'What does this word mean?', options: ['Faith', 'Hope', 'Love', 'Peace'], answer: 'Love' },
+            { level: 'A2', word: 'πιστεύω', question: 'What does this verb mean?', options: ['I love', 'I believe', 'I see', 'I hear'], answer: 'I believe' },
+            { level: 'A2', word: 'Nominative', question: 'What is the role of the Nominative case?', options: ['Possession', 'Subject', 'Direct object', 'Indirect object'], answer: 'Subject' },
+            // B1 Level
+            { level: 'B1', word: 'ἔλυσα', question: 'What tense is this verb?', options: ['Present', 'Future', 'Aorist', 'Perfect'], answer: 'Aorist' },
+            { level: 'B1', word: 'λέλυκα', question: 'What tense is this verb?', options: ['Aorist', 'Present', 'Imperfect', 'Perfect'], answer: 'Perfect' },
+            { level: 'B1', word: 'Genitive', question: 'What is the role of the Genitive case?', options: ['Subject', 'Direct object', 'Possession', 'Direct address'], answer: 'Possession' },
+            { level: 'B1', word: 'ἔλυον', question: 'What tense is this verb?', options: ['Present', 'Aorist', 'Imperfect', 'Perfect'], answer: 'Imperfect' },
+            // B2 Level
+            { level: 'B2', word: 'λύσω', question: 'What tense is this verb?', options: ['Present', 'Aorist', 'Perfect', 'Future'], answer: 'Future' },
+            { level: 'B2', word: 'πνεῦμα', question: 'What does this word mean?', options: ['Body', 'Soul', 'Spirit', 'Mind'], answer: 'Spirit' },
+            { level: 'B2', word: 'Dative', question: 'What is the role of the Dative case?', options: ['Subject', 'Possession', 'Indirect object', 'Direct object'], answer: 'Indirect object' },
+            // C1 Level
+            { level: 'C1', word: 'ἁμαρτία', question: 'What does this word mean?', options: ['Grace', 'Sin', 'Faith', 'Law'], answer: 'Sin' },
+            { level: 'C1', word: 'χάρις', question: 'What does this word mean?', options: ['Peace', 'Faith', 'Grace', 'Love'], answer: 'Grace' },
+            { level: 'C1', word: 'γινώσκω', question: 'What does this verb mean?', options: ['I see', 'I hear', 'I speak', 'I know'], answer: 'I know' },
+            // C2 Level
+            { level: 'C2', word: 'ἔρχομαι', question: 'What type of verb is this?', options: ['Active', 'Passive', 'Middle/Deponent', 'Imperative'], answer: 'Middle/Deponent' },
+            { level: 'C2', word: 'Vocative', question: 'When is the Vocative case used?', options: ['Showing possession', 'Direct address', 'As subject', 'As object'], answer: 'Direct address' },
+            { level: 'C2', word: 'εἰρήνη', question: 'What does this word mean?', options: ['War', 'Truth', 'Peace', 'Joy'], answer: 'Peace' },
+        ];
+
+        let current = 0;
+        let score = 0;
+        let answered = false;
+        let currentUser = null;
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+        });
+
+        window.startTest = function() {
+            document.getElementById('start-box').style.display = 'none';
+            document.getElementById('progress-bar').style.display = 'block';
+            document.getElementById('question-box').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[current];
+            document.getElementById('question-number').textContent = `Question ${current + 1} of ${questions.length}`;
+            document.getElementById('question-text').textContent = q.question;
+            document.getElementById('greek-word').textContent = q.word;
+            document.getElementById('progress-fill').style.width = ((current / questions.length) * 100) + '%';
+            answered = false;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = q.options.map(o => `
+                <button class="option" onclick="checkAnswer('${o}')">${o}</button>
+            `).join('');
+        }
+
+        window.checkAnswer = function(selected) {
+            if (answered) return;
+            answered = true;
+            const q = questions[current];
+            const buttons = document.querySelectorAll('.option');
+            buttons.forEach(btn => {
+                if (btn.textContent === q.answer) btn.classList.add('correct');
+                else if (btn.textContent === selected) btn.classList.add('wrong');
+            });
+            if (selected === q.answer) score++;
+            setTimeout(() => {
+                current++;
+                if (current < questions.length) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }, 1000);
+        }
+
+        async function showResult() {
+            document.getElementById('progress-bar').style.display = 'none';
+            document.getElementById('question-box').style.display = 'none';
+            document.getElementById('result-box').style.display = 'block';
+
+            const percent = (score / questions.length) * 100;
+            let level = 'A1';
+            let desc = 'Beginner — keep studying the basics!';
+
+            if (percent >= 90) { level = 'C2'; desc = 'Mastery — exceptional Biblical Greek!'; }
+            else if (percent >= 75) { level = 'C1'; desc = 'Advanced — excellent command of Greek!'; }
+            else if (percent >= 60) { level = 'B2'; desc = 'Upper Intermediate — strong foundation!'; }
+            else if (percent >= 45) { level = 'B1'; desc = 'Intermediate — good progress!'; }
+            else if (percent >= 30) { level = 'A2'; desc = 'Elementary — keep building vocabulary!'; }
+
+            document.getElementById('level-result').textContent = level;
+            document.getElementById('level-desc').textContent = desc;
+            document.getElementById('score-text').textContent = `You scored ${score} out of ${questions.length}`;
+
+            if (currentUser) {
+                const docRef = doc(db, 'users', currentUser.uid);
+                const existing = await getDoc(docRef);
+                const data = existing.exists() ? existing.data() : {};
+                await setDoc(docRef, {
+                    ...data,
+                    greekLevel: level,
+                    testsTaken: (data.testsTaken || 0) + 1
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
