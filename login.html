@@ -35,29 +35,11 @@
             text-align: center;
         }
 
-        .login-box h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-            color: white;
-        }
+        .login-box h2 { font-size: 32px; margin-bottom: 10px; }
+        .login-box p { color: #aaa; margin-bottom: 30px; }
 
-        .login-box p {
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #aaa;
-            font-size: 14px;
-        }
-
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label { display: block; margin-bottom: 8px; color: #aaa; font-size: 14px; }
         .input-group input {
             width: 100%;
             padding: 14px;
@@ -67,11 +49,7 @@
             color: white;
             font-size: 16px;
         }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #7c6af7;
-        }
+        .input-group input:focus { outline: none; border-color: #7c6af7; }
 
         .login-btn {
             width: 100%;
@@ -85,21 +63,25 @@
             margin-top: 10px;
         }
 
-        .divider {
-            margin: 25px 0;
-            color: #555;
-        }
-
-        .signup-link {
+        .signup-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
             color: #7c6af7;
-            text-decoration: none;
+            border: 2px solid #7c6af7;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #555;
-        }
+        .message { margin-top: 15px; font-size: 14px; }
+        .error { color: #ff6b6b; }
+        .success { color: #6bffb8; }
+
+        .divider { margin: 20px 0; color: #555; }
+
+        footer { text-align: center; padding: 30px; color: #555; }
     </style>
 </head>
 <body>
@@ -117,29 +99,74 @@
     <div class="login-container">
         <div class="login-box">
             <h2>Welcome Back</h2>
-            <p>Login to continue learning</p>
+            <p>Login or create an account</p>
 
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" placeholder="you@email.com">
+                <input type="email" id="email" placeholder="you@email.com">
             </div>
 
             <div class="input-group">
                 <label>Password</label>
-                <input type="password" placeholder="••••••••">
+                <input type="password" id="password" placeholder="••••••••">
             </div>
 
-            <button class="login-btn">Login</button>
-
+            <button class="login-btn" onclick="login()">Login</button>
             <div class="divider">— or —</div>
+            <button class="signup-btn" onclick="signup()">Create Account</button>
 
-            <p>Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
+            <div class="message" id="message"></div>
         </div>
     </div>
 
     <footer>
         <p>© 2026 Glossa — All rights reserved</p>
     </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
+            authDomain: "glossa-48dd8.firebaseapp.com",
+            projectId: "glossa-48dd8",
+            storageBucket: "glossa-48dd8.firebasestorage.app",
+            messagingSenderId: "234142191158",
+            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.login = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('message');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                msg.className = 'message success';
+                msg.textContent = 'Logged in successfully!';
+            } catch (e) {
+                msg.className = 'message error';
+                msg.textContent = 'Login failed. Check your email and password.';
+            }
+        }
+
+        window.signup = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const msg = document.getElementById('message');
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                msg.className = 'message success';
+                msg.textContent = 'Account created successfully!';
+            } catch (e) {
+                msg.className = 'message error';
+                msg.textContent = 'Signup failed. Password must be at least 6 characters.';
+            }
+        }
+    </script>
 
 </body>
 </html>
