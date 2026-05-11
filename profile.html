@@ -154,3 +154,153 @@
         <h1>Glossa</h1>
         <div>
             <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="#">Chat</a>
+            <a href="login.html">Login</a>
+        </div>
+    </nav>
+
+    <!-- Shown when not logged in -->
+    <div class="login-prompt" id="login-prompt">
+        <h2>You're not logged in</h2>
+        <p>Login to see your profile and track your progress</p>
+        <a href="login.html">Login / Sign Up</a>
+    </div>
+
+    <!-- Shown when logged in -->
+    <div id="profile-content" style="display:none">
+
+        <div class="profile-header">
+            <div class="avatar">👤</div>
+            <h2 id="user-email">Loading...</h2>
+            <p>Glossa Member</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <h3 id="langs-count">0</h3>
+                <p>Languages Started</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="tests-count">0</h3>
+                <p>Tests Taken</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="best-level">—</h3>
+                <p>Best Level</p>
+            </div>
+        </div>
+
+        <div class="section-title">My Languages</div>
+
+        <div class="languages-grid">
+
+            <div class="lang-progress">
+                <div class="lang-progress-header">
+                    <div class="lang-name"><span>🏛️</span> Biblical Greek</div>
+                    <div class="level-badge" id="greek-badge">Not tested</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="greek-progress" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+                <button class="test-btn" onclick="window.location.href='greek.html'">Take Level Test →</button>
+            </div>
+
+            <div class="lang-progress">
+                <div class="lang-progress-header">
+                    <div class="lang-name"><span>✡️</span> Biblical Hebrew</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+            </div>
+
+            <div class="lang-progress">
+                <div class="lang-progress-header">
+                    <div class="lang-name"><span>🇫🇷</span> French</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+            </div>
+
+            <div class="lang-progress">
+                <div class="lang-progress-header">
+                    <div class="lang-name"><span>🇪🇸</span> Spanish</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
+            authDomain: "glossa-48dd8.firebaseapp.com",
+            projectId: "glossa-48dd8",
+            storageBucket: "glossa-48dd8.firebasestorage.app",
+            messagingSenderId: "234142191158",
+            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('login-prompt').style.display = 'none';
+                document.getElementById('profile-content').style.display = 'block';
+                document.getElementById('user-email').textContent = user.email;
+
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const levels = { A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100 };
+
+                    if (data.greekLevel) {
+                        document.getElementById('greek-badge').textContent = data.greekLevel;
+                        document.getElementById('greek-badge').classList.remove('none');
+                        document.getElementById('greek-progress').style.width = levels[data.greekLevel] + '%';
+                        document.getElementById('langs-count').textContent = '1';
+                        document.getElementById('tests-count').textContent = data.testsTaken || '1';
+                        document.getElementById('best-level').textContent = data.greekLevel;
+                    }
+                }
+            } else {
+                document.getElementById('login-prompt').style.display = 'block';
+                document.getElementById('profile-content').style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
