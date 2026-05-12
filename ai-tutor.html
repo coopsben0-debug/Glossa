@@ -130,10 +130,9 @@
         .message.user .message-bubble { background: #7c6af7; }
 
         .typing {
-            display: flex;
+            display: none;
             gap: 12px;
             align-items: center;
-            display: none;
         }
         .typing-dots {
             background: #1a1a2e;
@@ -202,8 +201,6 @@
             font-size: 13px;
         }
         .chip:hover { border-color: #7c6af7; color: white; }
-
-        footer { display: none; }
     </style>
 </head>
 <body>
@@ -292,6 +289,8 @@
         let currentMode = 'tutor';
         let conversationHistory = [];
 
+        const GROQ_API_KEY = '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';
+
         const modePrompts = {
             tutor: 'You are a friendly and encouraging language tutor on Glossa, a language learning platform. Help the student understand grammar concepts clearly with examples. Be warm, patient and thorough.',
             vocab: 'You are a vocabulary tutor on Glossa. Help the student learn and remember words. Give definitions, etymology, example sentences, and memory tips.',
@@ -335,7 +334,6 @@
 
             const lang = document.getElementById('lang-select').value;
             addMessage(text, 'user');
-
             conversationHistory.push({ role: 'user', content: text });
 
             document.getElementById('typing').style.display = 'flex';
@@ -344,20 +342,24 @@
             try {
                 const systemPrompt = modePrompts[currentMode] + ` The student is currently studying ${lang}.`;
 
-                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + GROQ_API_KEY
+                    },
                     body: JSON.stringify({
-                        model: 'claude-sonnet-4-20250514',
+                        model: 'llama3-8b-8192',
                         max_tokens: 1000,
-                        system: systemPrompt,
-                        messages: conversationHistory
+                        messages: [
+                            { role: 'system', content: systemPrompt },
+                            ...conversationHistory
+                        ]
                     })
                 });
 
                 const data = await response.json();
-                const reply = data.content[0].text;
-
+                const reply = data.choices[0].message.content;
                 conversationHistory.push({ role: 'assistant', content: reply });
 
                 document.getElementById('typing').style.display = 'none';
@@ -365,7 +367,7 @@
 
             } catch (err) {
                 document.getElementById('typing').style.display = 'none';
-                addMessage('Sorry, I had trouble connecting. Please try again!', 'ai');
+                addMessage('Sorry I had trouble connecting. Please try again!', 'ai');
             }
         }
 
