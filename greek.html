@@ -4,11 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Glossa — Biblical Greek</title>
+<title>Glossa — Biblical Greek Grammar</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+
+/* =========================
+RESET
+========================= */
 
 *{
     margin:0;
@@ -26,26 +30,32 @@ body{
     font-family:'Inter', sans-serif;
 }
 
-/* NAVIGATION */
+/* =========================
+NAVBAR
+========================= */
 
 nav{
     background:#171727;
+    border-bottom:1px solid #2b2b44;
     padding:20px 40px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    border-bottom:1px solid #2c2c45;
 }
 
 nav h1{
     color:#7c6af7;
-    font-size:32px;
+    font-size:34px;
+}
+
+nav .links{
+    display:flex;
+    gap:24px;
 }
 
 nav a{
-    color:#ddd;
     text-decoration:none;
-    margin-left:22px;
+    color:#d7d7e5;
     transition:0.2s;
 }
 
@@ -53,7 +63,9 @@ nav a:hover{
     color:#7c6af7;
 }
 
-/* HERO */
+/* =========================
+HERO
+========================= */
 
 .hero{
     text-align:center;
@@ -61,27 +73,34 @@ nav a:hover{
 }
 
 .hero h2{
-    font-size:56px;
-    margin-bottom:15px;
+    font-size:62px;
+    margin-bottom:14px;
 }
 
 .hero p{
-    color:#999;
+    color:#9a9ab0;
     font-size:20px;
-}
-
-/* LAYOUT */
-
-.main-layout{
-    display:grid;
-    grid-template-columns:290px 1fr;
-    gap:30px;
-    max-width:1600px;
+    max-width:800px;
     margin:0 auto;
-    padding:0 25px 50px;
+    line-height:1.8;
 }
 
-/* SIDEBAR */
+/* =========================
+MAIN LAYOUT
+========================= */
+
+.layout{
+    display:grid;
+    grid-template-columns:320px 1fr;
+    gap:30px;
+    max-width:1700px;
+    margin:0 auto;
+    padding:0 25px 60px;
+}
+
+/* =========================
+SIDEBAR
+========================= */
 
 .sidebar{
     position:sticky;
@@ -89,22 +108,46 @@ nav a:hover{
     align-self:start;
     background:#171727;
     border:1px solid #2c2c45;
-    border-radius:20px;
-    padding:25px;
+    border-radius:22px;
+    padding:30px;
     max-height:92vh;
     overflow-y:auto;
 }
 
+.back-btn{
+    display:block;
+    width:100%;
+    background:#7c6af7;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    padding:15px;
+    border-radius:14px;
+    margin-bottom:25px;
+    font-weight:600;
+}
+
+.search-box{
+    width:100%;
+    padding:15px;
+    border-radius:14px;
+    border:1px solid #333;
+    background:#101018;
+    color:white;
+    margin-bottom:25px;
+    font-size:15px;
+}
+
 .sidebar h2{
     color:#7c6af7;
-    margin-bottom:20px;
-    font-size:26px;
+    margin-bottom:18px;
+    font-size:28px;
 }
 
 .sidebar h3{
     color:white;
     margin-top:25px;
-    margin-bottom:12px;
+    margin-bottom:14px;
     font-size:17px;
 }
 
@@ -121,75 +164,61 @@ nav a:hover{
     transform:translateX(4px);
 }
 
-.search-box{
-    width:100%;
-    padding:14px;
-    border-radius:12px;
-    border:1px solid #333;
-    background:#101018;
-    color:white;
-    margin-bottom:20px;
-    font-size:15px;
-}
-
-/* CONTENT */
+/* =========================
+CONTENT
+========================= */
 
 .content{
     min-width:0;
 }
 
-.grammar-card{
+.chapter{
     background:#171727;
     border:1px solid #2c2c45;
-    border-radius:22px;
-    padding:40px;
-    margin-bottom:30px;
+    border-radius:25px;
+    padding:45px;
+    margin-bottom:35px;
+    scroll-margin-top:100px;
 }
 
-.grammar-card h2{
+.chapter h2{
     color:#7c6af7;
-    font-size:38px;
+    font-size:42px;
     margin-bottom:20px;
 }
 
-.grammar-card h3{
-    margin-top:35px;
-    margin-bottom:14px;
+.chapter h3{
+    margin-top:40px;
+    margin-bottom:15px;
     color:white;
-    font-size:26px;
+    font-size:28px;
 }
 
-.grammar-card h4{
+.chapter h4{
     margin-top:25px;
     margin-bottom:12px;
-    color:#cfc5ff;
-    font-size:20px;
+    color:#d2caff;
+    font-size:21px;
 }
 
-.grammar-card p{
-    color:#b9b9c9;
-    line-height:1.9;
+.chapter p{
+    color:#bcbcd1;
+    line-height:1.95;
     margin-bottom:18px;
     font-size:16px;
 }
 
-/* GREEK TEXT */
-
-.greek{
-    font-family:'Noto Serif', serif;
-    font-size:25px;
-    color:white;
-}
-
-/* TABLES */
+/* =========================
+TABLES
+========================= */
 
 .paradigm{
     width:100%;
     border-collapse:collapse;
     margin-top:25px;
-    margin-bottom:25px;
+    margin-bottom:30px;
     overflow:hidden;
-    border-radius:15px;
+    border-radius:16px;
 }
 
 .paradigm th{
@@ -206,67 +235,85 @@ nav a:hover{
 }
 
 .paradigm tr:nth-child(even){
-    background:#1e1e31;
+    background:#1d1d30;
 }
 
-/* SCRIPTURE */
+/* =========================
+GREEK
+========================= */
+
+.greek{
+    font-family:'Noto Serif', serif;
+    font-size:25px;
+    color:white;
+}
+
+/* =========================
+SCRIPTURE
+========================= */
 
 .scripture{
     background:#11111b;
-    border:1px solid #2c2c45;
+    border:1px solid #2d2d45;
     border-radius:18px;
     padding:25px;
     margin:25px 0;
 }
 
 .translation{
-    color:#999;
+    color:#9a9ab0;
     margin-top:10px;
     font-style:italic;
 }
 
-/* PARSE BOX */
+/* =========================
+PARSE BOX
+========================= */
 
 .parse-box{
     background:#1d1d2f;
     border-left:5px solid #7c6af7;
     border-radius:14px;
-    padding:22px;
-    margin:25px 0;
+    padding:25px;
+    margin:30px 0;
 }
 
 .parse-box ul{
+    margin-top:14px;
     padding-left:20px;
-    margin-top:10px;
     line-height:2;
     color:#bbb;
 }
 
-/* NOTES */
+/* =========================
+NOTES
+========================= */
 
 .note{
-    background:#241f36;
-    border:1px solid #473b6e;
-    border-radius:15px;
-    padding:22px;
-    margin:25px 0;
+    background:#241f37;
+    border:1px solid #473b70;
+    border-radius:16px;
+    padding:24px;
+    margin:28px 0;
 }
 
 .note strong{
-    color:#d5cbff;
+    color:#d3cbff;
 }
 
-/* ACCORDION */
+/* =========================
+ACCORDION
+========================= */
 
 .accordion{
     width:100%;
     background:#1d1d2f;
-    color:white;
     border:none;
+    color:white;
     padding:18px;
     border-radius:14px;
-    cursor:pointer;
     text-align:left;
+    cursor:pointer;
     margin-top:15px;
     font-size:18px;
 }
@@ -275,33 +322,39 @@ nav a:hover{
     display:none;
     background:#101018;
     border-radius:0 0 14px 14px;
-    padding:25px;
+    padding:28px;
 }
 
 .panel.show{
     display:block;
 }
 
-/* COLORS */
+/* =========================
+CASE COLORS
+========================= */
 
 .case-nom{ color:#6bffb8; }
-.case-gen{ color:#ffb86b; }
+.case-gen{ color:#ffbd6b; }
 .case-dat{ color:#6bc5ff; }
-.case-acc{ color:#ff6b9d; }
+.case-acc{ color:#ff6b9c; }
 
-/* FOOTER */
+/* =========================
+FOOTER
+========================= */
 
 footer{
     text-align:center;
     color:#666;
-    padding:50px 20px;
+    padding:60px 20px;
 }
 
-/* MOBILE */
+/* =========================
+MOBILE
+========================= */
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
-    .main-layout{
+    .layout{
         grid-template-columns:1fr;
     }
 
@@ -317,19 +370,27 @@ footer{
 
 <body>
 
+<!-- =========================
+NAV
+========================= -->
+
 <nav>
 
     <h1>Glossa</h1>
 
-    <div>
+    <div class="links">
         <a href="#">Home</a>
         <a href="#">Languages</a>
-        <a href="#">Grammar</a>
         <a href="#">Vocabulary</a>
+        <a href="#">Exercises</a>
         <a href="#">AI Tutor</a>
     </div>
 
 </nav>
+
+<!-- =========================
+HERO
+========================= -->
 
 <div class="hero">
 
@@ -337,24 +398,33 @@ footer{
 
     <p>
         A comprehensive digital reference grammar of New Testament Greek
+        with paradigms, morphology, syntax, and detailed explanations.
     </p>
 
 </div>
 
-<div class="main-layout">
+<!-- =========================
+LAYOUT
+========================= -->
+
+<div class="layout">
 
     <!-- SIDEBAR -->
 
     <div class="sidebar">
 
-        <h2>Grammar</h2>
+        <a href="biblical-greek.html" class="back-btn">
+            ← Back to Biblical Greek
+        </a>
 
-        <input 
+        <input
             type="text"
             class="search-box"
             placeholder="Search grammar..."
             onkeyup="searchGrammar(this.value)"
         >
+
+        <h2>Contents</h2>
 
         <h3>Foundations</h3>
 
@@ -372,9 +442,16 @@ footer{
         <h3>Verbs</h3>
 
         <a href="#present">Present Active</a>
+        <a href="#future">Future</a>
+        <a href="#imperfect">Imperfect</a>
         <a href="#aorist">Aorist</a>
         <a href="#perfect">Perfect</a>
         <a href="#participles">Participles</a>
+
+        <h3>Syntax</h3>
+
+        <a href="#wordorder">Word Order</a>
+        <a href="#conditions">Conditional Sentences</a>
 
     </div>
 
@@ -384,7 +461,7 @@ footer{
 
         <!-- ALPHABET -->
 
-        <div class="grammar-card grammar-topic" id="alphabet">
+        <div class="chapter grammar-topic" id="alphabet">
 
             <h2>The Greek Alphabet</h2>
 
@@ -431,15 +508,50 @@ footer{
 
         </div>
 
+        <!-- BREATHINGS -->
+
+        <div class="chapter grammar-topic" id="breathings">
+
+            <h2>Breathing Marks</h2>
+
+            <p>
+                Greek words beginning with vowels or rho take breathing marks.
+                The smooth breathing indicates absence of aspiration,
+                while the rough breathing indicates an initial h sound.
+            </p>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Mark</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                </tr>
+
+                <tr>
+                    <td>᾿</td>
+                    <td>Smooth Breathing</td>
+                    <td>ἀνήρ</td>
+                </tr>
+
+                <tr>
+                    <td>῾</td>
+                    <td>Rough Breathing</td>
+                    <td>ἁμαρτία</td>
+                </tr>
+
+            </table>
+
+        </div>
+
         <!-- CASES -->
 
-        <div class="grammar-card grammar-topic" id="cases">
+        <div class="chapter grammar-topic" id="cases">
 
             <h2>The Greek Cases</h2>
 
             <p>
                 Greek nouns change their endings according to grammatical function.
-                These forms are called cases.
             </p>
 
             <table class="paradigm">
@@ -488,28 +600,65 @@ footer{
 
             </div>
 
-            <div class="note">
+        </div>
 
-                <strong>Important:</strong>
+        <!-- ARTICLE -->
 
-                The genitive case may express possession, description,
-                relationship, source, separation, comparison,
-                apposition, and many other functions.
+        <div class="chapter grammar-topic" id="article">
 
-            </div>
+            <h2>The Definite Article</h2>
+
+            <p>
+                The Greek article is highly inflected and agrees with its noun
+                in gender, number, and case.
+            </p>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Case</th>
+                    <th>Masculine</th>
+                    <th>Feminine</th>
+                    <th>Neuter</th>
+                </tr>
+
+                <tr>
+                    <td>Nominative Singular</td>
+                    <td>ὁ</td>
+                    <td>ἡ</td>
+                    <td>τό</td>
+                </tr>
+
+                <tr>
+                    <td>Genitive Singular</td>
+                    <td>τοῦ</td>
+                    <td>τῆς</td>
+                    <td>τοῦ</td>
+                </tr>
+
+                <tr>
+                    <td>Dative Singular</td>
+                    <td>τῷ</td>
+                    <td>τῇ</td>
+                    <td>τῷ</td>
+                </tr>
+
+                <tr>
+                    <td>Accusative Singular</td>
+                    <td>τόν</td>
+                    <td>τήν</td>
+                    <td>τό</td>
+                </tr>
+
+            </table>
 
         </div>
 
         <!-- FIRST DECLENSION -->
 
-        <div class="grammar-card grammar-topic" id="firstdeclension">
+        <div class="chapter grammar-topic" id="firstdeclension">
 
             <h2>First Declension Nouns</h2>
-
-            <p>
-                First declension nouns are primarily feminine and use alpha
-                or eta endings.
-            </p>
 
             <h3>ἡμέρα — “day”</h3>
 
@@ -547,13 +696,9 @@ footer{
 
         <!-- PRESENT -->
 
-        <div class="grammar-card grammar-topic" id="present">
+        <div class="chapter grammar-topic" id="present">
 
             <h2>Present Active Indicative</h2>
-
-            <p>
-                The Greek present tense usually expresses continuous or repeated action.
-            </p>
 
             <h3>λύω — “I loosen”</h3>
 
@@ -595,16 +740,13 @@ footer{
 
         <!-- AORIST -->
 
-        <div class="grammar-card grammar-topic" id="aorist">
+        <div class="chapter grammar-topic" id="aorist">
 
             <h2>The Aorist Tense</h2>
 
             <p>
-                The aorist usually presents action as a complete whole.
-                Many grammarians interpret it primarily in terms of aspect.
+                The aorist generally presents action as a complete whole.
             </p>
-
-            <h3>First Aorist Active</h3>
 
             <table class="paradigm">
 
@@ -624,8 +766,7 @@ footer{
 
                 <strong>Augment:</strong>
 
-                Past indicative verbs commonly use an augment.
-                In ἔλυσα, epsilon is prefixed to the verbal stem.
+                Past indicative verbs normally receive an augment.
 
             </div>
 
@@ -633,13 +774,9 @@ footer{
 
         <!-- PERFECT -->
 
-        <div class="grammar-card grammar-topic" id="perfect">
+        <div class="chapter grammar-topic" id="perfect">
 
             <h2>The Perfect Tense</h2>
-
-            <p>
-                The perfect tense describes a completed action with ongoing results.
-            </p>
 
             <table class="paradigm">
 
@@ -663,13 +800,15 @@ footer{
 
 <footer>
 
-    © 2026 Glossa — Biblical Greek Reference Grammar
+    © 2026 Glossa — Biblical Greek Grammar
 
 </footer>
 
 <script>
 
-/* ACCORDIONS */
+/* =========================
+ACCORDIONS
+========================= */
 
 document.querySelectorAll(".accordion").forEach(button => {
 
@@ -681,7 +820,9 @@ document.querySelectorAll(".accordion").forEach(button => {
 
 });
 
-/* SEARCH */
+/* =========================
+SEARCH
+========================= */
 
 function searchGrammar(query){
 
