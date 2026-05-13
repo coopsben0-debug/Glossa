@@ -18,77 +18,28 @@
         nav h1 { color: #7c6af7; font-size: 28px; }
         nav a { color: white; text-decoration: none; margin-left: 20px; }
 
-        .hero {
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
+        .hero { text-align: center; padding: 40px 20px 20px; }
         .hero h2 { font-size: 36px; margin-bottom: 10px; }
         .hero p { color: #aaa; font-size: 16px; }
 
-        .difficulty-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 20px;
-            flex-wrap: wrap;
-        }
-        .diff-btn {
-            padding: 12px 35px;
-            border-radius: 30px;
-            border: 2px solid #333;
-            color: #aaa;
-            cursor: pointer;
-            font-size: 16px;
-            background: transparent;
-            transition: all 0.2s;
-        }
+        .difficulty-tabs { display: flex; justify-content: center; gap: 15px; margin: 30px 20px; flex-wrap: wrap; }
+        .diff-btn { padding: 12px 35px; border-radius: 30px; border: 2px solid #333; color: #aaa; cursor: pointer; font-size: 16px; background: transparent; transition: all 0.2s; }
         .diff-btn.easy.active { background: #6bffb8; border-color: #6bffb8; color: #0f0f1a; }
         .diff-btn.medium.active { background: #ffd700; border-color: #ffd700; color: #0f0f1a; }
         .diff-btn.hard.active { background: #ff6b6b; border-color: #ff6b6b; color: white; }
         .diff-btn:hover { border-color: #7c6af7; color: white; }
 
-        .main-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
-        }
+        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 60px; }
 
-        .verse-card {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 35px;
-            margin-bottom: 20px;
-        }
-
-        .verse-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
+        .verse-card { background: #1a1a2e; border-radius: 20px; padding: 35px; margin-bottom: 20px; }
+        .verse-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .verse-ref { color: #7c6af7; font-size: 18px; font-weight: bold; }
-        .diff-badge {
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
-        }
+        .diff-badge { padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
         .diff-badge.easy { background: #6bffb820; color: #6bffb8; border: 1px solid #6bffb8; }
         .diff-badge.medium { background: #ffd70020; color: #ffd700; border: 1px solid #ffd700; }
         .diff-badge.hard { background: #ff6b6b20; color: #ff6b6b; border: 1px solid #ff6b6b; }
 
-        .greek-text {
-            font-size: 26px;
-            line-height: 1.8;
-            color: #a78bfa;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #0f0f1a;
-            border-radius: 12px;
-            text-align: center;
-        }
+        .greek-text { font-size: 26px; line-height: 1.8; color: #a78bfa; margin-bottom: 25px; padding: 20px; background: #0f0f1a; border-radius: 12px; text-align: center; }
 
         .vocab-hints { margin-bottom: 20px; }
         .vocab-hints summary { color: #7c6af7; cursor: pointer; font-size: 14px; margin-bottom: 10px; }
@@ -96,57 +47,15 @@
         .vocab-item { background: #0f0f1a; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #aaa; }
         .vocab-item span { color: #7c6af7; }
 
-        .translation-input {
-            width: 100%;
-            padding: 16px;
-            background: #0f0f1a;
-            border: 2px solid #333;
-            border-radius: 12px;
-            color: white;
-            font-size: 16px;
-            resize: vertical;
-            min-height: 100px;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
+        .translation-input { width: 100%; padding: 16px; background: #0f0f1a; border: 2px solid #333; border-radius: 12px; color: white; font-size: 16px; resize: vertical; min-height: 100px; margin-bottom: 15px; line-height: 1.6; }
         .translation-input:focus { outline: none; border-color: #7c6af7; }
 
         .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .submit-btn {
-            padding: 14px 35px;
-            background: #7c6af7;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .next-btn {
-            padding: 14px 35px;
-            background: transparent;
-            color: #7c6af7;
-            border: 2px solid #7c6af7;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .skip-btn {
-            padding: 14px 25px;
-            background: transparent;
-            color: #555;
-            border: 2px solid #333;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+        .submit-btn { padding: 14px 35px; background: #7c6af7; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; }
+        .next-btn { padding: 14px 35px; background: transparent; color: #7c6af7; border: 2px solid #7c6af7; border-radius: 30px; font-size: 16px; cursor: pointer; }
+        .skip-btn { padding: 14px 25px; background: transparent; color: #555; border: 2px solid #333; border-radius: 30px; font-size: 16px; cursor: pointer; }
 
-        .feedback-box {
-            display: none;
-            background: #0f0f1a;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 20px;
-        }
+        .feedback-box { display: none; background: #0f0f1a; border-radius: 15px; padding: 25px; margin-top: 20px; }
         .feedback-box.active { display: block; }
         .score-display { font-size: 48px; font-weight: bold; color: #7c6af7; text-align: center; margin-bottom: 5px; }
         .score-label { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 20px; }
@@ -155,16 +64,7 @@
         .standard-translation h4 { color: #7c6af7; margin-bottom: 8px; font-size: 14px; }
         .standard-translation p { color: #aaa; font-style: italic; line-height: 1.7; }
 
-        .stats-bar {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 20px 25px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
+        .stats-bar { background: #1a1a2e; border-radius: 15px; padding: 20px 25px; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; }
         .stat { text-align: center; }
         .stat h3 { font-size: 28px; color: #7c6af7; }
         .stat p { color: #aaa; font-size: 13px; }
@@ -210,7 +110,7 @@
 
         <div class="verse-card">
             <div class="verse-header">
-                <div class="verse-ref" id="verse-ref">John 3:16</div>
+                <div class="verse-ref" id="verse-ref"></div>
                 <div class="diff-badge easy" id="diff-badge">Easy</div>
             </div>
 
@@ -249,9 +149,8 @@
     <footer><p>© 2026 Glossa — All rights reserved</p></footer>
 
     <script>
-        const API_KEY = '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';
-        const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-        const MODEL = 'meta-llama/llama-3-8b-instruct:free';
+        const API_KEY = 'AIzaSyCUjwJwVVK1Rt0n7ss_yuITSrM7A3DJxQU';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
         const verses = {
             easy: [
@@ -332,20 +231,14 @@ FEEDBACK: [your feedback]`;
 
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + API_KEY,
-                        'HTTP-Referer': 'https://coopsben0-debug.github.io'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        model: MODEL,
-                        max_tokens: 500,
-                        messages: [{ role: 'user', content: prompt }]
+                        contents: [{ role: 'user', parts: [{ text: prompt }] }]
                     })
                 });
 
                 const data = await response.json();
-                const reply = data.choices[0].message.content;
+                const reply = data.candidates[0].content.parts[0].text;
                 const scoreMatch = reply.match(/SCORE:\s*(\d+)/);
                 const feedbackMatch = reply.match(/FEEDBACK:\s*([\s\S]+)/);
                 const score = scoreMatch ? scoreMatch[1] : '?';
