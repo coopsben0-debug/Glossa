@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -25,9 +27,10 @@ html{
 }
 
 body{
-    background:#0f0f1a;
+    background:#0b0b15;
     color:white;
     font-family:'Inter', sans-serif;
+    overflow-x:hidden;
 }
 
 /* =========================
@@ -35,9 +38,12 @@ NAVBAR
 ========================= */
 
 nav{
-    background:#171727;
-    border-bottom:1px solid #2b2b44;
-    padding:20px 40px;
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:#131320;
+    border-bottom:1px solid #27273b;
+    padding:22px 40px;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -45,17 +51,18 @@ nav{
 
 nav h1{
     color:#7c6af7;
-    font-size:34px;
+    font-size:42px;
 }
 
 nav .links{
     display:flex;
-    gap:24px;
+    gap:28px;
 }
 
 nav a{
+    color:#ddd;
     text-decoration:none;
-    color:#d7d7e5;
+    font-size:17px;
     transition:0.2s;
 }
 
@@ -69,24 +76,24 @@ HERO
 
 .hero{
     text-align:center;
-    padding:70px 20px 50px;
+    padding:80px 20px 60px;
 }
 
 .hero h2{
-    font-size:62px;
-    margin-bottom:14px;
+    font-size:72px;
+    margin-bottom:20px;
 }
 
 .hero p{
-    color:#9a9ab0;
-    font-size:20px;
-    max-width:800px;
-    margin:0 auto;
+    color:#a9a9c2;
+    font-size:24px;
     line-height:1.8;
+    max-width:900px;
+    margin:0 auto;
 }
 
 /* =========================
-MAIN LAYOUT
+LAYOUT
 ========================= */
 
 .layout{
@@ -95,7 +102,7 @@ MAIN LAYOUT
     gap:30px;
     max-width:1700px;
     margin:0 auto;
-    padding:0 25px 60px;
+    padding:0 20px 80px;
 }
 
 /* =========================
@@ -104,27 +111,31 @@ SIDEBAR
 
 .sidebar{
     position:sticky;
-    top:20px;
+    top:100px;
     align-self:start;
-    background:#171727;
-    border:1px solid #2c2c45;
-    border-radius:22px;
+    background:#151526;
+    border:1px solid #292942;
+    border-radius:25px;
     padding:30px;
-    max-height:92vh;
-    overflow-y:auto;
+    height:fit-content;
 }
 
 .back-btn{
     display:block;
     width:100%;
     background:#7c6af7;
-    color:white;
+    color:white !important;
     text-decoration:none;
     text-align:center;
-    padding:15px;
+    padding:16px;
     border-radius:14px;
     margin-bottom:25px;
-    font-weight:600;
+    font-weight:700;
+    transition:0.2s;
+}
+
+.back-btn:hover{
+    background:#8f80ff;
 }
 
 .search-box{
@@ -132,7 +143,7 @@ SIDEBAR
     padding:15px;
     border-radius:14px;
     border:1px solid #333;
-    background:#101018;
+    background:#0f0f19;
     color:white;
     margin-bottom:25px;
     font-size:15px;
@@ -140,28 +151,28 @@ SIDEBAR
 
 .sidebar h2{
     color:#7c6af7;
-    margin-bottom:18px;
-    font-size:28px;
+    margin-bottom:20px;
+    font-size:34px;
 }
 
 .sidebar h3{
+    margin-top:30px;
+    margin-bottom:15px;
     color:white;
-    margin-top:25px;
-    margin-bottom:14px;
-    font-size:17px;
+    font-size:18px;
 }
 
 .sidebar a{
     display:block;
     color:#aaa;
     text-decoration:none;
-    margin-bottom:10px;
+    margin-bottom:12px;
     transition:0.2s;
 }
 
 .sidebar a:hover{
     color:#7c6af7;
-    transform:translateX(4px);
+    transform:translateX(5px);
 }
 
 /* =========================
@@ -173,39 +184,32 @@ CONTENT
 }
 
 .chapter{
-    background:#171727;
-    border:1px solid #2c2c45;
-    border-radius:25px;
-    padding:45px;
+    background:#151526;
+    border:1px solid #292942;
+    border-radius:28px;
+    padding:50px;
     margin-bottom:35px;
-    scroll-margin-top:100px;
+    scroll-margin-top:120px;
 }
 
 .chapter h2{
     color:#7c6af7;
-    font-size:42px;
-    margin-bottom:20px;
+    font-size:54px;
+    margin-bottom:24px;
 }
 
 .chapter h3{
     margin-top:40px;
-    margin-bottom:15px;
+    margin-bottom:18px;
     color:white;
-    font-size:28px;
-}
-
-.chapter h4{
-    margin-top:25px;
-    margin-bottom:12px;
-    color:#d2caff;
-    font-size:21px;
+    font-size:34px;
 }
 
 .chapter p{
-    color:#bcbcd1;
-    line-height:1.95;
-    margin-bottom:18px;
-    font-size:16px;
+    color:#c5c5d7;
+    line-height:2;
+    font-size:17px;
+    margin-bottom:20px;
 }
 
 /* =========================
@@ -218,51 +222,48 @@ TABLES
     margin-top:25px;
     margin-bottom:30px;
     overflow:hidden;
-    border-radius:16px;
+    border-radius:18px;
 }
 
 .paradigm th{
     background:#7c6af7;
-    padding:16px;
+    padding:18px;
     text-align:left;
-    font-size:15px;
+    font-size:16px;
 }
 
 .paradigm td{
-    padding:16px;
-    border-bottom:1px solid #2d2d45;
+    padding:18px;
+    border-bottom:1px solid #2f2f47;
     color:#ddd;
 }
 
 .paradigm tr:nth-child(even){
-    background:#1d1d30;
+    background:#1d1d31;
 }
 
 /* =========================
-GREEK
-========================= */
-
-.greek{
-    font-family:'Noto Serif', serif;
-    font-size:25px;
-    color:white;
-}
-
-/* =========================
-SCRIPTURE
+SCRIPTURE BOX
 ========================= */
 
 .scripture{
-    background:#11111b;
-    border:1px solid #2d2d45;
+    background:#101018;
+    border:1px solid #2f2f47;
     border-radius:18px;
-    padding:25px;
-    margin:25px 0;
+    padding:30px;
+    margin:30px 0;
+}
+
+.greek{
+    font-family:'Noto Serif', serif;
+    font-size:34px;
+    color:white;
+    line-height:1.8;
 }
 
 .translation{
-    color:#9a9ab0;
-    margin-top:10px;
+    margin-top:15px;
+    color:#9f9fba;
     font-style:italic;
 }
 
@@ -271,18 +272,18 @@ PARSE BOX
 ========================= */
 
 .parse-box{
-    background:#1d1d2f;
+    background:#1d1d31;
     border-left:5px solid #7c6af7;
-    border-radius:14px;
+    border-radius:16px;
     padding:25px;
-    margin:30px 0;
+    margin-top:30px;
 }
 
 .parse-box ul{
-    margin-top:14px;
+    margin-top:15px;
     padding-left:20px;
+    color:#c5c5d7;
     line-height:2;
-    color:#bbb;
 }
 
 /* =========================
@@ -290,15 +291,15 @@ NOTES
 ========================= */
 
 .note{
-    background:#241f37;
-    border:1px solid #473b70;
-    border-radius:16px;
+    background:#241f38;
+    border:1px solid #4a3f72;
+    border-radius:18px;
     padding:24px;
     margin:28px 0;
 }
 
 .note strong{
-    color:#d3cbff;
+    color:#d9d2ff;
 }
 
 /* =========================
@@ -307,36 +308,27 @@ ACCORDION
 
 .accordion{
     width:100%;
-    background:#1d1d2f;
+    background:#1d1d31;
     border:none;
     color:white;
     padding:18px;
     border-radius:14px;
     text-align:left;
     cursor:pointer;
-    margin-top:15px;
+    margin-top:20px;
     font-size:18px;
 }
 
 .panel{
     display:none;
+    padding:25px;
     background:#101018;
     border-radius:0 0 14px 14px;
-    padding:28px;
 }
 
 .panel.show{
     display:block;
 }
-
-/* =========================
-CASE COLORS
-========================= */
-
-.case-nom{ color:#6bffb8; }
-.case-gen{ color:#ffbd6b; }
-.case-dat{ color:#6bc5ff; }
-.case-acc{ color:#ff6b9c; }
 
 /* =========================
 FOOTER
@@ -360,18 +352,44 @@ MOBILE
 
     .sidebar{
         position:relative;
-        max-height:none;
+        top:0;
+    }
+
+    .hero h2{
+        font-size:48px;
+    }
+
+    .chapter{
+        padding:30px;
+    }
+
+    .chapter h2{
+        font-size:38px;
     }
 
 }
 
+/* =========================
+SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#343454;
+    border-radius:20px;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <!-- =========================
-NAV
+NAVBAR
 ========================= -->
 
 <nav>
@@ -379,11 +397,17 @@ NAV
     <h1>Glossa</h1>
 
     <div class="links">
-        <a href="#">Home</a>
-        <a href="#">Languages</a>
-        <a href="#">Vocabulary</a>
-        <a href="#">Exercises</a>
-        <a href="#">AI Tutor</a>
+
+        <a href="index.html">Home</a>
+
+        <a href="languages.html">Languages</a>
+
+        <a href="greek-vocab.html">Vocabulary</a>
+
+        <a href="greek-translate.html">Exercises</a>
+
+        <a href="ai-tutor.html">AI Tutor</a>
+
     </div>
 
 </nav>
@@ -397,8 +421,8 @@ HERO
     <h2>🏛 Biblical Greek Grammar</h2>
 
     <p>
-        A comprehensive digital reference grammar of New Testament Greek
-        with paradigms, morphology, syntax, and detailed explanations.
+        A detailed reference grammar of New Testament Greek with
+        paradigms, morphology, syntax, parsing, and linguistic explanation.
     </p>
 
 </div>
@@ -409,11 +433,13 @@ LAYOUT
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
+    <!-- =========================
+    SIDEBAR
+    ========================= -->
 
     <div class="sidebar">
 
-        <a href="biblical-greek.html" class="back-btn">
+        <a href="greek-test.html" class="back-btn">
             ← Back to Biblical Greek
         </a>
 
@@ -446,7 +472,6 @@ LAYOUT
         <a href="#imperfect">Imperfect</a>
         <a href="#aorist">Aorist</a>
         <a href="#perfect">Perfect</a>
-        <a href="#participles">Participles</a>
 
         <h3>Syntax</h3>
 
@@ -455,7 +480,9 @@ LAYOUT
 
     </div>
 
-    <!-- CONTENT -->
+    <!-- =========================
+    CONTENT
+    ========================= -->
 
     <div class="content">
 
@@ -466,9 +493,9 @@ LAYOUT
             <h2>The Greek Alphabet</h2>
 
             <p>
-                Biblical Greek uses a 24-letter alphabet inherited from
-                classical Greek. The New Testament was written in Koine Greek,
-                the common dialect of the eastern Mediterranean world.
+                Biblical Greek uses a 24-letter alphabet inherited from classical Greek.
+                The New Testament was written in Koine Greek, the common dialect
+                of the eastern Mediterranean world.
             </p>
 
             <table class="paradigm">
@@ -484,7 +511,6 @@ LAYOUT
                 <tr><td>Γ γ</td><td>Gamma</td><td>g</td></tr>
                 <tr><td>Δ δ</td><td>Delta</td><td>d</td></tr>
                 <tr><td>Ε ε</td><td>Epsilon</td><td>e as in met</td></tr>
-                <tr><td>Ζ ζ</td><td>Zeta</td><td>zd/dz</td></tr>
                 <tr><td>Η η</td><td>Eta</td><td>long e</td></tr>
                 <tr><td>Θ θ</td><td>Theta</td><td>th</td></tr>
                 <tr><td>Ι ι</td><td>Iota</td><td>i</td></tr>
@@ -498,7 +524,7 @@ LAYOUT
                 <tr><td>Ρ ρ</td><td>Rho</td><td>r</td></tr>
                 <tr><td>Σ σ/ς</td><td>Sigma</td><td>s</td></tr>
                 <tr><td>Τ τ</td><td>Tau</td><td>t</td></tr>
-                <tr><td>Υ υ</td><td>Upsilon</td><td>u/french u</td></tr>
+                <tr><td>Υ υ</td><td>Upsilon</td><td>u</td></tr>
                 <tr><td>Φ φ</td><td>Phi</td><td>ph</td></tr>
                 <tr><td>Χ χ</td><td>Chi</td><td>kh</td></tr>
                 <tr><td>Ψ ψ</td><td>Psi</td><td>ps</td></tr>
@@ -515,9 +541,8 @@ LAYOUT
             <h2>Breathing Marks</h2>
 
             <p>
-                Greek words beginning with vowels or rho take breathing marks.
-                The smooth breathing indicates absence of aspiration,
-                while the rough breathing indicates an initial h sound.
+                Words beginning with vowels or rho receive breathing marks.
+                Rough breathing indicates an h sound.
             </p>
 
             <table class="paradigm">
@@ -551,7 +576,7 @@ LAYOUT
             <h2>The Greek Cases</h2>
 
             <p>
-                Greek nouns change their endings according to grammatical function.
+                Greek nouns change endings according to grammatical function.
             </p>
 
             <table class="paradigm">
@@ -565,40 +590,28 @@ LAYOUT
                 <tr>
                     <td>Nominative</td>
                     <td>Subject</td>
-                    <td class="case-nom">ὁ λόγος</td>
+                    <td>ὁ λόγος</td>
                 </tr>
 
                 <tr>
                     <td>Genitive</td>
-                    <td>Possession / Source</td>
-                    <td class="case-gen">τοῦ λόγου</td>
+                    <td>Possession</td>
+                    <td>τοῦ λόγου</td>
                 </tr>
 
                 <tr>
                     <td>Dative</td>
-                    <td>Indirect Object / Means</td>
-                    <td class="case-dat">τῷ λόγῳ</td>
+                    <td>Indirect Object</td>
+                    <td>τῷ λόγῳ</td>
                 </tr>
 
                 <tr>
                     <td>Accusative</td>
                     <td>Direct Object</td>
-                    <td class="case-acc">τὸν λόγον</td>
+                    <td>τὸν λόγον</td>
                 </tr>
 
             </table>
-
-            <div class="scripture">
-
-                <div class="greek">
-                    ἐν ἀρχῇ ἦν ὁ λόγος
-                </div>
-
-                <div class="translation">
-                    “In the beginning was the Word.” — John 1:1
-                </div>
-
-            </div>
 
         </div>
 
@@ -607,11 +620,6 @@ LAYOUT
         <div class="chapter grammar-topic" id="article">
 
             <h2>The Definite Article</h2>
-
-            <p>
-                The Greek article is highly inflected and agrees with its noun
-                in gender, number, and case.
-            </p>
 
             <table class="paradigm">
 
@@ -622,33 +630,10 @@ LAYOUT
                     <th>Neuter</th>
                 </tr>
 
-                <tr>
-                    <td>Nominative Singular</td>
-                    <td>ὁ</td>
-                    <td>ἡ</td>
-                    <td>τό</td>
-                </tr>
-
-                <tr>
-                    <td>Genitive Singular</td>
-                    <td>τοῦ</td>
-                    <td>τῆς</td>
-                    <td>τοῦ</td>
-                </tr>
-
-                <tr>
-                    <td>Dative Singular</td>
-                    <td>τῷ</td>
-                    <td>τῇ</td>
-                    <td>τῷ</td>
-                </tr>
-
-                <tr>
-                    <td>Accusative Singular</td>
-                    <td>τόν</td>
-                    <td>τήν</td>
-                    <td>τό</td>
-                </tr>
+                <tr><td>Nom. Sg.</td><td>ὁ</td><td>ἡ</td><td>τό</td></tr>
+                <tr><td>Gen. Sg.</td><td>τοῦ</td><td>τῆς</td><td>τοῦ</td></tr>
+                <tr><td>Dat. Sg.</td><td>τῷ</td><td>τῇ</td><td>τῷ</td></tr>
+                <tr><td>Acc. Sg.</td><td>τόν</td><td>τήν</td><td>τό</td></tr>
 
             </table>
 
@@ -658,7 +643,7 @@ LAYOUT
 
         <div class="chapter grammar-topic" id="firstdeclension">
 
-            <h2>First Declension Nouns</h2>
+            <h2>First Declension</h2>
 
             <h3>ἡμέρα — “day”</h3>
 
@@ -674,23 +659,8 @@ LAYOUT
                 <tr><td>Genitive</td><td>ἡμέρας</td><td>ἡμερῶν</td></tr>
                 <tr><td>Dative</td><td>ἡμέρᾳ</td><td>ἡμέραις</td></tr>
                 <tr><td>Accusative</td><td>ἡμέραν</td><td>ἡμέρας</td></tr>
-                <tr><td>Vocative</td><td>ἡμέρα</td><td>ἡμέραι</td></tr>
 
             </table>
-
-            <div class="parse-box">
-
-                <div class="greek">ἡμέραις</div>
-
-                <ul>
-                    <li>Noun</li>
-                    <li>Dative</li>
-                    <li>Plural</li>
-                    <li>Feminine</li>
-                    <li>First Declension</li>
-                </ul>
-
-            </div>
 
         </div>
 
@@ -724,12 +694,14 @@ LAYOUT
 
                 <div class="parse-box">
 
-                    <div class="greek">λύομεν</div>
+                    <div class="greek">
+                        λύομεν
+                    </div>
 
                     <ul>
                         <li>λυ = verbal stem</li>
                         <li>ο = connecting vowel</li>
-                        <li>μεν = first person plural ending</li>
+                        <li>μεν = 1st plural ending</li>
                     </ul>
 
                 </div>
@@ -744,10 +716,6 @@ LAYOUT
 
             <h2>The Aorist Tense</h2>
 
-            <p>
-                The aorist generally presents action as a complete whole.
-            </p>
-
             <table class="paradigm">
 
                 <tr>
@@ -761,14 +729,6 @@ LAYOUT
                 <tr><td>3rd</td><td>ἔλυσε(ν)</td><td>ἔλυσαν</td></tr>
 
             </table>
-
-            <div class="note">
-
-                <strong>Augment:</strong>
-
-                Past indicative verbs normally receive an augment.
-
-            </div>
 
         </div>
 
@@ -794,6 +754,52 @@ LAYOUT
 
         </div>
 
+        <!-- WORD ORDER -->
+
+        <div class="chapter grammar-topic" id="wordorder">
+
+            <h2>Greek Word Order</h2>
+
+            <p>
+                Greek word order is flexible because grammatical relationships
+                are shown through inflection rather than strict position.
+            </p>
+
+            <div class="scripture">
+
+                <div class="greek">
+                    ἐν ἀρχῇ ἦν ὁ λόγος
+                </div>
+
+                <div class="translation">
+                    “In the beginning was the Word.”
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CONDITIONS -->
+
+        <div class="chapter grammar-topic" id="conditions">
+
+            <h2>Conditional Sentences</h2>
+
+            <p>
+                Greek conditional sentences use εἰ and ἐάν constructions
+                to express various kinds of conditions.
+            </p>
+
+            <div class="note">
+
+                <strong>First Class Condition:</strong>
+
+                Assumes the condition for the sake of argument.
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
@@ -807,7 +813,7 @@ LAYOUT
 <script>
 
 /* =========================
-ACCORDIONS
+ACCORDION
 ========================= */
 
 document.querySelectorAll(".accordion").forEach(button => {
