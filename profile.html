@@ -2,301 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Profile</title>
+    <title>Glossa - My Profile</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
-
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav h1 { color: #7c6af7; font-size: 28px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; }
-
-        .profile-header {
-            text-align: center;
-            padding: 60px 20px 40px;
-        }
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: #7c6af7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            margin: 0 auto 20px;
-        }
-        .profile-header h2 { font-size: 32px; margin-bottom: 5px; }
-        .profile-header p { color: #aaa; font-size: 16px; }
-
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .stat-box {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 20px 30px;
-            text-align: center;
-            flex: 1;
-            min-width: 120px;
-        }
-        .stat-box h3 { font-size: 32px; color: #7c6af7; }
-        .stat-box p { color: #aaa; font-size: 14px; margin-top: 5px; }
-
-        .section-title {
-            text-align: center;
-            font-size: 22px;
-            color: #7c6af7;
-            margin: 40px 0 20px;
-        }
-
-        .languages-grid {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
-        }
-
-        .lang-progress {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-        }
-        .lang-progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .lang-name { display: flex; align-items: center; gap: 10px; font-size: 18px; }
-        .lang-name span { font-size: 28px; }
-        .level-badge {
-            background: #7c6af7;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .level-badge.none { background: #333; color: #aaa; }
-
-        .progress-bar {
-            background: #0f0f1a;
-            border-radius: 10px;
-            height: 12px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .progress-fill {
-            height: 100%;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #7c6af7, #a78bfa);
-            transition: width 1s ease;
-        }
-        .progress-labels {
-            display: flex;
-            justify-content: space-between;
-            color: #aaa;
-            font-size: 12px;
-        }
-
-        .test-btn {
-            margin-top: 15px;
-            padding: 10px 25px;
-            background: transparent;
-            border: 2px solid #7c6af7;
-            color: #7c6af7;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        .test-btn:hover { background: #7c6af7; color: white; }
-
-        .login-prompt {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .login-prompt h2 { font-size: 28px; margin-bottom: 15px; }
-        .login-prompt p { color: #aaa; margin-bottom: 30px; }
-        .login-prompt a {
-            background: #7c6af7;
-            color: white;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        footer { text-align: center; padding: 30px; color: #555; }
+        .profile-header { background: var(--panel-bg); padding: 40px; border-radius: 20px; border: 1px solid #333; display: flex; align-items: center; gap: 30px; margin-bottom: 30px; }
+        .avatar-big { width: 100px; height: 100px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .setting-card { background: var(--panel-bg); padding: 25px; border-radius: 15px; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Glossa</h1>
+    <div class="profile-header">
+        <div class="avatar-big">👤</div>
         <div>
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
-<a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
-
-    <!-- Shown when not logged in -->
-    <div class="login-prompt" id="login-prompt">
-        <h2>You're not logged in</h2>
-        <p>Login to see your profile and track your progress</p>
-        <a href="login.html">Login / Sign Up</a>
-    </div>
-
-    <!-- Shown when logged in -->
-    <div id="profile-content" style="display:none">
-
-        <div class="profile-header">
-            <div class="avatar">👤</div>
-            <h2 id="user-email">Loading...</h2>
-            <p>Glossa Member</p>
-        </div>
-
-        <div class="stats">
-            <div class="stat-box">
-                <h3 id="langs-count">0</h3>
-                <p>Languages Started</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="tests-count">0</h3>
-                <p>Tests Taken</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="best-level">—</h3>
-                <p>Best Level</p>
-            </div>
-        </div>
-
-        <div class="section-title">My Languages</div>
-
-        <div class="languages-grid">
-
-            <div class="lang-progress">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>🏛️</span> Biblical Greek</div>
-                    <div class="level-badge" id="greek-badge">Not tested</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="greek-progress" style="width: 0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-                <button class="test-btn" onclick="window.location.href='greek-test.html'">Take Level Test →</button>
-            </div>
-
-            <div class="lang-progress">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>✡️</span> Biblical Hebrew</div>
-                    <div class="level-badge none">Coming Soon</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-            </div>
-
-            <div class="lang-progress">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>🇫🇷</span> French</div>
-                    <div class="level-badge none">Coming Soon</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-            </div>
-
-            <div class="lang-progress">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>🇪🇸</span> Spanish</div>
-                    <div class="level-badge none">Coming Soon</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-            </div>
-
+            <h1 id="user-name">Scholar Name</h1>
+            <p style="color: var(--primary);">Level: Advanced Greek (B2)</p>
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
+    <div class="settings-grid">
+        <div class="setting-card">
+            <h3>App Theme</h3>
+            <p style="color: #888; margin-bottom: 15px;">Switch between Manuscript and Modern.</p>
+            <button class="btn-util">Toggle Dark Mode</button>
+        </div>
+        <div class="setting-card">
+            <h3>Learning Level</h3>
+            <p style="color: #888; margin-bottom: 15px;">Current setting: Scholar (C1)</p>
+            <button class="btn-util">Retake Placement Test</button>
+        </div>
+    </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
-            authDomain: "glossa-48dd8.firebaseapp.com",
-            projectId: "glossa-48dd8",
-            storageBucket: "glossa-48dd8.firebasestorage.app",
-            messagingSenderId: "234142191158",
-            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                document.getElementById('login-prompt').style.display = 'none';
-                document.getElementById('profile-content').style.display = 'block';
-                document.getElementById('user-email').textContent = user.email;
-
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const levels = { A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100 };
-
-                    if (data.greekLevel) {
-                        document.getElementById('greek-badge').textContent = data.greekLevel;
-                        document.getElementById('greek-badge').classList.remove('none');
-                        document.getElementById('greek-progress').style.width = levels[data.greekLevel] + '%';
-                        document.getElementById('langs-count').textContent = '1';
-                        document.getElementById('tests-count').textContent = data.testsTaken || '1';
-                        document.getElementById('best-level').textContent = data.greekLevel;
-                    }
-                }
-            } else {
-                document.getElementById('login-prompt').style.display = 'block';
-                document.getElementById('profile-content').style.display = 'none';
-            }
-        });
-    </script>
-
+    <script src="ui-manager.js"></script>
 </body>
 </html>
