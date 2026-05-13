@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa | Your Dashboard</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link to your existing CSS -->
+</head>
+<body class="dashboard-body">
+
+    <nav class="dash-nav">
+        <div class="logo">GLOSSA</div>
+        <div class="user-meta">
+            <a href="profile.html">Profile</a>
+            <a href="index.html" id="logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <header class="welcome-banner">
+            <h1>Salve, <span id="username">Scholar</span>!</h1>
+            <p>Your linguistic journey continues here.</p>
+        </header>
+
+        <!-- Dynamic Language Grid -->
+        <section class="language-section">
+            <h2>Your Active Tracks</h2>
+            <div class="grid-layout" id="active-languages">
+                
+                <!-- Ancient Track Card -->
+                <div class="card ancient-card">
+                    <div class="card-header">
+                        <span class="label">ANCIENT</span>
+                        <h3>Biblical Greek</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Next: 1 John 1:1 Parsing</p>
+                        <div class="progress-bar"><div class="fill" style="width: 70%;"></div></div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="greek.html" class="btn-primary">Study Text</a>
+                        <a href="greek-test.html" class="btn-secondary">Test Skills</a>
+                    </div>
+                </div>
+
+                <!-- Modern Track Card -->
+                <div class="card modern-card">
+                    <div class="card-header">
+                        <span class="label">MODERN</span>
+                        <h3>French</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Current Goal: Conversational Past Tense</p>
+                        <div class="progress-bar"><div class="fill" style="width: 45%;"></div></div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="chat.html" class="btn-modern">Live Chat</a>
+                        <a href="ai-tutor.html" class="btn-secondary">Ask AI Tutor</a>
+                    </div>
+                </div>
+
+                <!-- Add New Card -->
+                <a href="languages.html" class="add-card">
+                    <span>+</span>
+                    <p>Start New Language</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
