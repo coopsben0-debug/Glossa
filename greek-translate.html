@@ -68,11 +68,7 @@
             flex-wrap: wrap;
             gap: 10px;
         }
-        .verse-ref {
-            color: #7c6af7;
-            font-size: 18px;
-            font-weight: bold;
-        }
+        .verse-ref { color: #7c6af7; font-size: 18px; font-weight: bold; }
         .diff-badge {
             padding: 5px 15px;
             border-radius: 20px;
@@ -94,28 +90,10 @@
             text-align: center;
         }
 
-        .vocab-hints {
-            margin-bottom: 20px;
-        }
-        .vocab-hints summary {
-            color: #7c6af7;
-            cursor: pointer;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-        .vocab-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .vocab-item {
-            background: #0f0f1a;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #aaa;
-        }
+        .vocab-hints { margin-bottom: 20px; }
+        .vocab-hints summary { color: #7c6af7; cursor: pointer; font-size: 14px; margin-bottom: 10px; }
+        .vocab-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .vocab-item { background: #0f0f1a; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #aaa; }
         .vocab-item span { color: #7c6af7; }
 
         .translation-input {
@@ -133,11 +111,7 @@
         }
         .translation-input:focus { outline: none; border-color: #7c6af7; }
 
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .submit-btn {
             padding: 14px 35px;
             background: #7c6af7;
@@ -174,25 +148,10 @@
             margin-top: 20px;
         }
         .feedback-box.active { display: block; }
-        .score-display {
-            font-size: 48px;
-            font-weight: bold;
-            color: #7c6af7;
-            text-align: center;
-            margin-bottom: 5px;
-        }
+        .score-display { font-size: 48px; font-weight: bold; color: #7c6af7; text-align: center; margin-bottom: 5px; }
         .score-label { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 20px; }
-        .feedback-text {
-            color: #ddd;
-            line-height: 1.8;
-            font-size: 15px;
-            margin-bottom: 20px;
-        }
-        .standard-translation {
-            border-top: 1px solid #333;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
+        .feedback-text { color: #ddd; line-height: 1.8; font-size: 15px; margin-bottom: 20px; }
+        .standard-translation { border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; }
         .standard-translation h4 { color: #7c6af7; margin-bottom: 8px; font-size: 14px; }
         .standard-translation p { color: #aaa; font-style: italic; line-height: 1.7; }
 
@@ -210,12 +169,7 @@
         .stat h3 { font-size: 28px; color: #7c6af7; }
         .stat p { color: #aaa; font-size: 13px; }
 
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
-        }
+        .loading { display: none; text-align: center; padding: 20px; color: #aaa; }
         .loading.active { display: block; }
 
         footer { text-align: center; padding: 30px; color: #555; }
@@ -249,18 +203,9 @@
     <div class="main-container">
 
         <div class="stats-bar">
-            <div class="stat">
-                <h3 id="stat-done">0</h3>
-                <p>Translated</p>
-            </div>
-            <div class="stat">
-                <h3 id="stat-avg">—</h3>
-                <p>Avg Score</p>
-            </div>
-            <div class="stat">
-                <h3 id="stat-best">—</h3>
-                <p>Best Score</p>
-            </div>
+            <div class="stat"><h3 id="stat-done">0</h3><p>Translated</p></div>
+            <div class="stat"><h3 id="stat-avg">—</h3><p>Avg Score</p></div>
+            <div class="stat"><h3 id="stat-best">—</h3><p>Best Score</p></div>
         </div>
 
         <div class="verse-card">
@@ -269,9 +214,7 @@
                 <div class="diff-badge easy" id="diff-badge">Easy</div>
             </div>
 
-            <div class="greek-text" id="greek-text">
-                Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον
-            </div>
+            <div class="greek-text" id="greek-text"></div>
 
             <details class="vocab-hints">
                 <summary>💡 Vocabulary hints</summary>
@@ -285,9 +228,7 @@
                 <button class="skip-btn" onclick="nextVerse()">Skip →</button>
             </div>
 
-            <div class="loading" id="loading">
-                🤖 AI is marking your translation...
-            </div>
+            <div class="loading" id="loading">🤖 AI is marking your translation...</div>
 
             <div class="feedback-box" id="feedback-box">
                 <div class="score-display" id="score-display"></div>
@@ -303,192 +244,36 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
+    <footer><p>© 2026 Glossa — All rights reserved</p></footer>
 
     <script>
-        const GROQ_API_KEY = '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';
+        const API_KEY = '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';
+        const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+        const MODEL = 'meta-llama/llama-3-8b-instruct:free';
 
         const verses = {
             easy: [
-                {
-                    ref: 'John 11:35',
-                    greek: 'ἐδάκρυσεν ὁ Ἰησοῦς.',
-                    standard: 'Jesus wept.',
-                    hints: [
-                        { greek: 'ἐδάκρυσεν', english: 'he wept' },
-                        { greek: 'ὁ', english: 'the' },
-                        { greek: 'Ἰησοῦς', english: 'Jesus' }
-                    ]
-                },
-                {
-                    ref: 'John 1:1',
-                    greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος.',
-                    standard: 'In the beginning was the Word.',
-                    hints: [
-                        { greek: 'ἐν', english: 'in' },
-                        { greek: 'ἀρχῇ', english: 'beginning' },
-                        { greek: 'ἦν', english: 'was' },
-                        { greek: 'λόγος', english: 'word' }
-                    ]
-                },
-                {
-                    ref: 'John 3:16a',
-                    greek: 'Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον.',
-                    standard: 'For God so loved the world.',
-                    hints: [
-                        { greek: 'οὕτως', english: 'so, thus' },
-                        { greek: 'γάρ', english: 'for' },
-                        { greek: 'ἠγάπησεν', english: 'he loved' },
-                        { greek: 'θεός', english: 'God' },
-                        { greek: 'κόσμον', english: 'world' }
-                    ]
-                },
-                {
-                    ref: 'Romans 1:16a',
-                    greek: 'Οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον.',
-                    standard: 'For I am not ashamed of the gospel.',
-                    hints: [
-                        { greek: 'οὐ', english: 'not' },
-                        { greek: 'ἐπαισχύνομαι', english: 'I am ashamed' },
-                        { greek: 'εὐαγγέλιον', english: 'gospel' }
-                    ]
-                },
-                {
-                    ref: 'Philippians 4:4',
-                    greek: 'Χαίρετε ἐν κυρίῳ πάντοτε.',
-                    standard: 'Rejoice in the Lord always.',
-                    hints: [
-                        { greek: 'χαίρετε', english: 'rejoice' },
-                        { greek: 'ἐν', english: 'in' },
-                        { greek: 'κυρίῳ', english: 'Lord' },
-                        { greek: 'πάντοτε', english: 'always' }
-                    ]
-                },
-                {
-                    ref: 'John 14:6a',
-                    greek: 'Ἐγώ εἰμι ἡ ὁδὸς καὶ ἡ ἀλήθεια καὶ ἡ ζωή.',
-                    standard: 'I am the way and the truth and the life.',
-                    hints: [
-                        { greek: 'ἐγώ εἰμι', english: 'I am' },
-                        { greek: 'ὁδός', english: 'way, road' },
-                        { greek: 'ἀλήθεια', english: 'truth' },
-                        { greek: 'ζωή', english: 'life' }
-                    ]
-                },
+                { ref: 'John 11:35', greek: 'ἐδάκρυσεν ὁ Ἰησοῦς.', standard: 'Jesus wept.', hints: [{ greek: 'ἐδάκρυσεν', english: 'he wept' }, { greek: 'Ἰησοῦς', english: 'Jesus' }] },
+                { ref: 'John 1:1a', greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος.', standard: 'In the beginning was the Word.', hints: [{ greek: 'ἀρχῇ', english: 'beginning' }, { greek: 'ἦν', english: 'was' }, { greek: 'λόγος', english: 'word' }] },
+                { ref: 'John 3:16a', greek: 'Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον.', standard: 'For God so loved the world.', hints: [{ greek: 'οὕτως', english: 'so, thus' }, { greek: 'ἠγάπησεν', english: 'he loved' }, { greek: 'κόσμον', english: 'world' }] },
+                { ref: 'Romans 1:16a', greek: 'Οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον.', standard: 'For I am not ashamed of the gospel.', hints: [{ greek: 'οὐ', english: 'not' }, { greek: 'ἐπαισχύνομαι', english: 'I am ashamed' }, { greek: 'εὐαγγέλιον', english: 'gospel' }] },
+                { ref: 'Philippians 4:4', greek: 'Χαίρετε ἐν κυρίῳ πάντοτε.', standard: 'Rejoice in the Lord always.', hints: [{ greek: 'χαίρετε', english: 'rejoice' }, { greek: 'κυρίῳ', english: 'Lord' }, { greek: 'πάντοτε', english: 'always' }] },
+                { ref: 'John 14:6a', greek: 'Ἐγώ εἰμι ἡ ὁδὸς καὶ ἡ ἀλήθεια καὶ ἡ ζωή.', standard: 'I am the way and the truth and the life.', hints: [{ greek: 'ἐγώ εἰμι', english: 'I am' }, { greek: 'ὁδός', english: 'way' }, { greek: 'ἀλήθεια', english: 'truth' }, { greek: 'ζωή', english: 'life' }] },
             ],
             medium: [
-                {
-                    ref: 'Romans 8:1',
-                    greek: 'Οὐδὲν ἄρα νῦν κατάκριμα τοῖς ἐν Χριστῷ Ἰησοῦ.',
-                    standard: 'There is therefore now no condemnation for those in Christ Jesus.',
-                    hints: [
-                        { greek: 'οὐδέν', english: 'nothing, no' },
-                        { greek: 'ἄρα', english: 'therefore, then' },
-                        { greek: 'νῦν', english: 'now' },
-                        { greek: 'κατάκριμα', english: 'condemnation' },
-                        { greek: 'τοῖς', english: 'those, to those' }
-                    ]
-                },
-                {
-                    ref: 'Galatians 2:20',
-                    greek: 'ζῶ δὲ οὐκέτι ἐγώ, ζῇ δὲ ἐν ἐμοὶ Χριστός.',
-                    standard: 'It is no longer I who live, but Christ who lives in me.',
-                    hints: [
-                        { greek: 'ζῶ', english: 'I live' },
-                        { greek: 'οὐκέτι', english: 'no longer' },
-                        { greek: 'ζῇ', english: 'he lives' },
-                        { greek: 'ἐμοί', english: 'me, in me' }
-                    ]
-                },
-                {
-                    ref: 'Matthew 5:3',
-                    greek: 'Μακάριοι οἱ πτωχοὶ τῷ πνεύματι, ὅτι αὐτῶν ἐστιν ἡ βασιλεία τῶν οὐρανῶν.',
-                    standard: 'Blessed are the poor in spirit, for theirs is the kingdom of heaven.',
-                    hints: [
-                        { greek: 'μακάριοι', english: 'blessed, happy' },
-                        { greek: 'πτωχοί', english: 'poor' },
-                        { greek: 'πνεύματι', english: 'spirit' },
-                        { greek: 'βασιλεία', english: 'kingdom' },
-                        { greek: 'οὐρανῶν', english: 'heavens' }
-                    ]
-                },
-                {
-                    ref: 'John 1:14',
-                    greek: 'Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν.',
-                    standard: 'And the Word became flesh and dwelt among us.',
-                    hints: [
-                        { greek: 'σάρξ', english: 'flesh' },
-                        { greek: 'ἐγένετο', english: 'became' },
-                        { greek: 'ἐσκήνωσεν', english: 'dwelt, tabernacled' },
-                        { greek: 'ἡμῖν', english: 'us' }
-                    ]
-                },
-                {
-                    ref: 'Romans 3:23',
-                    greek: 'πάντες γὰρ ἥμαρτον καὶ ὑστεροῦνται τῆς δόξης τοῦ θεοῦ.',
-                    standard: 'For all have sinned and fall short of the glory of God.',
-                    hints: [
-                        { greek: 'πάντες', english: 'all' },
-                        { greek: 'ἥμαρτον', english: 'sinned' },
-                        { greek: 'ὑστεροῦνται', english: 'fall short, lack' },
-                        { greek: 'δόξης', english: 'glory' }
-                    ]
-                },
+                { ref: 'Romans 8:1', greek: 'Οὐδὲν ἄρα νῦν κατάκριμα τοῖς ἐν Χριστῷ Ἰησοῦ.', standard: 'There is therefore now no condemnation for those in Christ Jesus.', hints: [{ greek: 'οὐδέν', english: 'nothing' }, { greek: 'ἄρα', english: 'therefore' }, { greek: 'κατάκριμα', english: 'condemnation' }] },
+                { ref: 'Galatians 2:20', greek: 'ζῶ δὲ οὐκέτι ἐγώ, ζῇ δὲ ἐν ἐμοὶ Χριστός.', standard: 'It is no longer I who live, but Christ who lives in me.', hints: [{ greek: 'ζῶ', english: 'I live' }, { greek: 'οὐκέτι', english: 'no longer' }, { greek: 'ζῇ', english: 'he lives' }] },
+                { ref: 'Matthew 5:3', greek: 'Μακάριοι οἱ πτωχοὶ τῷ πνεύματι, ὅτι αὐτῶν ἐστιν ἡ βασιλεία τῶν οὐρανῶν.', standard: 'Blessed are the poor in spirit, for theirs is the kingdom of heaven.', hints: [{ greek: 'μακάριοι', english: 'blessed' }, { greek: 'πτωχοί', english: 'poor' }, { greek: 'βασιλεία', english: 'kingdom' }] },
+                { ref: 'John 1:14', greek: 'Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν.', standard: 'And the Word became flesh and dwelt among us.', hints: [{ greek: 'σάρξ', english: 'flesh' }, { greek: 'ἐγένετο', english: 'became' }, { greek: 'ἐσκήνωσεν', english: 'dwelt' }] },
+                { ref: 'Romans 3:23', greek: 'πάντες γὰρ ἥμαρτον καὶ ὑστεροῦνται τῆς δόξης τοῦ θεοῦ.', standard: 'For all have sinned and fall short of the glory of God.', hints: [{ greek: 'πάντες', english: 'all' }, { greek: 'ἥμαρτον', english: 'sinned' }, { greek: 'δόξης', english: 'glory' }] },
             ],
             hard: [
-                {
-                    ref: 'Hebrews 1:1-2a',
-                    greek: 'Πολυμερῶς καὶ πολυτρόπως πάλαι ὁ θεὸς λαλήσας τοῖς πατράσιν ἐν τοῖς προφήταις ἐπ᾽ ἐσχάτου τῶν ἡμερῶν τούτων ἐλάλησεν ἡμῖν ἐν υἱῷ.',
-                    standard: 'Long ago, at many times and in many ways, God spoke to our fathers by the prophets, but in these last days he has spoken to us by his Son.',
-                    hints: [
-                        { greek: 'πολυμερῶς', english: 'in many portions' },
-                        { greek: 'πολυτρόπως', english: 'in many ways' },
-                        { greek: 'πάλαι', english: 'long ago, formerly' },
-                        { greek: 'λαλήσας', english: 'having spoken' },
-                        { greek: 'ἐσχάτου', english: 'last, end' }
-                    ]
-                },
-                {
-                    ref: 'Romans 8:38-39',
-                    greek: 'πέπεισμαι γὰρ ὅτι οὔτε θάνατος οὔτε ζωὴ οὔτε ἄγγελοι οὔτε ἀρχαὶ οὔτε ἐνεστῶτα οὔτε μέλλοντα οὔτε δυνάμεις οὔτε ὕψωμα οὔτε βάθος οὔτε τις κτίσις ἑτέρα δυνήσεται ἡμᾶς χωρίσαι ἀπὸ τῆς ἀγάπης τοῦ θεοῦ.',
-                    standard: 'For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God.',
-                    hints: [
-                        { greek: 'πέπεισμαι', english: 'I am convinced, persuaded' },
-                        { greek: 'οὔτε...οὔτε', english: 'neither...nor' },
-                        { greek: 'ἐνεστῶτα', english: 'things present' },
-                        { greek: 'μέλλοντα', english: 'things to come' },
-                        { greek: 'χωρίσαι', english: 'to separate' }
-                    ]
-                },
-                {
-                    ref: 'John 1:1-3',
-                    greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος. οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν. πάντα δι᾽ αὐτοῦ ἐγένετο.',
-                    standard: 'In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things were made through him.',
-                    hints: [
-                        { greek: 'ἀρχῇ', english: 'beginning' },
-                        { greek: 'πρός', english: 'with, toward' },
-                        { greek: 'οὗτος', english: 'this one, he' },
-                        { greek: 'πάντα', english: 'all things' },
-                        { greek: 'δι᾽ αὐτοῦ', english: 'through him' }
-                    ]
-                },
-                {
-                    ref: 'Philippians 2:5-7',
-                    greek: 'τοῦτο φρονεῖτε ἐν ὑμῖν ὃ καὶ ἐν Χριστῷ Ἰησοῦ, ὃς ἐν μορφῇ θεοῦ ὑπάρχων οὐχ ἁρπαγμὸν ἡγήσατο τὸ εἶναι ἴσα θεῷ, ἀλλὰ ἑαυτὸν ἐκένωσεν μορφὴν δούλου λαβών.',
-                    standard: 'Have this mind among yourselves, which is yours in Christ Jesus, who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant.',
-                    hints: [
-                        { greek: 'φρονεῖτε', english: 'think, have this mind' },
-                        { greek: 'μορφῇ', english: 'form, nature' },
-                        { greek: 'ἁρπαγμόν', english: 'something to be grasped' },
-                        { greek: 'ἐκένωσεν', english: 'emptied' },
-                        { greek: 'δούλου', english: 'servant, slave' }
-                    ]
-                },
+                { ref: 'Hebrews 1:1-2a', greek: 'Πολυμερῶς καὶ πολυτρόπως πάλαι ὁ θεὸς λαλήσας τοῖς πατράσιν ἐν τοῖς προφήταις ἐπ᾽ ἐσχάτου τῶν ἡμερῶν τούτων ἐλάλησεν ἡμῖν ἐν υἱῷ.', standard: 'Long ago, at many times and in many ways, God spoke to our fathers by the prophets, but in these last days he has spoken to us by his Son.', hints: [{ greek: 'πολυμερῶς', english: 'in many portions' }, { greek: 'πολυτρόπως', english: 'in many ways' }, { greek: 'πάλαι', english: 'long ago' }] },
+                { ref: 'Romans 8:38-39', greek: 'πέπεισμαι γὰρ ὅτι οὔτε θάνατος οὔτε ζωὴ οὔτε ἄγγελοι οὔτε ἀρχαὶ οὔτε ἐνεστῶτα οὔτε μέλλοντα οὔτε δυνάμεις οὔτε ὕψωμα οὔτε βάθος οὔτε τις κτίσις ἑτέρα δυνήσεται ἡμᾶς χωρίσαι ἀπὸ τῆς ἀγάπης τοῦ θεοῦ.', standard: 'For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God.', hints: [{ greek: 'πέπεισμαι', english: 'I am convinced' }, { greek: 'οὔτε...οὔτε', english: 'neither...nor' }, { greek: 'χωρίσαι', english: 'to separate' }] },
+                { ref: 'John 1:1-3', greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος. οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν. πάντα δι᾽ αὐτοῦ ἐγένετο.', standard: 'In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things were made through him.', hints: [{ greek: 'πρός', english: 'with, toward' }, { greek: 'οὗτος', english: 'this one, he' }, { greek: 'πάντα', english: 'all things' }] },
+                { ref: 'Philippians 2:5-7', greek: 'τοῦτο φρονεῖτε ἐν ὑμῖν ὃ καὶ ἐν Χριστῷ Ἰησοῦ, ὃς ἐν μορφῇ θεοῦ ὑπάρχων οὐχ ἁρπαγμὸν ἡγήσατο τὸ εἶναι ἴσα θεῷ, ἀλλὰ ἑαυτὸν ἐκένωσεν μορφὴν δούλου λαβών.', standard: 'Have this mind among yourselves, which is yours in Christ Jesus, who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant.', hints: [{ greek: 'φρονεῖτε', english: 'think, have this mind' }, { greek: 'μορφῇ', english: 'form, nature' }, { greek: 'ἐκένωσεν', english: 'emptied' }] },
             ]
         };
 
@@ -497,7 +282,7 @@
         let sessionDone = 0;
         let sessionScores = [];
 
-        function setDifficulty(diff, btn) {
+        window.setDifficulty = function(diff, btn) {
             currentDifficulty = diff;
             currentIndex = 0;
             document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
@@ -508,7 +293,6 @@
         function loadVerse() {
             const list = verses[currentDifficulty];
             const verse = list[currentIndex % list.length];
-
             document.getElementById('verse-ref').textContent = verse.ref;
             document.getElementById('greek-text').textContent = verse.greek;
             document.getElementById('standard-text').textContent = verse.standard;
@@ -521,48 +305,40 @@
             badge.textContent = diffLabels[currentDifficulty];
             badge.className = `diff-badge ${currentDifficulty}`;
 
-            const vocabList = document.getElementById('vocab-list');
-            vocabList.innerHTML = verse.hints.map(h => `
+            document.getElementById('vocab-list').innerHTML = verse.hints.map(h => `
                 <div class="vocab-item"><span>${h.greek}</span> — ${h.english}</div>
             `).join('');
         }
-
-        window.setDifficulty = setDifficulty;
 
         window.submitTranslation = async function() {
             const translation = document.getElementById('translation-input').value.trim();
             if (!translation) return;
 
             const verse = verses[currentDifficulty][currentIndex % verses[currentDifficulty].length];
-
             document.getElementById('loading').classList.add('active');
             document.getElementById('feedback-box').classList.remove('active');
 
             try {
-                const prompt = `You are a Biblical Greek translation marker. 
-                
-The student is translating this Greek verse: "${verse.greek}" (${verse.ref})
-The standard translation is: "${verse.standard}"
-The student's translation is: "${translation}"
+                const prompt = `You are a Biblical Greek translation marker.
+The student is translating: "${verse.greek}" (${verse.ref})
+Standard translation: "${verse.standard}"
+Student's translation: "${translation}"
 
-Please:
-1. Give a score out of 10
-2. Give encouraging but honest feedback explaining what they got right and wrong
-3. Point out any key translation issues
-4. Be warm and educational
+Give a score out of 10 and encouraging feedback explaining what they got right and wrong.
 
 Respond in this exact format:
 SCORE: [number]/10
-FEEDBACK: [your feedback here]`;
+FEEDBACK: [your feedback]`;
 
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + GROQ_API_KEY
+                        'Authorization': 'Bearer ' + API_KEY,
+                        'HTTP-Referer': 'https://coopsben0-debug.github.io'
                     },
                     body: JSON.stringify({
-                        model: 'llama3-8b-8192',
+                        model: MODEL,
                         max_tokens: 500,
                         messages: [{ role: 'user', content: prompt }]
                     })
@@ -570,10 +346,8 @@ FEEDBACK: [your feedback here]`;
 
                 const data = await response.json();
                 const reply = data.choices[0].message.content;
-
                 const scoreMatch = reply.match(/SCORE:\s*(\d+)/);
                 const feedbackMatch = reply.match(/FEEDBACK:\s*([\s\S]+)/);
-
                 const score = scoreMatch ? scoreMatch[1] : '?';
                 const feedback = feedbackMatch ? feedbackMatch[1].trim() : reply;
 
@@ -589,7 +363,7 @@ FEEDBACK: [your feedback here]`;
             } catch (err) {
                 document.getElementById('loading').classList.remove('active');
                 document.getElementById('score-display').textContent = '?';
-                document.getElementById('feedback-text').textContent = 'Could not connect to AI. Check your connection and try again.';
+                document.getElementById('feedback-text').textContent = 'Could not connect to AI. Please try again!';
                 document.getElementById('feedback-box').classList.add('active');
             }
         }
