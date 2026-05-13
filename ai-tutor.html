@@ -19,186 +19,80 @@
         nav h1 { color: #7c6af7; font-size: 28px; }
         nav a { color: white; text-decoration: none; margin-left: 20px; }
 
-        .tutor-layout {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+        .tutor-layout { display: flex; flex: 1; overflow: hidden; }
 
-        .sidebar {
-            width: 250px;
-            background: #1a1a2e;
-            padding: 20px;
-            flex-shrink: 0;
-        }
+        .sidebar { width: 250px; background: #1a1a2e; padding: 20px; flex-shrink: 0; }
         .sidebar h3 { color: #7c6af7; margin-bottom: 15px; font-size: 16px; }
         .mode-btn {
-            width: 100%;
-            padding: 12px 15px;
-            background: transparent;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            text-align: left;
-            margin-bottom: 8px;
-            font-size: 14px;
-            transition: all 0.2s;
+            width: 100%; padding: 12px 15px; background: transparent;
+            border: 1px solid #333; border-radius: 10px; color: white;
+            cursor: pointer; text-align: left; margin-bottom: 8px;
+            font-size: 14px; transition: all 0.2s;
         }
         .mode-btn:hover { border-color: #7c6af7; }
         .mode-btn.active { background: #7c6af7; border-color: #7c6af7; }
-
         .lang-select {
-            width: 100%;
-            padding: 12px;
-            background: #0f0f1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-            margin-bottom: 15px;
+            width: 100%; padding: 12px; background: #0f0f1a;
+            border: 1px solid #333; border-radius: 10px; color: white;
+            font-size: 14px; margin-bottom: 15px;
         }
 
-        .chat-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
+        .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
         .chat-header {
-            background: #1a1a2e;
-            padding: 15px 25px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
+            background: #1a1a2e; padding: 15px 25px;
+            border-bottom: 1px solid #333; display: flex;
+            align-items: center; gap: 10px; flex-shrink: 0;
         }
         .ai-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             background: linear-gradient(135deg, #7c6af7, #a78bfa);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
         }
         .chat-header h2 { font-size: 20px; }
         .chat-header p { color: #aaa; font-size: 14px; }
 
-        .messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            max-width: 80%;
-        }
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
+        .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .message { display: flex; gap: 12px; align-items: flex-start; max-width: 80%; }
+        .message.user { align-self: flex-end; flex-direction: row-reverse; }
         .message-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 36px; height: 36px; border-radius: 50%;
             background: linear-gradient(135deg, #7c6af7, #a78bfa);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; flex-shrink: 0;
         }
         .message.user .message-avatar { background: #a78bfa; }
         .message-bubble {
-            background: #1a1a2e;
-            padding: 12px 16px;
-            border-radius: 15px;
-            font-size: 15px;
-            line-height: 1.7;
-            word-break: break-word;
+            background: #1a1a2e; padding: 12px 16px; border-radius: 15px;
+            font-size: 15px; line-height: 1.7; word-break: break-word;
         }
         .message.user .message-bubble { background: #7c6af7; }
 
-        .typing {
-            display: none;
-            gap: 12px;
-            align-items: center;
-        }
-        .typing-dots {
-            background: #1a1a2e;
-            padding: 12px 16px;
-            border-radius: 15px;
-            display: flex;
-            gap: 5px;
-        }
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: #7c6af7;
-            border-radius: 50%;
-            animation: bounce 1.2s infinite;
-        }
+        .typing { display: none; gap: 12px; align-items: center; }
+        .typing-dots { background: #1a1a2e; padding: 12px 16px; border-radius: 15px; display: flex; gap: 5px; }
+        .dot { width: 8px; height: 8px; background: #7c6af7; border-radius: 50%; animation: bounce 1.2s infinite; }
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes bounce {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-8px); }
-        }
+        @keyframes bounce { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
 
         .chat-input-area {
-            padding: 20px;
-            background: #1a1a2e;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            flex-shrink: 0;
+            padding: 20px; background: #1a1a2e; display: flex;
+            gap: 12px; align-items: center; flex-shrink: 0;
         }
         .chat-input {
-            flex: 1;
-            padding: 14px 20px;
-            background: #0f0f1a;
-            border: 1px solid #333;
-            border-radius: 30px;
-            color: white;
-            font-size: 16px;
-            outline: none;
+            flex: 1; padding: 14px 20px; background: #0f0f1a;
+            border: 1px solid #333; border-radius: 30px; color: white;
+            font-size: 16px; outline: none;
         }
         .chat-input:focus { border-color: #7c6af7; }
         .send-btn {
-            padding: 14px 25px;
-            background: #7c6af7;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 14px 25px; background: #7c6af7; color: white;
+            border: none; border-radius: 30px; font-size: 16px; cursor: pointer;
         }
 
-        .suggestion-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 0 20px 15px;
-            flex-shrink: 0;
-        }
+        .suggestion-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 20px 15px; flex-shrink: 0; }
         .chip {
-            padding: 8px 16px;
-            background: #1a1a2e;
-            border: 1px solid #333;
-            border-radius: 20px;
-            color: #aaa;
-            cursor: pointer;
-            font-size: 13px;
+            padding: 8px 16px; background: #1a1a2e; border: 1px solid #333;
+            border-radius: 20px; color: #aaa; cursor: pointer; font-size: 13px;
         }
         .chip:hover { border-color: #7c6af7; color: white; }
     </style>
@@ -220,7 +114,7 @@
     <div class="tutor-layout">
         <div class="sidebar">
             <h3>🤖 AI Tutor</h3>
-            <p style="color: #aaa; font-size: 13px; margin-bottom: 10px;">Language</p>
+            <p style="color:#aaa;font-size:13px;margin-bottom:10px;">Language</p>
             <select class="lang-select" id="lang-select">
                 <option value="Biblical Greek">🏛️ Biblical Greek</option>
                 <option value="Biblical Hebrew">✡️ Biblical Hebrew</option>
@@ -231,7 +125,7 @@
                 <option value="Italian">🇮🇹 Italian</option>
                 <option value="Arabic">🇸🇦 Arabic</option>
             </select>
-            <p style="color: #aaa; font-size: 13px; margin-bottom: 10px;">Mode</p>
+            <p style="color:#aaa;font-size:13px;margin-bottom:10px;">Mode</p>
             <button class="mode-btn active" onclick="setMode('tutor', this)">📚 Grammar Tutor</button>
             <button class="mode-btn" onclick="setMode('vocab', this)">📖 Vocabulary Help</button>
             <button class="mode-btn" onclick="setMode('translate', this)">🔄 Translation Check</button>
@@ -251,18 +145,14 @@
             <div class="messages" id="messages">
                 <div class="message">
                     <div class="message-avatar">🤖</div>
-                    <div class="message-bubble">
-                        Hello! I'm your Glossa AI Tutor 👋 I can help you with grammar, vocabulary, translation, parsing, and conversation practice in Biblical Greek, Hebrew, French, Spanish and more. What would you like to learn today?
-                    </div>
+                    <div class="message-bubble">Hello! I'm your Glossa AI Tutor 👋 I can help you with grammar, vocabulary, translation, parsing, and conversation practice in Biblical Greek, Hebrew, French, Spanish and more. What would you like to learn today?</div>
                 </div>
             </div>
 
             <div class="typing" id="typing">
                 <div class="message-avatar">🤖</div>
                 <div class="typing-dots">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
                 </div>
             </div>
 
@@ -282,9 +172,8 @@
     </div>
 
     <script>
-        const API_KEY = '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';
-        const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-        const MODEL = 'meta-llama/llama-3-8b-instruct:free';
+        const API_KEY = 'AIzaSyCUjwJwVVK1Rt0n7ss_yuITSrM7A3DJxQU';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
         let currentMode = 'tutor';
         let conversationHistory = [];
@@ -311,8 +200,7 @@
             btn.classList.add('active');
             document.getElementById('mode-desc').textContent = modeDescs[mode];
             conversationHistory = [];
-            const messages = document.getElementById('messages');
-            messages.innerHTML = `
+            document.getElementById('messages').innerHTML = `
                 <div class="message">
                     <div class="message-avatar">🤖</div>
                     <div class="message-bubble">Mode switched! I'm now in <strong>${btn.textContent}</strong> mode. How can I help you?</div>
@@ -332,7 +220,7 @@
 
             const lang = document.getElementById('lang-select').value;
             addMessage(text, 'user');
-            conversationHistory.push({ role: 'user', content: text });
+            conversationHistory.push({ role: 'user', parts: [{ text }] });
 
             document.getElementById('typing').style.display = 'flex';
             scrollToBottom();
@@ -342,24 +230,16 @@
 
                 const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + API_KEY,
-                        'HTTP-Referer': 'https://coopsben0-debug.github.io'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        model: MODEL,
-                        max_tokens: 1000,
-                        messages: [
-                            { role: 'system', content: systemPrompt },
-                            ...conversationHistory
-                        ]
+                        system_instruction: { parts: [{ text: systemPrompt }] },
+                        contents: conversationHistory
                     })
                 });
 
                 const data = await response.json();
-                const reply = data.choices[0].message.content;
-                conversationHistory.push({ role: 'assistant', content: reply });
+                const reply = data.candidates[0].content.parts[0].text;
+                conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
 
                 document.getElementById('typing').style.display = 'none';
                 addMessage(reply, 'ai');
