@@ -4,77 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glossa</title>
-    <!-- Firebase SDKs (Required for the redirect logic) -->
+    
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
-        
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #27273b;
-        }
+        nav { background: #1a1a2e; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #27273b; }
         nav h1 { color: #7c6af7; font-size: 28px; }
         nav a { color: white; text-decoration: none; margin-left: 20px; transition: 0.3s; }
-        nav a:hover { color: #7c6af7; }
-        
-        .hero {
-            text-align: center;
-            padding: 100px 20px;
-        }
+        .hero { text-align: center; padding: 100px 20px; }
         .hero h2 { font-size: 48px; margin-bottom: 20px; }
         .hero p { font-size: 18px; color: #aaa; max-width: 600px; margin: 0 auto 40px; }
-        .hero button {
-            background: #7c6af7;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: bold;
-        }
-        .hero button:hover {
-            background: #8f80ff;
-            transform: translateY(-2px);
-        }
-
-        .features {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 60px 20px;
-        }
-        .card {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 30px;
-            width: 220px;
-            text-align: center;
-            border: 1px solid transparent;
-            transition: 0.3s;
-        }
-        .card:hover {
-            border-color: #7c6af7;
-            transform: translateY(-5px);
-        }
+        .hero button { background: #7c6af7; color: white; border: none; padding: 15px 45px; font-size: 18px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .hero button:hover { background: #8f80ff; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(124, 106, 247, 0.3); }
+        .features { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; padding: 60px 20px; }
+        .card { background: #1a1a2e; border-radius: 15px; padding: 30px; width: 220px; text-align: center; border: 1px solid #27273b; }
         .card h3 { color: #7c6af7; margin-bottom: 10px; }
-        .card p { color: #aaa; font-size: 14px; }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            color: #555;
-            border-top: 1px solid #1a1a2e;
-        }
+        footer { text-align: center; padding: 40px; color: #555; }
     </style>
 </head>
 <body>
@@ -83,88 +32,62 @@
         <h1>Glossa</h1>
         <div>
             <a href="index.html">Home</a>
-            <a href="dashboard.html" id="nav-dash" style="display: none; font-weight: bold; color: #7c6af7;">Dashboard</a>
-            <a href="languages.html">Languages</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html" id="nav-login">Login</a>
-            <a href="profile.html">Profile</a>
+            <a href="login.html" id="login-nav-link">Login</a>
+            <a href="dashboard.html" id="dash-nav-link" style="display:none; color:#7c6af7; font-weight:bold;">🏠 Dashboard</a>
         </div>
     </nav>
 
     <div class="hero">
         <h2>Learn Any Language,<br>Ancient or Modern</h2>
-        <p>Glossa is a comprehensive language learning platform for both ancient and modern languages — from Biblical Greek and Hebrew to French and Spanish.</p>
-        <!-- The button logic: If logged in, go to dashboard. If not, go to login/languages. -->
-        <button id="hero-btn" onclick="handleStart()">Get Started</button>
+        <p>A comprehensive language learning platform for Biblical Greek, Hebrew, and more.</p>
+        <button id="start-button">Get Started</button>
     </div>
 
     <div class="features">
-        <div class="card">
-            <h3>Parse Trainer</h3>
-            <p>Master verb tenses, cases and grammar through interactive drills</p>
-        </div>
-        <div class="card">
-            <h3>Live Chat</h3>
-            <p>Practice in real time with learners from around the world</p>
-        </div>
-        <div class="card">
-            <h3>Word Library</h3>
-            <p>Searchable dictionary across dozens of languages</p>
-        </div>
-        <div class="card">
-            <h3>Grammar Guides</h3>
-            <p>Clear guides from beginner basics to advanced syntax</p>
-        </div>
+        <div class="card"><h3>Parse Trainer</h3><p>Master grammar through drills.</p></div>
+        <div class="card"><h3>Live Chat</h3><p>Practice with others.</p></div>
+        <div class="card"><h3>Word Library</h3><p>Searchable dictionary.</p></div>
+        <div class="card"><h3>Grammar Guides</h3><p>Basics to advanced syntax.</p></div>
     </div>
 
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
+    <footer><p>© 2026 Glossa — All rights reserved</p></footer>
 
     <script>
-        // --- FIREBASE CONFIG ---
-        // (Ensure these match your actual Firebase credentials)
+        // Config updated from image_daeb3b.png
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            projectId: "glossa-swart",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
+            authDomain: "glossa-48dd8.firebaseapp.com",
+            projectId: "glossa-48dd8",
+            storageBucket: "glossa-48dd8.firebasestorage.app",
+            messagingSenderId: "234142191158",
+            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297",
+            measurementId: "G-5N8TQP4YVL"
         };
+        
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // --- AUTH OBSERVER ---
-        // This handles showing the dashboard link and changing button behavior
-        auth.onAuthStateChanged(user => {
-            const dashLink = document.getElementById('nav-dash');
-            const loginLink = document.getElementById('nav-login');
-            const heroBtn = document.getElementById('hero-btn');
+        const startBtn = document.getElementById('start-button');
+        const loginLink = document.getElementById('login-nav-link');
+        const dashLink = document.getElementById('dash-nav-link');
 
-            if (user) {
-                // User is signed in
-                dashLink.style.display = 'inline-block';
-                loginLink.textContent = 'Logout';
-                loginLink.href = "#";
-                loginLink.onclick = () => auth.signOut();
-                heroBtn.textContent = "Go to Dashboard";
-            } else {
-                // User is signed out
-                dashLink.style.display = 'none';
-                loginLink.textContent = 'Login';
-                loginLink.href = "login.html";
-                heroBtn.textContent = "Get Started";
-            }
+        // Logic for the Get Started button
+        startBtn.addEventListener('click', () => {
+            const user = auth.currentUser;
+            window.location.href = user ? "dashboard.html" : "login.html";
         });
 
-        // --- NAVIGATION LOGIC ---
-        function handleStart() {
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    window.location.href = 'login.html';
-                }
-            });
-        }
+        // Toggle Dashboard link in nav if logged in
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                loginLink.style.display = "none";
+                dashLink.style.display = "inline-block";
+                document.getElementById('start-button').innerText = "Go to Dashboard";
+            } else {
+                loginLink.style.display = "inline-block";
+                dashLink.style.display = "none";
+            }
+        });
     </script>
 </body>
 </html>
