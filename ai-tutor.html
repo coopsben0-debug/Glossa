@@ -218,10 +218,8 @@
     </nav>
 
     <div class="tutor-layout">
-
         <div class="sidebar">
             <h3>🤖 AI Tutor</h3>
-
             <p style="color: #aaa; font-size: 13px; margin-bottom: 10px;">Language</p>
             <select class="lang-select" id="lang-select">
                 <option value="Biblical Greek">🏛️ Biblical Greek</option>
@@ -233,7 +231,6 @@
                 <option value="Italian">🇮🇹 Italian</option>
                 <option value="Arabic">🇸🇦 Arabic</option>
             </select>
-
             <p style="color: #aaa; font-size: 13px; margin-bottom: 10px;">Mode</p>
             <button class="mode-btn active" onclick="setMode('tutor', this)">📚 Grammar Tutor</button>
             <button class="mode-btn" onclick="setMode('vocab', this)">📖 Vocabulary Help</button>
@@ -282,17 +279,18 @@
                 <button class="send-btn" onclick="sendMessage()">Send →</button>
             </div>
         </div>
-
     </div>
 
     <script>
+        const API_KEY = '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';
+        const API_URL = 'https://openrouter.ai/api/v1/chat/completions';
+        const MODEL = 'meta-llama/llama-3-8b-instruct:free';
+
         let currentMode = 'tutor';
         let conversationHistory = [];
 
-        const GROQ_API_KEY = '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';
-
         const modePrompts = {
-            tutor: 'You are a friendly and encouraging language tutor on Glossa, a language learning platform. Help the student understand grammar concepts clearly with examples. Be warm, patient and thorough.',
+            tutor: 'You are a friendly and encouraging language tutor on Glossa. Help the student understand grammar concepts clearly with examples. Be warm, patient and thorough.',
             vocab: 'You are a vocabulary tutor on Glossa. Help the student learn and remember words. Give definitions, etymology, example sentences, and memory tips.',
             translate: 'You are a translation checker on Glossa. The student will give you translations to check. Assess their translation, point out any errors kindly, explain why, and give the correct version.',
             parse: 'You are a parsing tutor on Glossa specialising in Biblical Greek and Hebrew. Help the student identify verb tenses, moods, voices, cases, and grammatical forms. Be detailed and educational.',
@@ -342,14 +340,15 @@
             try {
                 const systemPrompt = modePrompts[currentMode] + ` The student is currently studying ${lang}.`;
 
-                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + GROQ_API_KEY
+                        'Authorization': 'Bearer ' + API_KEY,
+                        'HTTP-Referer': 'https://coopsben0-debug.github.io'
                     },
                     body: JSON.stringify({
-                        model: 'llama3-8b-8192',
+                        model: MODEL,
                         max_tokens: 1000,
                         messages: [
                             { role: 'system', content: systemPrompt },
