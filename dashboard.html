@@ -3,70 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa | Your Dashboard</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to your existing CSS -->
-</head>
-<body class="dashboard-body">
+    <title>Glossa | Dashboard</title>
+    <style>
+        /* Shared Styles from your Index */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; overflow-x: hidden; }
+        
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; transition: 0.3s; }
+        nav a:hover { color: #7c6af7; }
+        
+        .dashboard-hero {
+            text-align: center;
+            padding: 60px 20px 20px;
+        }
+        .dashboard-hero h2 { font-size: 36px; margin-bottom: 10px; }
+        .dashboard-hero p { color: #aaa; font-size: 16px; }
 
-    <nav class="dash-nav">
-        <div class="logo">GLOSSA</div>
-        <div class="user-meta">
+        /* The Grid for your Languages */
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
+            border: 1px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Distinct Ancient/Modern Accents */
+        .card.ancient { border: 1px solid #b58900; box-shadow: 0 0 20px rgba(181, 137, 0, 0.1); }
+        .card.modern { border: 1px solid #7c6af7; box-shadow: 0 0 20px rgba(124, 106, 247, 0.1); }
+
+        .card h3 { font-size: 24px; margin-bottom: 10px; }
+        .card .type-tag { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; opacity: 0.7; }
+        
+        .card p { color: #aaa; font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
+
+        /* Buttons matching your Hero button style */
+        .card button {
+            background: #7c6af7;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .card button.secondary {
+            background: transparent;
+            border: 1px solid #7c6af7;
+            margin-top: 10px;
+        }
+
+        .card button:hover { opacity: 0.8; transform: scale(1.05); }
+
+        .add-new {
+            border: 2px dashed #2a2a4a;
+            background: transparent;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        footer { text-align: center; padding: 40px; color: #555; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="#">Dashboard</a>
+            <a href="languages.html">All Languages</a>
             <a href="profile.html">Profile</a>
-            <a href="index.html" id="logout">Logout</a>
+            <a href="index.html">Logout</a>
         </div>
     </nav>
 
-    <main class="dashboard-container">
-        <header class="welcome-banner">
-            <h1>Salve, <span id="username">Scholar</span>!</h1>
-            <p>Your linguistic journey continues here.</p>
-        </header>
+    <div class="dashboard-hero">
+        <h2>Salve, Scholar!</h2>
+        <p>You have 2 active language tracks.</p>
+    </div>
 
-        <!-- Dynamic Language Grid -->
-        <section class="language-section">
-            <h2>Your Active Tracks</h2>
-            <div class="grid-layout" id="active-languages">
-                
-                <!-- Ancient Track Card -->
-                <div class="card ancient-card">
-                    <div class="card-header">
-                        <span class="label">ANCIENT</span>
-                        <h3>Biblical Greek</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Next: 1 John 1:1 Parsing</p>
-                        <div class="progress-bar"><div class="fill" style="width: 70%;"></div></div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="greek.html" class="btn-primary">Study Text</a>
-                        <a href="greek-test.html" class="btn-secondary">Test Skills</a>
-                    </div>
-                </div>
-
-                <!-- Modern Track Card -->
-                <div class="card modern-card">
-                    <div class="card-header">
-                        <span class="label">MODERN</span>
-                        <h3>French</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Current Goal: Conversational Past Tense</p>
-                        <div class="progress-bar"><div class="fill" style="width: 45%;"></div></div>
-                    </div>
-                    <div class="card-footer">
-                        <a href="chat.html" class="btn-modern">Live Chat</a>
-                        <a href="ai-tutor.html" class="btn-secondary">Ask AI Tutor</a>
-                    </div>
-                </div>
-
-                <!-- Add New Card -->
-                <a href="languages.html" class="add-card">
-                    <span>+</span>
-                    <p>Start New Language</p>
-                </a>
+    <div class="features">
+        <!-- Ancient Track Card -->
+        <div class="card ancient">
+            <div>
+                <div class="type-tag" style="color: #b58900;">Ancient</div>
+                <h3 style="color: #b58900;">Biblical Greek</h3>
+                <p>Master the Koine dialect used in the New Testament and Septuagint.</p>
             </div>
-        </section>
-    </main>
+            <div>
+                <button onclick="window.location.href='greek.html'">Resume Learning</button>
+                <button class="secondary" onclick="window.location.href='greek-test.html'">Practice Parsing</button>
+            </div>
+        </div>
+
+        <!-- Modern Track Card -->
+        <div class="card modern">
+            <div>
+                <div class="type-tag" style="color: #7c6af7;">Modern</div>
+                <h3 style="color: #7c6af7;">French</h3>
+                <p>Build conversational fluency and master modern grammar.</p>
+            </div>
+            <div>
+                <button onclick="window.location.href='chat.html'">Open Chat</button>
+                <button class="secondary" onclick="window.location.href='ai-tutor.html'">Ask AI Tutor</button>
+            </div>
+        </div>
+
+        <!-- Add Language Card -->
+        <div class="card add-new" onclick="window.location.href='languages.html'">
+            <h3 style="color: #2a2a4a;">+</h3>
+            <p>Start a New Language</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
 
 </body>
 </html>
