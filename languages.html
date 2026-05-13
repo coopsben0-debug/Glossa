@@ -4,306 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glossa - Languages</title>
-
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #0f0f1a;
-            color: white;
-        }
-
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        nav h1 {
-            color: #7c6af7;
-            font-size: 28px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-        }
-
+        /* Contextual styles for the Language Grid */
         .hero {
-            text-align: center;
-            padding: 70px 20px 50px;
+            padding: 40px 0;
+            margin-bottom: 20px;
         }
 
-        .hero h2 {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
+        .hero h2 { font-size: 42px; margin-bottom: 10px; }
+        .hero p { color: #aaa; font-size: 18px; }
 
-        .hero p {
-            color: #aaa;
-            font-size: 18px;
-        }
-
-        .language-section {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 30px;
-        }
-
+        .language-section { margin-bottom: 60px; }
         .language-section h2 {
-            font-size: 36px;
+            font-size: 28px;
             margin-bottom: 25px;
-            color: #7c6af7;
+            color: var(--primary);
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
         }
 
         .family-title {
-            color: #aaa;
-            margin: 40px 0 15px;
-            font-size: 20px;
+            color: #888;
+            margin: 30px 0 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .language-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
         .lang-card {
-            background: #1a1a2e;
+            background: var(--panel-bg);
             border-radius: 20px;
-            padding: 28px;
-            border: 2px solid transparent;
-            transition: 0.2s;
-        }
-
-        .lang-card h3 {
-            margin-bottom: 10px;
-            font-size: 22px;
-        }
-
-        .lang-card p {
-            color: #aaa;
-            line-height: 1.6;
-        }
-
-        .lang-card.active {
-            border-color: #7c6af7;
+            padding: 25px;
+            border: 1px solid #333;
+            transition: 0.3s;
             text-decoration: none;
             color: white;
+            display: block;
         }
 
+        .lang-card h3 { margin-bottom: 10px; font-size: 20px; }
+        .lang-card p { color: #aaa; font-size: 14px; line-height: 1.5; }
+
         .lang-card.active:hover {
+            border-color: var(--primary);
             transform: translateY(-5px);
-            border-color: #9d8cff;
+            background: rgba(124, 106, 247, 0.05);
         }
 
         .lang-card.soon {
-            border: 2px dashed #333;
-            opacity: 0.8;
+            border: 1px dashed #444;
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
-        .coming {
+        .coming-tag {
             display: inline-block;
-            margin-top: 12px;
-            padding: 6px 12px;
-            background: #7c6af720;
-            color: #a78bfa;
-            border-radius: 20px;
-            font-size: 13px;
+            margin-top: 15px;
+            padding: 4px 10px;
+            background: rgba(124, 106, 247, 0.1);
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
         }
 
         footer {
             text-align: center;
-            padding: 40px 20px;
-            color: #555;
-            margin-top: 60px;
-        }
-
-        @media (max-width: 700px) {
-            nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav div {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            nav a {
-                margin: 5px 10px;
-            }
-
-            .hero h2 {
-                font-size: 36px;
-            }
+            padding: 60px 0;
+            color: #444;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Glossa</h1>
-
-        <div>
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
-
     <div class="hero">
-        <h2>🌍 Languages</h2>
-        <p>Explore ancient and modern languages with Glossa</p>
+        <h2>🌍 Language Tracks</h2>
+        <p>Choose a path to begin your linguistic mastery.</p>
     </div>
 
     <!-- Ancient Languages -->
-    <div class="language-section">
-
-        <h2>🏛️ Ancient Languages</h2>
-
+    <section class="language-section">
+        <h2>🏛️ Ancient World</h2>
         <div class="language-grid">
-
             <a href="greek.html" class="lang-card active">
-                <h3>🏛️ Biblical Greek</h3>
-                <p>Koine Greek of the New Testament.</p>
+                <h3>Biblical Greek</h3>
+                <p>Master the Koine Greek of the New Testament and Septuagint.</p>
             </a>
-
             <div class="lang-card soon">
-                <h3>✡️ Biblical Hebrew</h3>
-                <p>Language of the Old Testament scriptures.</p>
-                <span class="coming">Coming Soon</span>
+                <h3>Biblical Hebrew</h3>
+                <p>Language of the Tanakh and ancient prophets.</p>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
             <div class="lang-card soon">
-                <h3>🦅 Latin</h3>
-                <p>Classical and Church Latin learning tools.</p>
-                <span class="coming">Coming Soon</span>
+                <h3>Latin</h3>
+                <p>Classical and Ecclesiastical Latin learning tools.</p>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
         </div>
-
-    </div>
+    </section>
 
     <!-- Modern Languages -->
-    <div class="language-section">
+    <section class="language-section">
+        <h2>🌐 Modern World</h2>
 
-        <h2>🌐 Modern Languages</h2>
-
-        <!-- Austronesian -->
-        <h3 class="family-title">🌴 Austronesian Languages</h3>
-
+        <h3 class="family-title">🌴 Austronesian</h3>
         <div class="language-grid">
-
             <div class="lang-card soon">
-                <h3>🇮🇩 Bahasa Indonesian</h3>
-                <p>Vocabulary, grammar, conversation and reading.</p>
-                <span class="coming">Coming Soon</span>
+                <h3>Bahasa Indonesian</h3>
+                <p>Vocabulary and conversation for the Indonesian archipelago.</p>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
             <div class="lang-card soon">
-                <h3>🇹🇱 Tetun Dili</h3>
+                <h3>Tetun Dili</h3>
                 <p>The national language of Timor-Leste.</p>
-                <span class="coming">Coming Soon</span>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
         </div>
 
-        <!-- Romance -->
-        <h3 class="family-title">❤️ Romance Languages</h3>
-
+        <h3 class="family-title">❤️ Romance</h3>
         <div class="language-grid">
-
             <div class="lang-card soon">
-                <h3>🇫🇷 French</h3>
+                <h3>French</h3>
                 <p>Grammar, dialogue and pronunciation training.</p>
-                <span class="coming">Coming Soon</span>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
             <div class="lang-card soon">
-                <h3>🇪🇸 Spanish</h3>
-                <p>Learn practical conversational Spanish.</p>
-                <span class="coming">Coming Soon</span>
+                <h3>Spanish</h3>
+                <p>Practical conversational Spanish for travel and work.</p>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
         </div>
 
-        <!-- Germanic -->
-        <h3 class="family-title">⚔️ Germanic Languages</h3>
-
+        <h3 class="family-title">🐉 Sinitic & Semitic</h3>
         <div class="language-grid">
-
             <div class="lang-card soon">
-                <h3>🇬🇧 English</h3>
-                <p>Grammar and fluency tools for English learners.</p>
-                <span class="coming">Coming Soon</span>
+                <h3>Mandarin</h3>
+                <p>Characters, tones and modern conversation practice.</p>
+                <span class="coming-tag">COMING SOON</span>
             </div>
-
+            <div class="lang-card soon">
+                <h3>Arabic</h3>
+                <p>Modern Standard Arabic for the MENA region.</p>
+                <span class="coming-tag">COMING SOON</span>
+            </div>
         </div>
-
-        <!-- Semitic -->
-        <h3 class="family-title">🕌 Semitic Languages</h3>
-
-        <div class="language-grid">
-
-            <div class="lang-card soon">
-                <h3>🇸🇦 Arabic</h3>
-                <p>Modern Standard Arabic learning system.</p>
-                <span class="coming">Coming Soon</span>
-            </div>
-
-        </div>
-
-        <!-- Sinitic -->
-        <h3 class="family-title">🐉 Sinitic Languages</h3>
-
-        <div class="language-grid">
-
-            <div class="lang-card soon">
-                <h3>🇨🇳 Mandarin</h3>
-                <p>Characters, tones and conversation practice.</p>
-                <span class="coming">Coming Soon</span>
-            </div>
-
-            <div class="lang-card soon">
-                <h3>🇭🇰 Cantonese</h3>
-                <p>Traditional characters and spoken Cantonese.</p>
-                <span class="coming">Coming Soon</span>
-            </div>
-
-        </div>
-
-        <!-- Visual -->
-        <h3 class="family-title">🤟 Visual Languages</h3>
-
-        <div class="language-grid">
-
-            <div class="lang-card soon">
-                <h3>🤟 Sign Language (BSL)</h3>
-                <p>Interactive visual signing lessons.</p>
-                <span class="coming">Coming Soon</span>
-            </div>
-
-        </div>
-
-    </div>
+    </section>
 
     <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
+        <p>© 2026 Glossa — Built for Scholars</p>
     </footer>
 
+    <!-- The magic script that adds the sidebar -->
+    <script src="ui-manager.js"></script>
 </body>
 </html>
