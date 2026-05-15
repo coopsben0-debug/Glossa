@@ -3,150 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Greek Translation</title>
+    <title>Glossa — Greek Translation</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
-
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Contextual overrides specifically for translation mechanics */
+        .greek-display-text { 
+            font-size: 24px; 
+            line-height: 1.6; 
+            color: #a78bfa; 
+            margin-bottom: 16px; 
+            padding: 18px; 
+            background: var(--bg-main); 
+            border-radius: var(--radius-md); 
+            text-align: center; 
+            border: 1px solid var(--border);
         }
-        nav h1 { color: #7c6af7; font-size: 28px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; }
 
-        .hero { text-align: center; padding: 40px 20px 20px; }
-        .hero h2 { font-size: 36px; margin-bottom: 10px; }
-        .hero p { color: #aaa; font-size: 16px; }
+        .difficulty-bar { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 20px; 
+            flex-wrap: wrap; 
+        }
 
-        .difficulty-tabs { display: flex; justify-content: center; gap: 15px; margin: 30px 20px; flex-wrap: wrap; }
-        .diff-btn { padding: 12px 35px; border-radius: 30px; border: 2px solid #333; color: #aaa; cursor: pointer; font-size: 16px; background: transparent; transition: all 0.2s; }
-        .diff-btn.easy.active { background: #6bffb8; border-color: #6bffb8; color: #0f0f1a; }
-        .diff-btn.medium.active { background: #ffd700; border-color: #ffd700; color: #0f0f1a; }
-        .diff-btn.hard.active { background: #ff6b6b; border-color: #ff6b6b; color: white; }
-        .diff-btn:hover { border-color: #7c6af7; color: white; }
+        .diff-btn { 
+            padding: 6px 14px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border); 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 12px; 
+            background: transparent; 
+            transition: var(--transition); 
+        }
+        .diff-btn.easy.active { background: rgba(107, 255, 184, 0.15); border-color: #6bffb8; color: #6bffb8; }
+        .diff-btn.medium.active { background: rgba(255, 215, 0, 0.15); border-color: #ffd700; color: #ffd700; }
+        .diff-btn.hard.active { background: rgba(255, 107, 107, 0.15); border-color: #ff6b6b; color: #ff6b6b; }
 
-        .main-container { max-width: 800px; margin: 0 auto; padding: 0 20px 60px; }
+        .vocab-hints { margin-bottom: 16px; }
+        .vocab-hints summary { color: var(--primary); cursor: pointer; font-size: 12px; margin-bottom: 6px; font-weight: 500; }
+        .vocab-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+        .vocab-item { background: var(--bg-main); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-muted); border: 1px solid var(--border); }
+        .vocab-item span { color: var(--primary); font-weight: 600; }
 
-        .verse-card { background: #1a1a2e; border-radius: 20px; padding: 35px; margin-bottom: 20px; }
-        .verse-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .verse-ref { color: #7c6af7; font-size: 18px; font-weight: bold; }
-        .diff-badge { padding: 5px 15px; border-radius: 20px; font-size: 13px; font-weight: bold; }
-        .diff-badge.easy { background: #6bffb820; color: #6bffb8; border: 1px solid #6bffb8; }
-        .diff-badge.medium { background: #ffd70020; color: #ffd700; border: 1px solid #ffd700; }
-        .diff-badge.hard { background: #ff6b6b20; color: #ff6b6b; border: 1px solid #ff6b6b; }
+        .translation-input { 
+            width: 100%; 
+            padding: 12px; 
+            background: var(--bg-main); 
+            border: 1px solid var(--border); 
+            border-radius: var(--radius-md); 
+            color: white; 
+            font-size: 14px; 
+            resize: vertical; 
+            min-height: 90px; 
+            margin-bottom: 12px; 
+            line-height: 1.5; 
+            outline: none;
+        }
+        .translation-input:focus { border-color: var(--primary); }
 
-        .greek-text { font-size: 26px; line-height: 1.8; color: #a78bfa; margin-bottom: 25px; padding: 20px; background: #0f0f1a; border-radius: 12px; text-align: center; }
-
-        .vocab-hints { margin-bottom: 20px; }
-        .vocab-hints summary { color: #7c6af7; cursor: pointer; font-size: 14px; margin-bottom: 10px; }
-        .vocab-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .vocab-item { background: #0f0f1a; padding: 6px 12px; border-radius: 8px; font-size: 13px; color: #aaa; }
-        .vocab-item span { color: #7c6af7; }
-
-        .translation-input { width: 100%; padding: 16px; background: #0f0f1a; border: 2px solid #333; border-radius: 12px; color: white; font-size: 16px; resize: vertical; min-height: 100px; margin-bottom: 15px; line-height: 1.6; }
-        .translation-input:focus { outline: none; border-color: #7c6af7; }
-
-        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .submit-btn { padding: 14px 35px; background: #7c6af7; color: white; border: none; border-radius: 30px; font-size: 16px; cursor: pointer; }
-        .next-btn { padding: 14px 35px; background: transparent; color: #7c6af7; border: 2px solid #7c6af7; border-radius: 30px; font-size: 16px; cursor: pointer; }
-        .skip-btn { padding: 14px 25px; background: transparent; color: #555; border: 2px solid #333; border-radius: 30px; font-size: 16px; cursor: pointer; }
-
-        .feedback-box { display: none; background: #0f0f1a; border-radius: 15px; padding: 25px; margin-top: 20px; }
+        .feedback-box { display: none; background: var(--bg-main); border-radius: var(--radius-md); padding: 16px; margin-top: 16px; border: 1px solid var(--border); }
         .feedback-box.active { display: block; }
-        .score-display { font-size: 48px; font-weight: bold; color: #7c6af7; text-align: center; margin-bottom: 5px; }
-        .score-label { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 20px; }
-        .feedback-text { color: #ddd; line-height: 1.8; font-size: 15px; margin-bottom: 20px; }
-        .standard-translation { border-top: 1px solid #333; padding-top: 15px; margin-top: 15px; }
-        .standard-translation h4 { color: #7c6af7; margin-bottom: 8px; font-size: 14px; }
-        .standard-translation p { color: #aaa; font-style: italic; line-height: 1.7; }
+        .score-num { font-size: 32px; font-weight: 700; color: var(--primary); text-align: center; }
+        .feedback-text { color: var(--text-main); font-size: 13px; line-height: 1.6; margin: 12px 0; }
+        
+        .standard-trans { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
+        .standard-trans h4 { color: var(--primary); font-size: 12px; margin-bottom: 4px; }
+        .standard-trans p { color: var(--text-muted); font-style: italic; font-size: 13px; }
 
-        .stats-bar { background: #1a1a2e; border-radius: 15px; padding: 20px 25px; margin-bottom: 20px; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; }
-        .stat { text-align: center; }
-        .stat h3 { font-size: 28px; color: #7c6af7; }
-        .stat p { color: #aaa; font-size: 13px; }
+        .loading-zone { display: none; text-align: center; padding: 12px; color: var(--text-muted); font-size: 13px; }
+        .loading-zone.active { display: block; }
 
-        .loading { display: none; text-align: center; padding: 20px; color: #aaa; }
-        .loading.active { display: block; }
-
-        footer { text-align: center; padding: 30px; color: #555; }
+        .stats-mini-row { display: flex; gap: 16px; margin-bottom: 16px; background: var(--bg-main); padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); justify-content: space-around; text-align: center; }
+        .stat-mini h4 { font-size: 16px; color: var(--primary); }
+        .stat-mini p { font-size: 11px; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Glossa</h1>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
+    <nav class="top-nav">
+        <a href="index.html" class="brand">GLOSSA</a>
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="greek-translate.html" class="active">Greek Exercises</a>
             <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
             <a href="profile.html">Profile</a>
         </div>
     </nav>
 
-    <div class="hero">
-        <h2>🏛️ NT Translation Exercises</h2>
-        <p>Translate real New Testament verses and get AI feedback on your work</p>
-    </div>
+    <main class="app-container">
+        
+        <header class="page-header">
+            <h1>🏛️ NT Translation Workspace</h1>
+            <p>Analyze New Testament text syntax patterns and submit English renderings for semantic evaluations.</p>
+        </header>
 
-    <div class="difficulty-tabs">
-        <button class="diff-btn easy active" onclick="setDifficulty('easy', this)">🟢 Easy</button>
-        <button class="diff-btn medium" onclick="setDifficulty('medium', this)">🟡 Medium</button>
-        <button class="diff-btn hard" onclick="setDifficulty('hard', this)">🔴 Difficult</button>
-    </div>
-
-    <div class="main-container">
-
-        <div class="stats-bar">
-            <div class="stat"><h3 id="stat-done">0</h3><p>Translated</p></div>
-            <div class="stat"><h3 id="stat-avg">—</h3><p>Avg Score</p></div>
-            <div class="stat"><h3 id="stat-best">—</h3><p>Best Score</p></div>
-        </div>
-
-        <div class="verse-card">
-            <div class="verse-header">
-                <div class="verse-ref" id="verse-ref"></div>
-                <div class="diff-badge easy" id="diff-badge">Easy</div>
-            </div>
-
-            <div class="greek-text" id="greek-text"></div>
-
-            <details class="vocab-hints">
-                <summary>💡 Vocabulary hints</summary>
-                <div class="vocab-list" id="vocab-list"></div>
-            </details>
-
-            <textarea class="translation-input" id="translation-input" placeholder="Type your English translation here..."></textarea>
-
-            <div class="btn-row">
-                <button class="submit-btn" onclick="submitTranslation()">Submit Translation →</button>
-                <button class="skip-btn" onclick="nextVerse()">Skip →</button>
-            </div>
-
-            <div class="loading" id="loading">🤖 AI is marking your translation...</div>
-
-            <div class="feedback-box" id="feedback-box">
-                <div class="score-display" id="score-display"></div>
-                <div class="score-label">out of 10</div>
-                <div class="feedback-text" id="feedback-text"></div>
-                <div class="standard-translation">
-                    <h4>Standard Translation (ESV)</h4>
-                    <p id="standard-text"></p>
+        <div class="dashboard-grid">
+            
+            <section class="panel">
+                <div class="panel-title-bar">
+                    <h2 id="verse-ref">Loading Reference...</h2>
+                    <span id="diff-badge" style="font-size: 11px; font-weight: 600; text-transform: uppercase;">Easy</span>
                 </div>
-                <br>
-                <div class="btn-row">
-                    <button class="next-btn" onclick="nextVerse()">Next Verse →</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <footer><p>© 2026 Glossa — All rights reserved</p></footer>
+                <div class="difficulty-bar">
+                    <button class="diff-btn easy active" onclick="setDifficulty('easy', this)">🟢 Easy</button>
+                    <button class="diff-btn medium" onclick="setDifficulty('medium', this)">🟡 Medium</button>
+                    <button class="diff-btn hard" onclick="setDifficulty('hard', this)">🔴 Difficult</button>
+                </div>
+
+                <div class="greek-display-text" id="greek-text"></div>
+
+                <details class="vocab-hints">
+                    <summary>💡 Structural Vocabulary Hints</summary>
+                    <div class="vocab-list" id="vocab-list"></div>
+                </details>
+
+                <textarea class="translation-input" id="translation-input" placeholder="Type your English rendering context here..."></textarea>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-primary" onclick="submitTranslation()">Submit Rendering →</button>
+                    <button class="btn btn-secondary" onclick="nextVerse()">Skip</button>
+                </div>
+
+                <div class="loading-zone" id="loading">🤖 Engine is reviewing grammatical alignments...</div>
+
+                <div class="feedback-box" id="feedback-box">
+                    <div class="score-num" id="score-display">-</div>
+                    <div style="text-align: center; font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Evaluation Matrix Match Score</div>
+                    <div class="feedback-text" id="feedback-text"></div>
+                    <div class="standard-trans">
+                        <h4>Standard Attributed Text (ESV)</h4>
+                        <p id="standard-text"></p>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="nextVerse()" style="margin-top: 14px;">Next Pass ➔</button>
+                </div>
+            </section>
+
+            <aside class="panel">
+                <div class="panel-title-bar">
+                    <h2>Session History Data</h2>
+                </div>
+                <div class="stats-mini-row">
+                    <div class="stat-mini"><h4 id="stat-done">0</h4><p>Completed</p></div>
+                    <div class="stat-mini"><h4 id="stat-avg">—</h4><p>Avg Index</p></div>
+                    <div class="stat-mini"><h4 id="stat-best">—</h4><p>Peak Score</p></div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
 
     <script>
         const API_URL = 'https://glossa-swart.vercel.app/api/chat';
@@ -155,23 +161,14 @@
             easy: [
                 { ref: 'John 11:35', greek: 'ἐδάκρυσεν ὁ Ἰησοῦς.', standard: 'Jesus wept.', hints: [{ greek: 'ἐδάκρυσεν', english: 'he wept' }, { greek: 'Ἰησοῦς', english: 'Jesus' }] },
                 { ref: 'John 1:1a', greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος.', standard: 'In the beginning was the Word.', hints: [{ greek: 'ἀρχῇ', english: 'beginning' }, { greek: 'ἦν', english: 'was' }, { greek: 'λόγος', english: 'word' }] },
-                { ref: 'John 3:16a', greek: 'Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον.', standard: 'For God so loved the world.', hints: [{ greek: 'οὕτως', english: 'so, thus' }, { greek: 'ἠγάπησεν', english: 'he loved' }, { greek: 'κόσμον', english: 'world' }] },
-                { ref: 'Romans 1:16a', greek: 'Οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον.', standard: 'For I am not ashamed of the gospel.', hints: [{ greek: 'οὐ', english: 'not' }, { greek: 'ἐπαισχύνομαι', english: 'I am ashamed' }, { greek: 'εὐαγγέλιον', english: 'gospel' }] },
-                { ref: 'Philippians 4:4', greek: 'Χαίρετε ἐν κυρίῳ πάντοτε.', standard: 'Rejoice in the Lord always.', hints: [{ greek: 'χαίρετε', english: 'rejoice' }, { greek: 'κυρίῳ', english: 'Lord' }, { greek: 'πάντοτε', english: 'always' }] },
-                { ref: 'John 14:6a', greek: 'Ἐγώ εἰμι ἡ ὁδὸς καὶ ἡ ἀλήθεια καὶ ἡ ζωή.', standard: 'I am the way and the truth and the life.', hints: [{ greek: 'ἐγώ εἰμι', english: 'I am' }, { greek: 'ὁδός', english: 'way' }, { greek: 'ἀλήθεια', english: 'truth' }, { greek: 'ζωή', english: 'life' }] },
+                { ref: 'John 3:16a', greek: 'Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον.', standard: 'For God so loved the world.', hints: [{ greek: 'οὕτως', english: 'so, thus' }, { greek: 'ἠγάπησεν', english: 'he loved' }, { greek: 'κόσμον', english: 'world' }] }
             ],
             medium: [
                 { ref: 'Romans 8:1', greek: 'Οὐδὲν ἄρα νῦν κατάκριμα τοῖς ἐν Χριστῷ Ἰησοῦ.', standard: 'There is therefore now no condemnation for those in Christ Jesus.', hints: [{ greek: 'οὐδέν', english: 'nothing' }, { greek: 'ἄρα', english: 'therefore' }, { greek: 'κατάκριμα', english: 'condemnation' }] },
-                { ref: 'Galatians 2:20', greek: 'ζῶ δὲ οὐκέτι ἐγώ, ζῇ δὲ ἐν ἐμοὶ Χριστός.', standard: 'It is no longer I who live, but Christ who lives in me.', hints: [{ greek: 'ζῶ', english: 'I live' }, { greek: 'οὐκέτι', english: 'no longer' }, { greek: 'ζῇ', english: 'he lives' }] },
-                { ref: 'Matthew 5:3', greek: 'Μακάριοι οἱ πτωχοὶ τῷ πνεύματι, ὅτι αὐτῶν ἐστιν ἡ βασιλεία τῶν οὐρανῶν.', standard: 'Blessed are the poor in spirit, for theirs is the kingdom of heaven.', hints: [{ greek: 'μακάριοι', english: 'blessed' }, { greek: 'πτωχοί', english: 'poor' }, { greek: 'βασιλεία', english: 'kingdom' }] },
-                { ref: 'John 1:14', greek: 'Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν.', standard: 'And the Word became flesh and dwelt among us.', hints: [{ greek: 'σάρξ', english: 'flesh' }, { greek: 'ἐγένετο', english: 'became' }, { greek: 'ἐσκήνωσεν', english: 'dwelt' }] },
-                { ref: 'Romans 3:23', greek: 'πάντες γὰρ ἥμαρτον καὶ ὑστεροῦνται τῆς δόξης τοῦ θεοῦ.', standard: 'For all have sinned and fall short of the glory of God.', hints: [{ greek: 'πάντες', english: 'all' }, { greek: 'ἥμαρτον', english: 'sinned' }, { greek: 'δόξης', english: 'glory' }] },
+                { ref: 'Galatians 2:20', greek: 'ζῶ δὲ οὐκέτι ἐγώ, ζῇ δὲ ἐν ἐμοὶ Χριστός.', standard: 'It is no longer I who live, but Christ who lives in me.', hints: [{ greek: 'ζῶ', english: 'I live' }, { greek: 'οὐκέτι', english: 'no longer' }, { greek: 'ζῇ', english: 'he lives' }] }
             ],
             hard: [
-                { ref: 'Hebrews 1:1-2a', greek: 'Πολυμερῶς καὶ πολυτρόπως πάλαι ὁ θεὸς λαλήσας τοῖς πατράσιν ἐν τοῖς προφήταις ἐπ᾽ ἐσχάτου τῶν ἡμερῶν τούτων ἐλάλησεν ἡμῖν ἐν υἱῷ.', standard: 'Long ago, at many times and in many ways, God spoke to our fathers by the prophets, but in these last days he has spoken to us by his Son.', hints: [{ greek: 'πολυμερῶς', english: 'in many portions' }, { greek: 'πολυτρόπως', english: 'in many ways' }, { greek: 'πάλαι', english: 'long ago' }] },
-                { ref: 'Romans 8:38-39', greek: 'πέπεισμαι γὰρ ὅτι οὔτε θάνατος οὔτε ζωὴ οὔτε ἄγγελοι οὔτε ἀρχαὶ οὔτε ἐνεστῶτα οὔτε μέλλοντα οὔτε δυνάμεις οὔτε ὕψωμα οὔτε βάθος οὔτε τις κτίσις ἑτέρα δυνήσεται ἡμᾶς χωρίσαι ἀπὸ τῆς ἀγάπης τοῦ θεοῦ.', standard: 'For I am sure that neither death nor life, nor angels nor rulers, nor things present nor things to come, nor powers, nor height nor depth, nor anything else in all creation, will be able to separate us from the love of God.', hints: [{ greek: 'πέπεισμαι', english: 'I am convinced' }, { greek: 'οὔτε...οὔτε', english: 'neither...nor' }, { greek: 'χωρίσαι', english: 'to separate' }] },
-                { ref: 'John 1:1-3', greek: 'Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος. οὗτος ἦν ἐν ἀρχῇ πρὸς τὸν θεόν. πάντα δι᾽ αὐτοῦ ἐγένετο.', standard: 'In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things were made through him.', hints: [{ greek: 'πρός', english: 'with, toward' }, { greek: 'οὗτος', english: 'this one, he' }, { greek: 'πάντα', english: 'all things' }] },
-                { ref: 'Philippians 2:5-7', greek: 'τοῦτο φρονεῖτε ἐν ὑμῖν ὃ καὶ ἐν Χριστῷ Ἰησοῦ, ὃς ἐν μορφῇ θεοῦ ὑπάρχων οὐχ ἁρπαγμὸν ἡγήσατο τὸ εἶναι ἴσα θεῷ, ἀλλὰ ἑαυτὸν ἐκένωσεν μορφὴν δούλου λαβών.', standard: 'Have this mind among yourselves, which is yours in Christ Jesus, who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself, by taking the form of a servant.', hints: [{ greek: 'φρονεῖτε', english: 'think, have this mind' }, { greek: 'μορφῇ', english: 'form, nature' }, { greek: 'ἐκένωσεν', english: 'emptied' }] },
+                { ref: 'Hebrews 1:1-2a', greek: 'Πολυμερῶς καὶ πολυτρόπως πάλαι ὁ θεὸς λαλήσας τοῖς πατράσιν ἐν τοῖς προφήταις ἐπ᾽ ἐσχάτου τῶν ἡμερῶν τούτων ἐλάλησεν ἡμῖν ἐν υἱῷ.', standard: 'Long ago, at many times and in many ways, God spoke to our fathers by the prophets, but in these last days he has spoken to us by his Son.', hints: [{ greek: 'πολυμερῶς', english: 'in many portions' }, { greek: 'πολυτρόπως', english: 'in many ways' }, { greek: 'πάλαι', english: 'long ago' }] }
             ]
         };
 
@@ -198,10 +195,9 @@
             document.getElementById('feedback-box').classList.remove('active');
             document.getElementById('loading').classList.remove('active');
 
-            const diffLabels = { easy: 'Easy', medium: 'Medium', hard: 'Difficult' };
             const badge = document.getElementById('diff-badge');
-            badge.textContent = diffLabels[currentDifficulty];
-            badge.className = `diff-badge ${currentDifficulty}`;
+            badge.textContent = currentDifficulty;
+            badge.style.color = currentDifficulty === 'easy' ? '#6bffb8' : currentDifficulty === 'medium' ? '#ffd700' : '#ff6b6b';
 
             document.getElementById('vocab-list').innerHTML = verse.hints.map(h => `
                 <div class="vocab-item"><span>${h.greek}</span> — ${h.english}</div>
@@ -244,7 +240,7 @@ FEEDBACK: [your feedback]`;
                 const feedback = feedbackMatch ? feedbackMatch[1].trim() : reply;
 
                 document.getElementById('loading').classList.remove('active');
-                document.getElementById('score-display').textContent = score;
+                document.getElementById('score-display').textContent = `${score}/10`;
                 document.getElementById('feedback-text').innerHTML = feedback.replace(/\n/g, '<br>');
                 document.getElementById('feedback-box').classList.add('active');
 
@@ -255,7 +251,7 @@ FEEDBACK: [your feedback]`;
             } catch (err) {
                 document.getElementById('loading').classList.remove('active');
                 document.getElementById('score-display').textContent = '?';
-                document.getElementById('feedback-text').textContent = 'Could not connect to AI. Please try again!';
+                document.getElementById('feedback-text').textContent = 'Could not process cloud validation. Try again.';
                 document.getElementById('feedback-box').classList.add('active');
             }
         }
@@ -267,16 +263,17 @@ FEEDBACK: [your feedback]`;
 
         function updateStats() {
             document.getElementById('stat-done').textContent = sessionDone;
+            localStorage.setItem('glossa_session_done', sessionDone);
             if (sessionScores.length > 0) {
                 const avg = Math.round(sessionScores.reduce((a, b) => a + b, 0) / sessionScores.length);
                 const best = Math.max(...sessionScores);
                 document.getElementById('stat-avg').textContent = avg + '/10';
                 document.getElementById('stat-best').textContent = best + '/10';
+                localStorage.setItem('glossa_session_avg', avg);
             }
         }
 
         loadVerse();
     </script>
-
 </body>
 </html>
