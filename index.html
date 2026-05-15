@@ -3,175 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Dashboard Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Glossa — Learn Any Language</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
+        nav a:hover { color: #7c6af7; }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 100px 20px 80px;
+            background: radial-gradient(ellipse at top, #1e1040 0%, #0f0f1a 70%);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(124, 106, 247, 0.15);
+            border: 1px solid rgba(124, 106, 247, 0.4);
+            color: #a78bfa;
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .hero h2 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary {
+            background: #7c6af7;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { background: #6b58e6; transform: translateY(-2px); }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border: 2px solid #333;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: #7c6af7; color: #7c6af7; }
+
+        /* STATS */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px 20px;
+            background: #1a1a2e;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat h3 { font-size: 36px; font-weight: 800; color: #7c6af7; }
+        .stat p { color: #aaa; font-size: 14px; margin-top: 4px; }
+
+        /* FEATURES */
+        .features {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .features-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .features-subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 50px;
+            font-size: 16px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #2a2a4a;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: #7c6af7;
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px rgba(124, 106, 247, 0.15);
+        }
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #7c6af7;
+        }
+        .feature-card p { color: #aaa; font-size: 14px; line-height: 1.7; }
+
+        /* LANGUAGES SECTION */
+        .languages-section {
+            background: #1a1a2e;
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .languages-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .languages-section p { color: #aaa; margin-bottom: 40px; font-size: 16px; }
+        .lang-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+        .lang-pill {
+            background: #0f0f1a;
+            border: 1px solid #2a2a4a;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 14px;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+        }
+        .lang-pill:hover { border-color: #7c6af7; color: #7c6af7; }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(ellipse at center, #1e1040 0%, #0f0f1a 70%);
+        }
+        .cta h2 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
+        .cta p { color: #aaa; font-size: 18px; margin-bottom: 40px; }
+
+        footer {
+            background: #1a1a2e;
+            text-align: center;
+            padding: 30px;
+            color: #555;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="index.html" class="brand">GLOSSA</a>
-        <div class="nav-links">
-            <a href="index.html" class="active">Dashboard</a>
-            <a href="greek-translate.html">Greek Exercises</a>
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="chat.html">Chat</a>
             <a href="ai-tutor.html">AI Tutor</a>
+            <a href="login.html">Login</a>
             <a href="profile.html">Profile</a>
         </div>
     </nav>
 
-    <main class="app-container">
-        
-        <header class="page-header">
-            <h1>Welcome Back, Scholar</h1>
-            <p>Track your active ancient studies, review syntax rules, or test your translations.</p>
-        </header>
-
-        <div class="dashboard-grid">
-            
-            <section class="panel">
-                <div class="panel-title-bar">
-                    <h2>Active Language Workspace</h2>
-                    <button class="btn btn-secondary btn-sm" onclick="toggleCustomizerModal(true)">
-                        ⚙️ Customize Studies
-                    </button>
-                </div>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 8px;">
-                    Pin what you're working on; unpin to clear clutter. Only your active tracked material stays visible.
-                </p>
-                
-                <div class="card-grid" id="active-languages-container"></div>
-            </section>
-
-            <aside class="panel">
-                <div class="panel-title-bar">
-                    <h2>Weekly Overview</h2>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 12px;">
-                    <div style="background: var(--bg-input); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-                        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Translated Verses</span>
-                        <div style="font-size: 20px; font-weight: 700; margin-top: 2px;" id="dash-stat-done">0</div>
-                    </div>
-                    <div style="background: var(--bg-input); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border);">
-                        <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Average Score</span>
-                        <div style="font-size: 20px; font-weight: 700; margin-top: 2px;" id="dash-stat-avg">—</div>
-                    </div>
-                </div>
-            </aside>
-
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-badge">✨ Ancient & Modern Languages</div>
+        <h2>Learn Any Language,<br>Ancient or Modern</h2>
+        <p>Glossa is the only platform that combines Biblical Greek and Hebrew parse training with modern language live chat, AI tutoring, and real level testing.</p>
+        <div class="hero-buttons">
+            <a href="languages.html" class="btn-primary">Get Started Free →</a>
+            <a href="ai-tutor.html" class="btn-outline">Try AI Tutor</a>
         </div>
-    </main>
+    </div>
 
-    <div class="modal-overlay" id="customizer-modal">
-        <div class="modal">
-            <div class="panel-title-bar" style="margin-bottom: 20px;">
-                <h2 style="font-size: 16px;">Select Tracked Languages</h2>
-                <button class="btn btn-secondary btn-sm" onclick="toggleCustomizerModal(false)" style="padding: 4px 8px;">✕</button>
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat">
+            <h3>10+</h3>
+            <p>Languages</p>
+        </div>
+        <div class="stat">
+            <h3>145+</h3>
+            <p>NT Greek Words</p>
+        </div>
+        <div class="stat">
+            <h3>A1–C2</h3>
+            <p>CEFR Level Testing</p>
+        </div>
+        <div class="stat">
+            <h3>Free</h3>
+            <p>Always</p>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="features">
+        <h2 class="features-title">Everything You Need</h2>
+        <p class="features-subtitle">One platform for serious language learners</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🔬</span>
+                <h3>Parse Trainer</h3>
+                <p>Master verb tenses, cases, moods and grammar through interactive drills designed for Biblical Greek and Hebrew.</p>
             </div>
-            <div style="margin-bottom: 24px;" id="modal-checkbox-list">
-                </div>
-            <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                <button class="btn btn-primary" onclick="saveCustomLanguages()">Apply Configurations</button>
+            <div class="feature-card">
+                <span class="feature-icon">💬</span>
+                <h3>Live Chat Rooms</h3>
+                <p>Practice in real time with learners from around the world. Rooms for every language from Greek to French.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📖</span>
+                <h3>Word Library</h3>
+                <p>All high frequency NT words organised by occurrence. Tick off words as you learn them and track your progress.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🏛️</span>
+                <h3>Grammar Guides</h3>
+                <p>Clear guides from beginner basics to advanced syntax covering alphabet, cases, tenses and more.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📜</span>
+                <h3>Translation Exercises</h3>
+                <p>Translate real NT verses at easy, medium or difficult level and get AI feedback with a score out of 10.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🤖</span>
+                <h3>AI Tutor</h3>
+                <p>Ask anything about grammar, vocabulary or translation. Practice conversation in any language 24/7.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎓</span>
+                <h3>Level Testing</h3>
+                <p>Take a full CEFR level test and get your official A1 to C2 result saved to your profile.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">👤</span>
+                <h3>Progress Profile</h3>
+                <p>Track your progress across all languages with progress bars, level badges and word tick offs.</p>
             </div>
         </div>
     </div>
 
-    <script>
-        // Full language options dictionary
-        const MASTER_LANGUAGES = [
-            { id: 'greek', title: 'Ancient Greek', flag: '🇬🇷', desc: 'New Testament tracking, vocabulary cards, and syntax markers.', page: 'greek-translate.html' },
-            { id: 'latin', title: 'Classical Latin', flag: '🏛️', desc: 'Vulgate and traditional classical prose translations.', page: '#' },
-            { id: 'hebrew', title: 'Biblical Hebrew', flag: '📜', desc: 'Old Testament linguistic parsing and scriptural roots.', page: '#' }
-        ];
+    <!-- LANGUAGES -->
+    <div class="languages-section">
+        <h2>Ancient & Modern Languages</h2>
+        <p>Start with Biblical Greek today — more languages coming soon</p>
+        <div class="lang-pills">
+            <a href="greek.html" class="lang-pill">🏛️ Biblical Greek</a>
+            <a href="#" class="lang-pill">✡️ Biblical Hebrew</a>
+            <a href="#" class="lang-pill">🏺 Latin</a>
+            <a href="#" class="lang-pill">𓂀 Aramaic</a>
+            <a href="#" class="lang-pill">🇫🇷 French</a>
+            <a href="#" class="lang-pill">🇪🇸 Spanish</a>
+            <a href="#" class="lang-pill">🇩🇪 German</a>
+            <a href="#" class="lang-pill">🇮🇹 Italian</a>
+            <a href="#" class="lang-pill">🇸🇦 Arabic</a>
+            <a href="#" class="lang-pill">🇯🇵 Japanese</a>
+            <a href="#" class="lang-pill">🇨🇳 Mandarin</a>
+        </div>
+        <a href="languages.html" class="btn-primary">Browse All Languages →</a>
+    </div>
 
-        // Default set to show initially if user hasn't modified it yet
-        let userLanguages = ['greek'];
+    <!-- CTA -->
+    <div class="cta">
+        <h2>Start Learning Today</h2>
+        <p>Free forever. No credit card needed.</p>
+        <a href="login.html" class="btn-primary">Create Free Account →</a>
+    </div>
 
-        // Initial setup on window load
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('glossa_tracked_langs')) {
-                userLanguages = JSON.parse(localStorage.getItem('glossa_tracked_langs'));
-            }
-            renderActiveWorkspace();
-            renderModalToggles();
-            loadSyncStats();
-        });
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
 
-        function renderActiveWorkspace() {
-            const container = document.getElementById('active-languages-container');
-            const filtered = MASTER_LANGUAGES.filter(lang => userLanguages.includes(lang.id));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                        No tracked workspaces active. Click "Customize Studies" above to toggle a language into view.
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = filtered.map(lang => `
-                <div class="lang-card">
-                    <div class="lang-card-header">
-                        <div class="lang-flag-title">
-                            <span style="font-size: 18px;">${lang.flag}</span>
-                            <h3>${lang.title}</h3>
-                        </div>
-                    </div>
-                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px; flex-grow: 1;">${lang.desc}</p>
-                    <div class="lang-card-actions">
-                        <a href="${lang.page}" class="btn btn-primary btn-sm" ${lang.page === '#' ? 'style="opacity:0.4; pointer-events:none;"' : ''}>
-                            ${lang.page === '#' ? 'Coming Soon' : 'Enter Workspace →'}
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderModalToggles() {
-            const list = document.getElementById('modal-checkbox-list');
-            list.innerHTML = MASTER_LANGUAGES.map(lang => `
-                <div class="modal-list-item">
-                    <div style="display:flex; gap: 8px; align-items:center;">
-                        <span>${lang.flag}</span>
-                        <span style="font-size: 13px; font-weight:500;">${lang.title}</span>
-                    </div>
-                    <input type="checkbox" id="chk-${lang.id}" value="${lang.id}" ${userLanguages.includes(lang.id) ? 'checked' : ''} style="cursor:pointer; accent-color: var(--primary);">
-                </div>
-            `).join('');
-        }
-
-        function toggleCustomizerModal(open) {
-            const modal = document.getElementById('customizer-modal');
-            if (open) {
-                renderModalToggles(); // dynamic state refresh
-                modal.classList.add('active');
-            } else {
-                modal.classList.remove('active');
-            }
-        }
-
-        function saveCustomLanguages() {
-            const checkedIds = [];
-            MASTER_LANGUAGES.forEach(lang => {
-                const chk = document.getElementById(`chk-${lang.id}`);
-                if (chk && chk.checked) checkedIds.push(lang.id);
-            });
-
-            userLanguages = checkedIds;
-            localStorage.setItem('glossa_tracked_langs', JSON.stringify(userLanguages));
-            
-            renderActiveWorkspace();
-            toggleCustomizerModal(false);
-        }
-
-        function loadSyncStats() {
-            // Synchronizes historical numbers natively between exercises page variables if saved
-            if(localStorage.getItem('glossa_session_done')) {
-                document.getElementById('dash-stat-done').textContent = localStorage.getItem('glossa_session_done');
-            }
-            if(localStorage.getItem('glossa_session_avg')) {
-                document.getElementById('dash-stat-avg').textContent = localStorage.getItem('glossa_session_avg') + '/10';
-            }
-        }
-    </script>
 </body>
 </html>
