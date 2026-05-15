@@ -1,20 +1,32 @@
 /* ==========================================================================
-   GLOSSA DESIGN SYSTEM (PRO DASHBOARD REFACTOR)
+   GLOSSA PREMIUM DESIGN SYSTEM (ULTRA-MODERN GLASSMORPHIC INTERFACE)
    ========================================================================== */
 
 :root {
-    --bg-main: #0a0a12;
-    --bg-panel: #131326;
-    --bg-input: #0f0f1f;
-    --primary: #6d5dfc;
-    --primary-hover: #5b4ee4;
-    --text-main: #f1f1f7;
-    --text-muted: #8e8ea8;
-    --border: #22223b;
-    --radius-lg: 14px;
-    --radius-md: 8px;
-    --radius-sm: 4px;
-    --transition: all 0.25s ease;
+    /* Deep Cosmic Palette */
+    --bg-main: #06060c;
+    --bg-panel: rgba(18, 18, 36, 0.7);
+    --bg-input: rgba(26, 26, 54, 0.5);
+    
+    /* Vibrant Accents */
+    --primary: #7c3aed;
+    --primary-hover: #9333ea;
+    --accent-glow: rgba(124, 58, 237, 0.15);
+    
+    /* Typography & Structural Elements */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-hover: rgba(124, 58, 237, 0.4);
+    
+    /* Soft Interfaces */
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --glass-blur: blur(16px);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -24,23 +36,26 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-main);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #06060c 70%);
+    background-attachment: fixed;
     color: var(--text-main);
-    font-size: 14px; /* Scaled down from typical 16px for a tighter, high-end look */
-    line-height: 1.5;
+    font-size: 14px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
 }
 
 /* ==========================================================================
-   LAYOUT ARCHITECTURE (THE DE-CRAMPER)
+   HEADER NAVIGATION (PREMIUM GLASS BAR)
    ========================================================================== */
 
-/* Navigation Header */
 .top-nav {
-    background-color: var(--bg-panel);
+    background: rgba(10, 10, 20, 0.5);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border-bottom: 1px solid var(--border);
-    padding: 12px 24px;
+    padding: 16px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,16 +65,19 @@ body {
 }
 
 .top-nav .brand {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
     text-decoration: none;
-    letter-spacing: 0.5px;
+    letter-spacing: 1.5px;
+    background: linear-gradient(to right, #fff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 32px;
     align-items: center;
 }
 
@@ -67,173 +85,229 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.3px;
     transition: var(--transition);
+    position: relative;
+    padding: 4px 0;
 }
 
 .nav-links a:hover, .nav-links a.active {
-    color: var(--text-main);
+    color: #fff;
 }
 
-/* Main Content Container */
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary), #a78bfa);
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   WINDOW MANAGEMENT & CONTAINMENT
+   ========================================================================== */
+
 .app-container {
-    max-width: 1140px; /* Forces screen bounds to prevent ultra-wide stretching */
+    max-width: 1100px; /* Snugger, professional desktop container width */
     margin: 0 auto;
-    padding: 30px 20px;
+    padding: 48px 24px;
 }
 
-/* Hero & Header Zones */
 .page-header {
-    margin-bottom: 24px;
+    margin-bottom: 40px;
 }
 
 .page-header h1 {
-    font-size: 24px; /* Reduced from 36px to stop it from eating the screen */
-    font-weight: 700;
-    margin-bottom: 4px;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .page-header p {
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* ==========================================================================
-   COMPONENTS & GRIDS
+   METRICS & ARCHITECTURE PLACEMENT
    ========================================================================== */
 
-/* Dashboard Workspace Grids */
-.dashboard-grid {
+.metrics-row {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    align-items: start;
+    margin-bottom: 32px;
 }
 
-@media (max-width: 900px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 768px) {
+    .metrics-row { grid-template-columns: 1fr; }
 }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 16px;
-}
-
-/* Base Panel Styling */
-.panel {
-    background-color: var(--bg-panel);
+.metric-card {
+    background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    padding: 20px;
+    padding: 24px;
+    text-align: left;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
 }
 
-.panel-title-bar {
+.metric-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-lg);
+}
+
+.metric-card label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.metric-card .value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(45deg, #ffffff, #e2e8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Panel Containers */
+.panel {
+    background: var(--bg-panel);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+}
+
+.panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
-.panel-title-bar h2 {
-    font-size: 15px;
-    font-weight: 600;
-}
-
-/* UI Buttons */
-.btn {
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: var(--transition);
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.btn-primary {
-    background-color: var(--primary);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-hover);
-}
-
-.btn-secondary {
-    background-color: transparent;
-    border-color: var(--border);
-    color: var(--text-muted);
-}
-
-.btn-secondary:hover {
-    border-color: #444466;
-    color: var(--text-main);
-}
-
-.btn-sm {
-    padding: 4px 10px;
-    font-size: 11px;
-    border-radius: var(--radius-sm);
+.panel-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
 }
 
 /* ==========================================================================
-   DYNAMIC LANGUAGE MODULES
+   DYNAMIC WORKSPACE ITEMS
    ========================================================================== */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
+}
+
 .lang-card {
-    background-color: var(--bg-input);
+    background: var(--bg-input);
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
-    padding: 16px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 140px;
+    min-height: 170px;
     transition: var(--transition);
 }
 
 .lang-card:hover {
-    transform: translateY(-2px);
-    border-color: #38385c;
+    border-color: var(--border-hover);
+    background: rgba(26, 26, 54, 0.7);
+    box-shadow: 0 0 25px var(--accent-glow);
+    transform: translateY(-4px);
 }
 
-.lang-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.lang-flag-title {
+.lang-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
 }
 
-.lang-flag-title h3 {
-    font-size: 14px;
+.lang-card p {
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Interactive Components */
+.btn {
+    padding: 10px 20px;
+    font-size: 13px;
     font-weight: 600;
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.2px;
 }
 
-.lang-card-actions {
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, #5b4ee4 100%);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(109, 93, 252, 0.4);
 }
 
-/* Selection Modal Layer */
+.btn-primary:hover {
+    background: linear-gradient(135deg, #8b5cf6 0%, var(--primary) 100%);
+    box-shadow: 0 6px 20px rgba(109, 93, 252, 0.6);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: var(--border);
+    color: #e2e8f0;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.btn-disabled {
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+/* High-End Customizer Overlay Modals */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.6);
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(3, 3, 6, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,22 +323,57 @@ body {
 }
 
 .modal {
-    background-color: var(--bg-panel);
-    border: 1px solid var(--border);
+    background: #0f0f1d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 450px;
-    padding: 20px;
+    width: 90%;
+    max-width: 440px;
+    padding: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: var(--transition);
 }
 
-.modal-list-item {
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
+    padding: 14px 0;
     border-bottom: 1px solid var(--border);
 }
 
-.modal-list-item:last-child {
-    border-bottom: none;
+.modal-row:last-child { 
+    border-bottom: none; 
+}
+
+/* Premium custom checkbox look */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    padding: 9px;
+    border-radius: 6px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+input[type="checkbox"]:checked:after {
+    content: '\2713';
+    font-size: 12px;
+    position: absolute;
+    top: -1px;
+    left: 4px;
+    color: #fff;
 }
