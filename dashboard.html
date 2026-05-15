@@ -3,150 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Intelligence Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Glossa - Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
+        nav a:hover { color: #7c6af7; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+        /* WELCOME */
+        .welcome {
+            margin-bottom: 40px;
+        }
+        .welcome h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .welcome p { color: #aaa; font-size: 16px; }
+
+        /* STATS ROW */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid #2a2a4a;
+            transition: all 0.2s;
+        }
+        .stat-card:hover { border-color: #7c6af7; }
+        .stat-card label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #aaa;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 800;
+            color: #7c6af7;
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        /* QUICK ACCESS */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .quick-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #2a2a4a;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .quick-card:hover {
+            border-color: #7c6af7;
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(124, 106, 247, 0.15);
+        }
+        .quick-icon {
+            font-size: 36px;
+            width: 60px;
+            height: 60px;
+            background: rgba(124, 106, 247, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .quick-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+        .quick-card p { color: #aaa; font-size: 13px; line-height: 1.5; }
+
+        /* LANGUAGES PROGRESS */
+        .lang-progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .lang-progress-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #2a2a4a;
+            transition: all 0.2s;
+        }
+        .lang-progress-card:hover { border-color: #7c6af7; }
+        .lang-progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .lang-name-row { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; }
+        .level-badge {
+            background: #7c6af7;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .level-badge.none { background: #333; color: #aaa; }
+        .progress-bar {
+            background: #0f0f1a;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c6af7, #a78bfa);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #555;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+        .lang-actions { display: flex; gap: 10px; }
+        .lang-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .lang-btn-primary {
+            background: #7c6af7;
+            color: white;
+            border: none;
+        }
+        .lang-btn-primary:hover { background: #6b58e6; }
+        .lang-btn-outline {
+            background: transparent;
+            color: #7c6af7;
+            border: 2px solid #7c6af7;
+        }
+        .lang-btn-outline:hover { background: #7c6af7; color: white; }
+
+        /* RECENT ACTIVITY */
+        .activity-card {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid #2a2a4a;
+            margin-bottom: 40px;
+        }
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #7c6af7;
+            flex-shrink: 0;
+        }
+        .activity-text { flex: 1; font-size: 14px; color: #ddd; }
+        .activity-time { color: #555; font-size: 12px; }
+
+        footer { text-align: center; padding: 30px; color: #555; font-size: 14px; }
+    </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="dashboard.html" class="brand">GLOSSA</a>
-        <div class="nav-links">
-            <a href="dashboard.html" class="active">Dashboard</a>
-            <a href="greek-translate.html">Greek Workspace</a>
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="chat.html">Chat</a>
             <a href="ai-tutor.html">AI Tutor</a>
+            <a href="login.html">Login</a>
             <a href="profile.html">Profile</a>
         </div>
     </nav>
 
-    <main class="app-container">
-        
-        <header class="page-header">
-            <h1>Welcome back, Scholar</h1>
-            <p>Select your active research workspaces or toggle customizable tracking metrics below.</p>
-        </header>
+    <div class="container">
 
-        <section class="metrics-row">
-            <div class="metric-card">
-                <label>Daily Streak</label>
-                <div class="value">5 Days</div>
-            </div>
-            <div class="metric-card">
-                <label>Words Mastered</label>
-                <div class="value">124 Lexical Units</div>
-            </div>
-            <div class="metric-card">
-                <label>Current Status</label>
-                <div class="value">Level B1</div>
-            </div>
-        </section>
+        <!-- WELCOME -->
+        <div class="welcome">
+            <h2 id="welcome-msg">Welcome Back 👋</h2>
+            <p>Here's your language learning overview</p>
+        </div>
 
-        <div style="margin-top: 32px;">
-            <section class="panel">
-                <div class="panel-header">
-                    <h2>Your Custom Workspace Modules</h2>
-                    <button class="btn btn-secondary" onclick="openPreferencesModal()">⚙️ Customize Modules</button>
+        <!-- STATS -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <label>Languages Started</label>
+                <div class="value" id="stat-langs">0</div>
+            </div>
+            <div class="stat-card">
+                <label>Tests Taken</label>
+                <div class="value" id="stat-tests">0</div>
+            </div>
+            <div class="stat-card">
+                <label>Words Learned</label>
+                <div class="value" id="stat-words">0</div>
+            </div>
+            <div class="stat-card">
+                <label>Best Level</label>
+                <div class="value" id="stat-level">—</div>
+            </div>
+        </div>
+
+        <!-- QUICK ACCESS -->
+        <div class="section-title">Quick Access</div>
+        <div class="quick-grid">
+            <a href="greek.html" class="quick-card">
+                <div class="quick-icon">🏛️</div>
+                <div>
+                    <h3>Biblical Greek</h3>
+                    <p>Grammar, vocabulary, parse trainer and translation exercises</p>
                 </div>
-                
-                <div class="cards-grid" id="active-tracks-container"></div>
-            </section>
+            </a>
+            <a href="greek-vocab.html" class="quick-card">
+                <div class="quick-icon">📖</div>
+                <div>
+                    <h3>NT Vocabulary</h3>
+                    <p>All high frequency NT words organised by occurrence</p>
+                </div>
+            </a>
+            <a href="greek-translate.html" class="quick-card">
+                <div class="quick-icon">📜</div>
+                <div>
+                    <h3>Translation Exercises</h3>
+                    <p>Translate real NT verses and get AI feedback</p>
+                </div>
+            </a>
+            <a href="ai-tutor.html" class="quick-card">
+                <div class="quick-icon">🤖</div>
+                <div>
+                    <h3>AI Tutor</h3>
+                    <p>Ask anything about grammar or practice conversation</p>
+                </div>
+            </a>
+            <a href="chat.html" class="quick-card">
+                <div class="quick-icon">💬</div>
+                <div>
+                    <h3>Live Chat</h3>
+                    <p>Practice with real learners in language chat rooms</p>
+                </div>
+            </a>
+            <a href="greek-test.html" class="quick-card">
+                <div class="quick-icon">🎓</div>
+                <div>
+                    <h3>Level Test</h3>
+                    <p>Get your official A1 to C2 CEFR level result</p>
+                </div>
+            </a>
         </div>
 
-    </main>
-
-    <div class="modal-overlay" id="pref-modal">
-        <div class="modal">
-            <div class="panel-header" style="margin-bottom: 12px;">
-                <h2 style="font-size: 16px;">Configure Workspace Views</h2>
-                <button class="btn btn-secondary" onclick="closePreferencesModal()" style="padding: 4px 10px; border-radius: 50%;">✕</button>
+        <!-- LANGUAGE PROGRESS -->
+        <div class="section-title">My Languages</div>
+        <div class="lang-progress-grid">
+            <div class="lang-progress-card">
+                <div class="lang-progress-header">
+                    <div class="lang-name-row"><span>🏛️</span> Biblical Greek</div>
+                    <div class="level-badge" id="greek-badge">Not tested</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="greek-progress" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+                <div class="lang-actions">
+                    <a href="greek.html" class="lang-btn lang-btn-primary">Continue →</a>
+                    <a href="greek-test.html" class="lang-btn lang-btn-outline">Take Test</a>
+                </div>
             </div>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
-                Select the tracks you are actively studying. Inactive options will be hidden to minimize clutter.
-            </p>
-            
-            <div style="margin-bottom: 28px;" id="modal-options-list"></div>
 
-            <div style="display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary" onclick="saveTrackConfigurations()">Save Configurations</button>
+            <div class="lang-progress-card">
+                <div class="lang-progress-header">
+                    <div class="lang-name-row"><span>✡️</span> Biblical Hebrew</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+            </div>
+
+            <div class="lang-progress-card">
+                <div class="lang-progress-header">
+                    <div class="lang-name-row"><span>🇫🇷</span> French</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
+            </div>
+
+            <div class="lang-progress-card">
+                <div class="lang-progress-header">
+                    <div class="lang-name-row"><span>🇪🇸</span> Spanish</div>
+                    <div class="level-badge none">Coming Soon</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
+                </div>
             </div>
         </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="section-title">Recent Activity</div>
+        <div class="activity-card">
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-text">Complete your first level test to see activity here</div>
+                <div class="activity-time">Today</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-dot" style="background: #6bffb8"></div>
+                <div class="activity-text">Glossa account created successfully</div>
+                <div class="activity-time">Today</div>
+            </div>
+        </div>
+
     </div>
 
-    <script>
-        const COURSE_REGISTRY = [
-            { id: 'greek', title: 'Ancient Greek', icon: '🇬🇷', desc: 'New Testament parse matrix configurations, interactive translations, and structural feedback loops.', href: 'greek-translate.html' },
-            { id: 'hebrew', title: 'Biblical Hebrew', icon: '📜', desc: 'Explore foundational Old Testament syntax layers, scripts, and semantic dictionary engines.', href: '#' },
-            { id: 'latin', title: 'Classical Latin', icon: '🏛️', desc: 'Analyze traditional prose structures, traditional text sequences, and declensions.', href: '#' },
-            { id: 'modern', title: 'Modern Tracks', icon: '🌍', desc: 'Engage with direct real-world speech syntax modules in French, Spanish, or Italian.', href: '#' }
-        ];
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
 
-        let activeTrackIds = ['greek', 'modern'];
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        window.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('glossa_active_tracks')) {
-                activeTrackIds = JSON.parse(localStorage.getItem('glossa_active_tracks'));
+        const firebaseConfig = {
+            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
+            authDomain: "glossa-48dd8.firebaseapp.com",
+            projectId: "glossa-48dd8",
+            storageBucket: "glossa-48dd8.firebasestorage.app",
+            messagingSenderId: "234142191158",
+            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                document.getElementById('welcome-msg').textContent = `Welcome Back, ${user.email.split('@')[0]} 👋`;
+
+                const docRef = doc(db, 'users', user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    const levels = { A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100 };
+
+                    if (data.greekLevel) {
+                        document.getElementById('greek-badge').textContent = data.greekLevel;
+                        document.getElementById('greek-progress').style.width = levels[data.greekLevel] + '%';
+                        document.getElementById('stat-langs').textContent = '1';
+                        document.getElementById('stat-tests').textContent = data.testsTaken || '1';
+                        document.getElementById('stat-level').textContent = data.greekLevel;
+                    }
+
+                    if (data.learnedWords) {
+                        document.getElementById('stat-words').textContent = data.learnedWords.length;
+                    }
+                }
             }
-            renderDashboardCards();
         });
-
-        function renderDashboardCards() {
-            const container = document.getElementById('active-tracks-container');
-            const targetTracks = COURSE_REGISTRY.filter(item => activeTrackIds.includes(item.id));
-
-            if (targetTracks.length === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 48px 10px; color: var(--text-muted); font-size: 13px;">
-                        No workspace views currently active. Open settings above to pin a study module.
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = targetTracks.map(track => `
-                <div class="lang-card">
-                    <div>
-                        <h3><span>${track.icon}</span> ${track.title}</h3>
-                        <p>${track.desc}</p>
-                    </div>
-                    <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
-                        <a href="${track.href}" class="btn btn-primary ${track.href === '#' ? 'btn-disabled' : ''}">
-                            ${track.href === '#' ? 'In Production' : 'Launch Session →'}
-                        </a>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function openPreferencesModal() {
-            const listContainer = document.getElementById('modal-options-list');
-            listContainer.innerHTML = COURSE_REGISTRY.map(track => `
-                <div class="modal-row">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 18px;">${track.icon}</span>
-                        <span style="font-weight: 600; font-size: 13px;">${track.title}</span>
-                    </div>
-                    <input type="checkbox" id="mod-chk-${track.id}" value="${track.id}" ${activeTrackIds.includes(track.id) ? 'checked' : ''}>
-                </div>
-            `).join('');
-
-            document.getElementById('pref-modal').classList.add('active');
-        }
-
-        function closePreferencesModal() {
-            document.getElementById('pref-modal').classList.remove('active');
-        }
-
-        function saveTrackConfigurations() {
-            const selected = [];
-            COURSE_REGISTRY.forEach(track => {
-                const box = document.getElementById(`mod-chk-${track.id}`);
-                if (box && box.checked) selected.push(track.id);
-            });
-
-            activeTrackIds = selected;
-            localStorage.setItem('glossa_active_tracks', JSON.stringify(activeTrackIds));
-            renderDashboardCards();
-            closePreferencesModal();
-        }
     </script>
+
 </body>
 </html>
