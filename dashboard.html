@@ -3,42 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Dashboard</title>
+    <title>Glossa — Intelligence Hub</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .stat-card { background: var(--panel-bg); padding: 25px; border-radius: 20px; border: 1px solid #333; text-align: center; }
-        .stat-card h3 { color: #888; font-size: 14px; margin-bottom: 10px; }
-        .stat-card p { font-size: 32px; font-weight: bold; color: var(--primary); }
-        .track-container { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .track-card { background: var(--panel-bg); padding: 30px; border-radius: 20px; border: 1px solid #333; transition: 0.3s; cursor: pointer; }
-        .track-card:hover { border-color: var(--primary); transform: translateY(-5px); }
-    </style>
 </head>
 <body>
 
-    <header style="margin-bottom: 40px;">
-        <h1>Welcome back, Scholar</h1>
-        <p style="color: #888;">Pick up where you left off in your linguistic journey.</p>
-    </header>
+    <nav class="top-nav">
+        <a href="dashboard.html" class="brand">GLOSSA</a>
+        <div class="nav-links">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="greek-translate.html">Greek Workspace</a>
+            <a href="ai-tutor.html">AI Tutor</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
 
-    <div class="stats-grid">
-        <div class="stat-card"><h3>Daily Streak</h3><p>5 Days</p></div>
-        <div class="stat-card"><h3>Words Mastered</h3><p>124</p></div>
-        <div class="stat-card"><h3>Current Level</h3><p>B1</p></div>
+    <main class="app-container">
+        
+        <header class="page-header">
+            <h1>Welcome back, Scholar</h1>
+            <p>Select your active research workspaces or toggle customizable tracking metrics below.</p>
+        </header>
+
+        <section class="metrics-row">
+            <div class="metric-card">
+                <label>Daily Streak</label>
+                <div class="value">5 Days</div>
+            </div>
+            <div class="metric-card">
+                <label>Words Mastered</label>
+                <div class="value">124 Lexical Units</div>
+            </div>
+            <div class="metric-card">
+                <label>Current Status</label>
+                <div class="value">Level B1</div>
+            </div>
+        </section>
+
+        <div style="margin-top: 32px;">
+            <section class="panel">
+                <div class="panel-header">
+                    <h2>Your Custom Workspace Modules</h2>
+                    <button class="btn btn-secondary" onclick="openPreferencesModal()">⚙️ Customize Modules</button>
+                </div>
+                
+                <div class="cards-grid" id="active-tracks-container"></div>
+            </section>
+        </div>
+
+    </main>
+
+    <div class="modal-overlay" id="pref-modal">
+        <div class="modal">
+            <div class="panel-header" style="margin-bottom: 12px;">
+                <h2 style="font-size: 16px;">Configure Workspace Views</h2>
+                <button class="btn btn-secondary" onclick="closePreferencesModal()" style="padding: 4px 10px; border-radius: 50%;">✕</button>
+            </div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+                Select the tracks you are actively studying. Inactive options will be hidden to minimize clutter.
+            </p>
+            
+            <div style="margin-bottom: 28px;" id="modal-options-list"></div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary" onclick="saveTrackConfigurations()">Save Configurations</button>
+            </div>
+        </div>
     </div>
 
-    <div class="track-container">
-        <div class="track-card" onclick="window.location.href='languages.html'">
-            <h2>🏛️ Ancient Track</h2>
-            <p style="color:#aaa; margin-top:10px;">Master Biblical Greek, Hebrew, and Latin.</p>
-        </div>
-        <div class="track-card" onclick="window.location.href='languages.html'">
-            <h2>🌍 Modern Track</h2>
-            <p style="color:#aaa; margin-top:10px;">Fluent in French, Spanish, Italian, and more.</p>
-        </div>
-    </div>
+    <script>
+        const COURSE_REGISTRY = [
+            { id: 'greek', title: 'Ancient Greek', icon: '🇬🇷', desc: 'New Testament parse matrix configurations, interactive translations, and structural feedback loops.', href: 'greek-translate.html' },
+            { id: 'hebrew', title: 'Biblical Hebrew', icon: '📜', desc: 'Explore foundational Old Testament syntax layers, scripts, and semantic dictionary engines.', href: '#' },
+            { id: 'latin', title: 'Classical Latin', icon: '🏛️', desc: 'Analyze traditional prose structures, traditional text sequences, and declensions.', href: '#' },
+            { id: 'modern', title: 'Modern Tracks', icon: '🌍', desc: 'Engage with direct real-world speech syntax modules in French, Spanish, or Italian.', href: '#' }
+        ];
 
-    <script src="ui-manager.js"></script>
+        let activeTrackIds = ['greek', 'modern'];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('glossa_active_tracks')) {
+                activeTrackIds = JSON.parse(localStorage.getItem('glossa_active_tracks'));
+            }
+            renderDashboardCards();
+        });
+
+        function renderDashboardCards() {
+            const container = document.getElementById('active-tracks-container');
+            const targetTracks = COURSE_REGISTRY.filter(item => activeTrackIds.includes(item.id));
+
+            if (targetTracks.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 48px 10px; color: var(--text-muted); font-size: 13px;">
+                        No workspace views currently active. Open settings above to pin a study module.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = targetTracks.map(track => `
+                <div class="lang-card">
+                    <div>
+                        <h3><span>${track.icon}</span> ${track.title}</h3>
+                        <p>${track.desc}</p>
+                    </div>
+                    <div style="margin-top: 24px; display: flex; justify-content: flex-end;">
+                        <a href="${track.href}" class="btn btn-primary ${track.href === '#' ? 'btn-disabled' : ''}">
+                            ${track.href === '#' ? 'In Production' : 'Launch Session →'}
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openPreferencesModal() {
+            const listContainer = document.getElementById('modal-options-list');
+            listContainer.innerHTML = COURSE_REGISTRY.map(track => `
+                <div class="modal-row">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 18px;">${track.icon}</span>
+                        <span style="font-weight: 600; font-size: 13px;">${track.title}</span>
+                    </div>
+                    <input type="checkbox" id="mod-chk-${track.id}" value="${track.id}" ${activeTrackIds.includes(track.id) ? 'checked' : ''}>
+                </div>
+            `).join('');
+
+            document.getElementById('pref-modal').classList.add('active');
+        }
+
+        function closePreferencesModal() {
+            document.getElementById('pref-modal').classList.remove('active');
+        }
+
+        function saveTrackConfigurations() {
+            const selected = [];
+            COURSE_REGISTRY.forEach(track => {
+                const box = document.getElementById(`mod-chk-${track.id}`);
+                if (box && box.checked) selected.push(track.id);
+            });
+
+            activeTrackIds = selected;
+            localStorage.setItem('glossa_active_tracks', JSON.stringify(activeTrackIds));
+            renderDashboardCards();
+            closePreferencesModal();
+        }
+    </script>
 </body>
 </html>
