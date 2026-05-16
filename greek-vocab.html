@@ -73,11 +73,11 @@
         .arena-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(124, 106, 247, 0.4); }
 
         /* DOUBLE COLUMN DESKTOP GRID */
-        .workspace-dual-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; align-items: start; }
+        .workspace-dual-grid { display: grid; grid-template-columns: 340px 1fr; gap: 32px; align-items: start; }
         @media (max-width: 900px) { .workspace-dual-grid { grid-template-columns: 1fr; } }
 
         /* SIDEBAR FILTERS CONTROL CONSOLE */
-        .control-console-panel { background: var(--bg-glass-card); border: 1px solid var(--border-slate); border-radius: var(--radius-premium); padding: 24px; }
+        .control-console-panel { background: var(--bg-glass-card); border: 1px solid var(--border-slate); border-radius: var(--radius-premium); padding: 24px; position: sticky; top: 20px; }
         .panel-section-title { font-size: 11px; font-weight: 800; color: var(--text-cool-gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; display: block; }
         .frequency-selector-list { display: flex; flex-direction: column; gap: 8px; }
         .selector-chip {
@@ -85,6 +85,7 @@
             border-radius: 8px; padding: 14px 16px; color: var(--text-cool-gray);
             font-size: 14px; font-weight: 600; cursor: pointer; text-align: left;
             transition: var(--smooth-transition); display: flex; justify-content: space-between; align-items: center;
+            width: 100%; box-sizing: border-box;
         }
         .selector-chip:hover { border-color: var(--accent-glow); color: var(--text-vibrant-white); }
         .selector-chip.active { background: var(--accent-glow-muted); border-color: var(--accent-glow); color: var(--text-vibrant-white); }
@@ -97,7 +98,12 @@
         .section-header-block p { font-size: 14px; color: var(--text-cool-gray); margin: 0; }
 
         /* WORD CONTAINER ROWS */
-        .vocabulary-master-list { display: flex; flex-direction: column; gap: 12px; }
+        .vocabulary-master-list { display: flex; flex-direction: column; gap: 12px; max-height: 900px; overflow-y: auto; padding-right: 8px; }
+        /* Custom scrollbar rules for elegant inner listing container */
+        .vocabulary-master-list::-webkit-scrollbar { width: 6px; }
+        .vocabulary-master-list::-webkit-scrollbar-track { background: transparent; }
+        .vocabulary-master-list::-webkit-scrollbar-thumb { background: var(--border-slate); border-radius: 10px; }
+        
         .vocab-word-row {
             background: var(--bg-inner-input); border: 1px solid var(--border-slate);
             border-radius: 8px; padding: 18px 24px; display: flex; align-items: center;
@@ -151,12 +157,12 @@
 
         <div class="vocab-header-block">
             <h2>Greek Vocabulary Matrix & Lexicon</h2>
-            <p>Study local core groups via Spaced-Repetition flashcards, or scan across every word in the New Testament live via the dynamic search portal.</p>
+            <p>Track foundational reading metrics across full structural sets or run dynamic spaced-repetition loops over vectors inside local memory.</p>
         </div>
 
         <div class="lexicon-search-container">
             <span class="search-icon-marker">🔍</span>
-            <input type="text" id="lexicon-search" class="search-input-field" placeholder="Type meaning, Greek word, or transliteration (e.g., 'logos', 'ἀγάπη')...." oninput="executeLexiconSearch()">
+            <input type="text" id="lexicon-search" class="search-input-field" placeholder="Type meaning, Greek word, or transliteration (e.g., 'logos', 'ἀγάπη')..." oninput="executeLexiconSearch()">
         </div>
 
         <div class="metrics-summary-banner">
@@ -164,7 +170,7 @@
                 <div class="radial-badge" id="mastery-percentage-view">0%</div>
                 <div class="metrics-meta">
                     <h3>Lexicon Mastery Quotient</h3>
-                    <p id="mastery-fractional-count">0 of 59 core vectors checked off successfully</p>
+                    <p id="mastery-fractional-count">0 of 110 vectors checked off successfully</p>
                 </div>
             </div>
             <button class="arena-toggle-btn" onclick="openVerificationSandbox()">⚡ Launch Spaced-Repetition Arena</button>
@@ -177,15 +183,15 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip active" id="chip-all" onclick="switchActiveVectorSet('all')">
                         <span>All Core Sets</span>
-                        <span class="chip-counter" id="count-all">59</span>
+                        <span class="chip-counter" id="count-all">110</span>
                     </button>
                     <button class="selector-chip" id="chip-1" onclick="switchActiveVectorSet(1)">
                         <span>Set 1 — Core Particles</span>
-                        <span class="chip-counter" id="count-1">14</span>
+                        <span class="chip-counter" id="count-1">22</span>
                     </button>
                     <button class="selector-chip" id="chip-2" onclick="switchActiveVectorSet(2)">
                         <span>Set 2 — Primary Roots</span>
-                        <span class="chip-counter" id="count-2">10</span>
+                        <span class="chip-counter" id="count-2">23</span>
                     </button>
                 </div>
                 
@@ -193,11 +199,11 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip" id="chip-3" onclick="switchActiveVectorSet(3)">
                         <span>Set 3 — Structural Actions</span>
-                        <span class="chip-counter" id="count-3">14</span>
+                        <span class="chip-counter" id="count-3">25</span>
                     </button>
                     <button class="selector-chip" id="chip-4" onclick="switchActiveVectorSet(4)">
                         <span>Set 4 — Cosmic Identity</span>
-                        <span class="chip-counter" id="count-4">11</span>
+                        <span class="chip-counter" id="count-4">20</span>
                     </button>
                 </div>
 
@@ -205,7 +211,7 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip" id="chip-5" onclick="switchActiveVectorSet(5)">
                         <span>Set 5 — Theological Shifts</span>
-                        <span class="chip-counter" id="count-5">10</span>
+                        <span class="chip-counter" id="count-5">20</span>
                     </button>
                 </div>
             </div>
@@ -244,23 +250,39 @@
 
     <script src="nav.js"></script>
     <script>
-        // FULLY EMBEDDED MASTER DICTIONARY DATASET (Fully visual instantly on screen)
+        // MASSIVE EXPANDED CORE DATASET (110 Highly Functional New Testament Greek Lemmas)
         const lexicalBaseDefinitions = [
+            // SET 1: CORE PARTICLES, CONJUNCTIONS & PREPOSITIONS (>1000x)
             { g: "ὁ", t: "ho", e: ["the"], s: 1, c: "19,870 times" },
             { g: "καί", t: "kai", e: ["and", "even", "also"], s: 1, c: "9,153 times" },
-            { g: "αὐτός", t: "autos", e: ["he", "she", "it", "self", "same"], s: 1, c: "5,597 times" },
-            { g: "σύ", t: "su", e: ["you"], s: 1, c: "2,912 times" },
             { g: "δέ", t: "de", e: ["but", "and"], s: 1, c: "2,865 times" },
             { g: "ἐν", t: "en", e: ["in", "on", "among", "by"], s: 1, c: "2,752 times" },
-            { g: "ἐγώ", t: "ego", e: ["I"], s: 1, c: "2,584 times" },
-            { g: "εἰμί", t: "eimi", e: ["I am", "to be"], s: 1, c: "2,462 times" },
-            { g: "οὗτος", t: "houtos", e: ["this"], s: 1, c: "1,391 times" },
-            { g: "λέγω", t: "lego", e: ["I say", "speak", "tell"], s: 1, c: "1,320 times" },
             { g: "εἰς", t: "eis", e: ["into", "to", "for"], s: 1, c: "1,768 times" },
             { g: "οὐ", t: "ou", e: ["not", "no"], s: 1, c: "1,623 times" },
             { g: "ὅς", t: "hos", e: ["who", "which", "that"], s: 1, c: "1,431 times" },
             { g: "οὖν", t: "oun", e: ["therefore", "then"], s: 1, c: "526 times" },
-            
+            { g: "διά", t: "dia", e: ["through", "because of"], s: 1, c: "667 times" },
+            { g: "ἐξ", t: "ex", e: ["out of", "from"], s: 1, c: "914 times" },
+            { g: "ἐπί", t: "epi", e: ["on", "upon", "against"], s: 1, c: "890 times" },
+            { g: "πρός", t: "pros", e: ["to", "toward", "with"], s: 1, c: "700 times" },
+            { g: "ἵνα", t: "hina", e: ["in order that", "that"], s: 1, c: "663 times" },
+            { g: "γάρ", t: "gar", e: ["for", "because"], s: 1, c: "1,042 times" },
+            { g: "ἀλλά", t: "alla", e: ["but", "yet", "rather"], s: 1, c: "638 times" },
+            { g: "ὑπό", t: "hupo", e: ["by", "under"], s: 1, c: "470 times" },
+            { g: "μετά", t: "meta", e: ["with", "after"], s: 1, c: "469 times" },
+            { g: "περί", t: "peri", e: ["about", "concerning"], s: 1, c: "333 times" },
+            { g: "κατά", t: "kata", e: ["according to", "down"], s: 1, c: "473 times" },
+            { g: "ὡς", t: "hos", e: ["as", "like", "about"], s: 1, c: "504 times" },
+            { g: "ἤ", t: "e", e: ["or", "than"], s: 1, c: "343 times" },
+            { g: "εἰ", t: "ei", e: ["if", "whether"], s: 1, c: "502 times" },
+
+            // SET 2: PRIMARY ROOTS, PRONOUNS & VERBS (>500x)
+            { g: "αὐτός", t: "autos", e: ["he", "she", "it", "self", "same"], s: 2, c: "5,597 times" },
+            { g: "σύ", t: "su", e: ["you"], s: 2, c: "2,912 times" },
+            { g: "ἐγώ", t: "ego", e: ["I"], s: 2, c: "2,584 times" },
+            { g: "εἰμί", t: "eimi", e: ["I am", "to be"], s: 2, c: "2,462 times" },
+            { g: "οὗτος", t: "houtos", e: ["this"], s: 2, c: "1,391 times" },
+            { g: "λέγω", t: "lego", e: ["I say", "speak", "tell"], s: 2, c: "1,320 times" },
             { g: "θεός", t: "theos", e: ["God", "god"], s: 2, c: "1,317 times" },
             { g: "κύριος", t: "kurios", e: ["Lord", "master", "sir"], s: 2, c: "719 times" },
             { g: "ποιέω", t: "poieo", e: ["I do", "make"], s: 2, c: "568 times" },
@@ -268,25 +290,50 @@
             { g: "Χριστός", t: "christos", e: ["Christ", "Anointed One"], s: 2, c: "531 times" },
             { g: "ἔχω", t: "echo", e: ["I have", "hold"], s: 2, c: "708 times" },
             { g: "γίνομαι", t: "ginomai", e: ["I become", "happen"], s: 2, c: "669 times" },
-            { g: "διά", t: "dia", e: ["through", "because of"], s: 2, c: "667 times" },
             { g: "ἔρχομαι", t: "erchomai", e: ["I come", "go"], s: 2, c: "634 times" },
             { g: "υἱός", t: "huios", e: ["son", "descendant"], s: 2, c: "377 times" },
-            
+            { g: "τις", t: "tis", e: ["someone", "anyone", "a certain"], s: 2, c: "525 times" },
+            { g: "τίς", t: "tís", e: ["who?", "which?", "why?"], s: 2, c: "555 times" },
+            { g: "ἐκεῖνος", t: "ekeinos", e: ["thatone", "that"], s: 2, c: "243 times" },
+            { g: "ἑαυτοῦ", t: "heautou", e: ["of himself", "of herself"], s: 2, c: "319 times" },
+            { g: "ἀπό", t: "apo", e: ["from", "away from"], s: 2, c: "646 times" },
+            { g: "πᾶς", t: "pas", e: ["all", "every", "whole"], s: 2, c: "1,244 times" },
+            { g: "πολύς", t: "polus", e: ["much", "many"], s: 2, c: "416 times" },
+            { g: "μέγας", t: "megas", e: ["great", "large"], s: 2, c: "243 times" },
+
+            // SET 3: STRUCTURAL ACTIONS & MAJOR VERBS (200x - 499x)
             { g: "ἀκούω", t: "akouo", e: ["I hear", "listen to"], s: 3, c: "428 times" },
             { g: "δίδωμι", t: "didomi", e: ["I give", "grant"], s: 3, c: "415 times" },
             { g: "εἶδον", t: "eidon", e: ["I saw", "perceived"], s: 3, c: "400 times" },
-            { g: "πᾶς", t: "pas", e: ["all", "every", "whole"], s: 3, c: "1,244 times" },
-            { g: "ἡμέρα", t: "hemera", e: ["day", "time"], s: 3, c: "389 times" },
-            { g: "γυνή", t: "gune", e: ["woman", "wife"], s: 3, c: "215 times" },
-            { g: "βασιλεία", t: "basileia", e: ["kingdom", "reign"], s: 3, c: "162 times" },
-            { g: "μαθητής", t: "mathetes", e: ["disciple", "learner"], s: 3, c: "261 times" },
-            { g: "γῆ", t: "ge", e: ["earth", "land"], s: 3, c: "250 times" },
             { g: "γινώσκω", t: "ginosko", e: ["I know", "understand"], s: 3, c: "222 times" },
             { g: "λαμβάνω", t: "lambano", e: ["I take", "receive"], s: 3, c: "258 times" },
             { g: "γράφω", t: "grapho", e: ["I write"], s: 3, c: "191 times" },
             { g: "εὑρίσκω", t: "heurisko", e: ["I find", "discover"], s: 3, c: "176 times" },
             { g: "ἀποστέλλω", t: "apostello", e: ["I send out"], s: 3, c: "132 times" },
-            
+            { g: "βλέπω", t: "blepo", e: ["I see", "look at"], s: 3, c: "132 times" },
+            { g: "λύω", t: "luo", e: ["I loose", "untie", "destroy"], s: 3, c: "42 times" },
+            { g: "ἔρρω", t: "erho", e: ["I go away", "perish"], s: 3, c: "12 times" },
+            { g: "ἄγω", t: "ago", e: ["I lead", "bring"], s: 3, c: "67 times" },
+            { g: "βάλλω", t: "ballo", e: ["I throw", "cast", "put"], s: 3, c: "122 times" },
+            { g: "καλέω", t: "kaleo", e: ["I call", "name", "invite"], s: 3, c: "148 times" },
+            { g: "κρίνω", t: "krino", e: ["I judge", "decide"], s: 3, c: "114 times" },
+            { g: "ἐγείρω", t: "egeiro", e: ["I raise up", "wake"], s: 3, c: "144 times" },
+            { g: "ζάω", t: "zao", e: ["I live"], s: 3, c: "140 times" },
+            { g: "ὁράω", t: "horao", e: ["I see", "perceive"], s: 3, c: "450 times" },
+            { g: "πείθω", t: "peitho", e: ["I persuade", "trust"], s: 3, c: "52 times" },
+            { g: "πέμπω", t: "pempo", e: ["I send"], s: 3, c: "79 times" },
+            { g: "πιστεύω", t: "pisteuo", e: ["I believe", "have faith"], s: 3, c: "241 times" },
+            { g: "πληρόω", t: "pleroo", e: ["I fill", "fulfill"], s: 3, c: "86 times" },
+            { g: "φέρω", t: "phero", e: ["I carry", "bear", "bring"], s: 3, c: "66 times" },
+            { g: "φεύγω", t: "pheugo", e: ["I flee", "escape"], s: 3, c: "29 times" },
+            { g: "αἰτέω", t: "aiteo", e: ["I ask", "request"], s: 3, c: "70 times" },
+
+            // SET 4: COSMIC IDENTITY & CLASSICAL NOUNS (100x - 249x)
+            { g: "ἡμέρα", t: "hemera", e: ["day", "time"], s: 4, c: "389 times" },
+            { g: "γυνή", t: "gune", e: ["woman", "wife"], s: 4, c: "215 times" },
+            { g: "βασιλεία", t: "basileia", e: ["kingdom", "reign"], s: 4, c: "162 times" },
+            { g: "μαθητής", t: "mathetes", e: ["disciple", "learner"], s: 4, c: "261 times" },
+            { g: "γῆ", t: "ge", e: ["earth", "land"], s: 4, c: "250 times" },
             { g: "ἀδελφός", t: "adelphos", e: ["brother"], s: 4, c: "343 times" },
             { g: "λόγος", t: "logos", e: ["word", "statement", "message"], s: 4, c: "331 times" },
             { g: "οὐρανός", t: "ouranos", e: ["heaven", "sky"], s: 4, c: "273 times" },
@@ -296,9 +343,14 @@
             { g: "κόσμος", t: "kosmos", e: ["world", "universe"], s: 4, c: "186 times" },
             { g: "χάρις", t: "charis", e: ["grace", "favor"], s: 4, c: "155 times" },
             { g: "πνεῦμα", t: "pneuma", e: ["spirit", "wind"], s: 4, c: "379 times" },
-            { g: "βλέπω", t: "blepo", e: ["I see", "look at"], s: 4, c: "132 times" },
             { g: "ζωή", t: "zoe", e: ["life"], s: 4, c: "135 times" },
-            
+            { g: "πατήρ", t: "pater", e: ["father"], s: 4, c: "413 times" },
+            { g: "μήτηρ", t: "meter", e: ["mother"], s: 4, c: "83 times" },
+            { g: "ἀνήρ", t: "aner", e: ["man", "husband"], s: 4, c: "216 times" },
+            { g: "οἶκος", t: "oikos", e: ["house", "home"], s: 4, c: "114 times" },
+            { g: "ὁδός", t: "hodos", e: ["way", "road", "path"], s: 4, c: "101 times" },
+
+            // SET 5: THEOLOGICAL SHIFTS & CORE PARADIGMS (50x - 99x)
             { g: "ἀγάπη", t: "agape", e: ["love", "affection"], s: 5, c: "116 times" },
             { g: "πίστις", t: "pistis", e: ["faith", "trust"], s: 5, c: "243 times" },
             { g: "δικαιοσύνη", t: "dikaiosune", e: ["righteousness"], s: 5, c: "92 times" },
@@ -306,16 +358,26 @@
             { g: "ἁμαρτία", t: "hamartia", e: ["sin", "failure"], s: 5, c: "173 times" },
             { g: "ὄνομα", t: "onoma", e: ["name", "authority"], s: 5, c: "231 times" },
             { g: "λαλέω", t: "laleo", e: ["I speak", "talk"], s: 5, c: "296 times" },
-            { g: "λύω", t: "luo", e: ["I loose", "untie", "destroy"], s: 5, c: "42 times" },
             { g: "θάνατος", t: "thanatos", e: ["death"], s: 5, c: "120 times" },
-            { g: "κρίσις", t: "krisis", e: ["judgment", "decision"], s: 5, c: "48 times" }
+            { g: "κρίσις", t: "krisis", e: ["judgment", "decision"], s: 5, c: "48 times" },
+            { g: "αἷμα", t: "haima", e: ["blood"], s: 5, c: "97 times" },
+            { g: "αἰών", t: "aion", e: ["age", "eternity"], s: 5, c: "122 times" },
+            { g: "ἀλήθεια", t: "aletheia", e: ["truth"], s: 5, c: "109 times" },
+            { g: "ἀρχή", t: "arche", e: ["beginning", "ruler"], s: 5, c: "55 times" },
+            { g: "δόξα", t: "doxa", e: ["glory", "splendor"], s: 5, c: "166 times" },
+            { g: "δύναμις", t: "dunamis", e: ["power", "miracle"], s: 5, c: "119 times" },
+            { g: "εὐαγγέλιον", t: "euangelion", e: ["gospel", "good news"], s: 5, c: "76 times" },
+            { g: "κρίμα", t: "krima", e: ["judgment", "verdict"], s: 5, c: "28 times" },
+            { g: "σάρξ", t: "sarx", e: ["flesh", "body"], s: 5, c: "147 times" },
+            { g: "σῶμα", t: "soma", e: ["body"], s: 5, c: "142 times" },
+            { g: "φωνή", t: "phone", e: ["voice", "sound"], s: 5, c: "139 times" }
         ];
 
         const frequencySetMetaTitles = {
-            1: "Set 1 — Core Particles (>1000x)",
+            1: "Set 1 — Core Particles (&gt;1000x)",
             2: "Set 2 — Primary Roots (500x - 999x)",
-            3: "Set 3 — Structural Actions (250x - 499x)",
-            4: "Set 4 — Cosmic Identity (100x - 249x)",
+            3: "Set 3 — Structural Actions (200x - 499x)",
+            4: "Set 4 — Cosmic Identity (100x - 199x)",
             5: "Set 5 — Theological Shifts (50x - 99x)"
         };
 
