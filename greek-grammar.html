@@ -3,315 +3,675 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Master Biblical Greek Grammar</title>
+    <title>Glossa — Master Biblical Greek Grammar Matrix</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        .grammar-layout { max-width: 1200px; margin: 0 auto; padding-bottom: 60px; }
-        .back-nav { display: inline-flex; align-items: center; gap: 6px; color: #a78bfa; text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
-        .back-nav:hover { color: #c084fc; }
-
-        /* Document Blueprint Sidebar & Content Split */
-        .grammar-grid { display: grid; grid-template-columns: 280px 1fr; gap: 32px; }
-        @media (max-width: 900px) { .grammar-grid { grid-template-columns: 1fr; } }
-
-        .grammar-toc { 
-            background: rgba(16, 16, 32, 0.6); 
-            border: 1px solid rgba(255, 255, 255, 0.06); 
-            border-radius: 16px; padding: 20px; 
-            position: sticky; top: 40px; height: fit-content; 
+        .grammar-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 32px;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 40px 24px;
         }
-        .toc-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; margin-bottom: 12px; }
-        .toc-link { display: block; background: transparent; border: none; color: #94a3b8; width: 100%; text-align: left; padding: 10px 12px; font-size: 14px; font-weight: 600; cursor: pointer; border-radius: 8px; margin-bottom: 4px; text-decoration: none; transition: all 0.2s; }
-        .toc-link:hover { background: rgba(255, 255, 255, 0.03); color: #fff; }
-        .toc-link.active { background: rgba(124, 58, 237, 0.15); color: #c084fc; border-left: 3px solid #7c3aed; border-radius: 0 8px 8px 0; }
 
-        .grammar-pane { display: none; background: rgba(16, 16, 32, 0.4); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 40px; box-sizing: border-box; }
-        .grammar-pane.active { display: block; }
+        @media (max-width: 1024px) {
+            .grammar-layout {
+                grid-template-columns: 1fr;
+            }
+        }
 
-        h2 { font-size: 26px; margin-top: 0; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px; }
-        h3 { font-size: 18px; color: #a78bfa; margin-top: 28px; margin-bottom: 12px; }
-        p, li { color: #94a3b8; font-size: 15px; line-height: 1.6; }
-        ul { padding-left: 20px; }
+        /* LEFT SIDEBAR NAVIGATION INDEX */
+        .grammar-sidebar {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            height: calc(100vh - 140px);
+            position: sticky;
+            top: 100px;
+            overflow-y: auto;
+        }
 
-        /* Paradigm Structures & Linguistic Tables */
-        table { width: 100%; border-collapse: collapse; margin: 16px 0 24px 0; background: rgba(0, 0, 0, 0.2); border-radius: 12px; overflow: hidden; }
-        th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
-        th { color: #fff; font-weight: 700; background: rgba(255, 255, 255, 0.04); font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
-        td { font-size: 16px; color: #e2e8f0; }
-        
-        .g-txt { font-size: 24px; font-weight: 700; color: #c084fc; font-family: 'Times New Roman', serif; }
-        .suffix { color: #f43f5e; font-weight: 700; }
-        
-        .note-callout { background: rgba(124, 58, 237, 0.06); border-left: 4px solid #7c3aed; padding: 16px 20px; border-radius: 0 12px 12px 0; margin: 20px 0; }
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-section h4 {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 6px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            padding: 10px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+        }
+
+        .sidebar-item.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* RIGHT DYNAMIC CONTENT MATRIX */
+        .matrix-display {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            min-height: calc(100vh - 140px);
+        }
+
+        .matrix-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .matrix-header p {
+            color: #b3c2d4;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        /* PARADIGM DATA TABLES */
+        .paradigm-block {
+            margin-bottom: 40px;
+        }
+
+        .paradigm-block h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #a78bfa;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .greek-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .greek-table th, .greek-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .greek-table th {
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+        }
+
+        .greek-table td {
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+
+        .greek-form {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .suffix-highlight {
+            color: #ef4444;
+            font-weight: 800;
+        }
+
+        /* METRIC LINGUISTIC NOTES BOX */
+        .linguistic-note-box {
+            background: linear-gradient(135deg, rgba(124, 106, 247, 0.05), rgba(0,0,0,0));
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin-top: 24px;
+        }
+
+        .linguistic-note-box h5 {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .linguistic-note-box p {
+            color: #b3c2d4;
+            font-size: 13.5px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .hidden-pane {
+            display: none;
+        }
+
+        .top-nav-bar {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 20px 24px 0 24px;
+        }
+        .back-dashboard {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .back-dashboard:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
     </style>
 </head>
 <body>
 
-    <div class="grammar-layout">
-        <a href="greek.html" class="back-nav">← Return to Greek Dashboard</a>
-        
-        <h1 style="font-size: 38px; margin: 0 0 6px 0;">🏛️ Reference Grammar Matrix</h1>
-        <p style="color: #94a3b8; margin: 0 0 32px 0;">Exhaustive morphological tracking manual based on systematic historical and classical frameworks.</p>
+    <div id="nav-container"></div>
 
-        <div class="grammar-grid">
-            <nav class="grammar-toc">
-                <div class="toc-title">I. Orthography</div>
-                <button class="toc-link active" onclick="showSection('orthography', this)">Alphabet & Phonetics</button>
-                
-                <div class="toc-title" style="margin-top:16px;">II. Noun Systems</div>
-                <button class="toc-link" onclick="showSection('nouns-1-2', this)">1st & 2nd Declension</button>
-                <button class="toc-link" onclick="showSection('nouns-3', this)">3rd Declension</button>
-                <button class="toc-link" onclick="showSection('articles', this)">Definite Articles</button>
-                
-                <div class="toc-title" style="margin-top:16px;">III. Verbal System</div>
-                <button class="toc-link" onclick="showSection('verbs-pres', this)">Present Active Indicative</button>
-                <button class="toc-link" onclick="showSection('verbs-future', this)">Future & Contract Verbs</button>
-                <button class="toc-link" onclick="showSection('verbs-aorist', this)">First & Second Aorist</button>
-            </nav>
-
-            <div class="content-viewport">
-                
-                <div id="sec-orthography" class="grammar-pane active">
-                    <h2>Alphabet, Syllables, and Accents</h2>
-                    <p>Biblical (Koine) Greek features 24 alphanumeric symbols. Mastery of diphthongs, structural breathing parameters, and accent values is required before translation syntax parses.</p>
-                    
-                    <h3>The 24-Character Matrix</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Uppercase</th><th>Lowercase</th><th>Name</th><th>Phonetic Equivalent</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="g-txt">Α</td><td class="g-txt">α</td><td>Alpha</td><td><b>a</b> as in f<b>a</b>ther</td></tr>
-                            <tr><td class="g-txt">Β</td><td class="g-txt">β</td><td>Beta</td><td><b>b</b> as in <b>b</b>oat</td></tr>
-                            <tr><td class="g-txt">Γ</td><td class="g-txt">γ</td><td>Gamma</td><td><b>g</b> as in <b>g</b>old (sounds like 'n' before γ, κ, χ)</td></tr>
-                            <tr><td class="g-txt">Δ</td><td class="g-txt">δ</td><td>Delta</td><td><b>d</b> as in <b>d</b>og</td></tr>
-                            <tr><td class="g-txt">Ε</td><td class="g-txt">ε</td><td>Epsilon</td><td><b>e</b> as in m<b>e</b>t (always short)</td></tr>
-                            <tr><td class="g-txt">Ζ</td><td class="g-txt">ζ</td><td>Zeta</td><td><b>dz</b> as in a<b>dds</b></td></tr>
-                            <tr><td class="g-txt">Η</td><td class="g-txt">η</td><td>Eta</td><td><b>e</b> as in ob<b>e</b>y (always long)</td></tr>
-                            <tr><td class="g-txt">Θ</td><td class="g-txt">θ</td><td>Theta</td><td><b>th</b> as in <b>th</b>ink</td></tr>
-                            <tr><td class="g-txt">Ι</td><td class="g-txt">ι</td><td>Iota</td><td><b>i</b> as in mach<b>i</b>ne</td></tr>
-                            <tr><td class="g-txt">Κ</td><td class="g-txt">κ</td><td>Kappa</td><td><b>k</b> as in <b>k</b>ing</td></tr>
-                            <tr><td class="g-txt">Λ</td><td class="g-txt">λ</td><td>Lambda</td><td><b>l</b> as in <b>l</b>antern</td></tr>
-                            <tr><td class="g-txt">Μ</td><td class="g-txt">μ</td><td>Mu</td><td><b>m</b> as in <b>m</b>ap</td></tr>
-                            <tr><td class="g-txt">Ν</td><td class="g-txt">ν</td><td>Nu</td><td><b>n</b> as in <b>n</b>et</td></tr>
-                            <tr><td class="g-txt">Ξ</td><td class="g-txt">ξ</td><td>Xi</td><td><b>x</b> as in fo<b>x</b></td></tr>
-                            <tr><td class="g-txt">Ο</td><td class="g-txt">ο</td><td>Omicron</td><td><b>o</b> as in l<b>o</b>g (always short)</td></tr>
-                            <tr><td class="g-txt">Π</td><td class="g-txt">π</td><td>Pi</td><td><b>p</b> as in <b>p</b>ad</td></tr>
-                            <tr><td class="g-txt">Ρ</td><td class="g-txt">ρ</td><td>Rho</td><td><b>r</b> as in <b>r</b>un (trilled)</td></tr>
-                            <tr><td class="g-txt">Σ</td><td class="g-txt">σ / ς</td><td>Sigma</td><td><b>s</b> as in <b>s</b>it (ς is used strictly at word endings)</td></tr>
-                            <tr><td class="g-txt">Τ</td><td class="g-txt">τ</td><td>Tau</td><td><b>t</b> as in <b>t</b>op</td></tr>
-                            <tr><td class="g-txt">Υ</td><td class="g-txt">υ</td><td>Upsilon</td><td><b>u</b> as French <i>tu</i> or German <i>über</i></td></tr>
-                            <tr><td class="g-txt">Φ</td><td class="g-txt">φ</td><td>Phi</td><td><b>ph</b> as in <b>ph</b>one</td></tr>
-                            <tr><td class="g-txt">Χ</td><td class="g-txt">χ</td><td>Chi</td><td><b>ch</b> as in lo<b>ch</b></td></tr>
-                            <tr><td class="g-txt">Ψ</td><td class="g-txt">ψ</td><td>Psi</td><td><b>ps</b> as in la<b>ps</b>e</td></tr>
-                            <tr><td class="g-txt">Ω</td><td class="g-txt">ω</td><td>Omega</td><td><b>o</b> as in t<b>o</b>ne (always long)</td></tr>
-                        </tbody>
-                    </table>
-
-                    <div class="note-callout">
-                        <b>Critical Rules for Diphthongs & Breathing:</b><br>
-                        When two vowels blend into one syllable, they form a <b>diphthong</b> (e.g., <span class="g-txt">αι</span>, <span class="g-txt">ει</span>, <span class="g-txt">οι</span>, <span class="g-txt">αυ</span>, <span class="g-txt">ου</span>, <span class="g-txt">υι</span>). Every word starting with a vowel requires a breathing mark:
-                        <ul>
-                            <li><b>Rough Breathing ( ̔ ):</b> Adds an "h" sound. Example: <span class="g-txt">ὑπέρ</span> (hu-per).</li>
-                            <li><b>Smooth Breathing ( ̓ ):</b> Dictates zero sound alteration. Example: <span class="g-txt">ἀκούω</span> (a-koo-o).</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div id="sec-nouns-1-2" class="grammar-pane">
-                    <h2>First and Second Noun Declensions</h2>
-                    <p>Greek nouns are grouped into inflection categories called <b>declensions</b>. Word endings vary dynamically across case types to denote exact syntactic functions.</p>
-                    
-                    <h3>The Second Declension (Masculine / Neuter Focus)</h3>
-                    <p>Primarily tracks masculine nouns ending in <span class="g-txt">-ος</span> and neuter forms ending in <span class="g-txt">-ον</span>.</p>
-                    
-                    <table>
-                        <thead>
-                            <tr><th>Case Form</th><th>Masculine (<span class="g-txt">λόγος</span>)</th><th>Neuter (<span class="g-txt">ἔργον</span>)</th><th>Syntactic Assignment Block</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>Nom. Sing.</b></td><td class="g-txt">λόγ<span class="suffix">ος</span></td><td class="g-txt">ἔργ<span class="suffix">ον</span></td><td>Subject identity driver</td></tr>
-                            <tr><td><b>Gen. Sing.</b></td><td class="g-txt">λόγ<span class="suffix">ου</span></td><td class="g-txt">ἔργ<span class="suffix">ου</span></td><td>Possession, source / "of"</td></tr>
-                            <tr><td><b>Dat. Sing.</b></td><td class="g-txt">λόγ<span class="suffix">ῳ</span></td><td class="g-txt">ἔργ<span class="suffix">ῳ</span></td><td>Indirect Object / "to, for, with"</td></tr>
-                            <tr><td><b>Acc. Sing.</b></td><td class="g-txt">λόγ<span class="suffix">ον</span></td><td class="g-txt">ἔργ<span class="suffix">ον</span></td><td>Direct Object target</td></tr>
-                            <tr><td><b>Nom. Plur.</b></td><td class="g-txt">λόγ<span class="suffix">οι</span></td><td class="g-txt">ἔργ<span class="suffix">α</span></td><td>Plural Subjects</td></tr>
-                            <tr><td><b>Gen. Plur.</b></td><td class="g-txt">λόγ<span class="suffix">ων</span></td><td class="g-txt">ἔργ<span class="suffix">ων</span></td><td>Plural Possession / "of parameters"</td></tr>
-                            <tr><td><b>Dat. Plur.</b></td><td class="g-txt">λόγ<span class="suffix">οις</span></td><td class="g-txt">ἔργ<span class="suffix">οις</span></td><td>Plural Indirect Objects</td></tr>
-                            <tr><td><b>Acc. Plur.</b></td><td class="g-txt">λόγ<span class="suffix">ους</span></td><td class="g-txt">ἔργ<span class="suffix">α</span></td><td>Plural Direct Objects</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>The First Declension (Feminine Focus)</h3>
-                    <p>Tracks standard feminine noun roots stemming down into either absolute <span class="g-txt">-η</span> or <span class="g-txt">-α</span> models.</p>
-                    <table>
-                        <thead>
-                            <tr><th>Case Form</th><th>Paradigm (<span class="g-txt">γραφή</span> - scripture)</th><th>Paradigm (<span class="g-txt">ὥρα</span> - hour)</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>Nom. Sing.</b></td><td class="g-txt">γραφ<span class="suffix">ή</span></td><td class="g-txt">ὥρ<span class="suffix">α</span></td></tr>
-                            <tr><td><b>Gen. Sing.</b></td><td class="g-txt">γραφ<span class="suffix">ῆς</span></td><td class="g-txt">ὥρ<span class="suffix">ας</span></td></tr>
-                            <tr><td><b>Dat. Sing.</b></td><td class="g-txt">γραφ<span class="suffix">ῇ</span></td><td class="g-txt">ὥρ<span class="suffix">ᾳ</span></td></tr>
-                            <tr><td><b>Acc. Sing.</b></td><td class="g-txt">γραφ<span class="suffix">ήν</span></td><td class="g-txt">ὥρ<span class="suffix">αν</span></td></tr>
-                            <tr><td><b>Nom. Plur.</b></td><td class="g-txt">γραφ<span class="suffix">αί</span></td><td class="g-txt">ὧρ<span class="suffix">αι</span></td></tr>
-                            <tr><td><b>Gen. Plur.</b></td><td class="g-txt">γραφ<span class="suffix">ῶν</span></td><td class="g-txt">ὡρ<span class="suffix">ῶν</span></td></tr>
-                            <tr><td><b>Dat. Plur.</b></td><td class="g-txt">γραφ<span class="suffix">αῖς</span></td><td class="g-txt">ὥρ<span class="suffix">αις</span></td></tr>
-                            <tr><td><b>Acc. Plur.</b></td><td class="g-txt">γραφ<span class="suffix">άς</span></td><td class="g-txt">ὥρ<span class="suffix">ας</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="sec-nouns-3" class="grammar-pane">
-                    <h2>The Third Declension (Consonant Stems)</h2>
-                    <p>Third declension structures feature shifting consonant stems. Case suffix allocations often cause spelling changes when coming into contact with the case endings.</p>
-                    
-                    <h3>Consonant Stem Shift Rules</h3>
-                    <ul>
-                        <li>Labials (<span class="g-txt">β, π, φ</span>) + <span class="g-txt">ς</span> $\rightarrow$ <span class="g-txt">ψ</span></li>
-                        <li>Palatals (<span class="g-txt">γ, κ, χ</span>) + <span class="g-txt">ς</span> $\rightarrow$ <span class="g-txt">ξ</span></li>
-                        <li>Dentals (<span class="g-txt">δ, τ, θ</span>) + <span class="g-txt">ς</span> $\rightarrow$ drop out entirely</li>
-                    </ul>
-
-                    <h3>Master Third Declension Matrix Examples</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Case Form</th><th>Masculine (<span class="g-txt">ἄρχων</span> - ruler)</th><th>Feminine (<span class="g-txt">πίστις</span> - faith)</th><th>Neuter (<span class="g-txt">ὄνομα</span> - name)</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>Nom. Sing.</b></td><td class="g-txt">ἄρχων</td><td class="g-txt">πίστις</td><td class="g-txt">ὄνομα</td></tr>
-                            <tr><td><b>Gen. Sing.</b></td><td class="g-txt">ἄρχοντ<span class="suffix">ος</span></td><td class="g-txt">πίστε<span class="suffix">ως</span></td><td class="g-txt">ὀνόματ<span class="suffix">ος</span></td></tr>
-                            <tr><td><b>Dat. Sing.</b></td><td class="g-txt">ἄρχοντ<span class="suffix">ι</span></td><td class="g-txt">πίστε<span class="suffix">ι</span></td><td class="g-txt">ὀνόματ<span class="suffix">ι</span></td></tr>
-                            <tr><td><b>Acc. Sing.</b></td><td class="g-txt">ἄρχοντ<span class="suffix">α</span></td><td class="g-txt">πίστι<span class="suffix">ν</span></td><td class="g-txt">ὄνομα</td></tr>
-                            <tr><td><b>Nom. Plur.</b></td><td class="g-txt">ἄρχοντ<span class="suffix">ες</span></td><td class="g-txt">πίστει<span class="suffix">ς</span></td><td class="g-txt">ὀνόματ<span class="suffix">α</span></td></tr>
-                            <tr><td><b>Gen. Plur.</b></td><td class="g-txt">ἄρχόντ<span class="suffix">ων</span></td><td class="g-txt">πίστε<span class="suffix">ων</span></td><td class="g-txt">ὀνομάτ<span class="suffix">ων</span></td></tr>
-                            <tr><td><b>Dat. Plur.</b></td><td class="g-txt">ἄρχου<span class="suffix">σι(ν)</span></td><td class="g-txt">πίστε<span class="suffix">σι(ν)</span></td><td class="g-txt">ὀνόμα<span class="suffix">σι(ν)</span></td></tr>
-                            <tr><td><b>Acc. Plur.</b></td><td class="g-txt">ἄρχοντ<span class="suffix">ας</span></td><td class="g-txt">πίστει<span class="suffix">ς</span></td><td class="g-txt">ὀνόματ<span class="suffix">α</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="sec-articles" class="grammar-pane">
-                    <h2>Definite Articles System</h2>
-                    <p>Greek possesses no indefinite article ("a/an"). It features a highly versatile <b>definite article</b> system ("the") that matches its target noun perfectly in gender, number, and case context maps.</p>
-                    
-                    <table>
-                        <thead>
-                            <tr><th>Case Grid</th><th>Masculine Plural</th><th>Feminine Plural</th><th>Neuter Plural</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>Nom. Sing.</b></td><td class="g-txt">ὁ</td><td class="g-txt">ἡ</td><td class="g-txt">τό</td></tr>
-                            <tr><td><b>Gen. Sing.</b></td><td class="g-txt">τοῦ</td><td class="g-txt">τῆς</td><td class="g-txt">τοῦ</td></tr>
-                            <tr><td><b>Dat. Sing.</b></td><td class="g-txt">τῷ</td><td class="g-txt">τῇ</td><td class="g-txt">τῷ</td></tr>
-                            <tr><td><b>Acc. Sing.</b></td><td class="g-txt">τόν</td><td class="g-txt">τήν</td><td class="g-txt">τό</td></tr>
-                            <tr><td><b>Nom. Plur.</b></td><td class="g-txt">οἱ</td><td class="g-txt">αἱ</td><td class="g-txt">τά</td></tr>
-                            <tr><td><b>Gen. Plur.</b></td><td class="g-txt">τῶν</td><td class="g-txt">τῶν</td><td class="g-txt">τῶν</td></tr>
-                            <tr><td><b>Dat. Plur.</b></td><td class="g-txt">τοῖς</td><td class="g-txt">ταῖς</td><td class="g-txt">τοῖς</td></tr>
-                            <tr><td><b>Acc. Plur.</b></td><td class="g-txt">τούς</td><td class="g-txt">τάς</td><td class="g-txt">τά</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="sec-verbs-pres" class="grammar-pane">
-                    <h2>The Present Active Indicative System</h2>
-                    <p>Verbal paradigms define continuous or active linear processes taking place in the present timeline. Suffix combinations explicitly register person and count constraints.</p>
-                    
-                    <h3>Paradigm Core Analysis (<span class="g-txt">λύω</span> - I loose / untie)</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Person Map Identity</th><th>Greek Suffix Form</th><th>Analytical Translation Blueprint</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>1st Singular</b></td><td class="g-txt">λύ<span class="suffix">ω</span></td><td>I am loosing / I loose</td></tr>
-                            <tr><td><b>2nd Singular</b></td><td class="g-txt">λύ<span class="suffix">εις</span></td><td>You are loosing / You loose</td></tr>
-                            <tr><td><b>3rd Singular</b></td><td class="g-txt">λύ<span class="suffix">ει</span></td><td>He, she, or it is loosing / looses</td></tr>
-                            <tr><td><b>1st Plural</b></td><td class="g-txt">λύ<span class="suffix">ομεν</span></td><td>We are loosing / We loose</td></tr>
-                            <tr><td><b>2nd Plural</b></td><td class="g-txt">λύ<span class="suffix">ετε</span></td><td>You all are loosing / You all loose</td></tr>
-                            <tr><td><b>3rd Plural</b></td><td class="g-txt">λύ<span class="suffix">ουσι(ν)</span></td><td>They are loosing / They loose</td></tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="note-callout">
-                        <b>The Movable Nu ($\nu$):</b><br>
-                        The terminal variable <span class="g-txt">ν</span> inside the 3rd person plural suffix (<span class="g-txt">-ουσιν</span>) acts as a structural phonetic buffer. It is dynamically appended when the succeeding word begins with a vowel or occurs at the end of a sentence block.
-                    </div>
-                </div>
-
-                <div id="sec-verbs-future" class="grammar-pane">
-                    <h2>Future Tense & Contract Rules</h2>
-                    <p>The standard future active system is formed by inserting a tense suffix token (<span class="g-txt">σ</span>) between the root stem and the standard personal variable endings.</p>
-                    
-                    <h3>Future Inflection Model (<span class="g-txt">ἀκούω</span> $\rightarrow$ <span class="g-txt">ἀκούσω</span>)</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Person Map</th><th>Future Form Alignment</th><th>Translation Application</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>1st Sing.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>ω</td><td>I will hear</td></tr>
-                            <tr><td><b>2nd Sing.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>εις</td><td>You will hear</td></tr>
-                            <tr><td><b>3rd Sing.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>ει</td><td>He/She/It will hear</td></tr>
-                            <tr><td><b>1st Plur.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>ομεν</td><td>We will hear</td></tr>
-                            <tr><td><b>2nd Plur.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>ετε</td><td>You all will hear</td></tr>
-                            <tr><td><b>3rd Plur.</b></td><td class="g-txt">ἀκού<span class="suffix">σ</span>ουσιν</td><td>They will hear</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>Contract Vowel Rules</h3>
-                    <p>When short vowel stems (<span class="g-txt">α, ε, ο</span>) meet standard personal endings, they undergo systematic contractions:</p>
-                    <ul>
-                        <li><span class="g-txt">ε + ω $\rightarrow$ ω</span> (e.g., <span class="g-txt">ποιέω $\rightarrow$ ποιῶ</span>)</li>
-                        <li><span class="g-txt">ε + ε $\rightarrow$ ει</span> (e.g., <span class="g-txt">ποιέετε $\rightarrow$ ποιεῖτε</span>)</li>
-                        <li><span class="g-txt">ε + ο $\rightarrow$ ου</span> (e.g., <span class="g-txt">ποιέομεν $\rightarrow$ ποιοῦμεν</span>)</li>
-                    </ul>
-                </div>
-
-                <div id="sec-verbs-aorist" class="grammar-pane">
-                    <h2>First and Second Aorist Systems</h2>
-                    <p>The <b>Aorist Tense</b> denotes past, punctiliar actions. It is characterized by an initial **past augment prefix** (<span class="g-txt">ἐ-</span>) added to the front of the verb stem.</p>
-                    
-                    <h3>First Aorist vs. Second Aorist Morphologies</h3>
-                    <ul>
-                        <li><b>First Aorist (Weak):</b> Uses a structural sigma-alpha (<span class="g-txt">-σα</span>) suffix modifier.</li>
-                        <li><b>Second Aorist (Strong):</b> Changes the underlying spelling of the word root instead of adding a suffix token.</li>
-                    </ul>
-
-                    <h3>Comparative System Grids</h3>
-                    <table>
-                        <thead>
-                            <tr><th>Person Map</th><th>1st Aorist (<span class="g-txt">λύω</span> $\rightarrow$ loosened)</th><th>2nd Aorist (<span class="g-txt">λείπω</span> $\rightarrow$ left)</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>1st Sing.</b></td><td class="g-txt"><span class="suffix">ἔ</span>λυ<span class="suffix">σα</span></td><td class="g-txt"><span class="suffix">ἔ</span>λιπ<span class="suffix">ον</span></td></tr>
-                            <tr><td><b>2nd Sing.</b></td><td class="g-txt"><span class="suffix">ἔ</span>λυ<span class="suffix">σας</span></td><td class="g-txt"><span class="suffix">ἔ</span>λιπ<span class="suffix">ες</span></td></tr>
-                            <tr><td><b>3rd Sing.</b></td><td class="g-txt"><span class="suffix">ἔ</span>λυ<span class="suffix">σε(ν)</span></td><td class="g-txt"><span class="suffix">ἔ</span>λιπε(ν)</td></tr>
-                            <tr><td><b>1st Plur.</b></td><td class="g-txt"><span class="suffix">ἐ</span>λύ<span class="suffix">σαμεν</span></td><td class="g-txt"><span class="suffix">ἐ</span>λίπ<span class="suffix">ομεν</span></td></tr>
-                            <tr><td><b>2nd Plur.</b></td><td class="g-txt"><span class="suffix">ἐ</span>λύ<span class="suffix">σατε</span></td><td class="g-txt"><span class="suffix">ἐ</span>λίπ<span class="suffix">ετε</span></td></tr>
-                            <tr><td><b>3rd Plur.</b></td><td class="g-txt"><span class="suffix">ἔ</span>λυ<span class="suffix">σαν</span></td><td class="g-txt"><span class="suffix">ἔ</span>λιπ<span class="suffix">ον</span></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
+    <div class="top-nav-bar">
+        <a href="greek.html" class="back-dashboard">← Return to Greek Dashboard</a>
     </div>
 
+    <div class="grammar-layout">
+
+        <aside class="grammar-sidebar">
+            
+            <div class="sidebar-section">
+                <h4>I. Orthography & Phonetics</h4>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item active" onclick="switchPane('alphabet')">The Greek Alphabet <span>Α-Ω</span></li>
+                    <li class="sidebar-item" onclick="switchPane('diphthongs')">Diphthongs & Accents <span>αι-υι</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>II. The Noun System</h4>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item" onclick="switchPane('articles')">Definite Articles <span>ὁ, ἡ, τό</span></li>
+                    <li class="sidebar-item" onclick="switchPane('declension1')">First Declension (Feminine) <span>-ης / -ας</span></li>
+                    <li class="sidebar-item" onclick="switchPane('declension2')">Second Declension (Mas/Neu) <span>-ος / -ον</span></li>
+                    <li class="sidebar-item" onclick="switchPane('declension3')">Third Declension (Consonant) <span>-ος</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>III. Verbal System: Present & Future</h4>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item" onclick="switchPane('pres-act')">Present Active Indicative <span>-ω</span></li>
+                    <li class="sidebar-item" onclick="switchPane('pres-mid-pas')">Present Middle/Passive <span>-ομαι</span></li>
+                    <li class="sidebar-item" onclick="switchPane('fut-act')">Future Active Indicative <span>-σω</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>IV. Verbal System: Past Tenses</h4>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item" onclick="switchPane('aor-act')">First & Second Aorist Active <span>-σα / -ον</span></li>
+                    <li class="sidebar-item" onclick="switchPane('imperfect')">Imperfect Indicative <span>ἔ- -ον</span></li>
+                    <li class="sidebar-item" onclick="switchPane('perfect')">Perfect Active Indicative <span>λέ-λυ-κα</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h4>V. Non-Indicative Moods & Syntax</h4>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item" onclick="switchPane('participles')">Participles Matrix <span>-ων / -ουσα</span></li>
+                    <li class="sidebar-item" onclick="switchPane('subjunctive')">Subjunctive & Imperative <span>-ῃ / -τω</span></li>
+                    <li class="sidebar-item" onclick="switchPane('advanced-syntax')">Advanced Syntax Rules <span>Granville</span></li>
+                </ul>
+            </div>
+
+        </aside>
+
+        <main class="matrix-display" id="matrix-viewport">
+            
+            <div id="pane-alphabet" class="pane-content">
+                <div class="matrix-header">
+                    <h2>The Greek Alphabet (24 Characters)</h2>
+                    <p>Mastering both visual script variants and physical phonetic markers is the absolute prerequisite for native fluid sight reading and accurate parsing analysis.</p>
+                </div>
+                <div class="paradigm-block">
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Character Set</th>
+                                <th>Name</th>
+                                <th>Pronunciation Guide</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="greek-form">Α α</td><td>Alpha</td><td><strong>a</strong> as in father</td></tr>
+                            <tr><td class="greek-form">Β β</td><td>Beta</td><td><strong>b</strong> as in boat</td></tr>
+                            <tr><td class="greek-form">Γ γ</td><td>Gamma</td><td><strong>g</strong> as in gold (or 'n' before soft stops)</td></tr>
+                            <tr><td class="greek-form">Δ δ</td><td>Delta</td><td><strong>d</strong> as in dog</td></tr>
+                            <tr><td class="greek-form">Ε ε</td><td>Epsilon</td><td><strong>e</strong> as in met</td></tr>
+                            <tr><td class="greek-form">Ζ ζ</td><td>Zeta</td><td><strong>z</strong> as in daze</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-diphthongs" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Diphthongs & Accent Rules</h2>
+                    <p>Diphthongs occur when two vowels combine into a single phonetic syllable cluster. Pronunciation must be cleanly tracked.</p>
+                </div>
+                <div class="paradigm-block">
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Diphthong</th>
+                                <th>Sound Pattern</th>
+                                <th>Textual Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td class="greek-form">αι</td><td><strong>ai</strong> as in aisle</td><td>ἀκούει (akou-ei)</td></tr>
+                            <tr><td class="greek-form">ει</td><td><strong>ei</strong> as in weight</td><td>εἰρήνη (eirēnē)</td></tr>
+                            <tr><td class="greek-form">οι</td><td><strong>oi</strong> as in oil</td><td>οἶκος (oikos)</td></tr>
+                            <tr><td class="greek-form">ου</td><td><strong>ou</strong> as in soup</td><td>οὐρανός (ouranos)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="linguistic-note-box">
+                    <h5>💡 Advanced Syllabification Note</h5>
+                    <p>An iota subscript (e.g., ᾳ, ῃ, ῳ) is a silent iota placed directly beneath long vowels. It does not alter structural pronunciation parameters but strictly dictates historical case transitions.</p>
+                </div>
+            </div>
+
+            <div id="pane-articles" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Definite Article Core Matrix</h2>
+                    <p>Greek possesses no indefinite article ("a"). The definite article ("the") acts as a structural anchor, matching its target noun in gender, number, and case.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Singular Articles</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Case</th>
+                                <th>Masculine</th>
+                                <th>Feminine</th>
+                                <th>Neuter</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Nominative</td><td class="greek-form">ὁ</td><td class="greek-form">ἡ</td><td class="greek-form">τό</td></tr>
+                            <tr><td>Genitive</td><td class="greek-form">τοῦ</td><td class="greek-form">τῆς</td><td class="greek-form">τοῦ</td></tr>
+                            <tr><td>Dative</td><td class="greek-form">τῷ</td><td class="greek-form">τῇ</td><td class="greek-form">τῷ</td></tr>
+                            <tr><td>Accusative</td><td class="greek-form">τόν</td><td class="greek-form">τήν</td><td class="greek-form">τό</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-declension1" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>First Declension Sub-Systems (Feminine Root nouns)</h2>
+                    <p>Governs stems ending cleanly in alpha or eta. These primarily map to feminine gender paradigms.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm Core Analysis: φωνή (Voice/Sound)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Case Map Identity</th>
+                                <th>Singular Form</th>
+                                <th>Plural Form</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Nominative (Subject)</td><td class="greek-form">φων<span class="suffix-highlight">ή</span></td><td class="greek-form">φων<span class="suffix-highlight">αί</span></td></tr>
+                            <tr><td>Genitive (Possession)</td><td class="greek-form">φων<span class="suffix-highlight">ῆς</span></td><td class="greek-form">φων<span class="suffix-highlight">ῶν</span></td></tr>
+                            <tr><td>Dative (Indirect Object)</td><td class="greek-form">φων<span class="suffix-highlight">ῇ</span></td><td class="greek-form">φων<span class="suffix-highlight">αῖς</span></td></tr>
+                            <tr><td>Accusative (Direct Object)</td><td class="greek-form">φων<span class="suffix-highlight">ήν</span></td><td class="greek-form">φων<span class="suffix-highlight">άς</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-declension2" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Second Declension Noun Matrix</h2>
+                    <p>Governs stems ending in omicron. These are primarily masculine (`-ος`) or neuter (`-ον`).</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Masculine Paradigm: λόγος (Word)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Case</th>
+                                <th>Singular</th>
+                                <th>Plural</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Nominative</td><td class="greek-form">λόγ<span class="suffix-highlight">ος</span></td><td class="greek-form">λόγ<span class="suffix-highlight">οι</span></td></tr>
+                            <tr><td>Genitive</td><td class="greek-form">λόγ<span class="suffix-highlight">ου</span></td><td class="greek-form">λόγ<span class="suffix-highlight">ων</span></td></tr>
+                            <tr><td>Dative</td><td class="greek-form">λόγ<span class="suffix-highlight">ῳ</span></td><td class="greek-form">λόγ<span class="suffix-highlight">οις</span></td></tr>
+                            <tr><td>Accusative</td><td class="greek-form">λόγ<span class="suffix-highlight">ον</span></td><td class="greek-form">λόγ<span class="suffix-highlight">ους</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-declension3" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Third Declension (Consonant Stems)</h2>
+                    <p>The variable inflection system. Suffixes attach directly to consonant stems, causing phonetic mutation when matching sibilant markers.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm Sample: ὄνομα (Name - Neuter)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Case Map</th>
+                                <th>Singular</th>
+                                <th>Plural</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Nominative</td><td class="greek-form">ὄνομα</td><td class="greek-form">ὀνόμα<span class="suffix-highlight">τα</span></td></tr>
+                            <tr><td>Genitive</td><td class="greek-form">ὀνόμα<span class="suffix-highlight">τος</span></td><td class="greek-form">ὀνομά<span class="suffix-highlight">των</span></td></tr>
+                            <tr><td>Dative</td><td class="greek-form">ὀνόμα<span class="suffix-highlight">τι</span></td><td class="greek-form">ὀνόμα<span class="suffix-highlight">σι(ν)</span></td></tr>
+                            <tr><td>Accusative</td><td class="greek-form">ὄνομα</td><td class="greek-form">ὀνόμα<span class="suffix-highlight">τα</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-pres-act" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Present Active Indicative System</h2>
+                    <p>Defines continuous actions taking place in the present timeline executed by the grammatical subject.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm Core Analysis: λύω (I loose / untie)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person Map Identity</th>
+                                <th>Greek Suffix Form</th>
+                                <th>Analytical Translation Blueprint</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Singular</td><td class="greek-form">λύ<span class="suffix-highlight">ω</span></td><td>I am loosing / I loose</td></tr>
+                            <tr><td>2nd Singular</td><td class="greek-form">λύ<span class="suffix-highlight">εις</span></td><td>You are loosing / You loose</td></tr>
+                            <tr><td>3rd Singular</td><td class="greek-form">λύ<span class="suffix-highlight">ει</span></td><td>He, she, or it is loosing / looses</td></tr>
+                            <tr><td>1st Plural</td><td class="greek-form">λύ<span class="suffix-highlight">ομεν</span></td><td>We are loosing / We loose</td></tr>
+                            <tr><td>2nd Plural</td><td class="greek-form">λύ<span class="suffix-highlight">ετε</span></td><td>You all are loosing / You all loose</td></tr>
+                            <tr><td>3rd Plural</td><td class="greek-form">λύ<span class="suffix-highlight">ουσι(ν)</span></td><td>They are loosing / They loose</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-pres-mid-pas" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Present Middle / Passive Indicative</h2>
+                    <p><strong>Middle Voice:</strong> The subject acts upon itself or for its own ultimate interest. <br><strong>Passive Voice:</strong> The subject receives the action executed by an outside agent.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm: ἔρχομαι / λύομαι</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Form Pattern</th>
+                                <th>Passive Translation Representation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">ομαι</span></td><td>I am being loosed</td></tr>
+                            <tr><td>2nd Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">ῃ</span></td><td>You are being loosed</td></tr>
+                            <tr><td>3rd Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">εται</span></td><td>He/She/It is being loosed</td></tr>
+                            <tr><td>1st Pl.</td><td class="greek-form">λυ<span class="suffix-highlight">όμεθα</span></td><td>We are being loosed</td></tr>
+                            <tr><td>2nd Pl.</td><td class="greek-form">λύ<span class="suffix-highlight">εσθε</span></td><td>You all are being loosed</td></tr>
+                            <tr><td>3rd Pl.</td><td class="greek-form">λύ<span class="suffix-highlight">ονται</span></td><td>They are being loosed</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-fut-act" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Future Active Indicative Matrix</h2>
+                    <p>Projects an action forward into a subsequent timeline. Characterized by the appearance of a tense-formative sigma (`-σ-`).</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm Core: λύσω (I will loose)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Future Construction</th>
+                                <th>Translation Translation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">σω</span></td><td>I will loose</td></tr>
+                            <tr><td>2nd Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">σεις</span></td><td>You will loose</td></tr>
+                            <tr><td>3rd Sg.</td><td class="greek-form">λύ<span class="suffix-highlight">σει</span></td><td>He/She/It will loose</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-aor-act" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>First & Second Aorist Active (Punctiliar Past)</h2>
+                    <p>The aorist tense denotes a past action viewed as a whole without reference to duration. Features an epsilon prefix (augment) `ἐ-`.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>First Aorist (Sigmatic): ἔλυσα</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Form</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">σα</span></td><td>I loosed</td></tr>
+                            <tr><td>2nd Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">σας</span></td><td>You loosed</td></tr>
+                            <tr><td>3rd Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">σε(ν)</span></td><td>He/she/it loosed</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-imperfect" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Imperfect Indicative (Linear Past)</h2>
+                    <p>Denotes an ongoing, progressive, or repeated past action. Like the Aorist, it uses a structural past augment prefix (`ἐ-`).</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm: ἔλυον (I was loosing)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Form</th>
+                                <th>Translation Aspect</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">ον</span></td><td>I was loosing / used to loose</td></tr>
+                            <tr><td>2nd Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">ες</span></td><td>You were loosing</td></tr>
+                            <tr><td>3rd Sg.</td><td class="greek-form">ἔλυ<span class="suffix-highlight">ε(ν)</span></td><td>He/She/It was loosing</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-perfect" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Perfect Indicative System</h2>
+                    <p>The most important theological aspect in ancient Koine Greek. Denotes a completed historical past action with permanent, ongoing results into the present timeline.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Paradigm: λέλυκα (I have loosed)</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Structural Element</th>
+                                <th>Value / Variant</th>
+                                <th>Target Focus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Reduplication Prefix</td><td class="greek-form">λέ-</td><td>Doubles initial consonant + epsilon</td></tr>
+                            <tr><td>Tense Formative Suffix</td><td class="greek-form">-κα</td><td>Affixes hard kappa control marker</td></tr>
+                            <tr><td>1st Sg. Example</td><td class="greek-form">λέλυκα</td><td>"I have loosed (and it remains open)"</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-participles" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>The Participles Matrix (Verbal Adjectives)</h2>
+                    <p>Participles are verbal adjectives. They possess case, gender, and number like a noun, while exhibiting tense and voice parameters like a verb.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Present Active Participle Patterns</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Gender</th>
+                                <th>Nominative Sg.</th>
+                                <th>Genitive Sg.</th>
+                                <th>Translation Formula</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Masculine</td><td class="greek-form">λύων</td><td class="greek-form">λύοντος</td><td>While loosing (subject)</td></tr>
+                            <tr><td>Feminine</td><td class="greek-form">λύουσα</td><td class="greek-form">λυούσης</td><td>While loosing (subject)</td></tr>
+                            <tr><td>Neuter</td><td class="greek-form">λῦον</td><td class="greek-form">λύοντος</td><td>While loosing (subject)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-subjunctive" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Non-Indicative Moods: Subjunctive & Imperative</h2>
+                    <p><strong>Subjunctive Mood:</strong> The mood of probability, intention, or contingency. Characterized by lengthened vowels.<br><strong>Imperative Mood:</strong> The mood of direct command or supplication.</p>
+                </div>
+                <div class="paradigm-block">
+                    <h3>Subjunctive vs. Indicative Contrast</h3>
+                    <table class="greek-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Indicative (Fact)</th>
+                                <th>Subjunctive (Probability)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1st Plural</td><td class="greek-form">λύομεν</td><td class="greek-form">λύωμεν <span style="font-size:12px; color:#94a3b8;">(Let us loose!)</span></td></tr>
+                            <tr><td>3rd Singular</td><td class="greek-form">λύει</td><td class="greek-form">λύῃ <span style="font-size:12px; color:#94a3b8;">(He might loose)</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="pane-advanced-syntax" class="pane-content hidden-pane">
+                <div class="matrix-header">
+                    <h2>Advanced Syntax Metrics for High Fluency</h2>
+                    <p>To reach high translation accuracy, you must look past simple vocabulary paradigms and observe syntactic rules governing deep structural interpretation.</p>
+                </div>
+                
+                <div class="linguistic-note-box" style="margin-bottom: 20px;">
+                    <h5>📜 Granville Sharp's Rule</h5>
+                    <p>When two singular, non-proper nouns are joined by a copulative conjunction (καί), and the definite article precedes the first noun but not the second, both nouns refer strictly to the same identical identity or person (e.g., "The God and Savior").</p>
+                </div>
+
+                <div class="linguistic-note-box" style="margin-bottom: 20px;">
+                    <h5>📜 Colwell's Rule</h5>
+                    <p>Definite predicate nouns that precede a verb usually omit the definite article. This is crucial for verifying descriptive assertions versus absolute definite descriptions in ancient philosophical claims.</p>
+                </div>
+
+                <div class="linguistic-note-box">
+                    <h5>📜 Prohibitive Subjunctive Syntax</h5>
+                    <p>When formulating a negative command ("Do not do X"), combining the negative particle <strong>μή</strong> with an <strong>Aorist Subjunctive</strong> verb issues an absolute structural ban against beginning an action, rather than just stopping an action already in progress.</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="nav.js"></script>
     <script>
-        function showSection(sectionKey, clickedTrigger) {
-            // Conceal all grammar panels
-            document.querySelectorAll('.grammar-pane').forEach(panel => {
-                panel.classList.remove('active');
-            });
-            // Flush old active styling tokens on list targets
-            document.querySelectorAll('.toc-link').forEach(link => {
-                link.classList.remove('active');
+        function switchPane(paneId) {
+            // Remove active classes from all items
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
             });
 
-            // Reveal the targeted grammar panel
-            document.getElementById('sec-' + sectionKey).classList.add('active');
-            // Assign active classes back to clicked nodes
-            clickedTrigger.classList.add('active');
+            // Hide all text pane structural content blocks
+            document.querySelectorAll('.pane-content').forEach(pane => {
+                pane.classList.add('hidden-pane');
+            });
+
+            // Re-assign focus dynamically
+            const targetPane = document.getElementById(`pane-${paneId}`);
+            if(targetPane) {
+                targetPane.classList.remove('hidden-pane');
+            }
+
+            // Highlight chosen sidebar trigger element
+            event.currentTarget.classList.add('active');
             
-            // Auto-scroll screen directly to top coordinates smoothly
+            // Auto scroll viewport back to top on switch for seamless tracking
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-    <script src="ui-manager.js"></script>
 </body>
 </html>
