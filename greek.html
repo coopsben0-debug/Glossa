@@ -3,154 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Koine Greek System Matrix</title>
+    <title>Glossa — Biblical Greek Hub</title>
     <style>
-        .track-layout { max-width: 1200px; margin: 0 auto; box-sizing: border-box; }
-        .track-header { margin-bottom: 32px; position: relative; }
-        .back-nav-link { display: inline-flex; align-items: center; gap: 8px; color: #a78bfa; text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 16px; transition: color 0.2s; }
-        .back-nav-link:hover { color: #c084fc; }
+        .hub-layout { max-width: 1100px; margin: 0 auto; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; color: #a78bfa; text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 20px; }
+        .back-link:hover { color: #c084fc; }
         
-        .matrix-grid { display: grid; grid-template-columns: 260px 1fr; gap: 32px; }
-        @media (max-width: 900px) { .matrix-grid { grid-template-columns: 1fr; } }
+        /* Grid Layout for Section Tracks */
+        .track-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
+        @media (max-width: 768px) { .track-grid { grid-template-columns: 1fr; } }
 
-        .deck-navigation { background: rgba(16, 16, 32, 0.6); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 16px; padding: 20px; height: fit-content; }
-        .deck-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; margin-bottom: 16px; }
-        .deck-link { display: block; width: 100%; text-align: left; background: transparent; border: 1px solid transparent; padding: 12px 14px; border-radius: 10px; color: #94a3b8; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 6px; transition: all 0.2s; box-sizing: border-box; }
-        .deck-link:hover { background: rgba(255, 255, 255, 0.03); color: #fff; }
-        .deck-link.active { background: rgba(124, 58, 237, 0.15); color: #c084fc; border: 1px solid rgba(124, 58, 237, 0.2); }
+        .section-card {
+            background: rgba(16, 16, 32, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
 
-        .viewport-panel { background: rgba(16, 16, 32, 0.4); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 20px; padding: 32px; min-height: 500px; box-sizing: border-box; }
-        .view-pane { display: none; }
-        .view-pane.active { display: block; }
+        .meta-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .badge-icon { font-size: 28px; background: rgba(255,255,255,0.04); padding: 10px; border-radius: 12px; }
+        
+        /* Custom Progress Bars */
+        .progress-wrapper { margin: 20px 0; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
+        .bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 10px; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; }
-        th, td { text-align: left; padding: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-        th { color: #fff; font-weight: 700; background: rgba(255, 255, 255, 0.03); font-size: 15px; }
-        td { font-size: 17px; color: #e2e8f0; line-height: 1.5; }
-        .script-char { font-size: 26px; font-weight: 700; color: #a78bfa; font-family: serif, system-ui; }
-
-        .vocab-row-card { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); padding: 18px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .vocab-greek { font-size: 28px; font-weight: 700; color: #a78bfa; font-family: serif; }
-        .vocab-meaning { font-size: 16px; font-weight: 500; color: #ffffff; text-align: right; }
+        .action-btn {
+            display: block;
+            text-align: center;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: #c084fc;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .action-btn:hover {
+            background: #7c3aed;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <div class="track-layout">
-        <div class="track-header">
-            <a href="languages.html" class="back-nav-link">← Back to Languages Overview</a>
-            <h1 style="font-size: 38px; margin: 8px 0;">🏛️ Koine Biblical Greek Master Module</h1>
-            <p style="font-size: 16px; margin: 0;">Complete foundational tracking system for New Testament text paradigms, morphology, syntax, and vocabulary analytics.</p>
-        </div>
+    <div class="hub-layout">
+        <a href="languages.html" class="back-link">← Back to Languages</a>
+        
+        <h1 style="font-size: 38px; margin: 4px 0 8px 0;">🏛️ Biblical Greek Track</h1>
+        <p style="color: #94a3b8; margin: 0; font-size: 16px;">Track your progress, manage active assignments, and master Koine linguistic structures.</p>
 
-        <div class="matrix-grid">
-            <nav class="deck-navigation">
-                <div class="deck-title">Grammar Core</div>
-                <button class="deck-link active" onclick="switchPane('alphabet', this)">🔤 The Alphabet</button>
-                <button class="deck-link" onclick="switchPane('vocabulary', this)">📖 Core Vocabulary</button>
-                <button class="deck-link" onclick="switchPane('nouns', this)">📐 Noun Case Systems</button>
-                <button class="deck-link" onclick="switchPane('verbs', this)">⚡ Verb Conjugations</button>
-            </nav>
-
-            <div class="viewport-panel">
-                
-                <div id="pane-alphabet" class="view-pane active">
-                    <h2 style="font-size: 24px; margin-top: 0;">The Greek Alphabet (24 Characters)</h2>
-                    <p>Mastering individual symbol variants ensures fluid script reading comprehension. Characters feature specialized pronunciations:</p>
-                    <table>
-                        <thead>
-                            <tr><th>Character Set</th><th>Name</th><th>Pronunciation Guide</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="script-char">Α α</td><td>Alpha</td><td><b>a</b> as in f<b>a</b>ther</td></tr>
-                            <tr><td class="script-char">Β β</td><td>Beta</td><td><b>b</b> as in <b>b</b>oat</td></tr>
-                            <tr><td class="script-char">Γ γ</td><td>Gamma</td><td><b>g</b> as in <b>g</b>old (or 'n' sound before soft stops)</td></tr>
-                            <tr><td class="script-char">Δ δ</td><td>Delta</td><td><b>d</b> as in <b>d</b>og</td></tr>
-                            <tr><td class="script-char">Ε ε</td><td>Epsilon</td><td><b>e</b> as in m<b>e</b>t</td></tr>
-                            <tr><td class="script-char">Ζ ζ</td><td>Zeta</td><td><b>z</b> as in dda<b>z</b>le</td></tr>
-                            <tr><td class="script-char">Η η</td><td>Eta</td><td><b>e</b> as in ob<b>e</b>y</td></tr>
-                            <tr><td class="script-char">Θ θ</td><td>Theta</td><td><b>th</b> as in <b>th</b>ink</td></tr>
-                        </tbody>
-                    </table>
+        <div class="track-grid">
+            <div class="section-card">
+                <div>
+                    <div class="meta-header">
+                        <div class="badge-icon">📖</div>
+                        <h3 style="margin: 0; font-size: 20px;">Grammar Matrix</h3>
+                    </div>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Master noun case changes, active/passive voice parameters, and foundational syntax rules.</p>
                 </div>
-
-                <div id="pane-vocabulary" class="view-pane">
-                    <h2 style="font-size: 24px; margin-top: 0;">Core High-Frequency Vocabulary</h2>
-                    <p>These primary structural pillars appear thousands of times throughout the ancient textual corpus. Learn these first:</p>
-                    
-                    <div class="vocab-row-card">
-                        <div><div class="vocab-greek">λόγος</div><p style="margin:4px 0 0 0; font-size: 13px; color: #94a3b8;">Noun, Masculine — Suffix Ending: -ος</p></div>
-                        <div class="vocab-meaning">word, message, reason, blueprint</div>
+                <div>
+                    <div class="progress-wrapper">
+                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">45%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 45%;"></div></div>
                     </div>
-                    <div class="vocab-row-card">
-                        <div><div class="vocab-greek">θεός</div><p style="margin:4px 0 0 0; font-size: 13px; color: #94a3b8;">Noun, Masculine — Suffix Ending: -ος</p></div>
-                        <div class="vocab-meaning">God, divine ruler, lord creator</div>
-                    </div>
-                    <div class="vocab-row-card">
-                        <div><div class="vocab-greek">ἀκούω</div><p style="margin:4px 0 0 0; font-size: 13px; color: #94a3b8;">Verb, Present Active Indicative</p></div>
-                        <div class="vocab-meaning">I hear, process sound, listen, obey</div>
-                    </div>
-                    <div class="vocab-row-card">
-                        <div><div class="vocab-greek">ἀδελφός</div><p style="margin:4px 0 0 0; font-size: 13px; color: #94a3b8;">Noun, Masculine — Suffix Ending: -ος</p></div>
-                        <div class="vocab-meaning">brother, family member, companion</div>
-                    </div>
-                    <div class="vocab-row-card">
-                        <div><div class="vocab-greek">γινώσκω</div><p style="margin:4px 0 0 0; font-size: 13px; color: #94a3b8;">Verb, Present Active Indicative</p></div>
-                        <div class="vocab-meaning">I know, perceive, understand fully</div>
-                    </div>
+                    <a href="greek-grammar.html" class="action-btn">Open Reference Grammar</a>
                 </div>
+            </div>
 
-                <div id="pane-nouns" class="view-pane">
-                    <h2 style="font-size: 24px; margin-top: 0;">Noun Case Inflection Mechanics</h2>
-                    <p>Unlike English, which depends on strict word arrangement patterns, Koine Greek changes letter suffixes to declare grammatical function context maps:</p>
-                    <table>
-                        <thead>
-                            <tr><th>Case Form Matrix</th><th>Structural Identity Mapping</th><th>Translation Example</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>Nominative</b></td><td>The Subject or active driver executing the verb event.</td><td><b>The brother</b> speaks.</td></tr>
-                            <tr><td><b>Genitive</b></td><td>Possession value blocks, origin points, or descriptive modifications (translates with 'of').</td><td>The word <b>of God</b>.</td></tr>
-                            <tr><td><b>Dative</b></td><td>Indirect object targets, location settings, or means indicators (translates with 'to/for/with').</td><td>I write <b>to the church</b>.</td></tr>
-                            <tr><td><b>Accusative</b></td><td>The direct object absorbing transaction actions.</td><td>He hears <b>the message</b>.</td></tr>
-                        </tbody>
-                    </table>
+            <div class="section-card">
+                <div>
+                    <div class="meta-header">
+                        <div class="badge-icon">📐</div>
+                        <h3 style="margin: 0; font-size: 20px;">Morphology Parsing Lab</h3>
+                    </div>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Break down complex inflected verbs into exact tense, mood, person, and number structures.</p>
                 </div>
-
-                <div id="pane-verbs" class="view-pane">
-                    <h2 style="font-size: 24px; margin-top: 0;">Verb Tense Conjugation Systems</h2>
-                    <p>Present active tense finite paradigms indicate actions occurring currently within active system contexts:</p>
-                    <table>
-                        <thead>
-                            <tr><th>Suffix Ending Token</th><th>Grammatical Identity Mapping</th><th>Example Execution Parse</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-ω</b></td><td>1st Person Singular — "I"</td><td>ἀκού<b>ω</b> — I hear</td></tr>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-εις</b></td><td>2nd Person Singular — "You"</td><td>ἀκού<b>εις</b> — You hear</td></tr>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-ει</b></td><td>3rd Person Singular — "He / She / It"</td><td>ἀκού<b>ει</b> — He/She/It hears</td></tr>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-ομεν</b></td><td>1st Person Plural — "We"</td><td>ἀκού<b>ομεν</b> — We hear</td></tr>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-ετε</b></td><td>2nd Person Plural — "You all"</td><td>ἀκού<b>ετε</b> — You all hear</td></tr>
-                            <tr><td style="font-size: 18px; color: #a78bfa;"><b>-ουσι(ν)</b></td><td>3rd Person Plural — "They"</td><td>ἀκού<b>ουσιν</b> — They hear</td></tr>
-                        </tbody>
-                    </table>
+                <div>
+                    <div class="progress-wrapper">
+                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">12%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 12%;"></div></div>
+                    </div>
+                    <a href="greek-parsing.html" class="action-btn">Launch Parsing Drills</a>
                 </div>
+            </div>
 
+            <div class="section-card">
+                <div>
+                    <div class="meta-header">
+                        <div class="badge-icon">✍️</div>
+                        <h3 style="margin: 0; font-size: 20px;">Text Translation Blocks</h3>
+                    </div>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Work through live sentence texts directly from historical manuscripts with contextual tracking.</p>
+                </div>
+                <div>
+                    <div class="progress-wrapper">
+                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">0%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;"></div></div>
+                    </div>
+                    <a href="greek-translation.html" class="action-btn">Begin Text Translation</a>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div>
+                    <div class="meta-header">
+                        <div class="badge-icon">🗂️</div>
+                        <h3 style="margin: 0; font-size: 20px;">High-Frequency Vocabulary</h3>
+                    </div>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Review root vocabulary terms that appear over 50 times across ancient literary works.</p>
+                </div>
+                <div>
+                    <div class="progress-wrapper">
+                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">78%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" style="width: 78%;"></div></div>
+                    </div>
+                    <a href="greek-vocab.html" class="action-btn">Review Vocab Decks</a>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        function switchPane(paneId, clickedBtn) {
-            // Hide all active content panes cleanly
-            document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
-            // Remove active visual markers from navigation deck items
-            document.querySelectorAll('.deck-link').forEach(l => l.classList.remove('active'));
-            
-            // Unveil the targeted pane matching ID parameters
-            document.getElementById('pane-' + paneId).classList.add('active');
-            // Highlight the selection control node block
-            clickedBtn.classList.add('active');
-        }
-    </script>
     <script src="ui-manager.js"></script>
 </body>
 </html>
