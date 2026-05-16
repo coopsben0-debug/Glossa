@@ -9,7 +9,6 @@
         .back-link { display: inline-flex; align-items: center; gap: 6px; color: #a78bfa; text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 20px; }
         .back-link:hover { color: #c084fc; }
         
-        /* Grid Layout for Section Tracks */
         .track-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
         @media (max-width: 768px) { .track-grid { grid-template-columns: 1fr; } }
 
@@ -31,19 +30,18 @@
         .meta-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         .badge-icon { font-size: 28px; background: rgba(255,255,255,0.04); padding: 10px; border-radius: 12px; }
         
-        /* Custom Progress Bars */
         .progress-wrapper { margin: 20px 0; }
         .progress-text { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 6px; }
         .bar-bg { background: rgba(255,255,255,0.05); height: 8px; border-radius: 10px; overflow: hidden; }
-        .bar-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 10px; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 10px; width: 0%; transition: width 0.5s ease; }
 
         .action-btn {
             display: block;
             text-align: center;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.2);
+            background: rgba(124, 58, 237, 0.12);
+            border: 1px solid rgba(124, 58, 237, 0.25);
             color: #c084fc;
-            padding: 12px;
+            padding: 14px;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
@@ -53,30 +51,31 @@
         .action-btn:hover {
             background: #7c3aed;
             color: #fff;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
         }
     </style>
 </head>
 <body>
 
     <div class="hub-layout">
-        <a href="languages.html" class="back-link">← Back to Languages</a>
+        <a href="languages.html" class="back-link">← Back to Languages Overview</a>
         
         <h1 style="font-size: 38px; margin: 4px 0 8px 0;">🏛️ Biblical Greek Track</h1>
-        <p style="color: #94a3b8; margin: 0; font-size: 16px;">Track your progress, manage active assignments, and master Koine linguistic structures.</p>
+        <p style="color: #94a3b8; margin: 0; font-size: 16px;">Review systemic completion metrics, analyze grammatical rules, and explore historical texts.</p>
 
         <div class="track-grid">
             <div class="section-card">
                 <div>
                     <div class="meta-header">
                         <div class="badge-icon">📖</div>
-                        <h3 style="margin: 0; font-size: 20px;">Grammar Matrix</h3>
+                        <h3 style="margin: 0; font-size: 20px; color: #fff;">Grammar Matrix</h3>
                     </div>
-                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Master noun case changes, active/passive voice parameters, and foundational syntax rules.</p>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5; margin-top: 10px;">Master structural paradigms including alphabet phonetics, case markings, and sentence syntax models.</p>
                 </div>
                 <div>
                     <div class="progress-wrapper">
-                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">45%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 45%;"></div></div>
+                        <div class="progress-text"><span>Completion Metric</span><span id="text-progress-grammar" style="color: #fff; font-weight: 600;">0%</span></div>
+                        <div class="bar-bg"><div id="fill-progress-grammar" class="bar-fill"></div></div>
                     </div>
                     <a href="greek-grammar.html" class="action-btn">Open Reference Grammar</a>
                 </div>
@@ -86,14 +85,14 @@
                 <div>
                     <div class="meta-header">
                         <div class="badge-icon">📐</div>
-                        <h3 style="margin: 0; font-size: 20px;">Morphology Parsing Lab</h3>
+                        <h3 style="margin: 0; font-size: 20px; color: #fff;">Morphology Parsing Lab</h3>
                     </div>
-                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Break down complex inflected verbs into exact tense, mood, person, and number structures.</p>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5; margin-top: 10px;">Deconstruct inflected root stems to parse exact structural case, tense, voice, and mood indicators.</p>
                 </div>
                 <div>
                     <div class="progress-wrapper">
-                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">12%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 12%;"></div></div>
+                        <div class="progress-text"><span>Completion Metric</span><span id="text-progress-parsing" style="color: #fff; font-weight: 600;">0%</span></div>
+                        <div class="bar-bg"><div id="fill-progress-parsing" class="bar-fill"></div></div>
                     </div>
                     <a href="greek-parsing.html" class="action-btn">Launch Parsing Drills</a>
                 </div>
@@ -103,14 +102,14 @@
                 <div>
                     <div class="meta-header">
                         <div class="badge-icon">✍️</div>
-                        <h3 style="margin: 0; font-size: 20px;">Text Translation Blocks</h3>
+                        <h3 style="margin: 0; font-size: 20px; color: #fff;">Text Translation Blocks</h3>
                     </div>
-                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Work through live sentence texts directly from historical manuscripts with contextual tracking.</p>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5; margin-top: 10px;">Apply target learning logic directly to historical manuscript passages with analytical tracking.</p>
                 </div>
                 <div>
                     <div class="progress-wrapper">
-                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">0%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 0%;"></div></div>
+                        <div class="progress-text"><span>Completion Metric</span><span id="text-progress-translation" style="color: #fff; font-weight: 600;">0%</span></div>
+                        <div class="bar-bg"><div id="fill-progress-translation" class="bar-fill"></div></div>
                     </div>
                     <a href="greek-translation.html" class="action-btn">Begin Text Translation</a>
                 </div>
@@ -120,14 +119,14 @@
                 <div>
                     <div class="meta-header">
                         <div class="badge-icon">🗂️</div>
-                        <h3 style="margin: 0; font-size: 20px;">High-Frequency Vocabulary</h3>
+                        <h3 style="margin: 0; font-size: 20px; color: #fff;">High-Frequency Vocabulary</h3>
                     </div>
-                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5;">Review root vocabulary terms that appear over 50 times across ancient literary works.</p>
+                    <p style="color: #94a3b8; font-size: 14px; line-height: 1.5; margin-top: 10px;">Acquire core lexical roots appearing frequently within canonical manuscript records.</p>
                 </div>
                 <div>
                     <div class="progress-wrapper">
-                        <div class="progress-text"><span>Completion Progress</span><span style="color: #fff; font-weight: 600;">78%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width: 78%;"></div></div>
+                        <div class="progress-text"><span>Completion Metric</span><span id="text-progress-vocab" style="color: #fff; font-weight: 600;">0%</span></div>
+                        <div class="bar-bg"><div id="fill-progress-vocab" class="bar-fill"></div></div>
                     </div>
                     <a href="greek-vocab.html" class="action-btn">Review Vocab Decks</a>
                 </div>
