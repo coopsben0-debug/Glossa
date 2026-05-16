@@ -1,287 +1,536 @@
-// CORE ACTIVE GROUPS ARRAY (Retained clean, high-speed footprint inside core file)
-const lexicalBaseDefinitions = [
-    { g: "ὁ", t: "ho", e: ["the"], s: 1, c: "19,870 times" },
-    { g: "καί", t: "kai", e: ["and", "even", "also"], s: 1, c: "9,153 times" },
-    { g: "αὐτός", t: "autos", e: ["he", "she", "it", "self", "same"], s: 1, c: "5,597 times" },
-    { g: "σύ", t: "su", e: ["you"], s: 1, c: "2,912 times" },
-    { g: "δέ", t: "de", e: ["but", "and"], s: 1, c: "2,865 times" },
-    { g: "ἐν", t: "en", e: ["in", "on", "among", "by"], s: 1, c: "2,752 times" },
-    { g: "ἐγώ", t: "ego", e: ["I"], s: 1, c: "2,584 times" },
-    { g: "εἰμί", t: "eimi", e: ["I am", "to be"], s: 1, c: "2,462 times" },
-    { g: "οὗτος", t: "houtos", e: ["this"], s: 1, c: "1,391 times" },
-    { g: "λέγω", t: "lego", e: ["I say", "speak", "tell"], s: 1, c: "1,320 times" },
-    { g: "εἰς", t: "eis", e: ["into", "to", "for"], s: 1, c: "1,768 times" },
-    { g: "οὐ", t: "ou", e: ["not", "no"], s: 1, c: "1,623 times" },
-    { g: "ὅς", t: "hos", e: ["who", "which", "that"], s: 1, c: "1,431 times" },
-    { g: "οὖν", t: "oun", e: ["therefore", "then"], s: 1, c: "526 times" },
-    
-    { g: "θεός", t: "theos", e: ["God", "god"], s: 2, c: "1,317 times" },
-    { g: "κύριος", t: "kurios", e: ["Lord", "master", "sir"], s: 2, c: "719 times" },
-    { g: "ποιέω", t: "poieo", e: ["I do", "make"], s: 2, c: "568 times" },
-    { g: "ἄνθρωπος", t: "anthropos", e: ["man", "human", "person"], s: 2, c: "550 times" },
-    { g: "Χριστός", t: "christos", e: ["Christ", "Anointed One"], s: 2, c: "531 times" },
-    { g: "ἔχω", t: "echo", e: ["I have", "hold"], s: 2, c: "708 times" },
-    { g: "γίνομαι", t: "ginomai", e: ["I become", "happen"], s: 2, c: "669 times" },
-    { g: "διά", t: "dia", e: ["through", "because of"], s: 2, c: "667 times" },
-    { g: "ἔρχομαι", t: "erchomai", e: ["I come", "go"], s: 2, c: "634 times" },
-    { g: "υἱός", t: "huios", e: ["son", "descendant"], s: 2, c: "377 times" },
-    
-    { g: "ἀκούω", t: "akouo", e: ["I hear", "listen to"], s: 3, c: "428 times" },
-    { g: "δίδωμι", t: "didomi", e: ["I give", "grant"], s: 3, c: "415 times" },
-    { g: "εἶδον", t: "eidon", e: ["I saw", "perceived"], s: 3, c: "400 times" },
-    { g: "πᾶς", t: "pas", e: ["all", "every", "whole"], s: 3, c: "1,244 times" },
-    { g: "ἡμέρα", t: "hemera", e: ["day", "time"], s: 3, c: "389 times" },
-    { g: "γυνή", t: "gune", e: ["woman", "wife"], s: 3, c: "215 times" },
-    { g: "βασιλεία", t: "basileia", e: ["kingdom", "reign"], s: 3, c: "162 times" },
-    { g: "μαθητής", t: "mathetes", e: ["disciple", "learner"], s: 3, c: "261 times" },
-    { g: "γῆ", t: "ge", e: ["earth", "land"], s: 3, c: "250 times" },
-    
-    { g: "ἀδελφός", t: "adelphos", e: ["brother"], s: 4, c: "343 times" },
-    { g: "λόγος", t: "logos", e: ["word", "statement", "message"], s: 4, c: "331 times" },
-    { g: "οὐρανός", t: "ouranos", e: ["heaven", "sky"], s: 4, c: "273 times" },
-    { g: "ἐκκλησία", t: "ekklesia", e: ["church", "assembly"], s: 4, c: "114 times" },
-    { g: "καρδία", t: "kardia", e: ["heart"], s: 4, c: "156 times" },
-    { g: "νόμος", t: "nomos", e: ["law", "principle"], s: 4, c: "194 times" },
-    { g: "κόσμος", t: "kosmos", e: ["world", "universe"], s: 4, c: "186 times" },
-    { g: "χάρις", t: "charis", e: ["grace", "favor"], s: 4, c: "155 times" },
-    { g: "πνεῦμα", t: "pneuma", e: ["spirit", "wind"], s: 4, c: "379 times" },
-    
-    { g: "ἀγάπη", t: "agape", e: ["love", "affection"], s: 5, c: "116 times" },
-    { g: "πίστις", t: "pistis", e: ["faith", "trust"], s: 5, c: "243 times" },
-    { g: "δικαιοσύνη", t: "dikaiosune", e: ["righteousness"], s: 5, c: "92 times" },
-    { g: "εἰρήνη", t: "eirene", e: ["peace", "harmony"], s: 5, c: "92 times" },
-    { g: "ἁμαρτία", t: "hamartia", e: ["sin", "failure"], s: 5, c: "173 times" },
-    { g: "ὄνομα", t: "onoma", e: ["name", "authority"], s: 5, c: "231 times" },
-    { g: "λαλέω", t: "laleo", e: ["I speak", "talk"], s: 5, c: "296 times" }
-];
-
-// EXTRA LEXICON BUILT-IN FALLBACK REPOSITORY FOR HYBRID ENVIRONMENTS
-const expandedBackupLexiconDataset = [
-    { g: "βλέπω", t: "blepo", e: "I see, look at, perceive", c: "132 times" },
-    { g: "λύω", t: "luo", e: "I loose, untie, destroy, break", c: "42 times" },
-    { g: "γινώσκω", t: "ginosko", e: "I know, understand, recognize", c: "222 times" },
-    { g: "γράφω", t: "grapho", e: "I write, record", c: "191 times" },
-    { g: "λαμβάνω", t: "lambano", e: "I take, receive, accept", c: "258 times" },
-    { g: "εὑρίσκω", t: "heurisko", e: "I find, discover, obtain", c: "176 times" },
-    { g: "ἀποστέλλω", t: "apostello", e: "I send out, commission, dispatch", c: "132 times" },
-    { g: "ζωή", t: "zoe", e: "life", c: "135 times" },
-    { g: "θάνατος", t: "thanatos", e: "death", c: "120 times" },
-    { g: "κρίσις", t: "krisis", e: "judgment, evaluation, decision", c: "48 times" }
-];
-
-const frequencySetMetaTitles = {
-    1: "Set 1 — Core Particles (>1000x)",
-    2: "Set 2 — Primary Roots (500x - 999x)",
-    3: "Set 3 — Structural Actions (250x - 499x)",
-    4: "Set 4 — Cosmic Identity (100x - 249x)",
-    5: "Set 5 — Theological Shifts (50x - 99x)"
-};
-
-let externalFullLexiconData = [];
-let activeVectorSetKey = "all";
-let searchActiveStateQuery = "";
-let activeWordPointer = null;
-let activeAppModeState = "guess";
-let srsProgressDataStore = JSON.parse(localStorage.getItem('glossa_srs_cache_v3')) || {};
-
-async function initLexicalMatrixEngine() {
-    document.getElementById('count-all').textContent = lexicalBaseDefinitions.length;
-    for(let i=1; i<=5; i++) {
-        document.getElementById(`count-${i}`).textContent = lexicalBaseDefinitions.filter(w => w.s === i).length;
-    }
-    
-    // Asynchronously pre-fetch full dataset from JSON file
-    try {
-        const queryStream = await fetch('strongs-lexicon.json');
-        if(queryStream.ok) {
-            externalFullLexiconData = await queryStream.json();
-            console.log("Comprehensive dictionary dataset loaded successfully via JSON asset file.");
-        } else {
-            throw new Error("Server responsed non-OK status code");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa — Greek Vocabulary Matrix & Lexicon</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        :root {
+            --bg-dark-canvas: #05070c;
+            --bg-glass-card: #111a2e;
+            --bg-inner-input: #0b111e;
+            --accent-glow: #7c6af7;
+            --accent-glow-muted: rgba(124, 106, 247, 0.15);
+            --border-slate: #22314d;
+            --text-vibrant-white: #f8fafc;
+            --text-cool-gray: #94a3b8;
+            --emerald-verify: #10b981;
+            --radius-premium: 14px;
+            --smooth-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-    } catch (err) {
-        console.warn("External JSON file blocked or missing. Activating built-in fallback engine.");
-        // Remap backup items structural variations safely for uniform lookup integration
-        const unifiedBackups = expandedBackupLexiconDataset.map(item => ({
-            g: item.g, t: item.t, e: Array.isArray(item.e) ? item.e : [item.e], c: item.c, s: null
-        }));
-        const unifiedLocalCore = lexicalBaseDefinitions.map(item => ({
-            g: item.g, t: item.t, e: item.e, c: item.c, s: item.s
-        }));
-        externalFullLexiconData = [...unifiedLocalCore, ...unifiedBackups];
-    }
 
-    refreshGlobalProgressMasteryMetrics();
-    renderVocabTableEntries();
-}
+        body {
+            background-color: var(--bg-dark-canvas);
+            color: var(--text-vibrant-white);
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0; padding: 0;
+        }
 
-function switchActiveVectorSet(targetSet) {
-    document.getElementById('lexicon-search').value = "";
-    searchActiveStateQuery = "";
-    activeVectorSetKey = targetSet;
-    
-    document.querySelectorAll('.selector-chip').forEach(el => el.classList.remove('active'));
-    
-    if(targetSet === 'all') {
-        document.getElementById('chip-all').classList.add('active');
-        document.getElementById('active-panel-title').textContent = "All Core Sets Combined";
-        document.getElementById('active-panel-subtitle').textContent = "Displaying entire foundational vocabulary mapping profile rulesets.";
-    } else {
-        document.getElementById(`chip-${targetSet}`).classList.add('active');
-        document.getElementById('active-panel-title').textContent = frequencySetMetaTitles[targetSet];
-        document.getElementById('active-panel-subtitle').textContent = "Targeted operational frequency subset rows.";
-    }
-    renderVocabTableEntries();
-}
+        .vocab-viewport-wrapper {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 32px;
+        }
 
-function executeLexiconSearch() {
-    const val = document.getElementById('lexicon-search').value.trim().toLowerCase();
-    searchActiveStateQuery = val;
-    
-    if(val.length > 0) {
-        document.querySelectorAll('.selector-chip').forEach(el => el.classList.remove('active'));
-        document.getElementById('active-panel-title').textContent = `Lexicon Execution Matches ("${val}")`;
-        document.getElementById('active-panel-subtitle').textContent = "Scanning full New Testament dataset across Greek text, definitions, and transliterations.";
-    } else {
-        switchActiveVectorSet('all');
-        return;
-    }
-    renderVocabTableEntries();
-}
+        .back-navigation-anchor {
+            display: inline-flex; align-items: center; gap: 10px;
+            color: var(--text-cool-gray); text-decoration: none;
+            font-size: 14px; font-weight: 600; margin-bottom: 24px;
+            transition: var(--smooth-transition);
+        }
+        .back-navigation-anchor:hover { color: var(--accent-glow); transform: translateX(-4px); }
 
-function renderVocabTableEntries() {
-    const listContainer = document.getElementById('rendered-vocabulary-rows');
-    listContainer.innerHTML = "";
-    let filteredList = [];
+        .vocab-header-block h2 { font-size: 36px; font-weight: 800; color: var(--text-vibrant-white); margin: 0 0 10px 0; letter-spacing: -0.02em; }
+        .vocab-header-block p { color: var(--text-cool-gray); font-size: 16px; margin: 0 0 32px 0; line-height: 1.6; }
 
-    if (searchActiveStateQuery.length > 0) {
-        let lookupSource = externalFullLexiconData.length > 0 ? externalFullLexiconData : lexicalBaseDefinitions;
-        
-        filteredList = lookupSource.filter(word => {
-            const inlineEnglish = Array.isArray(word.e) ? word.e.join(" ") : word.e;
-            return word.g.toLowerCase().includes(searchActiveStateQuery) || 
-                   word.t.toLowerCase().includes(searchActiveStateQuery) || 
-                   inlineEnglish.toLowerCase().includes(searchActiveStateQuery);
-        }).slice(0, 60); 
-    } else {
-        filteredList = lexicalBaseDefinitions.filter(word => {
-            return (activeVectorSetKey === "all" || word.s === activeVectorSetKey);
-        });
-    }
+        /* SEARCH HUB BAR UI */
+        .lexicon-search-container { margin-bottom: 32px; position: relative; }
+        .search-input-field {
+            width: 100%; background: var(--bg-inner-input); border: 1px solid var(--border-slate);
+            border-radius: 10px; padding: 18px 24px 18px 54px; color: #ffffff;
+            font-size: 16px; font-weight: 500; outline: none; box-sizing: border-box;
+            transition: var(--smooth-transition);
+        }
+        .search-input-field:focus { border-color: var(--accent-glow); box-shadow: 0 0 0 3px var(--accent-glow-muted); }
+        .search-icon-marker { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-cool-gray); font-size: 18px; pointer-events: none; }
 
-    if (filteredList.length === 0) {
-        listContainer.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-cool-gray);">No lexicon vectors found matching that query entry.</div>`;
-        return;
-    }
+        /* METRICS MONITORING HUD */
+        .metrics-summary-banner {
+            background: var(--bg-glass-card); border: 1px solid var(--border-slate);
+            border-radius: var(--radius-premium); padding: 24px; display: flex;
+            align-items: center; justify-content: space-between; margin-bottom: 32px;
+        }
+        .progress-radial-container { display: flex; align-items: center; gap: 20px; }
+        .radial-badge {
+            width: 56px; height: 56px; border-radius: 50%; background: var(--bg-inner-input);
+            border: 3px solid var(--accent-glow); display: flex; align-items: center;
+            justify-content: center; font-weight: 800; font-size: 15px; color: var(--text-vibrant-white);
+        }
+        .metrics-meta h3 { margin: 0 0 4px 0; font-size: 18px; font-weight: 700; }
+        .metrics-meta p { margin: 0; color: var(--text-cool-gray); font-size: 14px; }
+        .arena-toggle-btn { background: var(--accent-glow); color: #ffffff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: var(--smooth-transition); }
+        .arena-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(124, 106, 247, 0.4); }
 
-    filteredList.forEach(word => {
-        let score = srsProgressDataStore[word.g] || 0;
-        let hasSRS = localCoreHasSRS(word.g);
-        let statusBadge = score >= 3 
-            ? `<span class="srs-status-pill mastered">✓ Mastered</span>` 
-            : `<span class="srs-status-pill">SRS: ${score}/3</span>`;
+        /* DOUBLE COLUMN DESKTOP GRID */
+        .workspace-dual-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; align-items: start; }
+        @media (max-width: 900px) { .workspace-dual-grid { grid-template-columns: 1fr; } }
 
-        const cleanEnglishDisplay = Array.isArray(word.e) ? word.e.join(", ") : word.e;
+        /* SIDEBAR FILTERS CONTROL CONSOLE */
+        .control-console-panel { background: var(--bg-glass-card); border: 1px solid var(--border-slate); border-radius: var(--radius-premium); padding: 24px; }
+        .panel-section-title { font-size: 11px; font-weight: 800; color: var(--text-cool-gray); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; display: block; }
+        .frequency-selector-list { display: flex; flex-direction: column; gap: 8px; }
+        .selector-chip {
+            background: var(--bg-inner-input); border: 1px solid var(--border-slate);
+            border-radius: 8px; padding: 14px 16px; color: var(--text-cool-gray);
+            font-size: 14px; font-weight: 600; cursor: pointer; text-align: left;
+            transition: var(--smooth-transition); display: flex; justify-content: space-between; align-items: center;
+        }
+        .selector-chip:hover { border-color: var(--accent-glow); color: var(--text-vibrant-white); }
+        .selector-chip.active { background: var(--accent-glow-muted); border-color: var(--accent-glow); color: var(--text-vibrant-white); }
+        .chip-counter { font-size: 11px; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 20px; color: var(--text-cool-gray); }
 
-        listContainer.innerHTML += `
-            <div class="vocab-word-row">
-                <div class="word-lexical-meta">
-                    <span class="greek-lemma-text">${word.g}</span>
-                    <span class="english-gloss-text">${cleanEnglishDisplay}</span>
-                    <span class="translit-text">translit: ${word.t}</span>
-                </div>
-                <div class="word-stat-badge">
-                    <span class="frequency-occurrence-tag">📊 ${word.c}</span>
-                    ${hasSRS ? statusBadge : '<span class="srs-status-pill" style="opacity:0.3; border-style:dashed;">Lexicon Record</span>'}
+        /* CONTENT PRESENTATION CONTAINER */
+        .vocabulary-content-card { background: var(--bg-glass-card); border: 1px solid var(--border-slate); border-radius: var(--radius-premium); padding: 32px; }
+        .section-header-block { border-bottom: 1px solid var(--border-slate); padding-bottom: 16px; margin-bottom: 24px; }
+        .section-header-block h3 { font-size: 24px; margin: 0 0 6px 0; color: var(--text-vibrant-white); }
+        .section-header-block p { font-size: 14px; color: var(--text-cool-gray); margin: 0; }
+
+        /* WORD CONTAINER ROWS */
+        .vocabulary-master-list { display: flex; flex-direction: column; gap: 12px; }
+        .vocab-word-row {
+            background: var(--bg-inner-input); border: 1px solid var(--border-slate);
+            border-radius: 8px; padding: 18px 24px; display: flex; align-items: center;
+            justify-content: space-between; transition: var(--smooth-transition);
+        }
+        .vocab-word-row:hover { border-color: rgba(124, 106, 247, 0.4); transform: translateX(2px); }
+        .word-lexical-meta { display: flex; flex-direction: column; gap: 6px; }
+        .greek-lemma-text { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: #ffffff; }
+        .english-gloss-text { font-size: 15px; color: var(--text-cool-gray); font-weight: 500; }
+        .translit-text { font-size: 12px; color: #64748b; font-style: italic; }
+        .word-stat-badge { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+        .frequency-occurrence-tag { font-size: 11px; font-weight: 700; color: var(--accent-glow); text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .srs-status-pill {
+            font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px;
+            border: 1px solid var(--border-slate); background: rgba(255,255,255,0.02); color: var(--text-cool-gray);
+        }
+        .srs-status-pill.mastered { background: rgba(16, 185, 129, 0.1); border-color: var(--emerald-verify); color: var(--emerald-verify); }
+
+        /* MODAL POPUP ARENA PLATFORM */
+        .modal-overlay-sandbox {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 7, 12, 0.85); backdrop-filter: blur(8px);
+            display: none; align-items: center; justify-content: center; z-index: 1000; padding: 24px;
+        }
+        .srs-flashcard-arena {
+            background: var(--bg-glass-card); border: 1px solid var(--border-slate);
+            border-radius: var(--radius-premium); padding: 40px; width: 100%; max-width: 580px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;
+        }
+        .close-modal-x { position: absolute; top: 20px; right: 20px; background: none; border: none; color: var(--text-cool-gray); font-size: 20px; cursor: pointer; }
+        .card-stage-display { text-align: center; margin: 40px 0; }
+        .greek-word-display { font-family: 'Times New Roman', Times, serif; font-size: 56px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+        .word-meta-frequency { font-size: 12px; color: var(--accent-glow); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .srs-text-input { width: 100%; background: var(--bg-inner-input); border: 1px solid var(--border-slate); border-radius: 8px; padding: 16px; color: #ffffff; font-size: 16px; outline: none; margin-bottom: 16px; }
+        .premium-btn { width: 100%; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; background: var(--accent-glow); color: #ffffff; }
+        .eval-drawer { margin-top: 16px; padding: 16px; border-radius: 8px; display: none; font-size: 14px; line-height: 1.5; }
+        .eval-success { background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); color: #e2e8f0; }
+        .eval-fail { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); color: #e2e8f0; }
+        .mastery-indicator-dots { display: flex; justify-content: center; gap: 6px; margin-top: 12px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+        .dot.filled { background: var(--emerald-verify); box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); }
+    </style>
+</head>
+<body>
+
+    <div id="nav-container"></div>
+
+    <div class="vocab-viewport-wrapper">
+        <a href="greek.html" class="back-navigation-anchor">← Return to Greek Dashboard</a>
+
+        <div class="vocab-header-block">
+            <h2>Greek Vocabulary Matrix & Lexicon</h2>
+            <p>Study local core groups via Spaced-Repetition flashcards, or scan across every word in the New Testament live via the dynamic search portal.</p>
+        </div>
+
+        <div class="lexicon-search-container">
+            <span class="search-icon-marker">🔍</span>
+            <input type="text" id="lexicon-search" class="search-input-field" placeholder="Type meaning, Greek word, or transliteration (e.g., 'logos', 'ἀγάπη')..." oninput="executeLexiconSearch()">
+        </div>
+
+        <div class="metrics-summary-banner">
+            <div class="progress-radial-container">
+                <div class="radial-badge" id="mastery-percentage-view">0%</div>
+                <div class="metrics-meta">
+                    <h3>Lexicon Mastery Quotient</h3>
+                    <p id="mastery-fractional-count">0 of 49 core vectors checked off successfully</p>
                 </div>
             </div>
-        `;
-    });
-}
+            <button class="arena-toggle-btn" onclick="openVerificationSandbox()">⚡ Launch Spaced-Repetition Arena</button>
+        </div>
 
-function localCoreHasSRS(lemmaKey) {
-    return lexicalBaseDefinitions.some(w => w.g === lemmaKey);
-}
+        <div class="workspace-dual-grid">
+            
+            <div class="control-console-panel">
+                <span class="panel-section-title">High Frequency (&gt;500x)</span>
+                <div class="frequency-selector-list">
+                    <button class="selector-chip active" id="chip-all" onclick="switchActiveVectorSet('all')">
+                        <span>All Core Sets</span>
+                        <span class="chip-counter" id="count-all">49</span>
+                    </button>
+                    <button class="selector-chip" id="chip-1" onclick="switchActiveVectorSet(1)">
+                        <span>Set 1 — Core Particles</span>
+                        <span class="chip-counter" id="count-1">14</span>
+                    </button>
+                    <button class="selector-chip" id="chip-2" onclick="switchActiveVectorSet(2)">
+                        <span>Set 2 — Primary Roots</span>
+                        <span class="chip-counter" id="count-2">10</span>
+                    </button>
+                </div>
+                
+                <span class="panel-section-title" style="margin-top: 24px;">Major Frequency (100x - 499x)</span>
+                <div class="frequency-selector-list">
+                    <button class="selector-chip" id="chip-3" onclick="switchActiveVectorSet(3)">
+                        <span>Set 3 — Structural Actions</span>
+                        <span class="chip-counter" id="count-3">9</span>
+                    </button>
+                    <button class="selector-chip" id="chip-4" onclick="switchActiveVectorSet(4)">
+                        <span>Set 4 — Cosmic Identity</span>
+                        <span class="chip-counter" id="count-4">9</span>
+                    </button>
+                </div>
 
-/* SRS OPERATIONS CARD HOOKS */
-function openVerificationSandbox() { document.getElementById('srs-sandbox-modal').style.display = "flex"; drawNextSystemFlashcard(); }
-function closeVerificationSandbox() { document.getElementById('srs-sandbox-modal').style.display = "none"; renderVocabTableEntries(); }
+                <span class="panel-section-title" style="margin-top: 24px;">Mid-Tier Frequency (50x - 99x)</span>
+                <div class="frequency-selector-list">
+                    <button class="selector-chip" id="chip-5" onclick="switchActiveVectorSet(5)">
+                        <span>Set 5 — Theological Shifts</span>
+                        <span class="chip-counter" id="count-5">7</span>
+                    </button>
+                </div>
+            </div>
 
-function filterCurrentPool() {
-    return lexicalBaseDefinitions.filter(word => {
-        if (activeVectorSetKey !== "all" && word.s !== activeVectorSetKey) return false;
-        return (srsProgressDataStore[word.g] || 0) < 3;
-    });
-}
+            <div class="vocabulary-content-card">
+                <div class="section-header-block">
+                    <h3 id="active-panel-title">All Core Sets Combined</h3>
+                    <p id="active-panel-subtitle">Displaying entire foundational vocabulary mapping profile rulesets.</p>
+                </div>
 
-function drawNextSystemFlashcard() {
-    document.getElementById('feedback-eval-drawer').style.display = "none";
-    document.getElementById('srs-user-guess').value = "";
-    
-    let currentRotationPool = filterCurrentPool();
-    if (currentRotationPool.length === 0) {
-        document.getElementById('active-greek-string').textContent = "🎉 Μακάριος!";
-        document.getElementById('active-meta-tag').textContent = "All tracked items checked off successfully!";
-        document.getElementById('mastery-dots-row').style.display = "none";
-        document.getElementById('srs-user-guess').style.display = "none";
-        document.getElementById('main-action-trigger').style.display = "none";
-        return;
-    }
+                <div class="vocabulary-master-list" id="rendered-vocabulary-rows">
+                    </div>
+            </div>
 
-    activeWordPointer = currentRotationPool[Math.floor(Math.random() * currentRotationPool.length)];
-    document.getElementById('active-greek-string').textContent = activeWordPointer.g;
-    document.getElementById('active-meta-tag').textContent = `Usage count: ${activeWordPointer.c}`;
+        </div>
+    </div>
 
-    let currentScore = srsProgressDataStore[activeWordPointer.g] || 0;
-    document.querySelectorAll('#mastery-dots-row .dot').forEach((dot, idx) => {
-        idx < currentScore ? dot.classList.add('filled') : dot.classList.remove('filled');
-    });
+    <div class="modal-overlay-sandbox" id="srs-sandbox-modal">
+        <div class="srs-flashcard-arena">
+            <button class="close-modal-x" onclick="closeVerificationSandbox()">✕</button>
+            <div class="card-stage-display">
+                <div class="greek-word-display" id="active-greek-string">---</div>
+                <div class="word-meta-frequency" id="active-meta-tag">Loading Vector...</div>
+                <div class="mastery-indicator-dots" id="mastery-dots-row">
+                    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                </div>
+            </div>
+            <input type="text" class="srs-text-input" id="srs-user-guess" placeholder="Type English meaning..." onkeydown="if(event.key === 'Enter') checkActiveFlashcardGuess()">
+            <button class="premium-btn" id="main-action-trigger" onclick="checkActiveFlashcardGuess()">Verify Mapping</button>
+            <div class="eval-drawer" id="feedback-eval-drawer">
+                <strong id="eval-header-text" style="display:block; margin-bottom:4px;">Result</strong>
+                <span id="eval-body-text">Explanation response metrics.</span>
+            </div>
+        </div>
+    </div>
 
-    activeAppModeState = "guess";
-    document.getElementById('main-action-trigger').textContent = "Verify Mapping";
-}
+    <script src="nav.js"></script>
+    <script>
+        // CORE ACTIVE GROUPS ARRAY (Retained clean, high-speed footprint inside core file)
+        const lexicalBaseDefinitions = [
+            { g: "ὁ", t: "ho", e: ["the"], s: 1, c: "19,870 times" },
+            { g: "καί", t: "kai", e: ["and", "even", "also"], s: 1, c: "9,153 times" },
+            { g: "αὐτός", t: "autos", e: ["he", "she", "it", "self", "same"], s: 1, c: "5,597 times" },
+            { g: "σύ", t: "su", e: ["you"], s: 1, c: "2,912 times" },
+            { g: "δέ", t: "de", e: ["but", "and"], s: 1, c: "2,865 times" },
+            { g: "ἐν", t: "en", e: ["in", "on", "among", "by"], s: 1, c: "2,752 times" },
+            { g: "ἐγώ", t: "ego", e: ["I"], s: 1, c: "2,584 times" },
+            { g: "εἰμί", t: "eimi", e: ["I am", "to be"], s: 1, c: "2,462 times" },
+            { g: "οὗτος", t: "houtos", e: ["this"], s: 1, c: "1,391 times" },
+            { g: "λέγω", t: "lego", e: ["I say", "speak", "tell"], s: 1, c: "1,320 times" },
+            { g: "εἰς", t: "eis", e: ["into", "to", "for"], s: 1, c: "1,768 times" },
+            { g: "οὐ", t: "ou", e: ["not", "no"], s: 1, c: "1,623 times" },
+            { g: "ὅς", t: "hos", e: ["who", "which", "that"], s: 1, c: "1,431 times" },
+            { g: "οὖν", t: "oun", e: ["therefore", "then"], s: 1, c: "526 times" },
+            
+            { g: "θεός", t: "theos", e: ["God", "god"], s: 2, c: "1,317 times" },
+            { g: "κύριος", t: "kurios", e: ["Lord", "master", "sir"], s: 2, c: "719 times" },
+            { g: "ποιέω", t: "poieo", e: ["I do", "make"], s: 2, c: "568 times" },
+            { g: "ἄνθρωπος", t: "anthropos", e: ["man", "human", "person"], s: 2, c: "550 times" },
+            { g: "Χριστός", t: "christos", e: ["Christ", "Anointed One"], s: 2, c: "531 times" },
+            { g: "ἔχω", t: "echo", e: ["I have", "hold"], s: 2, c: "708 times" },
+            { g: "γίνομαι", t: "ginomai", e: ["I become", "happen"], s: 2, c: "669 times" },
+            { g: "διά", t: "dia", e: ["through", "because of"], s: 2, c: "667 times" },
+            { g: "ἔρχομαι", t: "erchomai", e: ["I come", "go"], s: 2, c: "634 times" },
+            { g: "υἱός", t: "huios", e: ["son", "descendant"], s: 2, c: "377 times" },
+            
+            { g: "ἀκούω", t: "akouo", e: ["I hear", "listen to"], s: 3, c: "428 times" },
+            { g: "δίδωμι", t: "didomi", e: ["I give", "grant"], s: 3, c: "415 times" },
+            { g: "εἶδον", t: "eidon", e: ["I saw", "perceived"], s: 3, c: "400 times" },
+            { g: "πᾶς", t: "pas", e: ["all", "every", "whole"], s: 3, c: "1,244 times" },
+            { g: "ἡμέρα", t: "hemera", e: ["day", "time"], s: 3, c: "389 times" },
+            { g: "γυνή", t: "gune", e: ["woman", "wife"], s: 3, c: "215 times" },
+            { g: "βασιλεία", t: "basileia", e: ["kingdom", "reign"], s: 3, c: "162 times" },
+            { g: "μαθητής", t: "mathetes", e: ["disciple", "learner"], s: 3, c: "261 times" },
+            { g: "γῆ", t: "ge", e: ["earth", "land"], s: 3, c: "250 times" },
+            
+            { g: "ἀδελφός", t: "adelphos", e: ["brother"], s: 4, c: "343 times" },
+            { g: "λόγος", t: "logos", e: ["word", "statement", "message"], s: 4, c: "331 times" },
+            { g: "οὐρανός", t: "ouranos", e: ["heaven", "sky"], s: 4, c: "273 times" },
+            { g: "ἐκκλησία", t: "ekklesia", e: ["church", "assembly"], s: 4, c: "114 times" },
+            { g: "καρδία", t: "kardia", e: ["heart"], s: 4, c: "156 times" },
+            { g: "νόμος", t: "nomos", e: ["law", "principle"], s: 4, c: "194 times" },
+            { g: "κόσμος", t: "kosmos", e: ["world", "universe"], s: 4, c: "186 times" },
+            { g: "χάρις", t: "charis", e: ["grace", "favor"], s: 4, c: "155 times" },
+            { g: "πνεῦμα", t: "pneuma", e: ["spirit", "wind"], s: 4, c: "379 times" },
+            
+            { g: "ἀγάπη", t: "agape", e: ["love", "affection"], s: 5, c: "116 times" },
+            { g: "πίστις", t: "pistis", e: ["faith", "trust"], s: 5, c: "243 times" },
+            { g: "δικαιοσύνη", t: "dikaiosune", e: ["righteousness"], s: 5, c: "92 times" },
+            { g: "εἰρήνη", t: "eirene", e: ["peace", "harmony"], s: 5, c: "92 times" },
+            { g: "ἁμαρτία", t: "hamartia", e: ["sin", "failure"], s: 5, c: "173 times" },
+            { g: "ὄνομα", t: "onoma", e: ["name", "authority"], s: 5, c: "231 times" },
+            { g: "λαλέω", t: "laleo", e: ["I speak", "talk"], s: 5, c: "296 times" }
+        ];
 
-function checkActiveFlashcardGuess() {
-    if (activeAppModeState === "next") { drawNextSystemFlashcard(); return; }
-    const userGuessText = document.getElementById('srs-user-guess').value.trim().toLowerCase();
-    const drawer = document.getElementById('feedback-eval-drawer');
-    if(!userGuessText) return;
+        // EXTRA LEXICON BUILT-IN FALLBACK REPOSITORY FOR HYBRID ENVIRONMENTS
+        const expandedBackupLexiconDataset = [
+            { g: "βλέπω", t: "blepo", e: "I see, look at, perceive", c: "132 times" },
+            { g: "λύω", t: "luo", e: "I loose, untie, destroy, break", c: "42 times" },
+            { g: "γινώσκω", t: "ginosko", e: "I know, understand, recognize", c: "222 times" },
+            { g: "γράφω", t: "grapho", e: "I write, record", c: "191 times" },
+            { g: "λαμβάνω", t: "lambano", e: "I take, receive, accept", c: "258 times" },
+            { g: "εὑρίσκω", t: "heurisko", e: "I find, discover, obtain", c: "176 times" },
+            { g: "ἀποστέλλω", t: "apostello", e: "I send out, commission, dispatch", c: "132 times" },
+            { g: "ζωή", t: "zoe", e: "life", c: "135 times" },
+            { g: "θάνατος", t: "thanatos", e: "death", c: "120 times" },
+            { g: "κρίσις", t: "krisis", e: "judgment, evaluation, decision", c: "48 times" }
+        ];
 
-    let isCorrectMatch = activeWordPointer.e.some(meaning => {
-        let cleanMeaning = meaning.toLowerCase().replace(/[(),]/g, "").trim();
-        return userGuessText.includes(cleanMeaning) || cleanMeaning.includes(userGuessText);
-    });
+        const frequencySetMetaTitles = {
+            1: "Set 1 — Core Particles (>1000x)",
+            2: "Set 2 — Primary Roots (500x - 999x)",
+            3: "Set 3 — Structural Actions (250x - 499x)",
+            4: "Set 4 — Cosmic Identity (100x - 249x)",
+            5: "Set 5 — Theological Shifts (50x - 99x)"
+        };
 
-    let currentScore = srsProgressDataStore[activeWordPointer.g] || 0;
-    drawer.className = "eval-drawer";
+        let externalFullLexiconData = [];
+        let activeVectorSetKey = "all";
+        let searchActiveStateQuery = "";
+        let activeWordPointer = null;
+        let activeAppModeState = "guess";
+        let srsProgressDataStore = JSON.parse(localStorage.getItem('glossa_srs_cache_v3')) || {};
 
-    if (isCorrectMatch) {
-        currentScore = Math.min(currentScore + 1, 3);
-        drawer.classList.add('eval-success');
-        document.getElementById('eval-header-text').textContent = "🎉 Correct Mapping";
-        document.getElementById('eval-body-text').innerHTML = `Definitions: <strong>${activeWordPointer.e.join(", ")}</strong>`;
-    } else {
-        currentScore = 0;
-        drawer.classList.add('eval-fail');
-        document.getElementById('eval-header-text').textContent = "❌ Discrepancy Found";
-        document.getElementById('eval-body-text').innerHTML = `Core definitions are: <strong>${activeWordPointer.e.join(", ")}</strong>`;
-    }
+        async function initLexicalMatrixEngine() {
+            document.getElementById('count-all').textContent = lexicalBaseDefinitions.length;
+            for(let i=1; i<=5; i++) {
+                document.getElementById(`count-${i}`).textContent = lexicalBaseDefinitions.filter(w => w.s === i).length;
+            }
+            
+            // Asynchronously pre-fetch full dataset from JSON file
+            try {
+                const queryStream = await fetch('strongs-lexicon.json');
+                if(queryStream.ok) {
+                    externalFullLexiconData = await queryStream.json();
+                    console.log("Comprehensive dictionary dataset loaded successfully via JSON asset file.");
+                } else {
+                    throw new Error("Server responded non-OK status code");
+                }
+            } catch (err) {
+                console.warn("External JSON file blocked or missing. Activating built-in fallback engine.");
+                // Remap backup items structural variations safely for uniform lookup integration
+                const unifiedBackups = expandedBackupLexiconDataset.map(item => ({
+                    g: item.g, t: item.t, e: Array.isArray(item.e) ? item.e : [item.e], c: item.c, s: null
+                }));
+                const unifiedLocalCore = lexicalBaseDefinitions.map(item => ({
+                    g: item.g, t: item.t, e: item.e, c: item.c, s: item.s
+                }));
+                externalFullLexiconData = [...unifiedLocalCore, ...unifiedBackups];
+            }
 
-    srsProgressDataStore[activeWordPointer.g] = currentScore;
-    localStorage.setItem('glossa_srs_cache_v3', JSON.stringify(srsProgressDataStore));
-    refreshGlobalProgressMasteryMetrics();
-    
-    drawer.style.display = "block";
-    activeAppModeState = "next";
-    document.getElementById('main-action-trigger').textContent = "Continue Matrix Sequence →";
-}
+            refreshGlobalProgressMasteryMetrics();
+            renderVocabTableEntries();
+        }
 
-function refreshGlobalProgressMasteryMetrics() {
-    let totalMasteredCount = 0;
-    lexicalBaseDefinitions.forEach(w => { if((srsProgressDataStore[w.g] || 0) >= 3) totalMasteredCount++; });
-    let baseLen = lexicalBaseDefinitions.length;
-    document.getElementById('mastery-percentage-view').textContent = `${Math.floor((totalMasteredCount / baseLen) * 100)}%`;
-    document.getElementById('mastery-fractional-count').textContent = `${totalMasteredCount} of ${baseLen} core vectors checked off successfully`;
-}
+        function switchActiveVectorSet(targetSet) {
+            document.getElementById('lexicon-search').value = "";
+            searchActiveStateQuery = "";
+            activeVectorSetKey = targetSet;
+            
+            document.querySelectorAll('.selector-chip').forEach(el => el.classList.remove('active'));
+            
+            if(targetSet === 'all') {
+                document.getElementById('chip-all').classList.add('active');
+                document.getElementById('active-panel-title').textContent = "All Core Sets Combined";
+                document.getElementById('active-panel-subtitle').textContent = "Displaying entire foundational vocabulary mapping profile rulesets.";
+            } else {
+                document.getElementById(`chip-${targetSet}`).classList.add('active');
+                document.getElementById('active-panel-title').textContent = frequencySetMetaTitles[targetSet];
+                document.getElementById('active-panel-subtitle').textContent = "Targeted operational frequency subset rows.";
+            }
+            renderVocabTableEntries();
+        }
 
-window.addEventListener('DOMContentLoaded', initLexicalMatrixEngine);
+        function executeLexiconSearch() {
+            const val = document.getElementById('lexicon-search').value.trim().toLowerCase();
+            searchActiveStateQuery = val;
+            
+            if(val.length > 0) {
+                document.querySelectorAll('.selector-chip').forEach(el => el.classList.remove('active'));
+                document.getElementById('active-panel-title').textContent = `Lexicon Execution Matches ("${val}")`;
+                document.getElementById('active-panel-subtitle').textContent = "Scanning full New Testament dataset across Greek text, definitions, and transliterations.";
+            } else {
+                switchActiveVectorSet('all');
+                return;
+            }
+            renderVocabTableEntries();
+        }
+
+        function renderVocabTableEntries() {
+            const listContainer = document.getElementById('rendered-vocabulary-rows');
+            listContainer.innerHTML = "";
+            let filteredList = [];
+
+            if (searchActiveStateQuery.length > 0) {
+                let lookupSource = externalFullLexiconData.length > 0 ? externalFullLexiconData : lexicalBaseDefinitions;
+                
+                filteredList = lookupSource.filter(word => {
+                    const inlineEnglish = Array.isArray(word.e) ? word.e.join(" ") : word.e;
+                    return word.g.toLowerCase().includes(searchActiveStateQuery) || 
+                           word.t.toLowerCase().includes(searchActiveStateQuery) || 
+                           inlineEnglish.toLowerCase().includes(searchActiveStateQuery);
+                }).slice(0, 60); 
+            } else {
+                filteredList = lexicalBaseDefinitions.filter(word => {
+                    return (activeVectorSetKey === "all" || word.s === activeVectorSetKey);
+                });
+            }
+
+            if (filteredList.length === 0) {
+                listContainer.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-cool-gray);">No lexicon vectors found matching that query entry.</div>`;
+                return;
+            }
+
+            filteredList.forEach(word => {
+                let score = srsProgressDataStore[word.g] || 0;
+                let hasSRS = localCoreHasSRS(word.g);
+                let statusBadge = score >= 3 
+                    ? `<span class="srs-status-pill mastered">✓ Mastered</span>` 
+                    : `<span class="srs-status-pill">SRS: ${score}/3</span>`;
+
+                const cleanEnglishDisplay = Array.isArray(word.e) ? word.e.join(", ") : word.e;
+
+                listContainer.innerHTML += `
+                    <div class="vocab-word-row">
+                        <div class="word-lexical-meta">
+                            <span class="greek-lemma-text">${word.g}</span>
+                            <span class="english-gloss-text">${cleanEnglishDisplay}</span>
+                            <span class="translit-text">translit: ${word.t}</span>
+                        </div>
+                        <div class="word-stat-badge">
+                            <span class="frequency-occurrence-tag">📊 ${word.c}</span>
+                            ${hasSRS ? statusBadge : '<span class="srs-status-pill" style="opacity:0.3; border-style:dashed;">Lexicon Record</span>'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function localCoreHasSRS(lemmaKey) {
+            return lexicalBaseDefinitions.some(w => w.g === lemmaKey);
+        }
+
+        /* SRS OPERATIONS CARD HOOKS */
+        function openVerificationSandbox() { document.getElementById('srs-sandbox-modal').style.display = "flex"; drawNextSystemFlashcard(); }
+        function closeVerificationSandbox() { document.getElementById('srs-sandbox-modal').style.display = "none"; renderVocabTableEntries(); }
+
+        function filterCurrentPool() {
+            return lexicalBaseDefinitions.filter(word => {
+                if (activeVectorSetKey !== "all" && word.s !== activeVectorSetKey) return false;
+                return (srsProgressDataStore[word.g] || 0) < 3;
+            });
+        }
+
+        function drawNextSystemFlashcard() {
+            document.getElementById('feedback-eval-drawer').style.display = "none";
+            document.getElementById('srs-user-guess').value = "";
+            
+            let currentRotationPool = filterCurrentPool();
+            if (currentRotationPool.length === 0) {
+                document.getElementById('active-greek-string').textContent = "🎉 Μακάριος!";
+                document.getElementById('active-meta-tag').textContent = "All tracked items checked off successfully!";
+                document.getElementById('mastery-dots-row').style.display = "none";
+                document.getElementById('srs-user-guess').style.display = "none";
+                document.getElementById('main-action-trigger').style.display = "none";
+                return;
+            }
+
+            activeWordPointer = currentRotationPool[Math.floor(Math.random() * currentRotationPool.length)];
+            document.getElementById('active-greek-string').textContent = activeWordPointer.g;
+            document.getElementById('active-meta-tag').textContent = `Usage count: ${activeWordPointer.c}`;
+
+            let currentScore = srsProgressDataStore[activeWordPointer.g] || 0;
+            document.querySelectorAll('#mastery-dots-row .dot').forEach((dot, idx) => {
+                idx < currentScore ? dot.classList.add('filled') : dot.classList.remove('filled');
+            });
+
+            activeAppModeState = "guess";
+            document.getElementById('main-action-trigger').textContent = "Verify Mapping";
+        }
+
+        function checkActiveFlashcardGuess() {
+            if (activeAppModeState === "next") { drawNextSystemFlashcard(); return; }
+            const userGuessText = document.getElementById('srs-user-guess').value.trim().toLowerCase();
+            const drawer = document.getElementById('feedback-eval-drawer');
+            if(!userGuessText) return;
+
+            let isCorrectMatch = activeWordPointer.e.some(meaning => {
+                let cleanMeaning = meaning.toLowerCase().replace(/[(),]/g, "").trim();
+                return userGuessText.includes(cleanMeaning) || cleanMeaning.includes(userGuessText);
+            });
+
+            let currentScore = srsProgressDataStore[activeWordPointer.g] || 0;
+            drawer.className = "eval-drawer";
+
+            if (isCorrectMatch) {
+                currentScore = Math.min(currentScore + 1, 3);
+                drawer.classList.add('eval-success');
+                document.getElementById('eval-header-text').textContent = "🎉 Correct Mapping";
+                document.getElementById('eval-body-text').innerHTML = `Definitions: <strong>${activeWordPointer.e.join(", ")}</strong>`;
+            } else {
+                currentScore = 0;
+                drawer.classList.add('eval-fail');
+                document.getElementById('eval-header-text').textContent = "❌ Discrepancy Found";
+                document.getElementById('eval-body-text').innerHTML = `Core definitions are: <strong>${activeWordPointer.e.join(", ")}</strong>`;
+            }
+
+            srsProgressDataStore[activeWordPointer.g] = currentScore;
+            localStorage.setItem('glossa_srs_cache_v3', JSON.stringify(srsProgressDataStore));
+            refreshGlobalProgressMasteryMetrics();
+            
+            drawer.style.display = "block";
+            activeAppModeState = "next";
+            document.getElementById('main-action-trigger').textContent = "Continue Matrix Sequence →";
+        }
+
+        function refreshGlobalProgressMasteryMetrics() {
+            let totalMasteredCount = 0;
+            lexicalBaseDefinitions.forEach(w => { if((srsProgressDataStore[w.g] || 0) >= 3) totalMasteredCount++; });
+            let baseLen = lexicalBaseDefinitions.length;
+            document.getElementById('mastery-percentage-view').textContent = `${Math.floor((totalMasteredCount / baseLen) * 100)}%`;
+            document.getElementById('mastery-fractional-count').textContent = `${totalMasteredCount} of ${baseLen} core vectors checked off successfully`;
+        }
+
+        window.addEventListener('DOMContentLoaded', initLexicalMatrixEngine);
+    </script>
+</body>
+</html>
