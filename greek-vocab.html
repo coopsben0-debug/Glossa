@@ -3,50 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Greek Vocabulary</title>
+    <title>Glossa — Greek Vocabulary Matrix & SRS Lab</title>
     <style>
-        .vocab-layout { max-width: 800px; margin: 0 auto; text-align: center; }
-        .vocab-layout h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
-        .vocab-layout p { font-size: 15px; margin-bottom: 40px; }
+        :root {
+            --bg-panel: rgba(18, 18, 36, 0.7);
+            --border-glow: rgba(124, 90, 250, 0.2);
+            --primary: #7c3aed;
+            --primary-light: #a78bfa;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #0b0b14;
+            color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .vocab-layout { max-width: 1200px; margin: 0 auto; }
         
-        .word-card {
-            background: rgba(18, 18, 36, 0.7);
+        /* Master Header Metrics Bar */
+        .vocab-header-panel {
+            background: var(--bg-panel); 
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 24px;
-            padding: 64px 40px;
-            margin-bottom: 40px;
+            border-radius: 24px; 
+            padding: 24px 32px; 
+            margin-bottom: 32px;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap; 
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-container { display: flex; align-items: center; gap: 20px; }
+        .progress-ring-bg { 
+            background: rgba(124, 58, 237, 0.1); 
+            border-radius: 50%; 
+            width: 64px; 
+            height: 64px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 800; 
+            color: var(--primary-light); 
+            border: 2px solid var(--border-glow);
+            font-size: 18px; 
+        }
+
+        /* Responsive Grid Workspace Splitter */
+        .vocab-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; }
+        @media (max-width: 900px) { .vocab-grid { grid-template-columns: 1fr; } }
+
+        /* Navigation Filter Tree Sidebar */
+        .vocab-sidebar { 
+            background: rgba(13, 13, 28, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 20px; 
+            padding: 20px; 
+            height: fit-content; 
+            position: sticky; 
+            top: 20px; 
+        }
+        
+        .sidebar-group-title { 
+            font-size: 11px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 1.5px; 
+            color: var(--text-muted); 
+            margin: 20px 0 10px 8px; 
+        }
+        .sidebar-group-title:first-child { margin-top: 0; }
+
+        .set-link { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            width: 100%; 
+            background: transparent; 
+            border: none; 
+            color: var(--text-muted); 
+            padding: 12px 16px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            border-radius: 12px; 
+            margin-bottom: 6px; 
+            text-align: left; 
+            transition: all 0.2s ease; 
+        }
+        .set-link:hover { background: rgba(255, 255, 255, 0.03); color: #fff; }
+        .set-link.active { 
+            background: rgba(124, 58, 237, 0.15); 
+            color: #c084fc; 
+            border-left: 4px solid var(--primary); 
+            border-radius: 0 12px 12px 0; 
+        }
+        
+        .set-status-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.2s; }
+        .set-status-dot.complete { background: var(--success); box-shadow: 0 0 10px var(--success); }
+
+        /* Main Viewport Content Areas */
+        .main-deck-panel { 
+            background: var(--bg-panel); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 24px; 
+            padding: 40px; 
+            box-sizing: border-box;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
         }
-        .word-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; opacity: 0.5; margin-bottom: 16px; }
-        .greek-word { font-size: 64px; font-weight: 700; margin-bottom: 16px; color: #a78bfa !important; }
-        .english-translation { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
-        .word-stats { font-size: 13px; opacity: 0.6; }
+        
+        /* Interactive List Grid */
+        .vocab-list-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+        .vocab-word-row { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: rgba(0, 0, 0, 0.2); 
+            border: 1px solid rgba(255, 255, 255, 0.02); 
+            padding: 16px 24px; 
+            border-radius: 16px; 
+            transition: all 0.2s ease; 
+        }
+        .vocab-word-row:hover { transform: translateX(6px); background: rgba(255,255,255,0.02); border-color: rgba(124, 58, 237, 0.2); }
+        
+        .greek-core { font-family: 'Times New Roman', serif; font-size: 26px; font-weight: 700; color: var(--primary-light); }
+        .english-gloss { font-size: 15px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+        .word-frequency-tag { font-size: 12px; color: #64748b; font-style: italic; }
+        
+        /* Checkbox Custom Architecture */
+        .mastery-checkbox { width: 22px; height: 22px; border-radius: 6px; cursor: pointer; accent-color: var(--primary); }
 
-        .vocab-nav { display: flex; justify-content: center; gap: 16px; }
-        .nav-tab { background: transparent; border: none; color: #94a3b8; font-size: 14px; font-weight: 600; cursor: pointer; padding: 8px 16px; transition: color 0.2s; }
-        .nav-tab.active { color: #fff; border-bottom: 2px solid #7c3aed; }
+        /* SRS Flashcard Arena Popup */
+        .srs-quiz-box { 
+            background: rgba(20, 15, 45, 0.7); 
+            border: 1px solid rgba(124, 58, 237, 0.3); 
+            border-radius: 24px; 
+            padding: 32px; 
+            margin-bottom: 32px; 
+            display: none; 
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.1);
+        }
+        .srs-quiz-box.active { display: block; animation: fadeIn 0.3s ease-out; }
+        
+        .flashcard-arena { 
+            text-align: center; 
+            padding: 48px; 
+            background: rgba(0,0,0,0.4); 
+            border-radius: 16px; 
+            margin: 20px 0; 
+            border: 1px solid rgba(255,255,255,0.04); 
+        }
+        .card-term { font-family: 'Times New Roman', serif; font-size: 54px; font-weight: 800; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
+        .card-reveal-gloss { font-size: 24px; font-weight: 700; color: var(--success); display: none; margin-top: 16px; }
+        
+        .srs-controls { display: flex; justify-content: center; gap: 16px; margin-top: 20px; }
+        
+        /* Layout Controls System buttons */
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-prime { background: var(--primary); color: #fff; }
+        .btn-prime:hover { background: #9333ea; box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
+        .btn-pass { background: var(--success); color: #fff; display: none; }
+        .btn-pass:hover { background: #059669; }
+        .btn-fail { background: var(--danger); color: #fff; display: none; }
+        .btn-fail:hover { background: #dc2626; }
+        .btn-close { background: transparent; color: var(--text-muted); font-size: 18px; padding: 4px 8px; }
+        .btn-close:hover { color: #fff; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div class="vocab-layout">
-        <h1>🏛️ Greek Vocabulary</h1>
-        <p>High-frequency New Testament lemma structures categorized by runtime distributional statistics.</p>
+        
+        <header style="margin-bottom: 36px; text-align: center;">
+            <h1 style="font-size: 42px; margin: 0 0 10px 0; font-weight: 800; letter-spacing: -0.5px;">🏛️ Greek Vocabulary Matrix</h1>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 16px; line-height: 1.6;">
+                High-frequency New Testament lemma structures categorized by structural frequency counts. Check your tracking progress or loop through dynamic SRS sets.
+            </p>
+        </header>
 
-        <div class="word-card">
-            <div class="word-label">Word of the Week</div>
-            <div class="greek-word">λόγος</div>
-            <div class="english-translation">word, reason, message</div>
-            <div class="word-stats">Appears 330 times across the NT corpus. Utilized as a structural theological anchor within John 1:1.</div>
+        <div class="vocab-header-panel">
+            <div class="progress-container">
+                <div class="progress-ring-bg" id="global-percentage">0%</div>
+                <div>
+                    <h3 style="margin: 0 0 6px 0; font-size: 18px; color: #fff;">Lexicon Mastery Quotient</h3>
+                    <p style="margin: 0; font-size: 14px; color: var(--text-muted);" id="global-count">0 of 0 words memorized across the tracking groups</p>
+                </div>
+            </div>
+            <button class="btn btn-prime" id="master-srs-trigger" onclick="launchQuizSuite()">⚡ Launch SRS Spaced-Repetition Arena</button>
         </div>
 
-        <div class="vocab-nav">
-            <button class="nav-tab active">Set 1 — 500+ times</button>
-            <button class="nav-tab">Set 2 — 100-499 times</button>
-            <button class="nav-tab">Set 3 — 50-99 times</button>
+        <div class="vocab-grid">
+            
+            <nav class="vocab-sidebar">
+                <div class="sidebar-group-title">👑 High Frequency (&gt;500x)</div>
+                <button class="set-link active" onclick="loadVocabSet('high_1', this)"><span>Set 1 — Core Particles</span><div class="set-status-dot" id="dot-high_1"></div></button>
+                <button class="set-link" onclick="loadVocabSet('high_2', this)"><span>Set 2 — Primary Roots</span><div class="set-status-dot" id="dot-high_2"></div></button>
+                
+                <div class="sidebar-group-title">🏛️ Major Frequency (100x - 499x)</div>
+                <button class="set-link" onclick="loadVocabSet('major_1', this)"><span>Set 3 — Structural Actions</span><div class="set-status-dot" id="dot-major_1"></div></button>
+                <button class="set-link" onclick="loadVocabSet('major_2', this)"><span>Set 4 — Cosmic Identity</span><div class="set-status-dot" id="dot-major_2"></div></button>
+
+                <div class="sidebar-group-title">📜 Mid-Tier Frequency (50x - 99x)</div>
+                <button class="set-link" onclick="loadVocabSet('mid_1', this)"><span>Set 5 — Theological Shifts</span><div class="set-status-dot" id="dot-mid_1"></div></button>
+            </nav>
+
+            <div class="content-viewport">
+                
+                <div class="srs-quiz-box" id="srs-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="margin: 0; font-size: 16px; color: var(--primary-light); text-transform: uppercase; letter-spacing: 1px;">🧠 Spaced Repetition Testing Engine</h3>
+                        <button class="btn btn-close" onclick="closeQuizSuite()">✕</button>
+                    </div>
+                    <div class="flashcard-arena">
+                        <div class="card-term" id="card-greek">-</div>
+                        <button class="btn btn-prime" id="card-reveal-btn" onclick="revealCardTranslation()" style="margin-top: 16px;">Reveal Semantic Definition</button>
+                        <div class="card-reveal-gloss" id="card-english">-</div>
+                    </div>
+                    <div class="srs-controls">
+                        <button class="btn btn-fail" id="srs-fail-btn" onclick="handleSRSAssessment(false)">❌ Forgotten (Reset Loop)</button>
+                        <button class="btn btn-pass" id="srs-pass-btn" onclick="handleSRSAssessment(true)">✅ Retained (Check off / Advance)</button>
+                    </div>
+                </div>
+
+                <div class="main-deck-panel">
+                    <h2 id="set-display-title" style="font-size: 26px; margin-top: 0; color: #fff;">Set 1 — Core Particles</h2>
+                    <p id="set-display-desc" style="color: var(--text-muted); font-size: 14px; margin-bottom: 28px; line-height: 1.5;">Essential baseline elements repeating with peak density counts.</p>
+                    
+                    <div class="vocab-list-grid" id="vocab-display-wrapper">
+                        </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
-    <script src="ui-manager.js"></script>
+    <script>
+        // COMPREHENSIVE GREEK FREQUENCY LEXICON INDEXED IN BLOCKS OF 10-15 WORDS
+        const vocabDatabase = {
+            high_1: {
+                title: "Set 1 — Core Particles",
+                desc: "High-density connecting elements, pronouns, and articles occurring over 500 times in the canonical texts.",
+                words: [
+                    { id: "v1", g: "καί", e: "and, even, also, namely", count: "9153 times" },
+                    { id: "v2", g: "ὁ, ἡ, τό", e: "the (Definite Article)", count: "19864 times" },
+                    { id: "v3", g: "αὐτός, -ή, -ό", e: "he, she, it, self, same", count: "5595 times" },
+                    { id: "v4", g: "δέ", e: "but, and, now, on the other hand", count: "2792 times" },
+                    { id: "v5", g: "ἐν", e: "in, on, at, by, with (+ Dative)", count: "2752 times" },
+                    { id: "v6", g: "ἐγώ", e: "I (First Person Personal Pronoun)", count: "2584 times" },
+                    { id: "v7", g: "εἰμί", e: "I am, exist, happen", count: "2462 times" },
+                    { id: "v8", g: "εἰς", e: "into, to, toward, for (+ Accusative)", count: "1767 times" },
+                    { id: "v9", g: "σύ", e: "you (Singular Personal Pronoun)", count: "2901 times" },
+                    { id: "v10", g: "λέγω", e: "I say, speak, tell", count: "2353 times" }
+                ]
+            },
+            high_2: {
+                title: "Set 2 — Primary Roots",
+                desc: "Primary nominal anchors and conceptual modifiers tracking above 500 context matches.",
+                words: [
+                    { id: "v11", g: "θεός", e: "God, god, divine factor", count: "1317 times" },
+                    { id: "v12", g: "κύριος", e: "lord, master, owner, the Lord", count: "717 times" },
+                    { id: "v13", g: "οὗτος, αὕτη, τοῦτο", e: "this, this one", count: "1387 times" },
+                    { id: "v14", g: "ποιέω", e: "I do, make, maintain", count: "568 times" },
+                    { id: "v15", g: "ἄνθρωπος", e: "man, mankind, human entity", count: "550 times" },
+                    { id: "v16", g: "Χριστός", e: "Christ, Anointed One, Messiah", count: "529 times" },
+                    { id: "v17", g: "μή", e: "not, lest (qualified objective negation)", count: "1042 times" },
+                    { id: "v18", g: "διά", e: "through (+ Genitive); because of (+ Accusative)", count: "667 times" },
+                    { id: "v19", g: "ἀκούω", e: "I hear, listen, comprehend", count: "428 times" },
+                    { id: "v20", g: "πατήρ", e: "father, ancestor", count: "413 times" }
+                ]
+            },
+            major_1: {
+                title: "Set 3 — Structural Actions",
+                desc: "High-frequency operational verbs and tense stems running between 100x and 499x.",
+                words: [
+                    { id: "v21", g: "δίδωμι", e: "I give, grant, bestow", count: "415 times" },
+                    { id: "v22", g: "γινώσκω", e: "I know, perceive, realize", count: "222 times" },
+                    { id: "v23", g: "γίνομαι", e: "I become, happen, exist", count: "669 times" },
+                    { id: "v24", g: "ἔρχομαι", e: "I come, go", count: "632 times" },
+                    { id: "v25", g: "ἔχω", e: "I have, hold, possess", count: "708 times" },
+                    { id: "v26", g: "βασιλεία", e: "kingdom, reign, sovereign rule", count: "162 times" },
+                    { id: "v27", g: "ὄνομα", e: "name, authority, status", count: "231 times" },
+                    { id: "v28", g: "ἡμέρα", e: "day, epoch, lifespan", count: "389 times" },
+                    { id: "v29", g: "γυνή", e: "woman, wife", count: "215 times" },
+                    { id: "v30", g: "μετά", e: "with (+ Genitive); after (+ Accusative)", count: "469 times" }
+                ]
+            },
+            major_2: {
+                title: "Set 4 — Cosmic Identity",
+                desc: "Substantive concrete terms structuring early historical narratives and basic context frameworks.",
+                words: [
+                    { id: "v31", g: "λόγος", e: "word, reason, message, account", count: "330 times" },
+                    { id: "v32", g: "νόμος", e: "law, principle, the Torah", count: "194 times" },
+                    { id: "v33", g: "κόσμος", e: "world, order, universe, system", count: "186 times" },
+                    { id: "v34", g: "χείρ", e: "hand, proxy power, sphere of force", count: "177 times" },
+                    { id: "v35", g: "ἄγγελος", e: "angel, messenger, envoy", count: "175 times" },
+                    { id: "v36", g: "ὄχλος", e: "crowd, population multitude", count: "175 times" },
+                    { id: "v37", g: "ἁμαρτία", e: "sin, structural failure, deviation", count: "173 times" },
+                    { id: "v38", g: "ἔργον", e: "work, deed, functional action", count: "169 times" },
+                    { id: "v39", g: "δόξα", e: "glory, radiant honor, absolute fame", count: "166 times" },
+                    { id: "v40", g: "βλέπω", e: "I see, discern, look out for", count: "132 times" }
+                ]
+            },
+            mid_1: {
+                title: "Set 5 — Theological Shifts",
+                desc: "Crucial ideological terminology tracking across thematic epistles between 50x and 99x.",
+                words: [
+                    { id: "v41", g: "ἀγάπη", e: "love, selfless commitment covenant", count: "116 times" },
+                    { id: "v42", g: "πίστις", e: "faith, allegiance trust, persuasion", count: "243 times" },
+                    { id: "v43", g: "πνεῦμα", e: "spirit, Spirit, wind, divine breath", count: "379 times" },
+                    { id: "v44", g: "αἷμα", e: "blood, sacrificed life current", count: "97 times" },
+                    { id: "v45", g: "γεννάω", e: "I beget, give birth to, originate", count: "97 times" },
+                    { id: "v46", g: "διδάσκαλος", e: "teacher, instructor, master guide", count: "59 times" },
+                    { id: "v47", g: "ἐγείρω", e: "I awaken, raise up, fully restore", count: "144 times" },
+                    { id: "v48", g: "ζητέω", e: "I seek, demand, try to discover", count: "117 times" },
+                    { id: "v49", g: "θάνατος", e: "death, separation termination", count: "120 times" },
+                    { id: "v50", g: "κρίνω", e: "I judge, evaluate, separate, try", count: "114 times" }
+                ]
+            }
+        };
+
+        let currentActiveSetKey = 'high_1';
+        let masteredWordsArray = JSON.parse(localStorage.getItem('glossa_mastered_words')) || [];
+        let srsCurrentPool = [];
+        let srsIndex = 0;
+
+        function loadVocabSet(setKey, triggerNode) {
+            currentActiveSetKey = setKey;
+            
+            // Toggle highlight tracking states
+            document.querySelectorAll('.set-link').forEach(link => link.classList.remove('active'));
+            if(triggerNode) triggerNode.classList.add('active');
+
+            const setData = vocabDatabase[setKey];
+            document.getElementById('set-display-title').textContent = setData.title;
+            document.getElementById('set-display-desc').textContent = setData.desc;
+
+            const container = document.getElementById('vocab-display-wrapper');
+            container.innerHTML = '';
+
+            setData.words.forEach(w => {
+                const isChecked = masteredWordsArray.includes(w.id);
+                
+                const row = document.createElement('div');
+                row.className = 'vocab-word-row';
+                row.innerHTML = `
+                    <div>
+                        <div class="greek-core">${w.g}</div>
+                        <div class="english-gloss">${w.e}</div>
+                        <div class="word-frequency-tag">📊 ${w.count}</div>
+                    </div>
+                    <input type="checkbox" class="mastery-checkbox" ${isChecked ? 'checked' : ''} onchange="toggleWordMastery('${w.id}', this.checked)">
+                `;
+                container.appendChild(row);
+            });
+
+            evaluateGlobalMetrics();
+        }
+
+        function toggleWordMastery(wordId, isChecked) {
+            if(isChecked) {
+                if(!masteredWordsArray.includes(wordId)) masteredWordsArray.push(wordId);
+            } else {
+                masteredWordsArray = masteredWordsArray.filter(id => id !== wordId);
+            }
+            localStorage.setItem('glossa_mastered_words', JSON.stringify(masteredWordsArray));
+            evaluateGlobalMetrics();
+        }
+
+        function evaluateGlobalMetrics() {
+            let totalWordCount = 0;
+            
+            Object.keys(vocabDatabase).forEach(key => {
+                totalWordCount += vocabDatabase[key].words.length;
+                
+                // Keep sidebar status rings in direct alignment
+                const subSetCheckedCount = vocabDatabase[key].words.filter(w => masteredWordsArray.includes(w.id)).length;
+                const dotElement = document.getElementById(`dot-${key}`);
+                if(dotElement) {
+                    if(subSetCheckedCount === vocabDatabase[key].words.length) {
+                        dotElement.className = "set-status-dot complete";
+                    } else {
+                        dotElement.className = "set-status-dot";
+                    }
+                }
+            });
+
+            const masteredTotal = masteredWordsArray.filter(id => {
+                return Object.values(vocabDatabase).some(set => set.words.some(w => w.id === id));
+            }).length;
+
+            const finalPercentage = totalWordCount > 0 ? Math.round((masteredTotal / totalWordCount) * 100) : 0;
+            
+            document.getElementById('global-percentage').textContent = `${finalPercentage}%`;
+            document.getElementById('global-count').textContent = `${masteredTotal} of ${totalWordCount} vocabulary vectors checked off successfully`;
+            
+            // Sync up profile module parameters instantly
+            localStorage.setItem('progress-vocabulary', finalPercentage);
+        }
+
+        /* --- SRS COMPLIANT MEMORY LAB SUITE --- */
+        function launchQuizSuite() {
+            srsCurrentPool = [...vocabDatabase[currentActiveSetKey].words];
+            
+            // Randomize active set using a standard distributed array sort model
+            srsCurrentPool.sort(() => Math.random() - 0.5);
+            srsIndex = 0;
+            
+            if(srsCurrentPool.length === 0) return;
+
+            document.getElementById('srs-box').classList.add('active');
+            renderSRSCard();
+        }
+
+        function renderSRSCard() {
+            if(srsIndex >= srsCurrentPool.length) {
+                alert("Matrix Round complete! You have cleared this frequency cluster group.");
+                closeQuizSuite();
+                return;
+            }
+            
+            const currentItem = srsCurrentPool[srsIndex];
+            document.getElementById('card-greek').textContent = currentItem.g;
+            document.getElementById('card-english').textContent = currentItem.e;
+            
+            // Enforce clean state visibility parameters on the layouts
+            document.getElementById('card-english').style.display = 'none';
+            document.getElementById('card-reveal-btn').style.display = 'inline-block';
+            document.getElementById('srs-fail-btn').style.display = 'none';
+            document.getElementById('srs-pass-btn').style.display = 'none';
+        }
+
+        function revealCardTranslation() {
+            document.getElementById('card-english').style.display = 'block';
+            document.getElementById('card-reveal-btn').style.display = 'none';
+            document.getElementById('srs-fail-btn').style.display = 'inline-block';
+            document.getElementById('srs-pass-btn').style.display = 'inline-block';
+        }
+
+        function handleSRSAssessment(knowsIt) {
+            const currentItem = srsCurrentPool[srsIndex];
+            
+            if(knowsIt) {
+                // Instantly update active data tracking across checkboxes
+                toggleWordMastery(currentItem.id, true);
+                srsIndex++;
+            } else {
+                toggleWordMastery(currentItem.id, false);
+                // SRS Core Mechanic: Splice the missed element out and throw it at the tail of the array to reappear
+                const missedWord = srsCurrentPool.splice(srsIndex, 1)[0];
+                srsCurrentPool.push(missedWord);
+            }
+            
+            // Instantly re-render background cards in synchronization
+            loadVocabSet(currentActiveSetKey, null);
+            renderSRSCard();
+        }
+
+        function closeQuizSuite() {
+            document.getElementById('srs-box').classList.remove('active');
+        }
+
+        // Initialize execution metrics on screen setup
+        loadVocabSet('high_1', null);
+    </script>
 </body>
 </html>
