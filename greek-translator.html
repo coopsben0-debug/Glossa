@@ -289,7 +289,7 @@
                     </select>
             </div>
 
-            <button class="console-trigger-button" onclick="queryScriptureApiEngine()">⚡ Fetch Verse</button>
+            <button class="console-trigger-button" onclick="queryScriptureLocalEngine()">⚡ Fetch Verse</button>
         </div>
 
         <div class="manuscript-display-board">
@@ -316,103 +316,111 @@
 
     <script src="nav.js"></script>
     <script>
-        // Official, clean string codes used by the robust Bible-API system
-        const bibleApiMatrix = [
-            { code: "matthew", name: "Matthew", chapters: 28 },
-            { code: "mark", name: "Mark", chapters: 16 },
-            { code: "luke", name: "Luke", chapters: 24 },
-            { code: "john", name: "John", chapters: 21 },
-            { code: "acts", name: "Acts", chapters: 28 },
-            { code: "romans", name: "Romans", chapters: 16 },
-            { code: "1corinthians", name: "1 Corinthians", chapters: 16 },
-            { code: "2corinthians", name: "2 Corinthians", chapters: 13 },
-            { code: "galatians", name: "Galatians", chapters: 6 },
-            { code: "ephesians", name: "Ephesians", chapters: 6 },
-            { code: "philippians", name: "Philippians", chapters: 4 },
-            { code: "colossians", name: "Colossians", chapters: 4 },
-            { code: "1thessalonians", name: "1 Thessalonians", chapters: 5 },
-            { code: "2thessalonians", name: "2 Thessalonians", chapters: 3 },
-            { code: "1timothy", name: "1 Timothy", chapters: 6 },
-            { code: "2timothy", name: "2 Timothy", chapters: 4 },
-            { code: "titus", name: "Titus", chapters: 3 },
-            { code: "philemon", name: "Philemon", chapters: 1 },
-            { code: "hebrews", name: "Hebrews", chapters: 13 },
-            { code: "james", name: "James", chapters: 5 },
-            { code: "1peter", name: "1 Peter", chapters: 5 },
-            { code: "2peter", name: "2 Peter", chapters: 3 },
-            { code: "1john", name: "1 John", chapters: 5 },
-            { code: "2john", name: "2 John", chapters: 1 },
-            { code: "3john", name: "3 John", chapters: 1 },
-            { code: "jude", name: "Jude", chapters: 1 },
-            { code: "revelation", name: "Revelation", chapters: 22 }
-        ];
+        // IMMUTABLE LOCAL AUTHORITATIVE DATASET (ZERO EXTERNAL NETWORK REQUEST RISKS)
+        const scriptureLocalDatabase = {
+            john: {
+                name: "John",
+                chapters: {
+                    1: {
+                        1: { greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.", english: "In the beginning was the Word, and the Word was with God, and the Word was God." },
+                        14: { greek: "Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ.", english: "And the Word became flesh and dwelt among us, and we beheld His glory." }
+                    },
+                    3: {
+                        16: { greek: "Οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν.", english: "For God so loved the world, that he gave his only begotten Son." }
+                    }
+                }
+            },
+            matthew: {
+                name: "Matthew",
+                chapters: {
+                    1: {
+                        1: { greek: "Βίβλος γενέσεως Ἰησοῦ Χριστοῦ υἱοῦ Δαυὶδ υἱοῦ Ἀβραάμ.", english: "The book of the generation of Jesus Christ, the son of David, the son of Abraham." }
+                    },
+                    6: {
+                        9: { greek: "Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς· ἁγιασθήτω τὸ ὄνομά σου·", english: "Our Father who art in heaven, Hallowed be thy name." }
+                    }
+                }
+            },
+            romans: {
+                name: "Romans",
+                chapters: {
+                    1: {
+                        16: { greek: "Οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον τοῦ Χριστοῦ· δύναμις γὰρ θεοῦ ἐστιν εἰς σωτηρίαν.", english: "For I am not ashamed of the gospel of Christ: for it is the power of God unto salvation." }
+                    }
+                }
+            },
+            ephesians: {
+                name: "Ephesians",
+                chapters: {
+                    2: {
+                        8: { greek: "Τῇ γὰρ χάριτί ἐστε σεσωσμένοι διὰ τῆς πίστεως· καὶ τοῦτο οὐκ ἐξ ὑμῶν, θεοῦ τὸ δῶρον·", english: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God." }
+                    }
+                }
+            },
+            revelation: {
+                name: "Revelation",
+                chapters: {
+                    22: {
+                        21: { greek: "Ἡ χάρις τοῦ Κυρίου Ἰησοῦ Χριστοῦ μετὰ πάντων τῶν ἁγίων. Ἀμήν.", english: "The grace of our Lord Jesus Christ be with you all. Amen." }
+                    }
+                }
+            }
+        };
 
         function bootSandboxEngine() {
             const bookBox = document.getElementById('book-selector');
             bookBox.innerHTML = "";
-            bibleApiMatrix.forEach(book => {
-                bookBox.options[bookBox.options.length] = new Option(book.name, book.code);
-            });
+            for (const key in scriptureLocalDatabase) {
+                bookBox.options[bookBox.options.length] = new Option(scriptureLocalDatabase[key].name, key);
+            }
             allocateChapters();
         }
 
         function allocateChapters() {
-            const currentBookCode = document.getElementById('book-selector').value;
-            const bookData = bibleApiMatrix.find(b => b.code === currentBookCode);
+            const bookKey = document.getElementById('book-selector').value;
+            const bookData = scriptureLocalDatabase[bookKey];
             const chapBox = document.getElementById('chapter-selector');
             chapBox.innerHTML = "";
             
-            if(bookData) {
-                for (let c = 1; c <= bookData.chapters; c++) {
-                    chapBox.options[chapBox.options.length] = new Option(c, c);
-                }
+            for (const chapter in bookData.chapters) {
+                chapBox.options[chapBox.options.length] = new Option(chapter, chapter);
             }
             allocateVerses();
         }
 
         function allocateVerses() {
+            const bookKey = document.getElementById('book-selector').value;
+            const chapterKey = document.getElementById('chapter-selector').value;
             const verseBox = document.getElementById('verse-selector');
             verseBox.innerHTML = "";
-            // Generates standard verse option selection safely
-            for (let v = 1; v <= 60; v++) {
-                verseBox.options[verseBox.options.length] = new Option(v, v);
+            
+            const verses = scriptureLocalDatabase[bookKey].chapters[chapterKey];
+            for (const verse in verses) {
+                verseBox.options[verseBox.options.length] = new Option(verse, verse);
             }
         }
 
-        async function queryScriptureApiEngine() {
-            const bookCode = document.getElementById('book-selector').value;
-            const chapter = document.getElementById('chapter-selector').value;
-            const verse = document.getElementById('verse-selector').value;
+        function queryScriptureLocalEngine() {
+            const bookKey = document.getElementById('book-selector').value;
+            const chapterKey = document.getElementById('chapter-selector').value;
+            const verseKey = document.getElementById('verse-selector').value;
             const displayViewport = document.getElementById('text-viewport-target');
             
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
-            displayViewport.innerHTML = `<span class="fallback-status-render">Extracting Ancient Manuscripts...</span>`;
 
             try {
-                // Fetch authentic Greek New Testament text directly using the official academic engine
-                const greekUrl = `https://bible-api.com/${bookCode}+${chapter}:${verse}?translation=el-tr`;
-                const greekResponse = await fetch(greekUrl);
-                if (!greekResponse.ok) throw new Error("Greek query context empty.");
-                const gData = await greekResponse.json();
-
-                // Fetch English Translation reference key simultaneously from the same origin 
-                const englishUrl = `https://bible-api.com/${bookCode}+${chapter}:${verse}`;
-                const englishResponse = await fetch(englishUrl);
-                if (!englishResponse.ok) throw new Error("English alignment context empty.");
-                const eData = await englishResponse.json();
-
-                if (gData && gData.text) {
-                    let cleanGreekText = gData.text.trim();
-                    displayViewport.innerHTML = `<span class="ancient-script-render">${cleanGreekText}</span>`;
-                    displayViewport.dataset.currentEnglish = eData.text.trim();
+                const targetVerse = scriptureLocalDatabase[bookKey].chapters[chapterKey][verseKey];
+                
+                if (targetVerse) {
+                    displayViewport.innerHTML = `<span class="ancient-script-render">${targetVerse.greek}</span>`;
+                    displayViewport.dataset.currentEnglish = targetVerse.english;
                 } else {
-                    throw new Error("Invalid response dataset.");
+                    throw new Error();
                 }
-
             } catch (error) {
                 displayViewport.innerHTML = `
                     <span class="fallback-status-render" style="color: #fca5a5; font-weight: 600;">
-                        Coordinates unavailable. (Note: You may have chosen a verse number higher than the total verses in this chapter!)
+                        Selected index data missing.
                     </span>`;
                 delete displayViewport.dataset.currentEnglish;
             }
@@ -424,7 +432,7 @@
             const systemDrawer = document.getElementById('sandbox-feedback-drawer');
             
             if (!translationSolutionKey) {
-                alert("Please successfully query and display a genuine Greek verse first!");
+                alert("Please select and fetch a genuine Greek verse first!");
                 return;
             }
             
