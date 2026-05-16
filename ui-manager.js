@@ -8,18 +8,14 @@ const UIManager = {
     ],
 
     init() {
-        // 1. Instantly shred old top navigations before rendering layout panels
         this.stripLegacyElements();
-        // 2. Inject structural style variables & visual fixes
         this.injectStyles();
-        // 3. Mount UI wrap shell safely 
         this.buildShellArchitecture();
-        // 4. Trace window state routes
         this.highlightActive();
     },
 
     stripLegacyElements() {
-        // Forcefully removes hardcoded duplicate headers across all pages
+        // Forcefully removes hardcoded legacy horizontal navs present in your screenshots
         const legacyHeaders = document.querySelectorAll('.top-nav, header, #top-bar, .nav-links');
         legacyHeaders.forEach(el => el.remove());
     },
@@ -31,7 +27,7 @@ const UIManager = {
             style.textContent = `
                 :root {
                     --bg-main: #06060c;
-                    --bg-panel: rgba(16, 16, 32, 0.75);
+                    --bg-panel: rgba(16, 16, 32, 0.6);
                     --bg-input: rgba(30, 30, 60, 0.6);
                     --primary: #7c3aed;
                     --primary-hover: #9333ea;
@@ -53,10 +49,8 @@ const UIManager = {
                     background-attachment: fixed !important;
                     color: var(--text-main) !important;
                     font-family: system-ui, -apple-system, sans-serif !important;
-                    overflow-x: hidden;
                 }
 
-                /* FIXED CORE SIDEBAR NAV */
                 #app-sidebar {
                     width: 80px;
                     background: rgba(8, 8, 16, 0.7);
@@ -69,10 +63,9 @@ const UIManager = {
                     padding: 24px 0;
                     position: fixed;
                     top: 0; bottom: 0; left: 0;
-                    z-index: 2000; /* Keeps nav on top of content layers */
+                    z-index: 2000;
                 }
 
-                /* ACCESSIBLE CONTENT HUBS */
                 #app-content {
                     flex: 1;
                     margin-left: 80px;
@@ -95,7 +88,6 @@ const UIManager = {
                     color: #fff !important;
                     cursor: pointer;
                     margin-bottom: 40px;
-                    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
                 }
 
                 .nav-icon {
@@ -124,22 +116,6 @@ const UIManager = {
                 }
 
                 .sidebar-footer { margin-top: auto; }
-
-                /* GLOBAL OVERRIDES FOR INTERACTIVE CONTROLS */
-                h1, h2, h3, .title { color: #ffffff !important; font-weight: 700; }
-                p { color: var(--text-muted) !important; line-height: 1.6; }
-                
-                input, textarea, select {
-                    color: #ffffff !important;
-                    background: var(--bg-input) !important;
-                    border: 1px solid var(--border) !important;
-                    border-radius: var(--radius-md);
-                    padding: 12px 16px;
-                    outline: none;
-                    position: relative;
-                    z-index: 10; /* Lifts input inputs above layout wrapper bugs */
-                }
-                input:focus { border-color: var(--primary) !important; }
 
                 @media (max-width: 768px) {
                     body { flex-direction: column !important; }
@@ -204,8 +180,8 @@ const UIManager = {
         const path = window.location.pathname.split('/').pop() || 'index.html';
         document.querySelectorAll('.nav-icon').forEach(icon => {
             const pageName = icon.getAttribute('data-page');
-            // Fixes the trap where subpages like greek.html lose active link states
-            if (path.includes(pageName) || (path === 'greek.html' && pageName === 'languages')) {
+            // Keeps parent track highlighted when diving deep into Greek files
+            if (path.includes(pageName) || (path.includes('greek') && pageName === 'languages')) {
                 icon.classList.add('active');
             }
         });
