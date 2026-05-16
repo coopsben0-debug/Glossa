@@ -14,9 +14,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #2a2a4a;
         }
-        nav h1 { color: #7c6af7; font-size: 28px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; }
+        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
+        nav a:hover { color: #7c6af7; }
 
         .login-container {
             flex: 1;
@@ -24,32 +26,46 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
+            background: radial-gradient(ellipse at center, #1e1040 0%, #0f0f1a 70%);
         }
 
         .login-box {
             background: #1a1a2e;
+            border: 1px solid #2a2a4a;
             border-radius: 20px;
             padding: 50px 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .login-box h2 { font-size: 32px; margin-bottom: 10px; }
-        .login-box p { color: #aaa; margin-bottom: 30px; }
+        .login-box h2 { 
+            font-size: 32px; 
+            margin-bottom: 10px; 
+            background: linear-gradient(135deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .login-box p { color: #aaa; margin-bottom: 30px; font-size: 15px; }
 
         .input-group { margin-bottom: 20px; text-align: left; }
-        .input-group label { display: block; margin-bottom: 8px; color: #aaa; font-size: 14px; }
+        .input-group label { display: block; margin-bottom: 8px; color: #aaa; font-size: 14px; font-weight: 600; }
         .input-group input {
             width: 100%;
             padding: 14px;
             background: #0f0f1a;
-            border: 1px solid #333;
-            border-radius: 10px;
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
             color: white;
             font-size: 16px;
+            transition: all 0.2s;
         }
-        .input-group input:focus { outline: none; border-color: #7c6af7; }
+        .input-group input:focus { 
+            outline: none; 
+            border-color: #7c6af7; 
+            box-shadow: 0 0 12px rgba(124, 106, 247, 0.3);
+        }
 
         .login-btn {
             width: 100%;
@@ -58,30 +74,36 @@
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
+            transition: all 0.2s;
         }
+        .login-btn:hover { background: #6b58e6; transform: translateY(-1px); }
 
         .signup-btn {
             width: 100%;
-            padding: 15px;
+            padding: 14px;
             background: transparent;
-            color: #7c6af7;
-            border: 2px solid #7c6af7;
+            color: white;
+            border: 2px solid #2a2a4a;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             margin-top: 10px;
+            transition: all 0.2s;
         }
+        .signup-btn:hover { border-color: #7c6af7; color: #7c6af7; transform: translateY(-1px); }
 
-        .message { margin-top: 15px; font-size: 14px; }
+        .message { margin-top: 20px; font-size: 14px; font-weight: 500; min-height: 20px; }
         .error { color: #ff6b6b; }
         .success { color: #6bffb8; }
 
-        .divider { margin: 20px 0; color: #555; }
+        .divider { margin: 25px 0; color: #555; font-size: 14px; font-weight: 500; }
 
-        footer { text-align: center; padding: 30px; color: #555; }
+        footer { text-align: center; padding: 30px; color: #555; border-top: 1px solid #1a1a2e; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -90,21 +112,21 @@
         <h1>Glossa</h1>
         <div>
             <a href="index.html">Home</a>
-            <a href="#">Languages</a>
+            <a href="languages.html">Languages</a>
             <a href="chat.html">Chat</a>
-<a href="ai-tutor.html">AI Tutor</a>
+            <a href="ai-tutor.html">AI Tutor</a>
             <a href="login.html">Login</a>
-<a href="profile.html">Profile</a>
+            <a href="profile.html">Profile</a>
         </div>
     </nav>
 
     <div class="login-container">
         <div class="login-box">
             <h2>Welcome Back</h2>
-            <p>Login or create an account</p>
+            <p>Login or create your platform account</p>
 
             <div class="input-group">
-                <label>Email</label>
+                <label>Email Address</label>
                 <input type="email" id="email" placeholder="you@email.com">
             </div>
 
@@ -145,10 +167,20 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const msg = document.getElementById('message');
+            
+            if (!email || !password) {
+                msg.className = 'message error';
+                msg.textContent = 'Please fill out all fields.';
+                return;
+            }
+
             try {
                 await signInWithEmailAndPassword(auth, email, password);
                 msg.className = 'message success';
-                msg.textContent = 'Logged in successfully!';
+                msg.textContent = 'Logged in successfully! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 1000);
             } catch (e) {
                 msg.className = 'message error';
                 msg.textContent = 'Login failed. Check your email and password.';
@@ -159,10 +191,20 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const msg = document.getElementById('message');
+
+            if (!email || !password) {
+                msg.className = 'message error';
+                msg.textContent = 'Please fill out all fields.';
+                return;
+            }
+
             try {
                 await createUserWithEmailAndPassword(auth, email, password);
                 msg.className = 'message success';
-                msg.textContent = 'Account created successfully!';
+                msg.textContent = 'Account created successfully! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 1000);
             } catch (e) {
                 msg.className = 'message error';
                 msg.textContent = 'Signup failed. Password must be at least 6 characters.';
