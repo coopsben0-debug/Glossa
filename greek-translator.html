@@ -17,6 +17,7 @@
             --text-vibrant-white: #f8fafc;
             --text-cool-gray: #94a3b8;
             --emerald-verify: #10b981;
+            --crimson-fail: #ef4444;
             --radius-premium: 14px;
             --smooth-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -224,16 +225,26 @@
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        /* FEEDBACK EXPANSION DRAWER */
+        /* FEEDBACK EVALUATION DRAWER MODULES */
         .feedback-expansion-drawer {
             margin-top: 30px;
-            background: rgba(16, 185, 129, 0.06);
             border-radius: 8px;
             padding: 24px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-left: 5px solid var(--emerald-verify);
+            border: 1px solid var(--border-slate);
             display: none;
             animation: panelSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feedback-success {
+            background: rgba(16, 185, 129, 0.06);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-left: 5px solid var(--emerald-verify);
+        }
+
+        .feedback-fail {
+            background: rgba(239, 68, 68, 0.06);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-left: 5px solid var(--crimson-fail);
         }
 
         @keyframes panelSlideIn {
@@ -244,16 +255,24 @@
         .drawer-heading-tag {
             font-size: 11px;
             font-weight: 800;
-            color: var(--emerald-verify);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 10px;
         }
+        
+        .success-title { color: var(--emerald-verify); }
+        .fail-title { color: var(--crimson-fail); }
 
         .drawer-lexicon-content {
             color: #e2e8f0;
             font-size: 16px;
             line-height: 1.65;
+        }
+
+        .workspace-action-row {
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 14px;
         }
     </style>
 </head>
@@ -302,12 +321,13 @@
             <label>Your Translation Workspace</label>
             <textarea class="workspace-input-area" id="sandbox-user-input" placeholder="Begin typing your analytical English translation breakdown decipherment here..."></textarea>
             
-            <div style="display: flex; justify-content: flex-end;">
+            <div class="workspace-action-row">
                 <button class="console-trigger-button" style="background: var(--emerald-verify);" onclick="runTranslationVerification()">Verify Rendering</button>
+                <button class="console-trigger-button" id="next-verse-btn" style="display: none;" onclick="advanceToNextQuestion()">Next Verse →</button>
             </div>
 
             <div class="feedback-expansion-drawer" id="sandbox-feedback-drawer">
-                <div class="drawer-heading-tag">Master Structural Translation Reference Key</div>
+                <div class="drawer-heading-tag" id="drawer-header-status">Master Structural Translation Reference Key</div>
                 <div class="drawer-lexicon-content" id="sandbox-key-target"></div>
             </div>
         </div>
@@ -316,7 +336,7 @@
 
     <script src="nav.js"></script>
     <script>
-        // IMMUTABLE LOCAL AUTHORITATIVE DATASET (ZERO EXTERNAL NETWORK REQUEST RISKS)
+        // IMMUTABLE LOCAL AUTHORITATIVE DATASET
         const scriptureLocalDatabase = {
             john: {
                 name: "John",
@@ -407,6 +427,8 @@
             const displayViewport = document.getElementById('text-viewport-target');
             
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
+            document.getElementById('next-verse-btn').style.display = "none";
+            document.getElementById('sandbox-user-input').value = "";
 
             try {
                 const targetVerse = scriptureLocalDatabase[bookKey].chapters[chapterKey][verseKey];
@@ -429,15 +451,72 @@
         function runTranslationVerification() {
             const displayViewport = document.getElementById('text-viewport-target');
             const translationSolutionKey = displayViewport.dataset.currentEnglish;
+            const userInput = document.getElementById('sandbox-user-input').value.trim();
             const systemDrawer = document.getElementById('sandbox-feedback-drawer');
+            const headerStatus = document.getElementById('drawer-header-status');
+            const targetOutput = document.getElementById('sandbox-key-target');
             
             if (!translationSolutionKey) {
                 alert("Please select and fetch a genuine Greek verse first!");
                 return;
             }
+            if (!userInput) {
+                alert("Please enter your translation variant before verifying!");
+                return;
+            }
+
+            // Clean strings for fuzzy accuracy checking
+            const cleanText = text => text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"'\s]/g, "");
+            const isCorrect = cleanText(userInput) === cleanText(translationSolutionKey);
+
+            systemDrawer.className = "feedback-expansion-drawer"; // Clear past status
             
-            document.getElementById('sandbox-key-target').textContent = translationSolutionKey;
+            if (isCorrect) {
+                systemDrawer.classList.add("feedback-success");
+                headerStatus.textContent = "🎉 Excellent Translation! Perfectly Matched";
+                headerStatus.className = "drawer-heading-tag success-title";
+            } else {
+                systemDrawer.classList.add("feedback-fail");
+                headerStatus.textContent = "❌ Translation Discrepancy Detected";
+                headerStatus.className = "drawer-heading-tag fail-title";
+            }
+
+            targetOutput.innerHTML = `<strong>Master Reference Key:</strong><br>"${translationSolutionKey}"`;
             systemDrawer.style.display = "block";
+            
+            // Show the next question link route state trigger
+            document.getElementById('next-verse-btn').style.display = "inline-flex";
+        }
+
+        function advanceToNextQuestion() {
+            const bookBox = document.getElementById('book-selector');
+            const chapBox = document.getElementById('chapter-selector');
+            const verseBox = document.getElementById('verse-selector');
+
+            // Attempt to move to next verse in dropdown list option array
+            if (verseBox.selectedIndex < verseBox.options.length - 1) {
+                verseBox.selectedIndex++;
+            } else if (chapBox.selectedIndex < chapBox.options.length - 1) {
+                // Advance to next chapter, reset verse index
+                chapBox.selectedIndex++;
+                allocateVerses();
+                verseBox.selectedIndex = 0;
+            } else if (bookBox.selectedIndex < bookBox.options.length - 1) {
+                // Advance to next available textbook layout profile
+                bookBox.selectedIndex++;
+                allocateChapters();
+                chapBox.selectedIndex = 0;
+                verseBox.selectedIndex = 0;
+            } else {
+                // Loop back to the start if reaching the absolute database cap
+                bookBox.selectedIndex = 0;
+                allocateChapters();
+                chapBox.selectedIndex = 0;
+                verseBox.selectedIndex = 0;
+            }
+
+            // Fire automated dataset pipeline update engine trigger
+            queryScriptureLocalEngine();
         }
 
         window.addEventListener('DOMContentLoaded', bootSandboxEngine);
