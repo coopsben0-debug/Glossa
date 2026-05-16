@@ -3,169 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Biblical Greek Level Test</title>
+    <title>Glossa — Biblical Greek Level Test</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
-
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .test-container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 40px 24px;
         }
-        nav h1 { color: #7c6af7; font-size: 28px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; }
 
         .hero {
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px 20px 40px 20px;
         }
-        .hero h2 { font-size: 36px; margin-bottom: 10px; }
-        .hero p { color: #aaa; font-size: 16px; }
-
-        .test-container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
+        .hero h2 { 
+            font-size: 36px; 
+            font-weight: 800;
+            margin-bottom: 10px; 
+            background: linear-gradient(135deg, #ffffff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+        .hero p { color: var(--text-muted); font-size: 16px; }
 
+        /* TIMELINE PROGRESS MAPPING */
         .progress-bar {
-            background: #1a1a2e;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
             border-radius: 10px;
-            height: 10px;
-            margin-bottom: 30px;
+            height: 12px;
+            margin-bottom: 32px;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #7c6af7, #a78bfa);
+            background: linear-gradient(90deg, var(--primary), #a78bfa);
             border-radius: 10px;
-            transition: width 0.5s ease;
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .question-box {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 40px;
+        /* COMPONENT INTERACTION TILES */
+        .start-box, .question-box, .result-box {
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
             text-align: center;
-            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
         }
-        .question-number { color: #aaa; font-size: 14px; margin-bottom: 15px; }
-        .question-text { font-size: 22px; margin-bottom: 10px; }
-        .greek-word { font-size: 52px; color: #7c6af7; margin: 20px 0; }
 
+        .start-box h2, .result-box h2 { 
+            font-size: 28px; 
+            font-weight: 800;
+            margin-bottom: 16px; 
+            color: #fff;
+        }
+        .start-box p, .result-box p { color: var(--text-muted); margin-bottom: 24px; line-height: 1.7; }
+        .start-box ul { 
+            color: var(--text-main); 
+            margin: 24px auto; 
+            text-align: left; 
+            max-width: 320px; 
+            line-height: 2.2;
+            list-style: none;
+        }
+        .start-box li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        /* CORE MATRIX TESTING CARD */
+        .question-number { 
+            color: var(--primary); 
+            font-weight: 800;
+            font-size: 12px; 
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px; 
+        }
+        .question-text { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: #fff; }
+        .greek-word { 
+            font-size: 56px; 
+            font-weight: 700;
+            color: #fff; 
+            margin: 24px 0; 
+            text-shadow: 0 0 30px rgba(124, 106, 247, 0.25);
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        /* ACTION SELECTION SECTOR BUTTONARRAY */
         .options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 14px;
+            margin-top: 32px;
         }
         .option {
-            padding: 15px 25px;
-            border-radius: 12px;
-            border: 2px solid #333;
-            color: white;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            color: var(--text-main);
             cursor: pointer;
-            font-size: 16px;
-            background: transparent;
+            font-size: 15px;
+            font-weight: 600;
+            background: var(--bg-input);
             text-align: left;
-            transition: border-color 0.2s;
+            transition: var(--transition);
         }
-        .option:hover { border-color: #7c6af7; }
-        .option.correct { border-color: #6bffb8; color: #6bffb8; background: #6bffb810; }
-        .option.wrong { border-color: #ff6b6b; color: #ff6b6b; background: #ff6b6b10; }
+        .option:hover:not([disabled]) { 
+            border-color: var(--primary); 
+            background: rgba(124, 106, 247, 0.04);
+            transform: translateX(4px);
+        }
+        .option:disabled {
+            cursor: not-allowed;
+        }
+        .option.correct { 
+            border-color: #10b981 !important; 
+            color: #10b981 !important; 
+            background: rgba(16, 185, 129, 0.08) !important; 
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+        }
+        .option.wrong { 
+            border-color: #ef4444 !important; 
+            color: #ef4444 !important; 
+            background: rgba(239, 68, 68, 0.08) !important; 
+        }
 
-        .result-box {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            display: none;
-        }
-        .result-box h2 { font-size: 32px; margin-bottom: 10px; }
-        .result-box p { color: #aaa; margin-bottom: 20px; }
+        /* DIAGNOSTIC PROFILE SCOREBOARDS */
         .level-result {
-            font-size: 80px;
-            color: #7c6af7;
-            font-weight: bold;
-            margin: 20px 0;
+            font-size: 88px;
+            color: var(--primary);
+            font-weight: 900;
+            margin: 16px 0;
+            text-shadow: 0 0 40px rgba(124, 106, 247, 0.3);
+            letter-spacing: -2px;
         }
-        .level-desc { color: #aaa; font-size: 18px; margin-bottom: 30px; }
-        .score-text { color: #aaa; margin-bottom: 30px; font-size: 16px; }
+        .level-desc { color: #fff !important; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .score-text { color: var(--text-muted); margin-bottom: 36px; font-size: 15px; font-weight: 600; }
 
         .btn {
-            padding: 15px 40px;
-            background: #7c6af7;
+            padding: 14px 36px;
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
-            margin: 10px;
+            margin: 8px;
             text-decoration: none;
             display: inline-block;
+            transition: var(--transition);
+        }
+        .btn:hover {
+            background: #6b58e6;
+            box-shadow: 0 4px 15px rgba(124, 106, 247, 0.3);
+            transform: translateY(-1px);
         }
         .btn-outline {
             background: transparent;
-            border: 2px solid #7c6af7;
-            color: #7c6af7;
+            border: 1px solid var(--border);
+            color: #fff;
         }
-
-        .start-box {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--border-hover);
         }
-        .start-box h2 { font-size: 32px; margin-bottom: 15px; }
-        .start-box p { color: #aaa; margin-bottom: 10px; line-height: 1.7; }
-        .start-box ul { color: #aaa; margin: 20px auto; text-align: left; max-width: 300px; line-height: 2; }
-
-        footer { text-align: center; padding: 30px; color: #555; margin-top: 40px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Glossa</h1>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
-            <a href="chat.html">Chat</a>
-<a href="ai-tutor.html">AI Tutor</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
+    <div id="nav-container"></div>
 
     <div class="hero">
         <h2>🏛️ Biblical Greek Level Test</h2>
-        <p>Find out your official CEFR level — A1 to C2</p>
+        <p>Determine your current structural proficiency score relative to the CEFR framework.</p>
     </div>
 
     <div class="test-container">
 
-        <!-- Start Screen -->
         <div class="start-box" id="start-box">
-            <h2>Ready to be tested?</h2>
-            <p>This test will assess your Biblical Greek across vocabulary, grammar, and parsing.</p>
+            <h2>Begin Diagnostic Evaluation</h2>
+            <p>This tracking framework profiles your active reading comprehension syntax metrics across direct lexical vocabulary mapping, parsing matrices, and morphological paradigms.</p>
             <ul>
-                <li>📝 20 questions</li>
-                <li>⏱️ No time limit</li>
-                <li>🎓 Official CEFR level result</li>
-                <li>💾 Saved to your profile</li>
+                <li><span>📝</span> <strong>20</strong> Adaptive Diagnostic Inquiries</li>
+                <li><span>⏱️</span> Unrestricted Workspace Session Time</li>
+                <li><span>🎓</span> Formal CEFR Level Output Matrix (A1–C2)</li>
+                <li><span>💾</span> Direct Sync Write-to-Scholar Profile</li>
             </ul>
-            <button class="btn" onclick="startTest()">Start Test →</button>
+            <button class="btn" id="start-test-btn">Start Assessment →</button>
         </div>
 
-        <!-- Progress Bar -->
         <div class="progress-bar" id="progress-bar" style="display:none">
-            <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+            <div class="progress-fill" id="progress-fill"></div>
         </div>
 
-        <!-- Question Box -->
         <div class="question-box" id="question-box" style="display:none">
             <div class="question-number" id="question-number"></div>
             <div class="question-text" id="question-text"></div>
@@ -173,21 +211,19 @@
             <div class="options" id="options"></div>
         </div>
 
-        <!-- Result Box -->
-        <div class="result-box" id="result-box">
-            <h2>Your Result</h2>
+        <div class="result-box" id="result-box" style="display:none">
+            <h2>Evaluation Diagnostics Completed</h2>
+            <p>Your calculated framework proficiency designation:</p>
             <div class="level-result" id="level-result"></div>
             <div class="level-desc" id="level-desc"></div>
             <div class="score-text" id="score-text"></div>
-            <a href="profile.html" class="btn">View Profile →</a>
-            <button class="btn btn-outline" onclick="location.reload()">Retake Test</button>
+            <a href="profile.html" class="btn">Return to Profile →</a>
+            <button class="btn btn-outline" id="reload-test-btn">Re-initialize Assessment</button>
         </div>
 
     </div>
 
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
+    <script src="nav.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -245,7 +281,7 @@
             currentUser = user;
         });
 
-        window.startTest = function() {
+        function startTest() {
             document.getElementById('start-box').style.display = 'none';
             document.getElementById('progress-bar').style.display = 'block';
             document.getElementById('question-box').style.display = 'block';
@@ -254,28 +290,42 @@
 
         function loadQuestion() {
             const q = questions[current];
-            document.getElementById('question-number').textContent = `Question ${current + 1} of ${questions.length}`;
+            document.getElementById('question-number').textContent = `Inquiry ${current + 1} of ${questions.length}`;
             document.getElementById('question-text').textContent = q.question;
             document.getElementById('greek-word').textContent = q.word;
             document.getElementById('progress-fill').style.width = ((current / questions.length) * 100) + '%';
             answered = false;
 
             const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = q.options.map(o => `
-                <button class="option" onclick="checkAnswer('${o}')">${o}</button>
-            `).join('');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach(o => {
+                const btn = document.createElement('button');
+                btn.className = 'option';
+                btn.textContent = o;
+                btn.addEventListener('click', () => checkAnswer(o, btn));
+                optionsDiv.appendChild(btn);
+            });
         }
 
-        window.checkAnswer = function(selected) {
+        function checkAnswer(selected, clickedButton) {
             if (answered) return;
             answered = true;
+            
             const q = questions[current];
             const buttons = document.querySelectorAll('.option');
+            
             buttons.forEach(btn => {
-                if (btn.textContent === q.answer) btn.classList.add('correct');
-                else if (btn.textContent === selected) btn.classList.add('wrong');
+                btn.setAttribute('disabled', 'true');
+                if (btn.textContent === q.answer) {
+                    btn.classList.add('correct');
+                } else if (btn.textContent === selected) {
+                    btn.classList.add('wrong');
+                }
             });
+
             if (selected === q.answer) score++;
+
             setTimeout(() => {
                 current++;
                 if (current < questions.length) {
@@ -283,7 +333,7 @@
                 } else {
                     showResult();
                 }
-            }, 1000);
+            }, 1200);
         }
 
         async function showResult() {
@@ -293,30 +343,37 @@
 
             const percent = (score / questions.length) * 100;
             let level = 'A1';
-            let desc = 'Beginner — keep studying the basics!';
+            let desc = 'Beginner Track — continuous exposure to basic paradigms requested.';
 
-            if (percent >= 90) { level = 'C2'; desc = 'Mastery — exceptional Biblical Greek!'; }
-            else if (percent >= 75) { level = 'C1'; desc = 'Advanced — excellent command of Greek!'; }
-            else if (percent >= 60) { level = 'B2'; desc = 'Upper Intermediate — strong foundation!'; }
-            else if (percent >= 45) { level = 'B1'; desc = 'Intermediate — good progress!'; }
-            else if (percent >= 30) { level = 'A2'; desc = 'Elementary — keep building vocabulary!'; }
+            if (percent >= 90) { level = 'C2'; desc = 'Mastery Track — exceptional synthesis of structural diagnostics!'; }
+            else if (percent >= 75) { level = 'C1'; desc = 'Advanced Command — highly proficient structural context parsing!'; }
+            else if (percent >= 60) { level = 'B2'; desc = 'Upper Intermediate — strong structural foundations established.'; }
+            else if (percent >= 45) { level = 'B1'; desc = 'Intermediate Matrix — excellent progression trajectory.'; }
+            else if (percent >= 30) { level = 'A2'; desc = 'Elementary Scope — structural lexicon expansion recommended.'; }
 
             document.getElementById('level-result').textContent = level;
             document.getElementById('level-desc').textContent = desc;
-            document.getElementById('score-text').textContent = `You scored ${score} out of ${questions.length}`;
+            document.getElementById('score-text').textContent = `Correct response metrics: ${score} / ${questions.length} elements verified`;
 
             if (currentUser) {
-                const docRef = doc(db, 'users', currentUser.uid);
-                const existing = await getDoc(docRef);
-                const data = existing.exists() ? existing.data() : {};
-                await setDoc(docRef, {
-                    ...data,
-                    greekLevel: level,
-                    testsTaken: (data.testsTaken || 0) + 1
-                });
+                try {
+                    const docRef = doc(db, 'users', currentUser.uid);
+                    const existing = await getDoc(docRef);
+                    const data = existing.exists() ? existing.data() : {};
+                    await setDoc(docRef, {
+                        ...data,
+                        greekLevel: level,
+                        testsTaken: (data.testsTaken || 0) + 1
+                    });
+                } catch (error) {
+                    console.error("Error committing tracking metrics to Firestore:", error);
+                }
             }
         }
-    </script>
 
+        // Attach listeners directly to avoid global inline scope dependencies
+        document.getElementById('start-test-btn').addEventListener('click', startTest);
+        document.getElementById('reload-test-btn').addEventListener('click', () => location.reload());
+    </script>
 </body>
 </html>
