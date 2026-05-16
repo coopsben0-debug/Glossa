@@ -3,163 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Live Chat</title>
+    <title>Glossa — AI Personal Tutor</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; height: 100vh; display: flex; flex-direction: column; }
-
-        nav {
-            background: #1a1a2e;
-            padding: 20px 40px;
+        /* Contextual overrides for smooth, non-scrolling app shell viewport heights */
+        body {
+            height: 100vh;
+            overflow: hidden;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            padding-bottom: 0;
+        }
+
+        .tutor-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 24px 30px;
+            gap: 20px;
+        }
+
+        /* Glass Sidebar History Picker */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            flex-shrink: 0;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h3 {
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .new-session-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), #a78bfa);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(109, 93, 252, 0.2);
+        }
+
+        .new-session-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(109, 93, 252, 0.35);
+        }
+
+        .history-group-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            margin: 10px 0 10px 4px;
+            text-transform: uppercase;
+        }
+
+        .history-btn {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-main);
+            cursor: pointer;
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: var(--transition);
+        }
+
+        .history-btn:hover {
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .history-btn.active {
+            background: rgba(109, 93, 252, 0.15);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        /* Central Glass Workspace */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--bg-panel);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .chat-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
             align-items: center;
+            justify-content: space-between;
             flex-shrink: 0;
         }
-        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
-        nav a:hover { color: #7c6af7; }
 
-        .chat-layout { display: flex; flex: 1; overflow: hidden; }
-
-        .sidebar {
-            width: 250px; background: #1a1a2e; padding: 20px;
-            flex-shrink: 0; border-right: 1px solid #2a2a4a; overflow-y: auto;
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .sidebar h3 { color: #7c6af7; margin-bottom: 15px; font-size: 16px; }
-        .room-btn {
-            width: 100%; padding: 12px 15px; background: transparent;
-            border: 1px solid #333; border-radius: 10px; color: white;
-            cursor: pointer; text-align: left; margin-bottom: 8px;
-            font-size: 14px; transition: all 0.2s;
-        }
-        .room-btn:hover { border-color: #7c6af7; }
-        .room-btn.active { background: #7c6af7; border-color: #7c6af7; }
 
-        .chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-header {
-            background: #1a1a2e; padding: 15px 25px;
-            border-bottom: 1px solid #2a2a4a; display: flex;
-            align-items: center; gap: 10px; flex-shrink: 0;
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #a78bfa;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
         }
-        .online-dot { width: 10px; height: 10px; background: #6bffb8; border-radius: 50%; }
-        .chat-header h2 { font-size: 20px; }
-        .chat-header p { color: #aaa; font-size: 14px; }
 
-        .messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .message { display: flex; gap: 12px; align-items: flex-start; max-width: 80%; }
-        .message.own { align-self: flex-end; flex-direction: row-reverse; }
+        .chat-header h2 { font-size: 16px; font-weight: 700; }
+        .chat-header p { color: var(--text-muted); font-size: 12px; }
+
+        /* Dynamic Chat Messages */
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            max-width: 80%;
+        }
+
+        .message.own {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
         .message-avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            background: #7c6af7; display: flex; align-items: center;
-            justify-content: center; font-size: 16px; flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
         }
-        .message.own .message-avatar { background: #a78bfa; }
-        .message-content { display: flex; flex-direction: column; gap: 4px; }
-        .message-name { font-size: 12px; color: #aaa; }
-        .message.own .message-name { text-align: right; }
+
+        .message.own .message-avatar {
+            background: var(--primary);
+            border-color: transparent;
+        }
+
+        .message-content {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .message-name { font-size: 11px; color: var(--text-muted); font-weight: 700; padding-left: 4px; }
+        .message.own .message-name { text-align: right; padding-right: 4px; }
+
         .message-bubble {
-            background: #1a1a2e; padding: 12px 16px; border-radius: 15px;
-            font-size: 15px; line-height: 1.5; word-break: break-word;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-main);
+            word-break: break-word;
         }
-        .message.own .message-bubble { background: #7c6af7; }
-        .message-time { font-size: 11px; color: #555; }
-        .message.own .message-time { text-align: right; }
 
+        .message.own .message-bubble {
+            background: var(--primary);
+            border-color: transparent;
+            border-radius: var(--radius-md) 0 var(--radius-md) var(--radius-md);
+        }
+
+        .message-time { font-size: 10px; color: var(--text-muted); opacity: 0.6; padding-left: 4px; }
+        .message.own .message-time { text-align: right; padding-right: 4px; }
+
+        /* Input Deck Console */
         .chat-input-area {
-            padding: 20px; background: #1a1a2e; display: flex;
-            gap: 12px; align-items: center; flex-shrink: 0;
-            border-top: 1px solid #2a2a4a;
+            padding: 20px 24px;
+            background: rgba(6, 6, 12, 0.3);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-shrink: 0;
+            border-top: 1px solid var(--border);
         }
+
         .chat-input {
-            flex: 1; padding: 14px 20px; background: #0f0f1a;
-            border: 1px solid #333; border-radius: 30px; color: white;
-            font-size: 16px; outline: none;
+            flex: 1;
+            padding: 14px 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
         }
-        .chat-input:focus { border-color: #7c6af7; }
-        .send-btn {
-            padding: 14px 25px; background: #7c6af7; color: white;
-            border: none; border-radius: 30px; font-size: 16px; cursor: pointer;
-        }
-        .send-btn:hover { background: #6b58e6; }
 
+        .chat-input:focus {
+            border-color: var(--border-hover);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Gateways & Prompts */
         .login-prompt {
-            flex: 1; display: flex; flex-direction: column;
-            align-items: center; justify-content: center; text-align: center; padding: 40px;
-        }
-        .login-prompt h2 { font-size: 28px; margin-bottom: 15px; }
-        .login-prompt p { color: #aaa; margin-bottom: 30px; }
-        .login-prompt a {
-            background: #7c6af7; color: white; padding: 15px 40px;
-            border-radius: 30px; text-decoration: none; font-size: 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 460px;
+            margin: auto;
         }
 
-        .welcome-msg { text-align: center; color: #555; margin: auto; padding: 40px; }
-        .welcome-msg h3 { font-size: 24px; margin-bottom: 10px; color: #aaa; }
+        .login-prompt h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+        .login-prompt p { color: var(--text-muted); margin-bottom: 24px; font-size: 14px; }
+
+        .welcome-msg { text-align: center; margin: auto; padding: 40px; max-width: 500px; }
+        .welcome-msg h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; color: #fff; }
+        .welcome-msg p { color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+
+        @media (max-width: 768px) {
+            body { padding-bottom: 80px; height: calc(100vh - 80px); }
+            .tutor-layout { padding: 12px; height: 100%; gap: 0; }
+            .sidebar { display: none; }
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1>Glossa</h1>
-        <div>
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
-
-    <div class="login-prompt" id="login-prompt" style="display:none">
-        <h2>Join the conversation</h2>
-        <p>Login to chat with language learners from around the world</p>
-        <a href="login.html">Login / Sign Up</a>
+    <div class="login-prompt panel" id="login-prompt" style="display:none">
+        <h2>Unlock Your AI Tutor</h2>
+        <p>Log in to access personalized structural breakdown tracking, parsing drills, and tailored conversational sessions.</p>
+        <a href="login.html" class="btn btn-primary" style="padding: 14px 32px; border-radius: 30px;">Login / Sign Up</a>
     </div>
 
-    <div class="chat-layout" id="chat-layout" style="display:none">
+    <div class="tutor-layout" id="chat-layout" style="display:none">
 
         <div class="sidebar">
-            <h3>🌍 Chat Rooms</h3>
+            <h3>🤖 AI Workspace</h3>
+            <button class="new-session-btn" onclick="location.reload()">+ New Study Session</button>
 
-            <p style="color:#555;font-size:12px;margin-bottom:8px;">ANCIENT</p>
-            <button class="room-btn" onclick="joinRoom('biblical-greek', '🏛️ Biblical Greek')"><span>🏛️</span> Biblical Greek</button>
-            <button class="room-btn" onclick="joinRoom('biblical-hebrew', '✡️ Biblical Hebrew')"><span>✡️</span> Biblical Hebrew</button>
-            <button class="room-btn" onclick="joinRoom('latin', '🏺 Latin')"><span>🏺</span> Latin</button>
+            <div class="history-group-title">Active History</div>
+            <button class="history-btn active" onclick="joinRoom('biblical-greek', '🏛️ Greek Parsing Lab')">🏛️ Greek Parsing Lab</button>
+            <button class="history-btn" onclick="joinRoom('biblical-hebrew', '✡️ Hebrew Verb Stems')">✡️ Hebrew Verb Stems</button>
+            <button class="history-btn" onclick="joinRoom('latin', '🏺 Ecclesiastical Latin')">🏺 Latin Cases</button>
 
-            <p style="color:#555;font-size:12px;margin:15px 0 8px;">MODERN</p>
-            <button class="room-btn" onclick="joinRoom('french', '🇫🇷 French')"><span>🇫🇷</span> French</button>
-            <button class="room-btn" onclick="joinRoom('spanish', '🇪🇸 Spanish')"><span>🇪🇸</span> Spanish</button>
-            <button class="room-btn" onclick="joinRoom('german', '🇩🇪 German')"><span>🇩🇪</span> German</button>
-            <button class="room-btn" onclick="joinRoom('italian', '🇮🇹 Italian')"><span>🇮🇹</span> Italian</button>
-            <button class="room-btn" onclick="joinRoom('arabic', '🇸🇦 Arabic')"><span>🇸🇦</span> Arabic</button>
-            <button class="room-btn" onclick="joinRoom('japanese', '🇯🇵 Japanese')"><span>🇯🇵</span> Japanese</button>
-            <button class="room-btn" onclick="joinRoom('mandarin', '🇨🇳 Mandarin')"><span>🇨🇳</span> Mandarin</button>
+            <div class="history-group-title">Conversational Reviews</div>
+            <button class="history-btn" onclick="joinRoom('french', '🇫🇷 French Accent Review')">🇫🇷 French Intro</button>
+            <button class="history-btn" onclick="joinRoom('spanish', '🇪🇸 Spanish Past Tense')">🇪🇸 Spanish Past</button>
+            <button class="history-btn" onclick="joinRoom('german', '🇩🇪 Case Endings')">🇩🇪 German Cases</button>
         </div>
 
         <div class="chat-area">
             <div class="chat-header">
-                <div class="online-dot"></div>
-                <div>
-                    <h2 id="room-name">Select a room</h2>
-                    <p id="room-desc">Choose a language room to start chatting</p>
+                <div class="ai-status">
+                    <div class="online-dot"></div>
+                    <div>
+                        <h2 id="room-name">Personal AI Linguistic Mentor</h2>
+                        <p id="room-desc">Select a learning track snippet or start typing to fire up diagnostic feedback loops.</p>
+                    </div>
+                </div>
+                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px;">
+                    Mode: Dynamic Parsing Engine
                 </div>
             </div>
 
             <div class="messages" id="messages">
                 <div class="welcome-msg">
-                    <h3>Welcome to Glossa Chat 👋</h3>
-                    <p>Select a room on the left to start practising!</p>
+                    <div style="font-size: 48px; margin-bottom: 16px;">🤖</div>
+                    <h3>Ready to study, Scholar?</h3>
+                    <p>Select a specific target concept review from your history index sidebar, or describe any translation syntax puzzle below to begin analysis.</p>
                 </div>
             </div>
 
             <div class="chat-input-area">
-                <input class="chat-input" id="chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()">
-                <button class="send-btn" onclick="sendMessage()">Send →</button>
+                <input class="chat-input" id="chat-input" type="text" placeholder="Ask about vocabulary roots, paradigm parsing rules, or syntax translations..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button class="btn btn-primary" style="border-radius: 30px; padding: 12px 24px;" onclick="sendMessage()">Analyze →</button>
             </div>
         </div>
     </div>
+
+    <script src="nav.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -197,17 +363,21 @@
         window.joinRoom = function(roomId, roomName) {
             currentRoom = roomId;
             document.getElementById('room-name').textContent = roomName;
-            document.getElementById('room-desc').textContent = 'Practice your ' + roomName.replace(/[^a-zA-Z ]/g, '').trim() + ' here!';
+            document.getElementById('room-desc').textContent = 'Reviewing structural frameworks for ' + roomName.trim();
 
-            document.querySelectorAll('.room-btn').forEach(b => b.classList.remove('active'));
-            event.target.closest('.room-btn').classList.add('active');
+            document.querySelectorAll('.history-btn').forEach(b => b.classList.remove('active'));
+            
+            if(event && event.target) {
+                const targetBtn = event.target.closest('.history-btn');
+                if(targetBtn) targetBtn.classList.add('active');
+            }
 
             if (unsubscribe) unsubscribe();
 
             const messagesDiv = document.getElementById('messages');
             messagesDiv.innerHTML = '';
 
-            const q = query(collection(db, 'chats', roomId, 'messages'), orderBy('timestamp'));
+            const q = query(collection(db, 'tutor_sessions', roomId, 'messages'), orderBy('timestamp'));
             unsubscribe = onSnapshot(q, (snapshot) => {
                 snapshot.docChanges().forEach(change => {
                     if (change.type === 'added') {
@@ -223,7 +393,7 @@
             const text = input.value.trim();
             if (!text || !currentRoom || !currentUser) return;
             input.value = '';
-            await addDoc(collection(db, 'chats', currentRoom, 'messages'), {
+            await addDoc(collection(db, 'tutor_sessions', currentRoom, 'messages'), {
                 text, email: currentUser.email, uid: currentUser.uid, timestamp: serverTimestamp()
             });
         }
@@ -231,12 +401,12 @@
         function addMessageToUI(msg) {
             const messagesDiv = document.getElementById('messages');
             const isOwn = msg.uid === currentUser.uid;
-            const name = msg.email.split('@')[0];
+            const name = isOwn ? (msg.email ? msg.email.split('@')[0] : 'Scholar') : 'AI Mentor';
             const time = msg.timestamp ? new Date(msg.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
             const div = document.createElement('div');
             div.className = 'message' + (isOwn ? ' own' : '');
             div.innerHTML = `
-                <div class="message-avatar">👤</div>
+                <div class="message-avatar">${isOwn ? '👤' : '🤖'}</div>
                 <div class="message-content">
                     <div class="message-name">${name}</div>
                     <div class="message-bubble">${msg.text}</div>
@@ -246,6 +416,5 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
     </script>
-
 </body>
 </html>
