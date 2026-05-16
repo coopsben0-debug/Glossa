@@ -9,9 +9,9 @@
             display: grid; 
             grid-template-columns: 280px 1fr; 
             gap: 24px; 
-            max-width: 1300px; 
+            max-width: 1200px; 
             margin: 0 auto; 
-            height: calc(100vh - 120px); 
+            height: calc(100vh - 100px); 
             box-sizing: border-box;
         }
         @media (max-width: 900px) {
@@ -26,94 +26,60 @@
             box-sizing: border-box;
         }
         .channel-item {
-            padding: 12px 14px;
-            border-radius: 10px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            color: #c084fc;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
+            padding: 12px 14px; border-radius: 10px;
+            background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.2);
+            color: #c084fc; font-weight: 600; font-size: 14px; margin-bottom: 8px;
         }
 
         .chat-box { 
             background: rgba(16, 16, 32, 0.4); 
             border: 1px solid rgba(255, 255, 255, 0.06); 
-            border-radius: 20px; 
-            padding: 24px; 
-            display: flex; 
-            flex-direction: column; 
+            border-radius: 20px; padding: 24px; 
+            display: flex; flex-direction: column; 
             justify-content: space-between; 
-            position: relative; 
-            box-sizing: border-box;
-            height: 100%;
+            box-sizing: border-box; height: 100%;
         }
         .message-log { 
-            flex: 1; 
-            overflow-y: auto; 
-            margin-bottom: 20px; 
-            padding-right: 8px; 
-            display: flex;
-            flex-direction: column;
+            flex: 1; overflow-y: auto; 
+            margin-bottom: 20px; padding-right: 8px; 
+            display: flex; flex-direction: column;
         }
+        
         .chat-row-input { 
-            display: flex; 
-            gap: 12px; 
-            position: relative; 
-            z-index: 100; 
-            width: 100%;
-            box-sizing: border-box;
+            display: flex; gap: 12px; width: 100%; box-sizing: border-box;
         }
         .chat-row-input input { 
             flex: 1; 
-            background: rgba(30, 30, 60, 0.8) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            background: rgba(20, 20, 40, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
             color: #ffffff !important;
-            padding: 14px 16px;
-            font-size: 14px;
-            border-radius: 12px;
-            outline: none;
-        }
-        .chat-row-input input::placeholder {
-            color: #94a3b8;
+            padding: 16px; font-size: 15px; border-radius: 12px; outline: none;
         }
         .chat-row-input input:focus {
             border-color: #7c3aed !important;
-            background: rgba(35, 35, 70, 0.9) !important;
+            background: rgba(25, 25, 50, 0.95) !important;
         }
+        
         .send-action { 
-            background: #7c3aed; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            padding: 0 24px; 
-            font-weight: 600; 
-            font-size: 14px;
-            cursor: pointer; 
-            transition: all 0.2s; 
+            background: #7c3aed; color: #fff; border: none; 
+            border-radius: 12px; padding: 0 28px; font-weight: 600; 
+            font-size: 14px; cursor: pointer; transition: all 0.2s; 
         }
-        .send-action:hover { 
-            background: #9333ea; 
-        }
+        .send-action:hover { background: #9333ea; }
+
         .user-msg { 
-            background: rgba(255, 255, 255, 0.03); 
-            padding: 14px; 
-            border-radius: 12px; 
-            margin-bottom: 12px; 
-            border-left: 3px solid #7c3aed; 
-            color: #e2e8f0;
-            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.03); padding: 14px; 
+            border-radius: 12px; margin-bottom: 12px; 
+            border-left: 3px solid #7c3aed; color: #e2e8f0; line-height: 1.5;
         }
-        .user-msg b {
-            color: #a78bfa;
-        }
+        .user-msg b { color: #a78bfa; }
     </style>
 </head>
 <body>
 
     <div class="chat-container">
         <div class="deck-channels">
-            <h3 style="margin-top:0; font-size: 18px;">Chat Channels</h3>
+            <h3 style="margin-top:0; font-size: 18px; color: #fff;">Chat Channels</h3>
             <div class="channel-item">🏛️ Biblical Greek Hub</div>
             <div class="channel-item" style="opacity:0.25; background:transparent; border-color:transparent; color:#94a3b8;">🔯 Biblical Hebrew (Locked)</div>
             <div class="channel-item" style="opacity:0.25; background:transparent; border-color:transparent; color:#94a3b8;">🏺 Latin Terminals (Locked)</div>
@@ -122,12 +88,12 @@
         <div class="chat-box">
             <div class="message-log" id="msg-view">
                 <div class="user-msg">
-                    <b>System Oracle:</b> Secure terminal sync established. Type your translation queries or community chat text details safely below.
+                    <b>System Oracle:</b> Chat baseline synchronized successfully. Submit messages using the entry fields below.
                 </div>
             </div>
 
             <div class="chat-row-input">
-                <input type="text" id="chat-field" placeholder="Write localized community script message here...">
+                <input type="text" id="chat-field" placeholder="Type a message here...">
                 <button class="send-action" onclick="pushLocalMessage()">Send →</button>
             </div>
         </div>
@@ -135,25 +101,23 @@
 
     <script>
         function pushLocalMessage() {
-            const inputElement = document.getElementById('chat-field');
-            const messageText = inputElement.value.trim();
+            const inputField = document.getElementById('chat-field');
+            const txt = inputField.value.trim();
+            if (!txt) return;
+
+            const view = document.getElementById('msg-view');
+            const card = document.createElement('div');
+            card.className = 'user-msg';
+            card.innerHTML = `<b>You:</b> ${txt}`;
             
-            if (!messageText) return; // Drop execution if text string content is blank
-            
-            const logContainer = document.getElementById('msg-view');
-            const messageNode = document.createElement('div');
-            messageNode.className = 'user-msg';
-            messageNode.innerHTML = `<b>You:</b> ${messageText}`;
-            
-            logContainer.appendChild(messageNode);
-            inputElement.value = ''; // Flush text clean on click submission
-            logContainer.scrollTop = logContainer.scrollHeight; // Force scroll focus capture downward
+            view.appendChild(card);
+            inputField.value = '';
+            view.scrollTop = view.scrollHeight;
         }
 
-        // Listen for standard core user keydown returns
-        document.getElementById('chat-field').addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
+        document.getElementById('chat-field').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
                 pushLocalMessage();
             }
         });
