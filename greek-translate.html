@@ -3,156 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Greek Translation</title>
+    <title>Glossa — Greek Translation Workspace</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Contextual overrides specifically for translation mechanics */
+        /* CONTEXTUAL COMPONENT MODIFICATIONS SPECIFIC TO TRANSLATION ACTIONS */
         .greek-display-text { 
-            font-size: 24px; 
-            line-height: 1.6; 
-            color: #a78bfa; 
-            margin-bottom: 16px; 
-            padding: 18px; 
-            background: var(--bg-main); 
+            font-size: 26px; 
+            line-height: 1.7; 
+            color: #fff; 
+            margin-bottom: 20px; 
+            padding: 32px 24px; 
+            background: var(--bg-input); 
             border-radius: var(--radius-md); 
             text-align: center; 
             border: 1px solid var(--border);
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 600;
+            text-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
         }
 
         .difficulty-bar { 
             display: flex; 
             gap: 10px; 
-            margin-bottom: 20px; 
+            margin-bottom: 24px; 
             flex-wrap: wrap; 
         }
 
         .diff-btn { 
-            padding: 6px 14px; 
-            border-radius: 20px; 
+            padding: 8px 16px; 
+            border-radius: var(--radius-sm); 
             border: 1px solid var(--border); 
             color: var(--text-muted); 
             cursor: pointer; 
-            font-size: 12px; 
+            font-size: 13px; 
+            font-weight: 600;
             background: transparent; 
             transition: var(--transition); 
         }
-        .diff-btn.easy.active { background: rgba(107, 255, 184, 0.15); border-color: #6bffb8; color: #6bffb8; }
-        .diff-btn.medium.active { background: rgba(255, 215, 0, 0.15); border-color: #ffd700; color: #ffd700; }
-        .diff-btn.hard.active { background: rgba(255, 107, 107, 0.15); border-color: #ff6b6b; color: #ff6b6b; }
+        .diff-btn:hover:not(.active) {
+            border-color: var(--border-hover);
+            color: var(--text-main);
+        }
+        .diff-btn.easy.active { background: rgba(16, 185, 129, 0.08); border-color: #10b981; color: #10b981; }
+        .diff-btn.medium.active { background: rgba(245, 158, 11, 0.08); border-color: #f59e0b; color: #f59e0b; }
+        .diff-btn.hard.active { background: rgba(239, 68, 68, 0.08); border-color: #ef4444; color: #ef4444; }
 
-        .vocab-hints { margin-bottom: 16px; }
-        .vocab-hints summary { color: var(--primary); cursor: pointer; font-size: 12px; margin-bottom: 6px; font-weight: 500; }
-        .vocab-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-        .vocab-item { background: var(--bg-main); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 12px; color: var(--text-muted); border: 1px solid var(--border); }
-        .vocab-item span { color: var(--primary); font-weight: 600; }
+        .vocab-hints { 
+            margin-bottom: 24px; 
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+        }
+        .vocab-hints summary { 
+            color: var(--primary); 
+            cursor: pointer; 
+            font-size: 13px; 
+            font-weight: 700; 
+            user-select: none;
+            outline: none;
+        }
+        .vocab-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .vocab-item { 
+            background: var(--bg-input); 
+            padding: 6px 12px; 
+            border-radius: var(--radius-sm); 
+            font-size: 13px; 
+            color: var(--text-muted); 
+            border: 1px solid var(--border); 
+        }
+        .vocab-item span { color: var(--text-main); font-weight: 700; font-family: 'Times New Roman', Times, serif; }
 
         .translation-input { 
             width: 100%; 
-            padding: 12px; 
-            background: var(--bg-main); 
+            padding: 16px; 
+            background: var(--bg-input); 
             border: 1px solid var(--border); 
             border-radius: var(--radius-md); 
-            color: white; 
-            font-size: 14px; 
+            color: #fff; 
+            font-size: 15px; 
             resize: vertical; 
-            min-height: 90px; 
-            margin-bottom: 12px; 
-            line-height: 1.5; 
+            min-height: 110px; 
+            margin-bottom: 20px; 
+            line-height: 1.6; 
             outline: none;
+            transition: var(--transition);
         }
-        .translation-input:focus { border-color: var(--primary); }
+        .translation-input:focus { 
+            border-color: var(--primary); 
+            box-shadow: 0 0 15px rgba(124, 106, 247, 0.15);
+        }
 
-        .feedback-box { display: none; background: var(--bg-main); border-radius: var(--radius-md); padding: 16px; margin-top: 16px; border: 1px solid var(--border); }
-        .feedback-box.active { display: block; }
-        .score-num { font-size: 32px; font-weight: 700; color: var(--primary); text-align: center; }
-        .feedback-text { color: var(--text-main); font-size: 13px; line-height: 1.6; margin: 12px 0; }
+        .feedback-box { 
+            display: none; 
+            background: var(--bg-panel); 
+            border-radius: var(--radius-lg); 
+            padding: 24px; 
+            margin-top: 24px; 
+            border: 1px solid var(--border); 
+        }
+        .feedback-box.active { display: block; animation: fadeIn 0.3s ease-out; }
+        .score-num { 
+            font-size: 40px; 
+            font-weight: 900; 
+            color: var(--primary); 
+            text-align: center; 
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px rgba(124, 106, 247, 0.2);
+        }
+        .feedback-text { 
+            color: var(--text-main); 
+            font-size: 14px; 
+            line-height: 1.7; 
+            margin: 16px 0; 
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        }
         
-        .standard-trans { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 12px; }
-        .standard-trans h4 { color: var(--primary); font-size: 12px; margin-bottom: 4px; }
-        .standard-trans p { color: var(--text-muted); font-style: italic; font-size: 13px; }
+        .standard-trans { border-top: 1px solid var(--border); padding-top: 16px; margin-top: 16px; }
+        .standard-trans h4 { color: var(--primary); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .standard-trans p { color: var(--text-muted); font-style: italic; font-size: 14px; line-height: 1.5; }
 
-        .loading-zone { display: none; text-align: center; padding: 12px; color: var(--text-muted); font-size: 13px; }
+        .loading-zone { 
+            display: none; 
+            text-align: center; 
+            padding: 16px; 
+            color: var(--text-muted); 
+            font-size: 14px; 
+            font-weight: 500;
+        }
         .loading-zone.active { display: block; }
 
-        .stats-mini-row { display: flex; gap: 16px; margin-bottom: 16px; background: var(--bg-main); padding: 10px 16px; border-radius: var(--radius-md); border: 1px solid var(--border); justify-content: space-around; text-align: center; }
-        .stat-mini h4 { font-size: 16px; color: var(--primary); }
-        .stat-mini p { font-size: 11px; color: var(--text-muted); }
+        .stats-mini-row { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 16px; 
+            background: var(--bg-input); 
+            padding: 16px; 
+            border-radius: var(--radius-md); 
+            border: 1px solid var(--border); 
+            justify-content: space-around; 
+            text-align: center; 
+        }
+        .stat-mini h4 { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 2px; }
+        .stat-mini p { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; color: var(--text-muted); }
+
+        .panel-title-bar span {
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .action-flex-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <a href="index.html" class="brand">GLOSSA</a>
-        <div class="nav-links">
-            <a href="index.html">Dashboard</a>
-            <a href="greek-translate.html" class="active">Greek Exercises</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="profile.html">Profile</a>
-        </div>
-    </nav>
+    <div id="nav-container"></div>
 
     <main class="app-container">
         
         <header class="page-header">
             <h1>🏛️ NT Translation Workspace</h1>
-            <p>Analyze New Testament text syntax patterns and submit English renderings for semantic evaluations.</p>
+            <p>Analyze complex structural syntactical clauses from the New Testament corpora and execute adaptive processing evaluations.</p>
         </header>
 
         <div class="dashboard-grid">
             
             <section class="panel">
                 <div class="panel-title-bar">
-                    <h2 id="verse-ref">Loading Reference...</h2>
-                    <span id="diff-badge" style="font-size: 11px; font-weight: 600; text-transform: uppercase;">Easy</span>
+                    <h2 id="verse-ref">Initialising Reference Frame...</h2>
+                    <span id="diff-badge" style="font-size: 11px; font-weight: 700; text-transform: uppercase;">Easy</span>
                 </div>
 
                 <div class="difficulty-bar">
-                    <button class="diff-btn easy active" onclick="setDifficulty('easy', this)">🟢 Easy</button>
-                    <button class="diff-btn medium" onclick="setDifficulty('medium', this)">🟡 Medium</button>
-                    <button class="diff-btn hard" onclick="setDifficulty('hard', this)">🔴 Difficult</button>
+                    <button class="diff-btn easy active" data-diff="easy">🟢 Easy Paradigm</button>
+                    <button class="diff-btn medium" data-diff="medium">🟡 Medium Shift</button>
+                    <button class="diff-btn hard" data-diff="hard">🔴 Advanced Focus</button>
                 </div>
 
                 <div class="greek-display-text" id="greek-text"></div>
 
-                <details class="vocab-hints">
+                <details class="vocab-hints" open>
                     <summary>💡 Structural Vocabulary Hints</summary>
                     <div class="vocab-list" id="vocab-list"></div>
                 </details>
 
-                <textarea class="translation-input" id="translation-input" placeholder="Type your English rendering context here..."></textarea>
+                <textarea class="translation-input" id="translation-input" placeholder="Submit your interpretive dynamic English target rendering architecture here..."></textarea>
 
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-primary" onclick="submitTranslation()">Submit Rendering →</button>
-                    <button class="btn btn-secondary" onclick="nextVerse()">Skip</button>
+                <div class="action-flex-row">
+                    <button class="btn btn-primary" id="submit-render-btn">Submit Rendering →</button>
+                    <button class="btn btn-secondary" id="skip-verse-btn">Skip Entry</button>
                 </div>
 
-                <div class="loading-zone" id="loading">🤖 Engine is reviewing grammatical alignments...</div>
+                <div class="loading-zone" id="loading">🤖 Analysis engine evaluating structural syntax alignment metrics...</div>
 
                 <div class="feedback-box" id="feedback-box">
                     <div class="score-num" id="score-display">-</div>
-                    <div style="text-align: center; font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Evaluation Matrix Match Score</div>
+                    <div style="text-align: center; font-size: 11px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 16px;">Evaluation Alignment Index Matrix</div>
                     <div class="feedback-text" id="feedback-text"></div>
                     <div class="standard-trans">
-                        <h4>Standard Attributed Text (ESV)</h4>
+                        <h4>Standard Attributed Lexicon Target (ESV)</h4>
                         <p id="standard-text"></p>
                     </div>
-                    <button class="btn btn-primary btn-sm" onclick="nextVerse()" style="margin-top: 14px;">Next Pass ➔</button>
+                    <button class="btn btn-primary" id="next-pass-btn" style="margin-top: 20px; width: 100%;">Initialize Next Workspace Pass ➔</button>
                 </div>
             </section>
 
             <aside class="panel">
                 <div class="panel-title-bar">
-                    <h2>Session History Data</h2>
+                    <h2>Session Vector History</h2>
                 </div>
                 <div class="stats-mini-row">
-                    <div class="stat-mini"><h4 id="stat-done">0</h4><p>Completed</p></div>
-                    <div class="stat-mini"><h4 id="stat-avg">—</h4><p>Avg Index</p></div>
-                    <div class="stat-mini"><h4 id="stat-best">—</h4><p>Peak Score</p></div>
+                    <div class="stat-mini"><h4 id="stat-done">0</h4><p>Processed</p></div>
+                    <div class="stat-mini"><h4 id="stat-avg">—</h4><p>Mean Matrix</p></div>
+                    <div class="stat-mini"><h4 id="stat-best">—</h4><p>Peak Scope</p></div>
                 </div>
             </aside>
 
         </div>
     </main>
+
+    <script src="nav.js"></script>
 
     <script>
         const API_URL = 'https://glossa-swart.vercel.app/api/chat';
@@ -174,20 +258,21 @@
 
         let currentDifficulty = 'easy';
         let currentIndex = 0;
-        let sessionDone = 0;
+        let sessionDone = parseInt(localStorage.getItem('glossa_session_done')) || 0;
         let sessionScores = [];
 
-        window.setDifficulty = function(diff, btn) {
+        function setDifficulty(diff, targetBtn) {
             currentDifficulty = diff;
             currentIndex = 0;
             document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            targetBtn.classList.add('active');
             loadVerse();
         }
 
         function loadVerse() {
             const list = verses[currentDifficulty];
             const verse = list[currentIndex % list.length];
+            
             document.getElementById('verse-ref').textContent = verse.ref;
             document.getElementById('greek-text').textContent = verse.greek;
             document.getElementById('standard-text').textContent = verse.standard;
@@ -197,18 +282,31 @@
 
             const badge = document.getElementById('diff-badge');
             badge.textContent = currentDifficulty;
-            badge.style.color = currentDifficulty === 'easy' ? '#6bffb8' : currentDifficulty === 'medium' ? '#ffd700' : '#ff6b6b';
+            badge.style.color = currentDifficulty === 'easy' ? '#10b981' : currentDifficulty === 'medium' ? '#f59e0b' : '#ef4444';
 
-            document.getElementById('vocab-list').innerHTML = verse.hints.map(h => `
-                <div class="vocab-item"><span>${h.greek}</span> — ${h.english}</div>
-            `).join('');
+            const vocabContainer = document.getElementById('vocab-list');
+            vocabContainer.innerHTML = '';
+            
+            verse.hints.forEach(h => {
+                const item = document.createElement('div');
+                item.className = 'vocab-item';
+                
+                const span = document.createElement('span');
+                span.textContent = h.greek;
+                
+                item.appendChild(span);
+                item.appendChild(document.createTextNode(` — ${h.english}`));
+                vocabContainer.appendChild(item);
+            });
         }
 
-        window.submitTranslation = async function() {
+        async function submitTranslation() {
             const translation = document.getElementById('translation-input').value.trim();
             if (!translation) return;
 
-            const verse = verses[currentDifficulty][currentIndex % verses[currentDifficulty].length];
+            const list = verses[currentDifficulty];
+            const verse = list[currentIndex % list.length];
+            
             document.getElementById('loading').classList.add('active');
             document.getElementById('feedback-box').classList.remove('active');
 
@@ -232,6 +330,8 @@ FEEDBACK: [your feedback]`;
                     })
                 });
 
+                if (!response.ok) throw new Error('Network error');
+
                 const data = await response.json();
                 const reply = data.candidates[0].content.parts[0].text;
                 const scoreMatch = reply.match(/SCORE:\s*(\d+)/);
@@ -241,7 +341,15 @@ FEEDBACK: [your feedback]`;
 
                 document.getElementById('loading').classList.remove('active');
                 document.getElementById('score-display').textContent = `${score}/10`;
-                document.getElementById('feedback-text').innerHTML = feedback.replace(/\n/g, '<br>');
+                
+                const feedbackTextContainer = document.getElementById('feedback-text');
+                feedbackTextContainer.innerHTML = '';
+                feedback.split('\n').forEach(line => {
+                    const div = document.createElement('div');
+                    div.textContent = line;
+                    feedbackTextContainer.appendChild(div);
+                });
+                
                 document.getElementById('feedback-box').classList.add('active');
 
                 sessionDone++;
@@ -249,14 +357,15 @@ FEEDBACK: [your feedback]`;
                 updateStats();
 
             } catch (err) {
+                console.error("Cloud alignment verification failure:", err);
                 document.getElementById('loading').classList.remove('active');
                 document.getElementById('score-display').textContent = '?';
-                document.getElementById('feedback-text').textContent = 'Could not process cloud validation. Try again.';
+                document.getElementById('feedback-text').textContent = 'Could not process cloud syntax validation. Check network connections and re-attempt.';
                 document.getElementById('feedback-box').classList.add('active');
             }
         }
 
-        window.nextVerse = function() {
+        function nextVerse() {
             currentIndex++;
             loadVerse();
         }
@@ -273,6 +382,22 @@ FEEDBACK: [your feedback]`;
             }
         }
 
+        // DECOUPLED EVENT INITIALIZATION PIPELINE
+        document.getElementById('submit-render-btn').addEventListener('click', submitTranslation);
+        document.getElementById('skip-verse-btn').addEventListener('click', nextVerse);
+        document.getElementById('next-pass-btn').addEventListener('click', nextVerse);
+
+        document.querySelectorAll('.diff-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                setDifficulty(e.currentTarget.getAttribute('data-diff'), e.currentTarget);
+            });
+        });
+
+        // Initialize view components
+        document.getElementById('stat-done').textContent = sessionDone;
+        const storedAvg = localStorage.getItem('glossa_session_avg');
+        if (storedAvg) document.getElementById('stat-avg').textContent = storedAvg + '/10';
+        
         loadVerse();
     </script>
 </body>
