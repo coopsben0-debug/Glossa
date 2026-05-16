@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Scripture Translation Sandbox</title>
+    <title>Glossa — Koine Greek Translation Sandbox</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* GLOSSA HIGH-END ANCIENT PALETTE STYLES */
+        /* DESIGN TOKENS UNIFIED WITH GLOSSA MASTER MODULES */
         :root {
             --bg-dark-canvas: #090d16;
             --bg-glass-card: #131c2e;
@@ -24,7 +24,7 @@
         body {
             background-color: var(--bg-dark-canvas);
             color: var(--text-vibrant-white);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -65,7 +65,7 @@
             line-height: 1.6;
         }
 
-        /* PREMIUM DYNAMIC CONTROL RACK */
+        /* CONTROL RACK PANEL */
         .control-console-card {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -100,7 +100,7 @@
             letter-spacing: 0.1em;
         }
 
-        /* CUSTOM DROPDOWN SELECTORS - FIXED CONTRAST BUGS */
+        /* CUSTOM DROPDOWN SELECTORS — FIXED TEXT COLOR BLINDING BUGS */
         .premium-select-element {
             background: var(--bg-inner-input);
             border: 1px solid var(--border-slate);
@@ -123,7 +123,6 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* Forces clean dropdown lists in Chrome, Edge, Safari and Firefox */
         .premium-select-element option {
             background-color: var(--bg-inner-input) !important;
             color: var(--text-vibrant-white) !important;
@@ -158,7 +157,7 @@
             transform: translateY(-1px);
         }
 
-        /* CRITICAL HIGHER TYPOGRAPHY CONTRAST TEXT-VIEWPORT */
+        /* TEXT DISPLAY AREA */
         .manuscript-display-board {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -188,7 +187,7 @@
             font-style: italic;
         }
 
-        /* WORKSPACE TRANSLATION INTERFACE */
+        /* TRANSLATION WORKSPACE */
         .workspace-matrix-panel {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -197,7 +196,7 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
         }
 
-        /* Fixed invisible black workspace labels */
+        /* FIXED THE LABELS VANISHING INTO BLACK BACKGROUND */
         .workspace-matrix-panel label {
             display: block;
             font-size: 12px;
@@ -230,7 +229,7 @@
             box-shadow: 0 0 0 3px var(--accent-glow-muted), inset 0 2px 8px rgba(0,0,0,0.3);
         }
 
-        /* VERIFICATION EXPANSION FEEDBACK BOX */
+        /* VERIFICATION DRAWER */
         .feedback-expansion-drawer {
             margin-top: 30px;
             background: rgba(16, 185, 129, 0.06);
@@ -272,13 +271,13 @@
         <a href="greek.html" class="back-link back-navigation-anchor">← Return to Greek Dashboard</a>
 
         <div class="sandbox-header-block">
-            <h2>Scripture Translation Sandbox</h2>
-            <p>Access any passage across the entire Old and New Testament instantly. Test your syntax transcription mapping accuracy dynamically against authoritative source files.</p>
+            <h2>Koine Greek Translation Sandbox</h2>
+            <p>Access any passage across the entire canonical New Testament. Type your translation variant and compare it directly with the verified master tracking record.</p>
         </div>
 
         <div class="control-console-card">
             <div class="input-field-group">
-                <label>Select Book</label>
+                <label>Select New Testament Book</label>
                 <select class="premium-select-element" id="book-selector" onchange="allocateChapters()">
                     </select>
             </div>
@@ -300,7 +299,7 @@
 
         <div class="manuscript-display-board">
             <div id="text-viewport-target">
-                <span class="fallback-status-render">Select target indexing configuration options above and query the sandbox.</span>
+                <span class="fallback-status-render">Select a target index profile above and query the sandbox pipeline engine.</span>
             </div>
         </div>
 
@@ -313,7 +312,7 @@
             </div>
 
             <div class="feedback-expansion-drawer" id="sandbox-feedback-drawer">
-                <div class="drawer-heading-tag">Master Structural Attributed Translation Key</div>
+                <div class="drawer-heading-tag">Master Structural Translation Reference Key</div>
                 <div class="drawer-lexicon-content" id="sandbox-key-target"></div>
             </div>
         </div>
@@ -322,16 +321,8 @@
 
     <script src="nav.js"></script>
     <script>
-        // Whole Canonical Bible Map Index (All 66 Books mapped out safely)
+        // Whole Canonical New Testament Map Index (All 27 Books with accurate maximum chapters)
         const totalScriptureStructuralMap = {
-            "Genesis": 50, "Exodus": 40, "Leviticus": 27, "Numbers": 36, "Deuteronomy": 34,
-            "Joshua": 24, "Judges": 21, "Ruth": 4, "1 Samuel": 31, "2 Samuel": 24,
-            "1 Kings": 22, "2 Kings": 25, "1 Chronicles": 29, "2 Chronicles": 36, "Ezra": 10,
-            "Nehemiah": 13, "Esther": 10, "Job": 42, "Psalms": 150, "Proverbs": 31,
-            "Ecclesiastes": 12, "Song of Solomon": 8, "Isaiah": 66, "Jeremiah": 52, "Lamentations": 5,
-            "Ezekiel": 48, "Daniel": 12, "Hosea": 14, "Joel": 3, "Amos": 9,
-            "Obadiah": 1, "Jonah": 4, "Micah": 7, "Nahum": 3, "Habakkuk": 3,
-            "Zephaniahr": 3, "Haggai": 2, "Zechariah": 14, "Malachi": 4,
             "Matthew": 28, "Mark": 16, "Luke": 24, "John": 21, "Acts": 28,
             "Romans": 16, "1 Corinthians": 16, "2 Corinthians": 13, "Galatians": 6,
             "Ephesians": 6, "Philippians": 4, "Colossians": 4, "1 Thessalonians": 5,
@@ -340,14 +331,14 @@
             "1 John": 5, "2 John": 1, "3 John": 1, "Jude": 1, "Revelation": 22
         };
 
-        // Deep High-Fidelity Original Biblical Source Text Dictionary
-        const authenticAncientDatabase = {
-            "John 1:1": "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
-            "John 1:14": "Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ.",
-            "John 3:16": "οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον.",
-            "Romans 1:16": "οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον, δύναμις γὰρ θεοῦ ἐστιν εἰς σωτηρίαν παντὶ τῷ πιστεύοντι.",
-            "Romans 5:1": "Δικαιωθέντες οὖν ἐκ πίστεως εἰρήνην ἔχομεν πρὸς τὸν θεὸν διὰ τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ.",
-            "Philippians 1:1": "Παῦλος καὶ Τιμόθεος δοῦλοι Χριστοῦ Ἰησοῦ πᾶσιν τοῖς ἁγίοις ἐν Χριστῷ Ἰησοῦ τοῖς οὖσιν ἐν Φιλίπποις."
+        // Book names normalized for original Greek source text lookups
+        const bookShortcodes = {
+            "Matthew": "mat", "Mark": "mar", "Luke": "luk", "John": "joh", "Acts": "act",
+            "Romans": "rom", "1 Corinthians": "1co", "2 Corinthians": "2co", "Galatians": "gal",
+            "Ephesians": "eph", "Philippians": "phi", "Colossians": "col", "1 Thessalonians": "1th",
+            "2 Thessalonians": "2th", "1 Timothy": "1ti", "2 Timothy": "2ti", "Titus": "tit",
+            "Philemon": "phm", "Hebrews": "heb", "James": "jam", "1 Peter": "1pe", "2 Peter": "2pe",
+            "1 John": "1jo", "2 John": "2jo", "3 John": "3jo", "Jude": "jud", "Revelation": "rev"
         };
 
         function bootSandboxEngine() {
@@ -374,8 +365,8 @@
         function allocateVerses() {
             const verseBox = document.getElementById('verse-selector');
             verseBox.innerHTML = "";
-            // Generates safe max fallback scope bounds up to 120 verses per lookup window
-            for (let v = 1; v <= 120; v++) {
+            // Safe maximum verse window per chapter
+            for (let v = 1; v <= 80; v++) {
                 verseBox.options[verseBox.options.length] = new Option(v, v);
             }
         }
@@ -387,21 +378,44 @@
             const displayViewport = document.getElementById('text-viewport-target');
             
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
-            displayViewport.innerHTML = `<span class="fallback-status-render">Querying Active Cloud Databases...</span>`;
+            displayViewport.innerHTML = `<span class="fallback-status-render">Accessing Historical Manuscripts...</span>`;
 
             const parsingReferenceKey = `${selectedBook} ${selectedChap}:${selectedVerse}`;
+            const shortcode = bookShortcodes[selectedBook];
 
             try {
-                const apiResponse = await fetch(`https://bible-api.com/${encodeURIComponent(parsingReferenceKey)}`);
-                if (!apiResponse.ok) throw new Error("Reference outside database thresholds.");
-                
-                const responsePayload = await apiResponse.json();
-                
-                // Matches live context data. Drops standard fallback translation tags if original manuscript doesn't exist locally
-                const renderedManuscriptText = authenticAncientDatabase[parsingReferenceKey] || `[Original Hebrew/Greek Source Matrix for ${parsingReferenceKey}]`;
-                
-                displayViewport.innerHTML = `<span class="ancient-script-render">${renderedManuscriptText}</span>`;
-                displayViewport.dataset.currentEnglish = responsePayload.text.trim();
+                // Phase 1: Fetch English verification data from public database
+                const englishResponse = await fetch(`https://bible-api.com/${encodeURIComponent(parsingReferenceKey)}`);
+                if (!englishResponse.ok) throw new Error("Bounds trace failed.");
+                const englishPayload = await englishResponse.json();
+
+                // Phase 2: Fetch actual historical Koine Greek source text from open repository
+                const greekUrl = `https://cdn.jsdelivr.net/gh/byztxt/byzantine-text-bible-repository@master/asvbyz/${shortcode}.txt`;
+                const greekResponse = await fetch(greekUrl);
+                if (!greekResponse.ok) throw new Error("Greek repository fetch error.");
+                const fullBookText = await greekResponse.text();
+
+                // Phase 3: Extract the specific verse match from manuscript lines
+                const lines = fullBookText.split('\n');
+                const targetPrefix = `${selectedBook} ${selectedChap}:${selectedVerse} `;
+                let matchingVerse = "";
+
+                for (let line of lines) {
+                    if (line.startsWith(targetPrefix)) {
+                        matchingVerse = line.replace(targetPrefix, '').trim();
+                        break;
+                    }
+                }
+
+                // Clean out any metadata brackets from text engine
+                matchingVerse = matchingVerse.replace(/\{.*?\}/g, '').trim();
+
+                if (!matchingVerse) {
+                    matchingVerse = `[Koine Greek Manuscript record line trace empty for ${parsingReferenceKey}]`;
+                }
+
+                displayViewport.innerHTML = `<span class="ancient-script-render">${matchingVerse}</span>`;
+                displayViewport.dataset.currentEnglish = englishPayload.text.trim();
 
             } catch (failureException) {
                 displayViewport.innerHTML = `
@@ -418,7 +432,7 @@
             const systemDrawer = document.getElementById('sandbox-feedback-drawer');
             
             if (!translationSolutionKey) {
-                alert("Please successfully parse and pull down a text row slice from the catalog matrix first!");
+                alert("Please successfully pull down a verse block configuration from the matrix console first!");
                 return;
             }
             
@@ -426,7 +440,6 @@
             systemDrawer.style.display = "block";
         }
 
-        // Boot and initialize bindings on full document load configuration pass
         window.addEventListener('DOMContentLoaded', bootSandboxEngine);
     </script>
 </body>
