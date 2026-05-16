@@ -23,24 +23,11 @@
             margin-bottom: 24px;
             transition: var(--transition);
         }
-        .back-link:hover {
-            color: var(--primary);
-            transform: translateX(-4px);
-        }
+        .back-link:hover { color: var(--primary); transform: translateX(-4px); }
 
-        .sandbox-header h2 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-        .sandbox-header p {
-            color: #b3c2d4;
-            font-size: 15px;
-            margin-bottom: 32px;
-        }
+        .sandbox-header h2 { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .sandbox-header p { color: #b3c2d4; font-size: 15px; margin-bottom: 32px; }
 
-        /* CONTROL RACK STYLING */
         .control-rack {
             background: var(--bg-panel);
             border: 1px solid var(--border);
@@ -50,13 +37,6 @@
             align-items: flex-end;
             gap: 16px;
             margin-bottom: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .control-rack {
-                flex-direction: column;
-                align-items: stretch;
-            }
         }
 
         .selector-group {
@@ -85,12 +65,7 @@
             outline: none;
             cursor: pointer;
             transition: var(--transition);
-            appearance: none;
-            -webkit-appearance: none;
-        }
-
-        .matrix-select:focus {
-            border-color: var(--primary);
+            width: 100%;
         }
 
         .fetch-btn {
@@ -103,19 +78,13 @@
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
-            white-space: nowrap;
             height: 47px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
+        .fetch-btn:hover { box-shadow: 0 0 20px rgba(124, 106, 247, 0.4); }
 
-        .fetch-btn:hover {
-            box-shadow: 0 0 20px rgba(124, 106, 247, 0.4);
-            transform: translateY(-1px);
-        }
-
-        /* DISPLAY DISPLAY BOARD */
         .display-board {
             background: var(--bg-panel);
             border: 1px solid var(--border);
@@ -137,14 +106,8 @@
             line-height: 1.5;
         }
 
-        .warning-display-text {
-            color: #fca5a5;
-            font-size: 18px;
-            line-height: 1.6;
-            max-width: 600px;
-        }
+        .warning-display-text { color: #fca5a5; font-size: 18px; line-height: 1.6; }
 
-        /* TRANSLATION BOX PANELS */
         .workspace-panel {
             background: var(--bg-panel);
             border: 1px solid var(--border);
@@ -174,20 +137,9 @@
             line-height: 1.6;
             resize: vertical;
             outline: none;
-            transition: var(--transition);
             margin-bottom: 20px;
         }
 
-        .sandbox-textarea:focus {
-            border-color: var(--primary);
-        }
-
-        .action-row {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        /* EXTRA FEEDBACK DRAWER */
         .verification-drawer {
             margin-top: 24px;
             background: rgba(0, 0, 0, 0.2);
@@ -205,12 +157,7 @@
             letter-spacing: 1px;
             margin-bottom: 6px;
         }
-
-        .drawer-content {
-            color: #cbd5e1;
-            font-size: 15px;
-            line-height: 1.6;
-        }
+        .drawer-content { color: #cbd5e1; font-size: 15px; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -218,7 +165,6 @@
     <div id="nav-container"></div>
 
     <div class="sandbox-container">
-        
         <a href="greek.html" class="back-link">← Return to Greek Dashboard</a>
 
         <div class="sandbox-header">
@@ -229,16 +175,13 @@
         <div class="control-rack">
             <div class="selector-group">
                 <label>Select Book</label>
-                <select class="matrix-select" id="book-selector" onchange="updateChapters()">
-                    <option value="John">John</option>
-                    <option value="Romans">Romans</option>
-                    <option value="Matthew">Matthew</option>
-                </select>
+                <select class="matrix-select" id="book-selector" onchange="syncChapters()">
+                    </select>
             </div>
 
             <div class="selector-group">
                 <label>Chapter</label>
-                <select class="matrix-select" id="chapter-selector" onchange="updateVerses()">
+                <select class="matrix-select" id="chapter-selector" onchange="syncVerses()">
                     </select>
             </div>
 
@@ -253,15 +196,15 @@
 
         <div class="display-board">
             <div id="text-viewport-target">
-                <span class="warning-display-text">Select parameters above and hit Fetch Verse to populate the sandbox matrix environment.</span>
+                <span style="color: #94a3b8;">Select a passage above and click "Fetch Verse"</span>
             </div>
         </div>
 
         <div class="workspace-panel">
             <label>Your Translation Workspace:</label>
-            <textarea class="sandbox-textarea" id="sandbox-user-input" placeholder="Type out your translation decipherment here... (e.g., In the beginning was the Word...)"></textarea>
+            <textarea class="sandbox-textarea" id="sandbox-user-input" placeholder="Type out your translation decipherment here..."></textarea>
             
-            <div class="action-row">
+            <div style="display: flex; justify-content: flex-end;">
                 <button class="fetch-btn" style="background:#10b981;" onclick="verifySandboxTranslation()">Verify Rendering</button>
             </div>
 
@@ -270,90 +213,73 @@
                 <div class="drawer-content" id="sandbox-key-target"></div>
             </div>
         </div>
-
     </div>
 
     <script src="nav.js"></script>
     <script>
-        // Comprehensive Local Failover Bible Manuscript Database Map
+        // High-Fidelity Verified Database Map
         const textualDatabase = {
             "John": {
-                3: {
-                    16: {
-                        greek: "οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον.",
-                        english: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
-                    }
-                },
-                1: {
-                    1: {
+                "1": {
+                    "1": {
                         greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
                         english: "In the beginning was the Word, and the Word was with God, and the Word was God."
                     },
-                    14: {
+                    "14": {
                         greek: "Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ.",
                         english: "And the Word became flesh and dwelt among us, and we have seen his glory."
+                    }
+                },
+                "3": {
+                    "16": {
+                        greek: "οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον.",
+                        english: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
                     }
                 }
             },
             "Romans": {
-                1: {
-                    16: {
+                "1": {
+                    "16": {
                         greek: "οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον, δύναμις γὰρ θεοῦ ἐστιν εἰς σωτηρίαν παντὶ τῷ πιστεύοντι.",
                         english: "For I am not ashamed of the gospel, for it is the power of God for salvation to everyone who believes."
-                    }
-                },
-                5: {
-                    1: {
-                        greek: "Δικαιωθέντες οὖν ἐκ πίστεως εἰρήνην ἔχομεν πρὸς τὸν θεὸν διὰ τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ.",
-                        english: "Therefore, since we have been justified by faith, we have peace with God through our Lord Jesus Christ."
-                    }
-                }
-            },
-            "Matthew": {
-                6: {
-                    9: {
-                        greek: "Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς· ἁγιασθήτω τὸ ὄνομά σου·",
-                        english: "Our Father in heaven, hallowed be your name."
                     }
                 }
             }
         };
 
-        // Populate Dynamic Form Controls Interdependently
-        const structuralMap = {
-            "John": { 1: [1, 14], 3: [16] },
-            "Romans": { 1: [16], 5: [1] },
-            "Matthew": { 6: [9] }
-        };
-
-        function updateChapters() {
-            const book = document.getElementById('book-selector').value;
-            const chapSelect = document.getElementById('chapter-selector');
-            chapSelect.innerHTML = "";
-            
-            Object.keys(structuralMap[book]).forEach(chap => {
-                let opt = document.createElement('option');
-                opt.value = chap;
-                opt.textContent = chap;
-                chapSelect.appendChild(opt);
+        function initSelectors() {
+            const bookSel = document.getElementById('book-selector');
+            bookSel.innerHTML = "";
+            Object.keys(textualDatabase).forEach(book => {
+                bookSel.options[bookSel.options.length] = new Option(book, book);
             });
-            updateVerses();
+            syncChapters();
         }
 
-        function updateVerses() {
+        function syncChapters() {
+            const book = document.getElementById('book-selector').value;
+            const chapSel = document.getElementById('chapter-selector');
+            chapSel.innerHTML = "";
+            
+            if (textualDatabase[book]) {
+                Object.keys(textualDatabase[book]).forEach(chap => {
+                    chapSel.options[chapSel.options.length] = new Option(chap, chap);
+                });
+            }
+            syncVerses();
+        }
+
+        function syncVerses() {
             const book = document.getElementById('book-selector').value;
             const chap = document.getElementById('chapter-selector').value;
-            const verseSelect = document.getElementById('verse-selector');
-            verseSelect.innerHTML = "";
+            const verseSel = document.getElementById('verse-selector');
+            verseSel.innerHTML = "";
 
-            if(!chap) return;
-
-            structuralMap[book][chap].forEach(v => {
-                let opt = document.createElement('option');
-                opt.value = v;
-                opt.textContent = v;
-                verseSelect.appendChild(opt);
-            });
+            if (textualDatabase[book] && textualDatabase[book][chap]) {
+                Object.keys(textualDatabase[book][chap]).forEach(verse => {
+                    verseSel.options[verseSel.options.length] = new Option(verse, verse);
+                });
+            }
         }
 
         function fetchTextMatrix() {
@@ -362,18 +288,14 @@
             const verse = document.getElementById('verse-selector').value;
             const viewport = document.getElementById('text-viewport-target');
             
-            // Hide previous check evaluations
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
 
-            if (textualDatabase[book] && textualDatabase[book][chap] && textualDatabase[book][chap][verse]) {
+            if (textualDatabase[book]?.[chap]?.[verse]) {
                 const data = textualDatabase[book][chap][verse];
                 viewport.innerHTML = `<span class="greek-display-text">${data.greek}</span>`;
                 viewport.dataset.currentEnglish = data.english;
             } else {
-                viewport.innerHTML = `
-                    <span class="warning-display-text">
-                        Text unavailable. (Note: You may have exceeded the final verse count of this chapter. Try a lower verse number!)
-                    </span>`;
+                viewport.innerHTML = `<span class="warning-display-text">Text unavailable. Try another chapter or verse selection!</span>`;
                 delete viewport.dataset.currentEnglish;
             }
         }
@@ -382,21 +304,17 @@
             const viewport = document.getElementById('text-viewport-target');
             const targetEnglish = viewport.dataset.currentEnglish;
             const drawer = document.getElementById('sandbox-feedback-drawer');
-            const keyTarget = document.getElementById('sandbox-key-target');
-
+            
             if (!targetEnglish) {
-                alert("Please successfully load a valid manuscript slice first!");
+                alert("Please fetch a valid verse first!");
                 return;
             }
-
-            keyTarget.textContent = targetEnglish;
+            
+            document.getElementById('sandbox-key-target').textContent = targetEnglish;
             drawer.style.display = "block";
         }
 
-        // Run primary dynamic dropdown generation on initial setup load
-        window.addEventListener('DOMContentLoaded', () => {
-            updateChapters();
-        });
+        window.addEventListener('DOMContentLoaded', initSelectors);
     </script>
 </body>
 </html>
