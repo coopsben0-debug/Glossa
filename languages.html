@@ -3,277 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Languages</title>
+    <title>Glossa — Languages</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding-bottom: 80px; }
-
-        /* NAV */
-        nav {
-            background: #1a1a2e;
-            padding: 16px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #2a2a4a;
-        }
-        .brand { color: #7c6af7; font-size: 24px; font-weight: 800; text-decoration: none; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { color: #aaa; text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
-        .nav-links a:hover { color: white; }
-        .nav-links a.active { color: #7c6af7; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
-        .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #0f0f1a;
-            z-index: 200;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { color: white; text-decoration: none; font-size: 24px; font-weight: 700; transition: color 0.2s; }
-        .mobile-menu a:hover { color: #7c6af7; }
-        .mobile-close {
-            position: absolute;
-            top: 20px; right: 30px;
-            font-size: 32px;
-            cursor: pointer;
-            color: #aaa;
-            background: none;
-            border: none;
-        }
-
-        /* BOTTOM NAV - mobile only */
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #1a1a2e;
-            border-top: 1px solid #2a2a4a;
-            padding: 8px 0;
-            z-index: 100;
-            justify-content: space-around;
-        }
-        .bottom-nav a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            text-decoration: none;
-            color: #555;
-            font-size: 10px;
-            font-weight: 600;
-            flex: 1;
-            transition: color 0.2s;
-        }
-        .bottom-nav a .icon { font-size: 22px; }
-        .bottom-nav a.active { color: #7c6af7; }
-        .bottom-nav a:hover { color: #aaa; }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hamburger { display: flex; }
-            .bottom-nav { display: flex; }
-        }
-
-        /* PAGE */
-        .hero { text-align: center; padding: 50px 20px 30px; }
-        .hero h2 { font-size: 40px; font-weight: 800; margin-bottom: 10px; }
-        .hero p { color: #aaa; font-size: 16px; }
-
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 60px; }
-
-        .section-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #7c6af7;
-            margin: 40px 0 20px;
-            font-weight: 700;
-        }
-
+        /* Contextual page grid modifications override */
         .lang-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
         }
 
         .lang-card {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            border: 1px solid #2a2a4a;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s;
-            display: block;
-        }
-        .lang-card:hover {
-            border-color: #7c6af7;
-            transform: translateY(-4px);
-            box-shadow: 0 0 25px rgba(124, 106, 247, 0.15);
-        }
-        .lang-card.coming {
-            opacity: 0.5;
-            cursor: default;
-            pointer-events: none;
-        }
-        .lang-flag { font-size: 40px; margin-bottom: 12px; display: block; }
-        .lang-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
-        .lang-card p { color: #aaa; font-size: 12px; line-height: 1.5; }
-        .coming-tag {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 3px 10px;
-            background: rgba(124, 106, 247, 0.1);
-            color: #7c6af7;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 700;
+            justify-content: space-between;
+            min-height: 190px;
         }
 
-        footer { text-align: center; padding: 30px; color: #555; font-size: 14px; }
+        .lang-flag {
+            font-size: 36px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .coming-tag {
+            display: inline-block;
+            margin-top: auto;
+            padding: 4px 10px;
+            background: rgba(109, 93, 252, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(109, 93, 252, 0.2);
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-card.coming {
+            opacity: 0.45;
+            cursor: not-allowed;
+            pointer-events: none;
+            box-shadow: none;
+        }
+
+        .lang-card.coming:hover {
+            transform: none;
+            border-color: var(--border);
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html" class="brand">Glossa</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="languages.html" class="active">Languages</a>
-            <a href="chat.html">Chat</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
-            <a href="profile.html">Profile</a>
-        </div>
-        <div class="hamburger" onclick="openMenu()">
-            <span></span><span></span><span></span>
-        </div>
-    </nav>
+    <main class="app-container">
+        
+        <header class="page-header" style="text-align: center; margin-bottom: 50px;">
+            <h1>Choose Your Language</h1>
+            <p>Explore ancient textual scripts or practice conversational fluency with modern tracks.</p>
+        </header>
 
-    <div class="mobile-menu" id="mobile-menu">
-        <button class="mobile-close" onclick="closeMenu()">✕</button>
-        <a href="index.html" onclick="closeMenu()">Home</a>
-        <a href="languages.html" onclick="closeMenu()">Languages</a>
-        <a href="chat.html" onclick="closeMenu()">Chat</a>
-        <a href="ai-tutor.html" onclick="closeMenu()">AI Tutor</a>
-        <a href="login.html" onclick="closeMenu()">Login</a>
-        <a href="profile.html" onclick="closeMenu()">Profile</a>
-    </div>
-
-    <div class="hero">
-        <h2>🌍 Choose Your Language</h2>
-        <p>Ancient scripts or modern conversation — we've got you covered</p>
-    </div>
-
-    <div class="container">
-
-        <div class="section-title">⛪ Ancient Languages</div>
-        <div class="lang-grid">
+        <h2 class="section-title" style="font-size: 11px; margin-bottom: 16px;">⛪ Ancient Languages</h2>
+        <div class="lang-grid" style="margin-bottom: 48px;">
+            
             <a href="greek.html" class="lang-card">
-                <span class="lang-flag">🏛️</span>
-                <h3>Biblical Greek</h3>
-                <p>Koine Greek of the New Testament</p>
+                <div>
+                    <span class="lang-flag">🏛️</span>
+                    <h3>Biblical Greek</h3>
+                    <p style="margin-bottom: 0;">Koine vocabulary of the New Testament script matrix.</p>
+                </div>
+                <span class="btn btn-primary" style="padding: 6px 14px; font-size: 11px; margin-top: 16px; width: 100%;">Enter Track</span>
             </a>
+
             <div class="lang-card coming">
-                <span class="lang-flag">✡️</span>
-                <h3>Biblical Hebrew</h3>
-                <p>Old Testament Hebrew</p>
+                <div>
+                    <span class="lang-flag">✡️</span>
+                    <h3>Biblical Hebrew</h3>
+                    <p style="margin-bottom: 0;">Old Testament textual markers and verb roots.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🏺</span>
-                <h3>Latin</h3>
-                <p>Classical and ecclesiastical Latin</p>
+                <div>
+                    <span class="lang-flag">🏺</span>
+                    <h3>Latin</h3>
+                    <p style="margin-bottom: 0;">Classical paradigms and ecclesiastical sentence rules.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">𓂀</span>
-                <h3>Aramaic</h3>
-                <p>Language of Jesus</p>
+                <div>
+                    <span class="lang-flag">𓂀</span>
+                    <h3>Aramaic</h3>
+                    <p style="margin-bottom: 0;">Historical syntax and Northwest Semitic language roots.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+            
         </div>
 
-        <div class="section-title">🌍 Modern Languages</div>
+        <h2 class="section-title" style="font-size: 11px; margin-bottom: 16px;">🌍 Modern Languages</h2>
         <div class="lang-grid">
+            
             <div class="lang-card coming">
-                <span class="lang-flag">🇫🇷</span>
-                <h3>French</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇫🇷</span>
+                    <h3>French</h3>
+                    <p style="margin-bottom: 0;">Interactive listening sets and native vocal exercises.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇪🇸</span>
-                <h3>Spanish</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇪🇸</span>
+                    <h3>Spanish</h3>
+                    <p style="margin-bottom: 0;">Grammar structures and real-world conversation drills.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇩🇪</span>
-                <h3>German</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇩🇪</span>
+                    <h3>German</h3>
+                    <p style="margin-bottom: 0;">Compound logic analysis and conversational vocabulary builds.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇮🇹</span>
-                <h3>Italian</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇮🇹</span>
+                    <h3>Italian</h3>
+                    <p style="margin-bottom: 0;">Syntax expression cards and vocabulary review modules.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇸🇦</span>
-                <h3>Arabic</h3>
-                <p>Modern Standard Arabic</p>
+                <div>
+                    <span class="lang-flag">🇸🇦</span>
+                    <h3>Arabic</h3>
+                    <p style="margin-bottom: 0;">Modern Standard scripting grammar configurations.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇯🇵</span>
-                <h3>Japanese</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇯🇵</span>
+                    <h3>Japanese</h3>
+                    <p style="margin-bottom: 0;">Kana text structures and foundational dialogue practice.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇨🇳</span>
-                <h3>Mandarin</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇨🇳</span>
+                    <h3>Mandarin</h3>
+                    <p style="margin-bottom: 0;">Tonal pronunciation frameworks and character tracking.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
             <div class="lang-card coming">
-                <span class="lang-flag">🇬🇷</span>
-                <h3>Modern Greek</h3>
-                <p>Beginner to advanced</p>
+                <div>
+                    <span class="lang-flag">🇬🇷</span>
+                    <h3>Modern Greek</h3>
+                    <p style="margin-bottom: 0;">Contemporary daily vocabulary metrics and listening skills.</p>
+                </div>
                 <span class="coming-tag">COMING SOON</span>
             </div>
+
         </div>
 
-    </div>
+    </main>
 
-    <footer><p>© 2026 Glossa — All rights reserved</p></footer>
+    <footer style="text-align: center; margin-top: 80px; font-size: 12px; color: var(--text-muted); opacity: 0.5;">
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
 
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">
-        <a href="index.html"><span class="icon">🏠</span>Home</a>
-        <a href="languages.html" class="active"><span class="icon">🌍</span>Languages</a>
-        <a href="chat.html"><span class="icon">💬</span>Chat</a>
-        <a href="ai-tutor.html"><span class="icon">🤖</span>AI Tutor</a>
-        <a href="profile.html"><span class="icon">👤</span>Profile</a>
-    </nav>
-
-    <script>
-        function openMenu() { document.getElementById('mobile-menu').classList.add('open'); }
-        function closeMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
-    </script>
-
+    <script src="nav.js"></script>
 </body>
 </html>
