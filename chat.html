@@ -5,102 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glossa — Global Chat Hub</title>
     <style>
-        .chat-wrapper {
-            display: flex;
-            gap: 24px;
-            height: calc(100vh - 96px);
-            max-width: 1400px;
-            margin: 0 auto;
+        .chat-container { 
+            display: grid; 
+            grid-template-columns: 280px 1fr; 
+            gap: 24px; 
+            max-width: 1300px; 
+            margin: 0 auto; 
+            height: calc(100vh - 120px); 
+            box-sizing: border-box;
         }
-        .channels-panel {
-            width: 280px;
-            background: rgba(18, 18, 36, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+        @media (max-width: 900px) {
+            .chat-container { grid-template-columns: 1fr; height: auto; }
         }
-        .panel-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .channel-btn {
-            background: rgba(26, 26, 54, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 12px 16px;
-            border-radius: 12px;
-            color: #ffffff;
-            cursor: pointer;
-            text-align: left;
-            font-size: 14px;
-            transition: all 0.2s ease;
+
+        .deck-channels { 
+            background: rgba(16, 16, 32, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 20px; 
+            padding: 24px; 
+            box-sizing: border-box;
         }
-        .channel-btn:hover { border-color: rgba(124, 58, 237, 0.4); background: rgba(26, 26, 54, 0.7); }
-        .main-chat-box {
-            flex: 1;
-            background: rgba(18, 18, 36, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-        }
-        .chat-welcome { text-align: center; margin: auto; }
-        .chat-welcome h2 { font-size: 28px; margin-bottom: 8px; }
-        .input-row {
-            display: flex;
-            gap: 12px;
-            background: rgba(26, 26, 54, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 8px 8px 8px 16px;
-            border-radius: 16px;
-            align-items: center;
-        }
-        .input-row input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            outline: none;
-            font-size: 14px;
-        }
-        .btn-send {
-            background: #7c3aed;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 12px;
+        .channel-item {
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            color: #c084fc;
             font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
+            font-size: 14px;
+            margin-bottom: 8px;
         }
-        .btn-send:hover { background: #9333ea; }
+
+        .chat-box { 
+            background: rgba(16, 16, 32, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            border-radius: 20px; 
+            padding: 24px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            position: relative; 
+            box-sizing: border-box;
+            height: 100%;
+        }
+        .message-log { 
+            flex: 1; 
+            overflow-y: auto; 
+            margin-bottom: 20px; 
+            padding-right: 8px; 
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-row-input { 
+            display: flex; 
+            gap: 12px; 
+            position: relative; 
+            z-index: 100; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .chat-row-input input { 
+            flex: 1; 
+            background: rgba(30, 30, 60, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+            padding: 14px 16px;
+            font-size: 14px;
+            border-radius: 12px;
+            outline: none;
+        }
+        .chat-row-input input::placeholder {
+            color: #94a3b8;
+        }
+        .chat-row-input input:focus {
+            border-color: #7c3aed !important;
+            background: rgba(35, 35, 70, 0.9) !important;
+        }
+        .send-action { 
+            background: #7c3aed; 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            padding: 0 24px; 
+            font-weight: 600; 
+            font-size: 14px;
+            cursor: pointer; 
+            transition: all 0.2s; 
+        }
+        .send-action:hover { 
+            background: #9333ea; 
+        }
+        .user-msg { 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 14px; 
+            border-radius: 12px; 
+            margin-bottom: 12px; 
+            border-left: 3px solid #7c3aed; 
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+        .user-msg b {
+            color: #a78bfa;
+        }
     </style>
 </head>
 <body>
 
-    <div class="chat-wrapper">
-        <div class="channels-panel">
-            <div class="panel-title">🟢 Chat Channels</div>
-            <button class="channel-btn">🏛️ Biblical Greek</button>
-            <button class="channel-btn" style="opacity: 0.4;">🔯 Biblical Hebrew</button>
-            <button class="channel-btn" style="opacity: 0.4;">🏺 Latin</button>
+    <div class="chat-container">
+        <div class="deck-channels">
+            <h3 style="margin-top:0; font-size: 18px;">Chat Channels</h3>
+            <div class="channel-item">🏛️ Biblical Greek Hub</div>
+            <div class="channel-item" style="opacity:0.25; background:transparent; border-color:transparent; color:#94a3b8;">🔯 Biblical Hebrew (Locked)</div>
+            <div class="channel-item" style="opacity:0.25; background:transparent; border-color:transparent; color:#94a3b8;">🏺 Latin Terminals (Locked)</div>
         </div>
 
-        <div class="main-chat-box">
-            <div class="chat-welcome">
-                <h2>Welcome to Glossa Hub 👋</h2>
-                <p>Select an active language room on the channel deck layout to start mapping messages.</p>
+        <div class="chat-box">
+            <div class="message-log" id="msg-view">
+                <div class="user-msg">
+                    <b>System Oracle:</b> Secure terminal sync established. Type your translation queries or community chat text details safely below.
+                </div>
             </div>
 
-            <div class="input-row">
-                <input type="text" placeholder="Type a chat message...">
-                <button class="btn-send">Send →</button>
+            <div class="chat-row-input">
+                <input type="text" id="chat-field" placeholder="Write localized community script message here...">
+                <button class="send-action" onclick="pushLocalMessage()">Send →</button>
             </div>
         </div>
     </div>
 
+    <script>
+        function pushLocalMessage() {
+            const inputElement = document.getElementById('chat-field');
+            const messageText = inputElement.value.trim();
+            
+            if (!messageText) return; // Drop execution if text string content is blank
+            
+            const logContainer = document.getElementById('msg-view');
+            const messageNode = document.createElement('div');
+            messageNode.className = 'user-msg';
+            messageNode.innerHTML = `<b>You:</b> ${messageText}`;
+            
+            logContainer.appendChild(messageNode);
+            inputElement.value = ''; // Flush text clean on click submission
+            logContainer.scrollTop = logContainer.scrollHeight; // Force scroll focus capture downward
+        }
+
+        // Listen for standard core user keydown returns
+        document.getElementById('chat-field').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                pushLocalMessage();
+            }
+        });
+    </script>
     <script src="ui-manager.js"></script>
 </body>
 </html>
