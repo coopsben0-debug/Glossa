@@ -156,7 +156,7 @@
 
         <div class="lexicon-search-container">
             <span class="search-icon-marker">🔍</span>
-            <input type="text" id="lexicon-search" class="search-input-field" placeholder="Type meaning, Greek word, or transliteration (e.g., 'logos', 'ἀγάπη')..." oninput="executeLexiconSearch()">
+            <input type="text" id="lexicon-search" class="search-input-field" placeholder="Type meaning, Greek word, or transliteration (e.g., 'logos', 'ἀγάπη')...." oninput="executeLexiconSearch()">
         </div>
 
         <div class="metrics-summary-banner">
@@ -164,7 +164,7 @@
                 <div class="radial-badge" id="mastery-percentage-view">0%</div>
                 <div class="metrics-meta">
                     <h3>Lexicon Mastery Quotient</h3>
-                    <p id="mastery-fractional-count">0 of 49 core vectors checked off successfully</p>
+                    <p id="mastery-fractional-count">0 of 59 core vectors checked off successfully</p>
                 </div>
             </div>
             <button class="arena-toggle-btn" onclick="openVerificationSandbox()">⚡ Launch Spaced-Repetition Arena</button>
@@ -177,7 +177,7 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip active" id="chip-all" onclick="switchActiveVectorSet('all')">
                         <span>All Core Sets</span>
-                        <span class="chip-counter" id="count-all">49</span>
+                        <span class="chip-counter" id="count-all">59</span>
                     </button>
                     <button class="selector-chip" id="chip-1" onclick="switchActiveVectorSet(1)">
                         <span>Set 1 — Core Particles</span>
@@ -193,11 +193,11 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip" id="chip-3" onclick="switchActiveVectorSet(3)">
                         <span>Set 3 — Structural Actions</span>
-                        <span class="chip-counter" id="count-3">9</span>
+                        <span class="chip-counter" id="count-3">14</span>
                     </button>
                     <button class="selector-chip" id="chip-4" onclick="switchActiveVectorSet(4)">
                         <span>Set 4 — Cosmic Identity</span>
-                        <span class="chip-counter" id="count-4">9</span>
+                        <span class="chip-counter" id="count-4">11</span>
                     </button>
                 </div>
 
@@ -205,7 +205,7 @@
                 <div class="frequency-selector-list">
                     <button class="selector-chip" id="chip-5" onclick="switchActiveVectorSet(5)">
                         <span>Set 5 — Theological Shifts</span>
-                        <span class="chip-counter" id="count-5">7</span>
+                        <span class="chip-counter" id="count-5">10</span>
                     </button>
                 </div>
             </div>
@@ -244,7 +244,7 @@
 
     <script src="nav.js"></script>
     <script>
-        // CORE ACTIVE GROUPS ARRAY (Retained clean, high-speed footprint inside core file)
+        // FULLY EMBEDDED MASTER DICTIONARY DATASET (Fully visual instantly on screen)
         const lexicalBaseDefinitions = [
             { g: "ὁ", t: "ho", e: ["the"], s: 1, c: "19,870 times" },
             { g: "καί", t: "kai", e: ["and", "even", "also"], s: 1, c: "9,153 times" },
@@ -281,6 +281,11 @@
             { g: "βασιλεία", t: "basileia", e: ["kingdom", "reign"], s: 3, c: "162 times" },
             { g: "μαθητής", t: "mathetes", e: ["disciple", "learner"], s: 3, c: "261 times" },
             { g: "γῆ", t: "ge", e: ["earth", "land"], s: 3, c: "250 times" },
+            { g: "γινώσκω", t: "ginosko", e: ["I know", "understand"], s: 3, c: "222 times" },
+            { g: "λαμβάνω", t: "lambano", e: ["I take", "receive"], s: 3, c: "258 times" },
+            { g: "γράφω", t: "grapho", e: ["I write"], s: 3, c: "191 times" },
+            { g: "εὑρίσκω", t: "heurisko", e: ["I find", "discover"], s: 3, c: "176 times" },
+            { g: "ἀποστέλλω", t: "apostello", e: ["I send out"], s: 3, c: "132 times" },
             
             { g: "ἀδελφός", t: "adelphos", e: ["brother"], s: 4, c: "343 times" },
             { g: "λόγος", t: "logos", e: ["word", "statement", "message"], s: 4, c: "331 times" },
@@ -291,6 +296,8 @@
             { g: "κόσμος", t: "kosmos", e: ["world", "universe"], s: 4, c: "186 times" },
             { g: "χάρις", t: "charis", e: ["grace", "favor"], s: 4, c: "155 times" },
             { g: "πνεῦμα", t: "pneuma", e: ["spirit", "wind"], s: 4, c: "379 times" },
+            { g: "βλέπω", t: "blepo", e: ["I see", "look at"], s: 4, c: "132 times" },
+            { g: "ζωή", t: "zoe", e: ["life"], s: 4, c: "135 times" },
             
             { g: "ἀγάπη", t: "agape", e: ["love", "affection"], s: 5, c: "116 times" },
             { g: "πίστις", t: "pistis", e: ["faith", "trust"], s: 5, c: "243 times" },
@@ -298,21 +305,10 @@
             { g: "εἰρήνη", t: "eirene", e: ["peace", "harmony"], s: 5, c: "92 times" },
             { g: "ἁμαρτία", t: "hamartia", e: ["sin", "failure"], s: 5, c: "173 times" },
             { g: "ὄνομα", t: "onoma", e: ["name", "authority"], s: 5, c: "231 times" },
-            { g: "λαλέω", t: "laleo", e: ["I speak", "talk"], s: 5, c: "296 times" }
-        ];
-
-        // EXTRA LEXICON BUILT-IN FALLBACK REPOSITORY FOR HYBRID ENVIRONMENTS
-        const expandedBackupLexiconDataset = [
-            { g: "βλέπω", t: "blepo", e: "I see, look at, perceive", c: "132 times" },
-            { g: "λύω", t: "luo", e: "I loose, untie, destroy, break", c: "42 times" },
-            { g: "γινώσκω", t: "ginosko", e: "I know, understand, recognize", c: "222 times" },
-            { g: "γράφω", t: "grapho", e: "I write, record", c: "191 times" },
-            { g: "λαμβάνω", t: "lambano", e: "I take, receive, accept", c: "258 times" },
-            { g: "εὑρίσκω", t: "heurisko", e: "I find, discover, obtain", c: "176 times" },
-            { g: "ἀποστέλλω", t: "apostello", e: "I send out, commission, dispatch", c: "132 times" },
-            { g: "ζωή", t: "zoe", e: "life", c: "135 times" },
-            { g: "θάνατος", t: "thanatos", e: "death", c: "120 times" },
-            { g: "κρίσις", t: "krisis", e: "judgment, evaluation, decision", c: "48 times" }
+            { g: "λαλέω", t: "laleo", e: ["I speak", "talk"], s: 5, c: "296 times" },
+            { g: "λύω", t: "luo", e: ["I loose", "untie", "destroy"], s: 5, c: "42 times" },
+            { g: "θάνατος", t: "thanatos", e: ["death"], s: 5, c: "120 times" },
+            { g: "κρίσις", t: "krisis", e: ["judgment", "decision"], s: 5, c: "48 times" }
         ];
 
         const frequencySetMetaTitles = {
@@ -323,40 +319,18 @@
             5: "Set 5 — Theological Shifts (50x - 99x)"
         };
 
-        let externalFullLexiconData = [];
         let activeVectorSetKey = "all";
         let searchActiveStateQuery = "";
         let activeWordPointer = null;
         let activeAppModeState = "guess";
         let srsProgressDataStore = JSON.parse(localStorage.getItem('glossa_srs_cache_v3')) || {};
 
-        async function initLexicalMatrixEngine() {
+        function initLexicalMatrixEngine() {
             document.getElementById('count-all').textContent = lexicalBaseDefinitions.length;
             for(let i=1; i<=5; i++) {
                 document.getElementById(`count-${i}`).textContent = lexicalBaseDefinitions.filter(w => w.s === i).length;
             }
             
-            // Asynchronously pre-fetch full dataset from JSON file
-            try {
-                const queryStream = await fetch('strongs-lexicon.json');
-                if(queryStream.ok) {
-                    externalFullLexiconData = await queryStream.json();
-                    console.log("Comprehensive dictionary dataset loaded successfully via JSON asset file.");
-                } else {
-                    throw new Error("Server responded non-OK status code");
-                }
-            } catch (err) {
-                console.warn("External JSON file blocked or missing. Activating built-in fallback engine.");
-                // Remap backup items structural variations safely for uniform lookup integration
-                const unifiedBackups = expandedBackupLexiconDataset.map(item => ({
-                    g: item.g, t: item.t, e: Array.isArray(item.e) ? item.e : [item.e], c: item.c, s: null
-                }));
-                const unifiedLocalCore = lexicalBaseDefinitions.map(item => ({
-                    g: item.g, t: item.t, e: item.e, c: item.c, s: item.s
-                }));
-                externalFullLexiconData = [...unifiedLocalCore, ...unifiedBackups];
-            }
-
             refreshGlobalProgressMasteryMetrics();
             renderVocabTableEntries();
         }
@@ -387,7 +361,7 @@
             if(val.length > 0) {
                 document.querySelectorAll('.selector-chip').forEach(el => el.classList.remove('active'));
                 document.getElementById('active-panel-title').textContent = `Lexicon Execution Matches ("${val}")`;
-                document.getElementById('active-panel-subtitle').textContent = "Scanning full New Testament dataset across Greek text, definitions, and transliterations.";
+                document.getElementById('active-panel-subtitle').textContent = "Scanning full dataset across Greek text, definitions, and transliterations.";
             } else {
                 switchActiveVectorSet('all');
                 return;
@@ -398,22 +372,17 @@
         function renderVocabTableEntries() {
             const listContainer = document.getElementById('rendered-vocabulary-rows');
             listContainer.innerHTML = "";
-            let filteredList = [];
-
-            if (searchActiveStateQuery.length > 0) {
-                let lookupSource = externalFullLexiconData.length > 0 ? externalFullLexiconData : lexicalBaseDefinitions;
-                
-                filteredList = lookupSource.filter(word => {
-                    const inlineEnglish = Array.isArray(word.e) ? word.e.join(" ") : word.e;
+            
+            let filteredList = lexicalBaseDefinitions.filter(word => {
+                if (searchActiveStateQuery.length > 0) {
+                    const inlineEnglish = word.e.join(" ");
                     return word.g.toLowerCase().includes(searchActiveStateQuery) || 
                            word.t.toLowerCase().includes(searchActiveStateQuery) || 
                            inlineEnglish.toLowerCase().includes(searchActiveStateQuery);
-                }).slice(0, 60); 
-            } else {
-                filteredList = lexicalBaseDefinitions.filter(word => {
+                } else {
                     return (activeVectorSetKey === "all" || word.s === activeVectorSetKey);
-                });
-            }
+                }
+            });
 
             if (filteredList.length === 0) {
                 listContainer.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--text-cool-gray);">No lexicon vectors found matching that query entry.</div>`;
@@ -422,12 +391,11 @@
 
             filteredList.forEach(word => {
                 let score = srsProgressDataStore[word.g] || 0;
-                let hasSRS = localCoreHasSRS(word.g);
                 let statusBadge = score >= 3 
                     ? `<span class="srs-status-pill mastered">✓ Mastered</span>` 
                     : `<span class="srs-status-pill">SRS: ${score}/3</span>`;
 
-                const cleanEnglishDisplay = Array.isArray(word.e) ? word.e.join(", ") : word.e;
+                const cleanEnglishDisplay = word.e.join(", ");
 
                 listContainer.innerHTML += `
                     <div class="vocab-word-row">
@@ -438,15 +406,11 @@
                         </div>
                         <div class="word-stat-badge">
                             <span class="frequency-occurrence-tag">📊 ${word.c}</span>
-                            ${hasSRS ? statusBadge : '<span class="srs-status-pill" style="opacity:0.3; border-style:dashed;">Lexicon Record</span>'}
+                            ${statusBadge}
                         </div>
                     </div>
                 `;
             });
-        }
-
-        function localCoreHasSRS(lemmaKey) {
-            return lexicalBaseDefinitions.some(w => w.g === lemmaKey);
         }
 
         /* SRS OPERATIONS CARD HOOKS */
