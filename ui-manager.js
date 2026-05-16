@@ -8,68 +8,140 @@ const UIManager = {
     ],
 
     init() {
+        // 1. Instantly shred old top navigations before rendering layout panels
+        this.stripLegacyElements();
+        // 2. Inject structural style variables & visual fixes
         this.injectStyles();
+        // 3. Mount UI wrap shell safely 
         this.buildShellArchitecture();
+        // 4. Trace window state routes
         this.highlightActive();
     },
 
+    stripLegacyElements() {
+        // Scrapes the document context to isolate and eliminate duplicate hardcoded top-nav items
+        const legacyHeaders = document.querySelectorAll('.top-nav, header, #top-bar, .nav-links');
+        legacyHeaders.forEach(el => el.remove());
+    },
+
     injectStyles() {
+        // Global Design Token configuration defaults ensuring fallback properties exist
+        const tokens = document.createElement('style');
+        tokens.textContent = `
+            :root {
+                --bg-main: #06060c;
+                --bg-panel: rgba(18, 18, 36, 0.7);
+                --bg-input: rgba(26, 26, 54, 0.5);
+                --primary: #7c3aed;
+                --text-main: #f8fafc !important;
+                --text-muted: #94a3b8 !important;
+                --border: rgba(255, 255, 255, 0.06);
+                --border-hover: rgba(124, 58, 237, 0.4);
+                --radius-lg: 20px;
+                --radius-md: 12px;
+                --glass-blur: blur(16px);
+                --accent-glow: rgba(124, 58, 237, 0.15);
+                --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        `;
+        document.head.appendChild(tokens);
+
         const style = document.createElement('style');
         style.textContent = `
-            /* Core Shell Alignment Layout */
             body {
                 display: flex !important;
                 flex-direction: row !important;
                 min-height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #06060c 70%) !important;
+                background-attachment: fixed !important;
+                color: #f8fafc !important;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
                 overflow-x: hidden;
-                margin: 0;
-                background: #06060c;
             }
 
-            /* PREMIUM GLASS SIDEBAR */
+            /* TEXT READABILITY & CONTRAST ENGINE OVERRIDES */
+            h1, h2, h3, h4, h5, h6, .main-headline, .english-translation {
+                color: #ffffff !important;
+                letter-spacing: -0.02em;
+            }
+            
+            p, label, span, td, th, .text-muted, .sub-headline, .word-stats {
+                color: #cbd5e1 !important; /* High contrast ash-grey for clarity */
+            }
+
+            /* FIXED REVOLUTION NAV BAR */
             #app-sidebar {
                 width: 80px;
                 background: rgba(10, 10, 20, 0.6);
-                backdrop-filter: blur(20px);
-                -webkit-backdrop-filter: blur(20px);
-                border-right: 1px solid rgba(255, 255, 255, 0.06);
+                backdrop-filter: var(--glass-blur);
+                -webkit-backdrop-filter: var(--glass-blur);
+                border-right: 1px solid var(--border);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 padding: 24px 0;
                 position: fixed;
-                top: 0;
-                bottom: 0;
-                left: 0;
+                top: 0; bottom: 0; left: 0;
                 z-index: 1000;
             }
 
-            /* Content Area Pushing clear of Sidebar */
             #app-content {
                 flex: 1;
-                margin-left: 80px;
+                margin-left: 80px; /* Aligns page content cleanly out from behind sidebar layout */
+                padding: 48px;
                 min-width: 0;
                 position: relative;
+            }
+
+            /* SCALING ANCIENT ALPHABET & GRAMMAR CONTENT TABLES */
+            table {
+                width: 100% !important;
+                margin-top: 24px;
+                border-collapse: separate !important;
+                border-spacing: 0 !important;
+                background: var(--bg-panel) !important;
+                border: 1px solid var(--border) !important;
+                border-radius: var(--radius-md);
+                overflow: hidden;
+            }
+
+            th {
+                background: rgba(255, 255, 255, 0.02) !important;
+                color: #ffffff !important;
+                font-weight: 700 !important;
+                font-size: 16px !important;
+                text-align: left;
+                padding: 18px 24px !important;
+                border-bottom: 1px solid var(--border) !important;
+            }
+
+            td {
+                padding: 18px 24px !important;
+                font-size: 18px !important; /* Scales historical character weights so letters are readable */
+                border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+                color: #ffffff !important;
+            }
+
+            tr:last-child td {
+                border-bottom: none !important;
             }
 
             .sidebar-logo {
                 width: 42px;
                 height: 42px;
-                border-radius: var(--radius-md, 12px);
-                background: linear-gradient(135deg, var(--primary, #7c3aed) 0%, #5b4ee4 100%);
+                border-radius: var(--radius-md);
+                background: linear-gradient(135deg, var(--primary) 0%, #5b4ee4 100%);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 font-weight: 900;
                 font-size: 20px;
-                color: #fff;
+                color: #fff !important;
                 cursor: pointer;
                 margin-bottom: 48px;
                 box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-                transition: transform 0.2s ease;
-            }
-            .sidebar-logo:hover {
-                transform: scale(1.05);
             }
 
             .nav-icon {
@@ -81,81 +153,46 @@ const UIManager = {
                 font-size: 22px;
                 text-decoration: none;
                 margin-bottom: 20px;
-                border-radius: var(--radius-md, 12px);
-                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                position: relative;
+                border-radius: var(--radius-md);
+                transition: var(--transition);
                 opacity: 0.4;
-                filter: grayscale(40%);
             }
 
             .nav-icon:hover {
-                opacity: 0.8;
-                background: rgba(255, 255, 255, 0.04);
-                transform: translateX(2px);
+                opacity: 0.9;
+                background: rgba(255, 255, 255, 0.05);
             }
 
             .nav-icon.active {
                 opacity: 1;
-                filter: grayscale(0%);
                 background: rgba(124, 58, 237, 0.15);
                 border: 1px solid rgba(124, 58, 237, 0.25);
             }
 
-            .nav-icon.active::before {
-                content: '';
-                position: absolute;
-                left: -12px;
-                top: 25%;
-                height: 50%;
-                width: 4px;
-                background: var(--primary, #7c3aed);
-                border-radius: 0 4px 4px 0;
-                box-shadow: 0 0 10px var(--primary, #7c3aed);
-            }
+            .sidebar-footer { margin-top: auto; }
 
-            .sidebar-footer {
-                margin-top: auto;
-            }
-
-            /* RESPONSIVE LAYOUT CONVERSION FOR MOBILE SHELLS */
+            /* CELL PHONE VIEWS MIGRATION */
             @media (max-width: 768px) {
                 body { flex-direction: column !important; }
-                
                 #app-sidebar {
-                    width: 100%;
-                    height: 68px;
-                    bottom: 0;
-                    top: auto;
+                    width: 100%; height: 68px;
+                    bottom: 0; top: auto; left: 0;
                     border-right: none;
-                    border-top: 1px solid rgba(255, 255, 255, 0.06);
+                    border-top: 1px solid var(--border);
                     flex-direction: row;
                     justify-content: space-around;
                     padding: 0 16px;
                 }
-                
-                #app-content { 
-                    margin-left: 0; 
-                    padding-bottom: 80px; 
-                }
-                
+                #app-content { margin-left: 0; padding: 24px; padding-bottom: 88px; }
                 .sidebar-logo { display: none; }
-                .nav-icon { margin-bottom: 0; }
                 .sidebar-footer { margin-top: 0; }
-                .nav-icon.active::before {
-                    left: 25%;
-                    top: auto;
-                    bottom: -6px;
-                    width: 50%;
-                    height: 3px;
-                    border-radius: 4px 4px 0 0;
-                }
+                td, th { padding: 14px 16px !important; font-size: 15px !important; }
             }
         `;
         document.head.appendChild(style);
     },
 
     buildShellArchitecture() {
-        // Create elements cleanly using standard DOM nodes to secure functional code architecture listeners
         const sidebar = document.createElement('aside');
         sidebar.id = 'app-sidebar';
 
@@ -168,7 +205,6 @@ const UIManager = {
         const footerWrapper = document.createElement('div');
         footerWrapper.className = 'sidebar-footer';
 
-        // Loop array maps safely
         this.links.forEach(link => {
             const a = document.createElement('a');
             a.href = link.href;
@@ -185,7 +221,6 @@ const UIManager = {
         });
         sidebar.appendChild(footerWrapper);
 
-        // Safely capture entire page body content without disrupting existing node reference trees
         const contentWrapper = document.createElement('main');
         contentWrapper.id = 'app-content';
         
@@ -193,7 +228,6 @@ const UIManager = {
             contentWrapper.appendChild(document.body.firstChild);
         }
 
-        // Re-inject shell structures safely back to viewport
         document.body.appendChild(sidebar);
         document.body.appendChild(contentWrapper);
     },
@@ -209,7 +243,6 @@ const UIManager = {
     }
 };
 
-// Fire UI execution cleanly
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => UIManager.init());
 } else {
