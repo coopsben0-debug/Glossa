@@ -162,7 +162,7 @@ SIDEBAR
     font-size:18px;
 }
 
-.sidebar a{
+.sidebar a.nav-link{
     display:block;
     color:#aaa;
     text-decoration:none;
@@ -170,7 +170,7 @@ SIDEBAR
     transition:0.2s;
 }
 
-.sidebar a:hover{
+.sidebar a.nav-link:hover{
     color:#7c6af7;
     transform:translateX(5px);
 }
@@ -388,10 +388,6 @@ SCROLLBAR
 
 <body>
 
-<!-- =========================
-NAVBAR
-========================= -->
-
 <nav>
 
     <h1>Glossa</h1>
@@ -412,10 +408,6 @@ NAVBAR
 
 </nav>
 
-<!-- =========================
-HERO
-========================= -->
-
 <div class="hero">
 
     <h2>🏛 Biblical Greek Grammar</h2>
@@ -427,20 +419,12 @@ HERO
 
 </div>
 
-<!-- =========================
-LAYOUT
-========================= -->
-
 <div class="layout">
-
-    <!-- =========================
-    SIDEBAR
-    ========================= -->
 
     <div class="sidebar">
 
         <a href="greek-test.html" class="back-btn">
-            ← Back to Biblical Greek
+            &larr; Back to Biblical Greek
         </a>
 
         <input
@@ -452,41 +436,39 @@ LAYOUT
 
         <h2>Contents</h2>
 
-        <h3>Foundations</h3>
+        <div class="sidebar-section" data-topic="alphabet breathings accents">
+            <h3>Foundations</h3>
+            <a href="#alphabet" class="nav-link" data-target="alphabet">Greek Alphabet</a>
+            <a href="#breathings" class="nav-link" data-target="breathings">Breathing Marks</a>
+            <a href="#accents" class="nav-link" data-target="accents">Accent System</a>
+        </div>
 
-        <a href="#alphabet">Greek Alphabet</a>
-        <a href="#breathings">Breathing Marks</a>
-        <a href="#accents">Accent System</a>
+        <div class="sidebar-section" data-topic="cases article firstdeclension seconddeclension">
+            <h3>Nouns</h3>
+            <a href="#cases" class="nav-link" data-target="cases">The Cases</a>
+            <a href="#article" class="nav-link" data-target="article">Definite Article</a>
+            <a href="#firstdeclension" class="nav-link" data-target="firstdeclension">First Declension</a>
+            <a href="#seconddeclension" class="nav-link" data-target="seconddeclension">Second Declension</a>
+        </div>
 
-        <h3>Nouns</h3>
+        <div class="sidebar-section" data-topic="present future imperfect aorist perfect">
+            <h3>Verbs</h3>
+            <a href="#present" class="nav-link" data-target="present">Present Active</a>
+            <a href="#future" class="nav-link" data-target="future">Future</a>
+            <a href="#imperfect" class="nav-link" data-target="imperfect">Imperfect</a>
+            <a href="#aorist" class="nav-link" data-target="aorist">Aorist</a>
+            <a href="#perfect" class="nav-link" data-target="perfect">Perfect</a>
+        </div>
 
-        <a href="#cases">The Cases</a>
-        <a href="#article">Definite Article</a>
-        <a href="#firstdeclension">First Declension</a>
-        <a href="#seconddeclension">Second Declension</a>
-
-        <h3>Verbs</h3>
-
-        <a href="#present">Present Active</a>
-        <a href="#future">Future</a>
-        <a href="#imperfect">Imperfect</a>
-        <a href="#aorist">Aorist</a>
-        <a href="#perfect">Perfect</a>
-
-        <h3>Syntax</h3>
-
-        <a href="#wordorder">Word Order</a>
-        <a href="#conditions">Conditional Sentences</a>
+        <div class="sidebar-section" data-topic="wordorder conditions">
+            <h3>Syntax</h3>
+            <a href="#wordorder" class="nav-link" data-target="wordorder">Word Order</a>
+            <a href="#conditions" class="nav-link" data-target="conditions">Conditional Sentences</a>
+        </div>
 
     </div>
 
-    <!-- =========================
-    CONTENT
-    ========================= -->
-
     <div class="content">
-
-        <!-- ALPHABET -->
 
         <div class="chapter grammar-topic" id="alphabet">
 
@@ -534,8 +516,6 @@ LAYOUT
 
         </div>
 
-        <!-- BREATHINGS -->
-
         <div class="chapter grammar-topic" id="breathings">
 
             <h2>Breathing Marks</h2>
@@ -569,7 +549,29 @@ LAYOUT
 
         </div>
 
-        <!-- CASES -->
+        <div class="chapter grammar-topic" id="accents">
+
+            <h2>Accent System</h2>
+
+            <p>
+                Koine Greek utilizes three dynamic accent marks. While originally representing pitch variance in classical Greek, by the New Testament era they primarily signified syllabic stress.
+            </p>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Mark</th>
+                    <th>Name</th>
+                    <th>Example</th>
+                </tr>
+
+                <tr><td>ά</td><td>Acute</td><td>λόγος</td></tr>
+                <tr><td>ὰ</td><td>Grave</td><td>καὶ</td></tr>
+                <tr><td>ᾶ</td><td>Circumflex</td><td>φῶς</td></tr>
+
+            </table>
+
+        </div>
 
         <div class="chapter grammar-topic" id="cases">
 
@@ -615,8 +617,6 @@ LAYOUT
 
         </div>
 
-        <!-- ARTICLE -->
-
         <div class="chapter grammar-topic" id="article">
 
             <h2>The Definite Article</h2>
@@ -638,8 +638,6 @@ LAYOUT
             </table>
 
         </div>
-
-        <!-- FIRST DECLENSION -->
 
         <div class="chapter grammar-topic" id="firstdeclension">
 
@@ -664,7 +662,28 @@ LAYOUT
 
         </div>
 
-        <!-- PRESENT -->
+        <div class="chapter grammar-topic" id="seconddeclension">
+
+            <h2>Second Declension</h2>
+
+            <h3>λόγος — “word”</h3>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Case</th>
+                    <th>Singular</th>
+                    <th>Plural</th>
+                </tr>
+
+                <tr><td>Nominative</td><td>λόγος</td><td>λόγοι</td></tr>
+                <tr><td>Genitive</td><td>λόγου</td><td>λόγων</td></tr>
+                <tr><td>Dative</td><td>λόγῳ</td><td>λόγοις</td></tr>
+                <tr><td>Accusative</td><td>λόγον</td><td>λόγους</td></tr>
+
+            </table>
+
+        </div>
 
         <div class="chapter grammar-topic" id="present">
 
@@ -710,7 +729,71 @@ LAYOUT
 
         </div>
 
-        <!-- AORIST -->
+        <div class="chapter grammar-topic" id="future">
+
+            <h2>Future Active Indicative</h2>
+
+            <h3>λύσω — “I will loosen”</h3>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Person</th>
+                    <th>Singular</th>
+                    <th>Plural</th>
+                </tr>
+
+                <tr><td>1st</td><td>λύσω</td><td>λύσομεν</td></tr>
+                <tr><td>2nd</td><td>λύσεις</td><td>λύσετε</td></tr>
+                <tr><td>3rd</td><td>λύσει</td><td>λύσουσι(ν)</td></tr>
+
+            </table>
+
+            <button class="accordion">
+                Morphological Analysis
+            </button>
+
+            <div class="panel">
+
+                <div class="parse-box">
+
+                    <div class="greek">
+                        λύσω
+                    </div>
+
+                    <ul>
+                        <li>λυ = verbal stem</li>
+                        <li>σ = future tense sign (sigma)</li>
+                        <li>ω = 1st singular personal ending</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="chapter grammar-topic" id="imperfect">
+
+            <h2>Imperfect Active Indicative</h2>
+
+            <h3>ἔλυον — “I was loosening”</h3>
+
+            <table class="paradigm">
+
+                <tr>
+                    <th>Person</th>
+                    <th>Singular</th>
+                    <th>Plural</th>
+                </tr>
+
+                <tr><td>1st</td><td>ἔλυον</td><td>ἐλύομεν</td></tr>
+                <tr><td>2nd</td><td>ἔλυες</td><td>ἐλύετε</td></tr>
+                <tr><td>3rd</td><td>ἔλυε(ν)</td><td>ἔλυον</td></tr>
+
+            </table>
+
+        </div>
 
         <div class="chapter grammar-topic" id="aorist">
 
@@ -725,14 +808,12 @@ LAYOUT
                 </tr>
 
                 <tr><td>1st</td><td>ἔλυσα</td><td>ἐλύσαμεν</td></tr>
-                <tr><td>2nd</td><td>ἔλυσας</td><td>ἐλύσατε</td></tr>
+                <tr><td>2nd</td><td>ἔλυσas</td><td>ἐλύσατε</td></tr>
                 <tr><td>3rd</td><td>ἔλυσε(ν)</td><td>ἔλυσαν</td></tr>
 
             </table>
 
         </div>
-
-        <!-- PERFECT -->
 
         <div class="chapter grammar-topic" id="perfect">
 
@@ -753,8 +834,6 @@ LAYOUT
             </table>
 
         </div>
-
-        <!-- WORD ORDER -->
 
         <div class="chapter grammar-topic" id="wordorder">
 
@@ -778,8 +857,6 @@ LAYOUT
             </div>
 
         </div>
-
-        <!-- CONDITIONS -->
 
         <div class="chapter grammar-topic" id="conditions">
 
@@ -806,7 +883,7 @@ LAYOUT
 
 <footer>
 
-    © 2026 Glossa — Biblical Greek Grammar
+    &copy; 2026 Glossa — Biblical Greek Grammar
 
 </footer>
 
@@ -834,6 +911,7 @@ function searchGrammar(query){
 
     query = query.toLowerCase();
 
+    // 1. Filter Content Chapters
     document.querySelectorAll(".grammar-topic").forEach(topic => {
 
         const text = topic.innerText.toLowerCase();
@@ -844,6 +922,36 @@ function searchGrammar(query){
             topic.style.display = "none";
         }
 
+    });
+
+    // 2. Dynamic Sidebar Links Synchronization
+    document.querySelectorAll(".nav-link").forEach(link => {
+        const targetId = link.getAttribute("data-target");
+        const matchingChapter = document.getElementById(targetId);
+        
+        if (matchingChapter && matchingChapter.style.display === "block") {
+            link.style.display = "block";
+        } else {
+            link.style.display = "none";
+        }
+    });
+
+    // 3. Clean up empty headers in Sidebar Section
+    document.querySelectorAll(".sidebar-section").forEach(section => {
+        const structuralLinks = section.querySelectorAll(".nav-link");
+        let hasVisibleLink = false;
+        
+        structuralLinks.forEach(link => {
+            if(link.style.display === "block") {
+                hasVisibleLink = true;
+            }
+        });
+        
+        if(hasVisibleLink || query === "") {
+            section.style.display = "block";
+        } else {
+            section.style.display = "none";
+        }
     });
 
 }
