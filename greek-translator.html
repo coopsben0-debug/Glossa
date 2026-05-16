@@ -6,7 +6,7 @@
     <title>Glossa — Koine Greek Translation Sandbox</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* DESIGN TOKENS UNIFIED WITH GLOSSA MASTER MODULES */
+        /* PREMIUM DESIGN CONFIGURATION - MATCHING GLOSSA DESIGN SYSTEM */
         :root {
             --bg-dark-canvas: #090d16;
             --bg-glass-card: #131c2e;
@@ -65,7 +65,7 @@
             line-height: 1.6;
         }
 
-        /* CONTROL RACK PANEL */
+        /* CONTROL INTERFACE */
         .control-console-card {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -100,7 +100,7 @@
             letter-spacing: 0.1em;
         }
 
-        /* CUSTOM DROPDOWN SELECTORS — FIXED TEXT COLOR BLINDING BUGS */
+        /* PREMIUM NON-BLINDING FORM COMPONENTS */
         .premium-select-element {
             background: var(--bg-inner-input);
             border: 1px solid var(--border-slate);
@@ -157,7 +157,7 @@
             transform: translateY(-1px);
         }
 
-        /* TEXT DISPLAY AREA */
+        /* TEXT RENDERING MONITOR VIEWPORT */
         .manuscript-display-board {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -174,11 +174,11 @@
 
         .ancient-script-render {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 700;
             color: #ffffff;
             line-height: 1.6;
-            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.05);
+            text-shadow: 0 2px 12px rgba(255, 255, 255, 0.08);
         }
 
         .fallback-status-render {
@@ -187,7 +187,7 @@
             font-style: italic;
         }
 
-        /* TRANSLATION WORKSPACE */
+        /* WORKSPACE TRANSLATION INTERFACE */
         .workspace-matrix-panel {
             background: var(--bg-glass-card);
             border: 1px solid var(--border-slate);
@@ -196,7 +196,6 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
         }
 
-        /* FIXED THE LABELS VANISHING INTO BLACK BACKGROUND */
         .workspace-matrix-panel label {
             display: block;
             font-size: 12px;
@@ -224,12 +223,8 @@
             box-sizing: border-box;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
         }
-        .workspace-input-area:focus {
-            border-color: var(--accent-glow);
-            box-shadow: 0 0 0 3px var(--accent-glow-muted), inset 0 2px 8px rgba(0,0,0,0.3);
-        }
 
-        /* VERIFICATION DRAWER */
+        /* VALIDATION SIDE SLIDER FEEDBACK */
         .feedback-expansion-drawer {
             margin-top: 30px;
             background: rgba(16, 185, 129, 0.06);
@@ -321,42 +316,53 @@
 
     <script src="nav.js"></script>
     <script>
-        // Whole Canonical New Testament Map Index (All 27 Books with accurate maximum chapters)
-        const totalScriptureStructuralMap = {
-            "Matthew": 28, "Mark": 16, "Luke": 24, "John": 21, "Acts": 28,
-            "Romans": 16, "1 Corinthians": 16, "2 Corinthians": 13, "Galatians": 6,
-            "Ephesians": 6, "Philippians": 4, "Colossians": 4, "1 Thessalonians": 5,
-            "2 Thessalonians": 3, "1 Timothy": 6, "2 Timothy": 4, "Titus": 3,
-            "Philemon": 1, "Hebrews": 13, "James": 5, "1 Peter": 5, "2 Peter": 3,
-            "1 John": 5, "2 John": 1, "3 John": 1, "Jude": 1, "Revelation": 22
-        };
-
-        // Book names normalized for original Greek source text lookups
-        const bookShortcodes = {
-            "Matthew": "mat", "Mark": "mar", "Luke": "luk", "John": "joh", "Acts": "act",
-            "Romans": "rom", "1 Corinthians": "1co", "2 Corinthians": "2co", "Galatians": "gal",
-            "Ephesians": "eph", "Philippians": "phi", "Colossians": "col", "1 Thessalonians": "1th",
-            "2 Thessalonians": "2th", "1 Timothy": "1ti", "2 Timothy": "2ti", "Titus": "tit",
-            "Philemon": "phm", "Hebrews": "heb", "James": "jam", "1 Peter": "1pe", "2 Peter": "2pe",
-            "1 John": "1jo", "2 John": "2jo", "3 John": "3jo", "Jude": "jud", "Revelation": "rev"
-        };
+        // High-fidelity structural mapping for the 27 books of the New Testament (Bolls Life API numeric index references)
+        const bibleApiMatrix = [
+            { id: 40, name: "Matthew", chapters: 28 },
+            { id: 41, name: "Mark", chapters: 16 },
+            { id: 42, name: "Luke", chapters: 24 },
+            { id: 43, name: "John", chapters: 21 },
+            { id: 44, name: "Acts", chapters: 28 },
+            { id: 45, name: "Romans", chapters: 16 },
+            { id: 46, name: "1 Corinthians", chapters: 16 },
+            { id: 47, name: "2 Corinthians", chapters: 13 },
+            { id: 48, name: "Galatians", chapters: 6 },
+            { id: 49, name: "Ephesians", chapters: 6 },
+            { id: 50, name: "Philippians", chapters: 4 },
+            { id: 51, name: "Colossians", chapters: 4 },
+            { id: 52, name: "1 Thessalonians", chapters: 5 },
+            { id: 53, name: "2 Thessalonians", chapters: 3 },
+            { id: 54, name: "1 Timothy", chapters: 6 },
+            { id: 55, name: "2 Timothy", quarter: 4, chapters: 4 },
+            { id: 56, name: "Titus", chapters: 3 },
+            { id: 57, name: "Philemon", chapters: 1 },
+            { id: 58, name: "Hebrews", chapters: 13 },
+            { id: 59, name: "James", chapters: 5 },
+            { id: 60, name: "1 Peter", chapters: 5 },
+            { id: 61, name: "2 Peter", chapters: 3 },
+            { id: 62, name: "1 John", chapters: 5 },
+            { id: 63, name: "2 John", chapters: 1 },
+            { id: 64, name: "3 John", chapters: 1 },
+            { id: 65, name: "Jude", chapters: 1 },
+            { id: 66, name: "Revelation", chapters: 22 }
+        ];
 
         function bootSandboxEngine() {
             const bookBox = document.getElementById('book-selector');
             bookBox.innerHTML = "";
-            Object.keys(totalScriptureStructuralMap).forEach(title => {
-                bookBox.options[bookBox.options.length] = new Option(title, title);
+            bibleApiMatrix.forEach(book => {
+                bookBox.options[bookBox.options.length] = new Option(book.name, book.id);
             });
             allocateChapters();
         }
 
         function allocateChapters() {
-            const currentBook = document.getElementById('book-selector').value;
+            const currentBookId = parseInt(document.getElementById('book-selector').value);
+            const bookData = bibleApiMatrix.find(b => b.id === currentBookId);
             const chapBox = document.getElementById('chapter-selector');
             chapBox.innerHTML = "";
             
-            const chapterMax = totalScriptureStructuralMap[currentBook];
-            for (let c = 1; c <= chapterMax; c++) {
+            for (let c = 1; c <= bookData.chapters; c++) {
                 chapBox.options[chapBox.options.length] = new Option(c, c);
             }
             allocateVerses();
@@ -365,62 +371,47 @@
         function allocateVerses() {
             const verseBox = document.getElementById('verse-selector');
             verseBox.innerHTML = "";
-            // Safe maximum verse window per chapter
+            // Universal high-capacity boundary allowing up to 80 verses per chapter safely
             for (let v = 1; v <= 80; v++) {
                 verseBox.options[verseBox.options.length] = new Option(v, v);
             }
         }
 
         async function queryScriptureApiEngine() {
-            const selectedBook = document.getElementById('book-selector').value;
-            const selectedChap = document.getElementById('chapter-selector').value;
-            const selectedVerse = document.getElementById('verse-selector').value;
+            const bookId = document.getElementById('book-selector').value;
+            const chapter = document.getElementById('chapter-selector').value;
+            const verse = document.getElementById('verse-selector').value;
             const displayViewport = document.getElementById('text-viewport-target');
             
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
-            displayViewport.innerHTML = `<span class="fallback-status-render">Accessing Historical Manuscripts...</span>`;
-
-            const parsingReferenceKey = `${selectedBook} ${selectedChap}:${selectedVerse}`;
-            const shortcode = bookShortcodes[selectedBook];
+            displayViewport.innerHTML = `<span class="fallback-status-render">Extracting Ancient Manuscripts from Database...</span>`;
 
             try {
-                // Phase 1: Fetch English verification data from public database
-                const englishResponse = await fetch(`https://bible-api.com/${encodeURIComponent(parsingReferenceKey)}`);
-                if (!englishResponse.ok) throw new Error("Bounds trace failed.");
-                const englishPayload = await englishResponse.json();
-
-                // Phase 2: Fetch actual historical Koine Greek source text from open repository
-                const greekUrl = `https://cdn.jsdelivr.net/gh/byztxt/byzantine-text-bible-repository@master/asvbyz/${shortcode}.txt`;
+                // Unified query pulling direct Koine text entries from the historical Byzantine text source (BYZ)
+                const greekUrl = `https://bolls.life/get-text/BYZ/${bookId}/${chapter}/${verse}/`;
                 const greekResponse = await fetch(greekUrl);
-                if (!greekResponse.ok) throw new Error("Greek repository fetch error.");
-                const fullBookText = await greekResponse.text();
+                if (!greekResponse.ok) throw new Error("Greek pipeline failed.");
+                const gData = await greekResponse.json();
 
-                // Phase 3: Extract the specific verse match from manuscript lines
-                const lines = fullBookText.split('\n');
-                const targetPrefix = `${selectedBook} ${selectedChap}:${selectedVerse} `;
-                let matchingVerse = "";
+                // Direct secondary alignment retrieval pass pulling down premium contextual English verification matches (KJV/ESV equivalent structures)
+                const englishUrl = `https://bolls.life/get-text/YLT/${bookId}/${chapter}/${verse}/`;
+                const englishResponse = await fetch(englishUrl);
+                if (!englishResponse.ok) throw new Error("English pipeline failed.");
+                const eData = await englishResponse.json();
 
-                for (let line of lines) {
-                    if (line.startsWith(targetPrefix)) {
-                        matchingVerse = line.replace(targetPrefix, '').trim();
-                        break;
-                    }
+                if (gData && gData.text) {
+                    // Remove raw historical text parsing bracket notations if present
+                    let cleanGreekText = gData.text.replace(/<\/?[^>]+(>|$)/g, "").trim();
+                    displayViewport.innerHTML = `<span class="ancient-script-render">${cleanGreekText}</span>`;
+                    displayViewport.dataset.currentEnglish = eData.text.replace(/<\/?[^>]+(>|$)/g, "").trim();
+                } else {
+                    throw new Error("Empty index parameters.");
                 }
 
-                // Clean out any metadata brackets from text engine
-                matchingVerse = matchingVerse.replace(/\{.*?\}/g, '').trim();
-
-                if (!matchingVerse) {
-                    matchingVerse = `[Koine Greek Manuscript record line trace empty for ${parsingReferenceKey}]`;
-                }
-
-                displayViewport.innerHTML = `<span class="ancient-script-render">${matchingVerse}</span>`;
-                displayViewport.dataset.currentEnglish = englishPayload.text.trim();
-
-            } catch (failureException) {
+            } catch (error) {
                 displayViewport.innerHTML = `
                     <span class="fallback-status-render" style="color: #fca5a5; font-weight: 600;">
-                        Selected passage index trace is blank. (Note: You may have exceeded the final verse bounds of this chapter!)
+                        Selected text coordinates are blank. (You may have chosen a verse number higher than the total verses in this chapter!)
                     </span>`;
                 delete displayViewport.dataset.currentEnglish;
             }
@@ -432,7 +423,7 @@
             const systemDrawer = document.getElementById('sandbox-feedback-drawer');
             
             if (!translationSolutionKey) {
-                alert("Please successfully pull down a verse block configuration from the matrix console first!");
+                alert("Please successfully query and display a genuine Greek verse first!");
                 return;
             }
             
