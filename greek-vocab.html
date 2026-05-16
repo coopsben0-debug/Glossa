@@ -3,281 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Greek Vocabulary</title>
+    <title>Glossa — Greek Vocabulary</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding-bottom: 80px; }
-
-        nav {
-            background: #1a1a2e;
-            padding: 16px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid #2a2a4a;
-        }
-        .brand { color: #7c6af7; font-size: 24px; font-weight: 800; text-decoration: none; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { color: #aaa; text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
-        .nav-links a:hover { color: white; }
-        .nav-links a.active { color: #7c6af7; }
-        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
-        .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: #0f0f1a;
-            z-index: 200;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-        }
-        .mobile-menu.open { display: flex; }
-        .mobile-menu a { color: white; text-decoration: none; font-size: 24px; font-weight: 700; }
-        .mobile-menu a:hover { color: #7c6af7; }
-        .mobile-close { position: absolute; top: 20px; right: 30px; font-size: 32px; cursor: pointer; color: #aaa; background: none; border: none; }
-        .bottom-nav {
-            display: none;
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background: #1a1a2e;
-            border-top: 1px solid #2a2a4a;
-            padding: 8px 0;
-            z-index: 100;
-            justify-content: space-around;
-        }
-        .bottom-nav a {
-            display: flex; flex-direction: column; align-items: center;
-            gap: 3px; text-decoration: none; color: #555;
-            font-size: 10px; font-weight: 600; flex: 1; transition: color 0.2s;
-        }
-        .bottom-nav a .icon { font-size: 22px; }
-        .bottom-nav a.active { color: #7c6af7; }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hamburger { display: flex; }
-            .bottom-nav { display: flex; }
-        }
-
-        .hero { text-align: center; padding: 40px 20px 20px; }
-        .hero h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
-        .hero p { color: #aaa; font-size: 16px; }
+        /* CONTEXTUAL COMPONENT MODIFICATIONS SPECIFIC TO THE VOCABULARY DASHBOARD */
+        .hero { text-align: center; padding: 48px 24px 24px; }
+        .hero h2 { font-size: 38px; font-weight: 800; margin-bottom: 12px; }
+        .hero p { color: var(--text-muted); font-size: 16px; }
 
         .wow {
             max-width: 800px;
-            margin: 20px auto;
-            background: linear-gradient(135deg, #7c6af7, #a78bfa);
-            border-radius: 20px;
-            padding: 30px;
+            margin: 24px auto;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            border-radius: var(--radius-lg);
+            padding: 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 24px;
+            box-shadow: 0 10px 30px rgba(124, 106, 247, 0.2);
         }
-        .wow-label { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8; margin-bottom: 5px; }
-        .wow-word { font-size: 52px; font-weight: bold; }
-        .wow-info h3 { font-size: 22px; margin-bottom: 5px; }
-        .wow-info p { opacity: 0.9; font-size: 15px; }
+        .wow-label { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; opacity: 0.8; margin-bottom: 6px; }
+        .wow-word { font-size: 56px; font-weight: 800; font-family: 'Times New Roman', Times, serif; }
+        .wow-info h3 { font-size: 24px; font-weight: 700; margin-bottom: 6px; color: #fff; }
+        .wow-info p { opacity: 0.9; font-size: 15px; line-height: 1.5; }
         .wow-count { text-align: center; }
-        .wow-count h3 { font-size: 36px; font-weight: bold; }
-        .wow-count p { opacity: 0.8; font-size: 14px; }
+        .wow-count h3 { font-size: 40px; font-weight: 900; }
+        .wow-count p { opacity: 0.8; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 
-        .sets-container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .set-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .sets-container { max-width: 900px; margin: 32px auto; padding: 0 24px; }
+        .set-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
         .set-tab {
-            padding: 10px 20px; border-radius: 30px; border: 2px solid #333;
-            color: #aaa; cursor: pointer; font-size: 14px; background: transparent; transition: all 0.2s;
+            padding: 10px 20px; border-radius: 30px; border: 1px solid var(--border);
+            color: var(--text-muted); cursor: pointer; font-size: 13px; font-weight: 600; background: transparent; transition: var(--transition);
         }
-        .set-tab.active { background: #7c6af7; border-color: #7c6af7; color: white; }
-        .set-tab:hover { border-color: #7c6af7; color: white; }
+        .set-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .set-tab:hover:not(.active) { border-color: var(--border-hover); color: var(--text-main); }
 
         .set-info {
-            background: #1a1a2e; border-radius: 15px; padding: 20px 25px;
-            margin-bottom: 20px; display: flex; justify-content: space-between;
-            align-items: center; flex-wrap: wrap; gap: 15px;
+            background: var(--bg-panel); border-radius: var(--radius-lg); padding: 24px;
+            margin-bottom: 24px; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 20px; border: 1px solid var(--border);
         }
-        .set-info h3 { font-size: 20px; color: #7c6af7; }
-        .set-info p { color: #aaa; font-size: 14px; margin-top: 3px; }
-        .set-progress-bar { background: #0f0f1a; border-radius: 10px; height: 8px; width: 200px; overflow: hidden; }
-        .set-progress-fill { height: 100%; background: linear-gradient(90deg, #7c6af7, #a78bfa); border-radius: 10px; transition: width 0.5s; }
+        .set-info h3 { font-size: 22px; font-weight: 800; color: var(--primary); }
+        .set-info p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+        
+        .set-progress-box { display: flex; flex-direction: column; gap: 6px; }
+        .set-progress-bar { background: var(--bg-input); border-radius: var(--radius-sm); height: 8px; width: 200px; overflow: hidden; border: 1px solid var(--border); }
+        .set-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #a78bfa); border-radius: var(--radius-sm); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .set-btns { display: flex; gap: 10px; }
-        .test-set-btn {
-            padding: 10px 20px; background: #7c6af7; color: white;
-            border: none; border-radius: 20px; cursor: pointer; font-size: 14px;
-        }
-        .learn-btn {
-            padding: 10px 20px; background: transparent; color: #7c6af7;
-            border: 2px solid #7c6af7; border-radius: 20px; cursor: pointer; font-size: 14px;
-        }
 
         .word-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 12px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
         }
         .word-card {
-            background: #1a1a2e; border-radius: 12px; padding: 15px;
-            display: flex; align-items: center; gap: 12px; cursor: pointer;
-            transition: all 0.2s; border: 2px solid transparent;
+            background: var(--bg-panel); border-radius: var(--radius-md); padding: 20px;
+            display: flex; align-items: center; gap: 16px; cursor: pointer;
+            transition: var(--transition); border: 1px solid var(--border);
         }
-        .word-card:hover { border-color: #7c6af7; }
-        .word-card.learned { border-color: #6bffb8; background: #6bffb810; }
+        .word-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .word-card.learned { border-color: #10b981; background: rgba(16, 185, 129, 0.04); }
+        
         .word-tick {
-            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #333;
+            width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border);
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; font-size: 12px; transition: all 0.2s;
+            flex-shrink: 0; font-size: 12px; font-weight: 900; transition: var(--transition);
         }
-        .word-card.learned .word-tick { background: #6bffb8; border-color: #6bffb8; color: #0f0f1a; }
-        .word-greek { font-size: 20px; color: #7c6af7; }
-        .word-card.learned .word-greek { color: #6bffb8; }
-        .word-english { font-size: 14px; color: #aaa; margin-top: 2px; }
-        .word-freq { font-size: 11px; color: #555; margin-top: 2px; }
+        .word-card.learned .word-tick { background: #10b981; border-color: #10b981; color: var(--bg-main); }
+        .word-greek { font-size: 22px; font-weight: 700; color: var(--primary); font-family: 'Times New Roman', Times, serif; }
+        .word-card.learned .word-greek { color: #10b981; }
+        .word-english { font-size: 14px; font-weight: 500; color: var(--text-main); margin-top: 4px; }
+        .word-freq { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
 
+        /* INTERACTION MODAL DISPLAY OVERLAYS */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000aa; z-index: 100; align-items: center; justify-content: center;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 1000; align-items: center; justify-content: center;
         }
         .modal.active { display: flex; }
         .modal-box {
-            background: #1a1a2e; border-radius: 20px; padding: 40px;
-            max-width: 500px; width: 90%; text-align: center;
+            background: var(--bg-panel); border-radius: var(--radius-lg); padding: 40px;
+            max-width: 520px; width: 90%; text-align: center; border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: modalFadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .modal-word { font-size: 56px; color: #7c6af7; margin-bottom: 10px; }
-        .modal-question { color: #aaa; font-size: 16px; margin-bottom: 25px; }
-        .modal-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .modal-word { font-size: 64px; font-weight: 800; color: var(--primary); font-family: 'Times New Roman', Times, serif; margin-bottom: 12px; }
+        .modal-question { color: var(--text-muted); font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 24px; }
+        .modal-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .modal-option {
-            padding: 14px; border-radius: 10px; border: 2px solid #333;
-            color: white; cursor: pointer; font-size: 15px; background: transparent;
+            padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border);
+            color: #fff; cursor: pointer; font-size: 15px; font-weight: 600; background: var(--bg-input); transition: var(--transition); text-align: center;
         }
-        .modal-option:hover { border-color: #7c6af7; }
-        .modal-option.correct { border-color: #6bffb8; background: #6bffb820; color: #6bffb8; }
-        .modal-option.wrong { border-color: #ff6b6b; background: #ff6b6b20; color: #ff6b6b; }
-        .modal-result { font-size: 18px; min-height: 28px; margin-bottom: 15px; }
-        .modal-score { color: #aaa; font-size: 14px; margin-bottom: 20px; }
-        .modal-next {
-            padding: 12px 30px; background: #7c6af7; color: white;
-            border: none; border-radius: 20px; cursor: pointer; font-size: 16px; margin-right: 10px;
-        }
-        .modal-close {
-            padding: 12px 30px; background: transparent; color: #aaa;
-            border: 2px solid #333; border-radius: 20px; cursor: pointer; font-size: 16px;
-        }
+        .modal-option:hover { border-color: var(--primary); background: rgba(124, 106, 247, 0.04); }
+        .modal-option.correct { border-color: #10b981; background: rgba(16, 185, 129, 0.08); color: #10b981; font-weight: 700; }
+        .modal-option.wrong { border-color: #ef4444; background: rgba(239, 68, 68, 0.08); color: #ef4444; font-weight: 700; }
+        .modal-result { font-size: 18px; font-weight: 700; min-height: 28px; margin-bottom: 16px; }
+        .modal-score { color: var(--text-muted); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 24px; }
+        
+        .modal-action-row { display: flex; gap: 12px; justify-content: center; }
 
-        footer { text-align: center; padding: 30px; color: #555; }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="index.html" class="brand">Glossa</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
-            <a href="chat.html">Chat</a>
-            <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
-            <a href="profile.html">Profile</a>
-        </div>
-        <div class="hamburger" onclick="openMenu()">
-            <span></span><span></span><span></span>
-        </div>
-    </nav>
+    <div id="nav-container"></div>
 
-    <div class="mobile-menu" id="mobile-menu">
-        <button class="mobile-close" onclick="closeMenu()">✕</button>
-        <a href="index.html" onclick="closeMenu()">Home</a>
-        <a href="languages.html" onclick="closeMenu()">Languages</a>
-        <a href="chat.html" onclick="closeMenu()">Chat</a>
-        <a href="ai-tutor.html" onclick="closeMenu()">AI Tutor</a>
-        <a href="login.html" onclick="closeMenu()">Login</a>
-        <a href="profile.html" onclick="closeMenu()">Profile</a>
-    </div>
+    <main class="app-container">
+        <header class="hero">
+            <h2>🏛️ Greek Vocabulary</h2>
+            <p>High-frequency New Testament lemma structures categorized by runtime distributional statistics.</p>
+        </header>
 
-    <div class="hero">
-        <h2>🏛️ Greek Vocabulary</h2>
-        <p>All high frequency New Testament words organised by how often they appear</p>
-    </div>
-
-    <div class="wow">
-        <div class="wow-count">
-            <div class="wow-label">Word of the Week</div>
-            <div class="wow-word">λόγος</div>
-        </div>
-        <div class="wow-info">
-            <h3>word, reason, message</h3>
-            <p>Appears 330 times in the NT. Used famously in John 1:1 — "In the beginning was the Word."</p>
-        </div>
-        <div class="wow-count">
-            <h3>330x</h3>
-            <p>NT occurrences</p>
-        </div>
-    </div>
-
-    <div class="sets-container">
-        <div class="set-tabs">
-            <button class="set-tab active" onclick="showSet(0, this)">Set 1 — 500+ times</button>
-            <button class="set-tab" onclick="showSet(1, this)">Set 2 — 100-499 times</button>
-            <button class="set-tab" onclick="showSet(2, this)">Set 3 — 50-99 times</button>
-            <button class="set-tab" onclick="showSet(3, this)">Set 4 — 25-49 times</button>
-        </div>
-
-        <div class="set-info">
-            <div>
-                <h3 id="set-title">Set 1 — Most Essential</h3>
-                <p id="set-desc">Words occurring 500+ times — learn these first!</p>
+        <section class="wow">
+            <div class="wow-count">
+                <div class="wow-label">Word of the Week</div>
+                <div class="wow-word">λόγος</div>
             </div>
-            <div>
-                <div style="color:#aaa;font-size:13px;margin-bottom:5px;">Progress: <span id="set-progress-text">0%</span></div>
-                <div class="set-progress-bar">
-                    <div class="set-progress-fill" id="set-progress-fill" style="width:0%"></div>
+            <div class="wow-info">
+                <h3>word, reason, message</h3>
+                <p>Appears 330 times across the NT corpus. Utilized as a structural theological anchor within John 1:1 — "Ἐν ἀρχῇ ἦν ὁ λόγος."</p>
+            </div>
+            <div class="wow-count">
+                <h3>330x</h3>
+                <p>NT occurrences</p>
+            </div>
+        </section>
+
+        <section class="sets-container">
+            <div class="set-tabs" id="set-tabs-container">
+                <button class="set-tab active" data-index="0">Set 1 — 500+ times</button>
+                <button class="set-tab" data-index="1">Set 2 — 100-499 times</button>
+                <button class="set-tab" data-index="2">Set 3 — 50-99 times</button>
+                <button class="set-tab" data-index="3">Set 4 — 25-49 times</button>
+            </div>
+
+            <div class="set-info">
+                <div>
+                    <h3 id="set-title">Set 1 — Most Essential</h3>
+                    <p id="set-desc">Words occurring 500+ times — learn these first!</p>
+                </div>
+                <div class="set-progress-box">
+                    <div style="color: var(--text-muted); font-size: 12px; font-weight: 700; text-transform: uppercase;">Progress: <span id="set-progress-text" style="color: var(--text-main);">0%</span></div>
+                    <div class="set-progress-bar">
+                        <div class="set-progress-fill" id="set-progress-fill" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="set-btns">
+                    <button class="btn btn-secondary btn-sm" id="mark-all-learned-btn">Mark All Learned</button>
+                    <button class="btn btn-primary btn-sm" id="test-set-btn">Test This Set →</button>
                 </div>
             </div>
-            <div class="set-btns">
-                <button class="learn-btn" onclick="learnAll()">Mark All Learned</button>
-                <button class="test-set-btn" onclick="startQuiz()">Test This Set →</button>
-            </div>
-        </div>
 
-        <div class="word-grid" id="word-grid"></div>
-    </div>
+            <div class="word-grid" id="word-grid"></div>
+        </section>
+    </main>
 
     <div class="modal" id="quiz-modal">
         <div class="modal-box">
             <div id="modal-content">
                 <div class="modal-word" id="modal-word"></div>
-                <div class="modal-question">What does this word mean?</div>
+                <div class="modal-question">What does this lemma denote?</div>
                 <div class="modal-options" id="modal-options"></div>
                 <div class="modal-result" id="modal-result"></div>
                 <div class="modal-score" id="modal-score"></div>
-                <button class="modal-next" onclick="nextQuizQuestion()">Next →</button>
-                <button class="modal-close" onclick="closeQuiz()">Close</button>
+                <div class="modal-action-row">
+                    <button class="btn btn-primary" id="quiz-next-btn">Next Element →</button>
+                    <button class="btn btn-secondary" id="quiz-close-btn-1">Terminate</button>
+                </div>
             </div>
             <div id="modal-result-screen" style="display:none">
-                <h2 style="margin-bottom:15px">Quiz Complete! 🎉</h2>
+                <h2 style="margin-bottom: 16px; font-weight: 800;">Quiz Metrics Complete! 🎉</h2>
                 <div class="modal-word" id="final-score-display"></div>
-                <p style="color:#aaa;margin-bottom:25px" id="final-score-msg"></p>
-                <button class="modal-next" onclick="startQuiz()">Try Again</button>
-                <button class="modal-close" onclick="closeQuiz()">Close</button>
+                <p style="color: var(--text-muted); margin-bottom: 24px; font-weight: 500;" id="final-score-msg"></p>
+                <div class="modal-action-row">
+                    <button class="btn btn-primary" id="quiz-retry-btn">Re-evaluate Set</button>
+                    <button class="btn btn-secondary" id="quiz-close-btn-2">Terminate Matrix</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <footer><p>© 2026 Glossa — All rights reserved</p></footer>
-
-    <nav class="bottom-nav">
-        <a href="index.html"><span class="icon">🏠</span>Home</a>
-        <a href="languages.html"><span class="icon">🌍</span>Languages</a>
-        <a href="chat.html"><span class="icon">💬</span>Chat</a>
-        <a href="ai-tutor.html"><span class="icon">🤖</span>AI Tutor</a>
-        <a href="profile.html"><span class="icon">👤</span>Profile</a>
-    </nav>
+    <script src="nav.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -329,7 +243,7 @@
                     { greek: 'Ἰησοῦς', english: 'Jesus, Joshua', freq: 917 },
                     { greek: 'ἄνθρωπος', english: 'man, human being', freq: 550 },
                     { greek: 'Χριστός', english: 'Christ, Messiah', freq: 529 },
-                    { greek: 'πνεῦμα', english: 'spirit, wind, breath', freq: 379 },
+                    { greek: 'πνεῦμα', english: 'spirit, wind, breath', freq: 379 }
                 ]
             },
             {
@@ -365,7 +279,7 @@
                     { greek: 'πίστις', english: 'faith, belief, trust', freq: 243 },
                     { greek: 'πολύς', english: 'much, many, large', freq: 416 },
                     { greek: 'υἱός', english: 'son', freq: 377 },
-                    { greek: 'χάρις', english: 'grace, favour', freq: 155 },
+                    { greek: 'χάρις', english: 'grace, favour', freq: 155 }
                 ]
             },
             {
@@ -394,7 +308,7 @@
                     { greek: 'σάρξ', english: 'flesh, body', freq: 147 },
                     { greek: 'σῴζω', english: 'I save, I rescue', freq: 106 },
                     { greek: 'τότε', english: 'then, at that time', freq: 160 },
-                    { greek: 'χείρ', english: 'hand', freq: 177 },
+                    { greek: 'χείρ', english: 'hand', freq: 177 }
                 ]
             },
             {
@@ -428,7 +342,7 @@
                     { greek: 'τέκνον', english: 'child', freq: 99 },
                     { greek: 'τόπος', english: 'place, region', freq: 94 },
                     { greek: 'φωνή', english: 'voice, sound', freq: 139 },
-                    { greek: 'ψυχή', english: 'soul, life, self', freq: 103 },
+                    { greek: 'ψυχή', english: 'soul, life, self', freq: 103 }
                 ]
             }
         ];
@@ -442,7 +356,7 @@
                     learnedWords = new Set(docSnap.data().learnedWords);
                 }
             }
-            showSet(0, document.querySelector('.set-tab'));
+            showSet(0);
         });
 
         async function saveProgress() {
@@ -453,10 +367,8 @@
             await setDoc(docRef, { ...existing, learnedWords: [...learnedWords] });
         }
 
-        window.showSet = function(index, btn) {
+        function showSet(index) {
             currentSetIndex = index;
-            document.querySelectorAll('.set-tab').forEach(t => t.classList.remove('active'));
-            if (btn) btn.classList.add('active');
             const set = sets[index];
             document.getElementById('set-title').textContent = set.title;
             document.getElementById('set-desc').textContent = set.desc;
@@ -466,40 +378,66 @@
 
         function renderWords(words) {
             const grid = document.getElementById('word-grid');
-            grid.innerHTML = words.map(w => `
-                <div class="word-card ${learnedWords.has(w.greek) ? 'learned' : ''}" onclick="toggleWord('${w.greek}')">
-                    <div class="word-tick">${learnedWords.has(w.greek) ? '✓' : ''}</div>
-                    <div>
-                        <div class="word-greek">${w.greek}</div>
-                        <div class="word-english">${w.english}</div>
-                        <div class="word-freq">${w.freq.toLocaleString()} occurrences</div>
-                    </div>
-                </div>
-            `).join('');
+            grid.innerHTML = '';
+            
+            words.forEach(w => {
+                const card = document.createElement('div');
+                card.className = `word-card ${learnedWords.has(w.greek) ? 'learned' : ''}`;
+                
+                const tick = document.createElement('div');
+                tick.className = 'word-tick';
+                tick.textContent = learnedWords.has(w.greek) ? '✓' : '';
+                
+                const metaBox = document.createElement('div');
+                
+                const greekText = document.createElement('div');
+                greekText.className = 'word-greek';
+                greekText.textContent = w.greek;
+                
+                const englishText = document.createElement('div');
+                englishText.className = 'word-english';
+                englishText.textContent = w.english;
+                
+                const freqText = document.createElement('div');
+                freqText.className = 'word-freq';
+                freqText.textContent = `${w.freq.toLocaleString()} occurrences`;
+                
+                metaBox.appendChild(greekText);
+                metaBox.appendChild(englishText);
+                metaBox.appendChild(freqText);
+                
+                card.appendChild(tick);
+                card.appendChild(metaBox);
+                
+                card.addEventListener('click', () => toggleWord(w.greek));
+                grid.appendChild(card);
+            });
         }
 
         function updateSetProgress(words) {
             const learned = words.filter(w => learnedWords.has(w.greek)).length;
-            const percent = Math.round((learned / words.length) * 100);
+            const percent = words.length > 0 ? Math.round((learned / words.length) * 100) : 0;
             document.getElementById('set-progress-text').textContent = `${learned}/${words.length} — ${percent}%`;
-            document.getElementById('set-progress-fill').style.width = percent + '%';
+            document.getElementById('set-progress-fill').style.width = `${percent}%`;
         }
 
-        window.toggleWord = async function(greek) {
+        async function toggleWord(greek) {
             if (learnedWords.has(greek)) learnedWords.delete(greek);
             else learnedWords.add(greek);
             await saveProgress();
-            showSet(currentSetIndex, null);
+            showSet(currentSetIndex);
         }
 
-        window.learnAll = async function() {
+        async function learnAll() {
             sets[currentSetIndex].words.forEach(w => learnedWords.add(w.greek));
             await saveProgress();
-            showSet(currentSetIndex, null);
+            showSet(currentSetIndex);
         }
 
-        window.startQuiz = function() {
+        function startQuiz() {
             const set = sets[currentSetIndex];
+            if (!set.words || set.words.length === 0) return;
+            
             quizQuestions = [...set.words].sort(() => Math.random() - 0.5).slice(0, 10);
             quizCurrent = 0;
             quizScore = 0;
@@ -514,32 +452,47 @@
             const q = quizQuestions[quizCurrent];
             document.getElementById('modal-word').textContent = q.greek;
             document.getElementById('modal-result').textContent = '';
-            document.getElementById('modal-score').textContent = `Question ${quizCurrent + 1} of ${quizQuestions.length} — Score: ${quizScore}`;
+            document.getElementById('modal-score').textContent = `Question ${quizCurrent + 1} of ${quizQuestions.length} — Current Score: ${quizScore}`;
+            
             const allWords = sets[currentSetIndex].words;
             const wrong = allWords.filter(w => w.greek !== q.greek).sort(() => Math.random() - 0.5).slice(0, 3);
             const options = [q, ...wrong].sort(() => Math.random() - 0.5);
-            document.getElementById('modal-options').innerHTML = options.map(o => `
-                <button class="modal-option" onclick="checkQuizAnswer('${o.english}', '${q.english}')">${o.english}</button>
-            `).join('');
+            
+            const optionsContainer = document.getElementById('modal-options');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(o => {
+                const btn = document.createElement('button');
+                btn.className = 'modal-option';
+                btn.textContent = o.english;
+                btn.addEventListener('click', () => checkQuizAnswer(btn, o.english, q.english));
+                optionsContainer.appendChild(btn);
+            });
         }
 
-        window.checkQuizAnswer = function(selected, correct) {
+        function checkQuizAnswer(selectedBtn, selectedText, correctText) {
             if (quizAnswered) return;
             quizAnswered = true;
+            
             document.querySelectorAll('.modal-option').forEach(btn => {
-                if (btn.textContent === correct) btn.classList.add('correct');
-                else if (btn.textContent === selected) btn.classList.add('wrong');
+                if (btn.textContent === correctText) btn.classList.add('correct');
+                else if (btn.textContent === selectedText) btn.classList.add('wrong');
             });
-            if (selected === correct) {
+            
+            const resultBox = document.getElementById('modal-result');
+            if (selectedText === correctText) {
                 quizScore++;
-                document.getElementById('modal-result').textContent = '✅ Correct!';
+                resultBox.textContent = '✅ Correct!';
+                resultBox.style.color = '#10b981';
             } else {
-                document.getElementById('modal-result').textContent = `❌ It was: ${correct}`;
+                resultBox.textContent = `❌ Definition: ${correctText}`;
+                resultBox.style.color = '#ef4444';
             }
-            document.getElementById('modal-score').textContent = `Question ${quizCurrent + 1} of ${quizQuestions.length} — Score: ${quizScore}`;
+            document.getElementById('modal-score').textContent = `Question ${quizCurrent + 1} of ${quizQuestions.length} — Current Score: ${quizScore}`;
         }
 
-        window.nextQuizQuestion = function() {
+        function nextQuizQuestion() {
+            if (!quizAnswered) return;
             quizCurrent++;
             if (quizCurrent < quizQuestions.length) {
                 loadQuizQuestion();
@@ -548,17 +501,30 @@
                 document.getElementById('modal-result-screen').style.display = 'block';
                 document.getElementById('final-score-display').textContent = `${quizScore}/${quizQuestions.length}`;
                 const percent = (quizScore / quizQuestions.length) * 100;
-                document.getElementById('final-score-msg').textContent = percent >= 80 ? 'Excellent work! 🎉' : percent >= 60 ? 'Good effort! Keep practising!' : "Keep studying — you'll get there!";
+                document.getElementById('final-score-msg').textContent = percent >= 80 ? 'Excellent syntactic grasp! 🎉' : percent >= 60 ? 'Sturdy analytical performance!' : 'Iterative review advised — persist in the text!';
             }
         }
 
-        window.closeQuiz = function() {
+        function closeQuiz() {
             document.getElementById('quiz-modal').classList.remove('active');
         }
 
-        window.openMenu = function() { document.getElementById('mobile-menu').classList.add('open'); }
-        window.closeMenu = function() { document.getElementById('mobile-menu').classList.remove('open'); }
-    </script>
+        // DECOUPLED TAB AND ACTION ROUTING HANDLERS
+        document.querySelectorAll('#set-tabs-container .set-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                document.querySelectorAll('#set-tabs-container .set-tab').forEach(t => t.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                showSet(parseInt(e.currentTarget.getAttribute('data-index')));
+            });
+        });
 
+        document.getElementById('mark-all-learned-btn').addEventListener('click', learnAll);
+        document.getElementById('test-set-btn').addEventListener('click', startQuiz);
+        document.getElementById('quiz-next-btn').addEventListener('click', nextQuizQuestion);
+        document.getElementById('quiz-retry-btn').addEventListener('click', startQuiz);
+        
+        document.getElementById('quiz-close-btn-1').addEventListener('click', closeQuiz);
+        document.getElementById('quiz-close-btn-2').addEventListener('click', closeQuiz);
+    </script>
 </body>
 </html>
