@@ -17,56 +17,74 @@ const GLOSSA_NAV = {
     injectStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            * { margin: 0; padding: 0; box-sizing: border-box; }
-            body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; padding-bottom: 70px; }
+            /* Structural body padding compensation */
+            body { padding-bottom: 70px; }
 
             /* TOP NAV */
             .glossa-top-nav {
                 background: #1a1a2e;
-                padding: 16px 40px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
                 position: sticky;
                 top: 0;
                 z-index: 100;
                 border-bottom: 1px solid #2a2a4a;
+                width: 100%;
             }
+            
+            .glossa-nav-wrapper {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 16px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
             .glossa-top-nav .brand {
                 color: #7c6af7;
-                font-size: 24px;
+                font-size: 26px;
                 font-weight: 800;
                 text-decoration: none;
                 letter-spacing: 1px;
+                transition: opacity 0.2s;
             }
+            .glossa-top-nav .brand:hover {
+                opacity: 0.9;
+            }
+
             .glossa-top-nav .top-links {
                 display: flex;
-                gap: 25px;
+                gap: 32px;
                 align-items: center;
             }
+            
             .glossa-top-nav .top-links a {
                 color: #aaa;
                 text-decoration: none;
                 font-size: 14px;
                 font-weight: 600;
-                transition: color 0.2s;
-                padding: 6px 0;
+                transition: all 0.2s ease;
+                padding: 8px 0;
                 position: relative;
             }
-            .glossa-top-nav .top-links a:hover { color: white; }
-            .glossa-top-nav .top-links a.active { color: #7c6af7; }
+            .glossa-top-nav .top-links a:hover { 
+                color: white; 
+            }
+            .glossa-top-nav .top-links a.active { 
+                color: #7c6af7; 
+            }
             .glossa-top-nav .top-links a.active::after {
                 content: '';
                 position: absolute;
-                bottom: 0;
+                bottom: -2px;
                 left: 0;
                 right: 0;
                 height: 2px;
                 background: #7c6af7;
                 border-radius: 2px;
+                box-shadow: 0 0 8px rgba(124, 106, 247, 0.6);
             }
 
-            /* BOTTOM NAV */
+            /* BOTTOM MOBILE NAV */
             .glossa-bottom-nav {
                 position: fixed;
                 bottom: 0;
@@ -87,24 +105,30 @@ const GLOSSA_NAV = {
                 align-items: center;
                 gap: 4px;
                 text-decoration: none;
-                color: #555;
-                font-size: 10px;
+                color: #666;
+                font-size: 11px;
                 font-weight: 600;
-                padding: 6px 16px;
-                border-radius: 12px;
-                transition: all 0.2s;
+                padding: 6px 0;
+                transition: all 0.2s ease;
                 flex: 1;
             }
-            .glossa-bottom-nav a .nav-icon { font-size: 22px; }
-            .glossa-bottom-nav a:hover { color: #aaa; }
-            .glossa-bottom-nav a.active { color: #7c6af7; }
+            .glossa-bottom-nav a .nav-icon { 
+                font-size: 20px; 
+                transition: transform 0.2s;
+            }
+            .glossa-bottom-nav a:hover { 
+                color: #aaa; 
+            }
+            .glossa-bottom-nav a.active { 
+                color: #7c6af7; 
+            }
             .glossa-bottom-nav a.active .nav-icon {
-                filter: drop-shadow(0 0 6px rgba(124, 106, 247, 0.8));
+                transform: translateY(-2px);
+                filter: drop-shadow(0 0 6px rgba(124, 106, 247, 0.6));
             }
 
-            /* RESPONSIVE */
+            /* MEDIA RESPONSIVE RULES */
             @media (max-width: 768px) {
-                .glossa-top-nav { padding: 14px 20px; }
                 .glossa-top-nav .top-links { display: none; }
                 .glossa-bottom-nav { display: flex; }
                 body { padding-bottom: 80px; }
@@ -117,9 +141,11 @@ const GLOSSA_NAV = {
         const nav = document.createElement('nav');
         nav.className = 'glossa-top-nav';
         nav.innerHTML = `
-            <a href="index.html" class="brand">Glossa</a>
-            <div class="top-links">
-                ${this.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('')}
+            <div class="glossa-nav-wrapper">
+                <a href="index.html" class="brand">Glossa</a>
+                <div class="top-links">
+                    ${this.links.map(l => `<a href="${l.href}">${l.label}</a>`).join('')}
+                </div>
             </div>
         `;
         document.body.insertBefore(nav, document.body.firstChild);
