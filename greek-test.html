@@ -6,417 +6,444 @@
     <title>Glossa — Biblical Greek Level Test</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .test-container {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 40px 24px;
+        :root {
+            --bg-dark-canvas: #05070c;
+            --bg-glass-card: #111a2e;
+            --bg-inner-input: #0b111e;
+            --border-slate: #22314d;
+            --accent-glow: #7c6af7;
+            --text-vibrant-white: #f8fafc;
+            --text-cool-gray: #94a3b8;
+            --emerald-verify: #10b981;
+            --radius-premium: 16px;
+            --smooth-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .hero {
-            text-align: center;
-            padding: 20px 20px 40px 20px;
-        }
-        .hero h2 { 
-            font-size: 36px; 
-            font-weight: 800;
-            margin-bottom: 10px; 
-            background: linear-gradient(135deg, #ffffff, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p { color: var(--text-muted); font-size: 16px; }
-
-        /* TIMELINE PROGRESS MAPPING */
-        .progress-bar {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            height: 12px;
-            margin-bottom: 32px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #a78bfa);
-            border-radius: 10px;
-            width: 0%;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* COMPONENT INTERACTION TILES */
-        .start-box, .question-box, .result-box {
-            background: var(--bg-panel);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 48px 40px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .start-box h2, .result-box h2 { 
-            font-size: 28px; 
-            font-weight: 800;
-            margin-bottom: 16px; 
-            color: #fff;
-        }
-        .start-box p, .result-box p { color: var(--text-muted); margin-bottom: 24px; line-height: 1.7; }
-        .start-box ul { 
-            color: var(--text-main); 
-            margin: 24px auto; 
-            text-align: left; 
-            max-width: 340px; 
-            line-height: 2.2;
-            list-style: none;
+        body {
+            background-color: var(--bg-dark-canvas);
+            color: var(--text-vibrant-white);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
             padding: 0;
         }
-        .start-box li {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
+
+        .test-viewport-container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 24px;
         }
 
-        /* CORE MATRIX TESTING CARD */
-        .question-metadata {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .test-branding-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .test-branding-header .icon-badge {
+            font-size: 48px;
             margin-bottom: 16px;
-        }
-        .question-number { 
-            color: var(--primary); 
-            font-weight: 800;
-            font-size: 12px; 
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        .cefr-badge {
-            background: rgba(167, 139, 250, 0.15);
-            color: #a78bfa;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 800;
-            border: 1px solid rgba(167, 139, 250, 0.3);
-        }
-        .question-text { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: #fff; line-height: 1.4; }
-        .greek-word { 
-            font-size: 52px; 
-            font-weight: 700;
-            color: #fff; 
-            margin: 24px 0; 
-            text-shadow: 0 0 30px rgba(124, 106, 247, 0.25);
-            font-family: 'Times New Roman', Times, serif;
-        }
-
-        /* ACTION SELECTION SECTOR BUTTONARRAY */
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-top: 32px;
-        }
-        .option {
-            padding: 16px 24px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: 600;
-            background: var(--bg-input);
-            text-align: left;
-            transition: var(--transition);
-        }
-        .option:hover:not([disabled]) { 
-            border-color: var(--primary); 
-            background: rgba(124, 106, 247, 0.04);
-            transform: translateX(4px);
-        }
-        .option:disabled {
-            cursor: not-allowed;
-        }
-        .option.correct { 
-            border-color: #10b981 !important; 
-            color: #10b981 !important; 
-            background: rgba(16, 185, 129, 0.08) !important; 
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
-        }
-        .option.wrong { 
-            border-color: #ef4444 !important; 
-            color: #ef4444 !important; 
-            background: rgba(239, 68, 68, 0.08) !important; 
-        }
-
-        /* DIAGNOSTIC PROFILE SCOREBOARDS */
-        .level-result {
-            font-size: 96px;
-            color: var(--primary);
-            font-weight: 900;
-            margin: 12px 0;
-            text-shadow: 0 0 40px rgba(124, 106, 247, 0.3);
-            letter-spacing: -2px;
-        }
-        .level-desc { color: #fff !important; font-size: 18px; font-weight: 700; margin-bottom: 8px; padding: 0 20px; line-height: 1.5; }
-        .score-text { color: var(--text-muted); margin-bottom: 36px; font-size: 15px; font-weight: 600; }
-
-        .btn {
-            padding: 14px 36px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin: 8px;
-            text-decoration: none;
             display: inline-block;
-            transition: var(--transition);
+            filter: drop-shadow(0 0 12px rgba(124, 106, 247, 0.3));
         }
-        .btn:hover {
-            background: #6b58e6;
-            box-shadow: 0 4px 15px rgba(124, 106, 247, 0.3);
-            transform: translateY(-1px);
+
+        .test-branding-header h2 {
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--text-vibrant-white);
+            margin: 0 0 12px 0;
+            letter-spacing: -0.02em;
         }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: #fff;
+
+        .test-branding-header p {
+            font-size: 16px;
+            color: var(--text-cool-gray);
+            margin: 0;
         }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: var(--border-hover);
+
+        .assessment-gate-card {
+            background: var(--bg-glass-card);
+            border: 1px solid var(--border-slate);
+            border-radius: var(--radius-premium);
+            padding: 48px 40px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            margin-bottom: 40px;
         }
+
+        .view-state-section {
+            display: none;
+        }
+
+        .view-state-section.active {
+            display: block;
+        }
+
+        /* SCREEN 1: WELCOME SCREEN STYLING */
+        .welcome-title { font-size: 24px; font-weight: 700; color: var(--text-vibrant-white); margin: 0 0 18px 0; text-align: center; }
+        .welcome-desc { font-size: 15px; line-height: 1.6; color: var(--text-cool-gray); margin: 0 0 32px 0; text-align: center; }
+        
+        .metrics-parameter-list { max-width: 480px; margin: 0 auto 40px auto; display: flex; flex-direction: column; gap: 16px; }
+        .parameter-row { display: flex; align-items: center; gap: 16px; padding: 14px 20px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(34, 49, 77, 0.5); border-radius: 10px; }
+        .parameter-text { font-size: 14px; font-weight: 500; color: #e2e8f0; }
+        .parameter-text strong { color: var(--accent-glow); }
+
+        /* SCREEN 2: ACTIVE EXAM ARENA STYLING */
+        .quiz-progress-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; color: var(--text-cool-gray); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .progress-bar-track { height: 6px; background: var(--bg-inner-input); border-radius: 10px; overflow: hidden; margin-bottom: 32px; border: 1px solid var(--border-slate); }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--accent-glow); transition: width 0.3s ease; }
+        
+        .question-prompt-block { margin-bottom: 32px; }
+        .greek-passage-box { font-family: 'Times New Roman', Times, serif; font-size: 28px; color: #ffffff; line-height: 1.4; text-align: center; margin-bottom: 16px; padding: 16px; background: rgba(0,0,0,0.15); border-radius: 8px; }
+        .question-prose-text { font-size: 16px; color: #e2e8f0; text-align: center; line-height: 1.5; }
+
+        .options-vertical-stack { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+        .option-item-btn { background: var(--bg-inner-input); border: 1px solid var(--border-slate); padding: 18px 24px; border-radius: 10px; color: #e2e8f0; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; transition: var(--smooth-transition); width: 100%; box-sizing: border-box; }
+        .option-item-btn:hover { border-color: var(--accent-glow); background: rgba(124, 106, 247, 0.04); }
+        .option-item-btn.selected { border-color: var(--accent-glow); background: var(--accent-glow); color: #ffffff; }
+
+        /* SCREEN 3: DIAGNOSTIC REPORT CARD STYLING */
+        .results-score-badge { font-size: 64px; font-weight: 900; color: var(--accent-glow); margin: 0 0 8px 0; text-align: center; }
+        .results-level-title { font-size: 22px; font-weight: 700; color: var(--text-vibrant-white); text-align: center; margin: 0 0 16px 0; }
+        .results-narrative { font-size: 15px; line-height: 1.6; color: var(--text-cool-gray); text-align: center; max-width: 580px; margin: 0 auto 32px auto; }
+        
+        .score-fractional-display { text-align: center; font-size: 14px; color: var(--text-cool-gray); margin-bottom: 32px; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid var(--border-slate); }
+
+        /* BUTTON LAYOUTS */
+        .action-button-group { text-align: center; }
+        .start-assessment-btn, .next-step-btn { background: var(--accent-glow); color: #ffffff; border: none; padding: 16px 40px; font-size: 15px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: var(--smooth-transition); display: inline-flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 4px 20px rgba(124, 106, 247, 0.3); }
+        .start-assessment-btn:hover, .next-step-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124, 106, 247, 0.5); background: #8b7bf8; }
+        .next-step-btn:disabled { background: var(--border-slate); color: var(--text-cool-gray); cursor: not-allowed; transform: none; box-shadow: none; }
     </style>
 </head>
 <body>
 
     <div id="nav-container"></div>
 
-    <div class="hero">
-        <h2>🏛️ Biblical Greek Level Test</h2>
-        <p>Determine your current structural proficiency score relative to the CEFR framework.</p>
-    </div>
-
-    <div class="test-container">
-
-        <div class="start-box" id="start-box">
-            <h2>Begin Diagnostic Evaluation</h2>
-            <p>This academic framework profiles your active reading comprehension syntax metrics using standard CEFR step-pass threshold evaluation models across lexical vocabulary mapping, parsing matrices, and morphological paradigms.</p>
-            <ul>
-                <li><span>📊</span> <strong>Linear-Staged</strong> Tier Progressions (A1–C2)</li>
-                <li><span>⏱️</span> Unrestricted Workspace Session Time</li>
-                <li><span>🎓</span> Standard CEFR Level Criteria Rules</li>
-                <li><span>💾</span> Direct Sync Write-to-Scholar Profile</li>
-            </ul>
-            <button class="btn" id="start-test-btn">Start Assessment →</button>
+    <div class="test-viewport-container">
+        
+        <div class="test-branding-header">
+            <span class="icon-badge">🏛️</span>
+            <h2>Biblical Greek Level Test</h2>
+            <p>Determine your current structural proficiency score relative to the CEFR framework.</p>
         </div>
 
-        <div class="progress-bar" id="progress-bar" style="display:none">
-            <div class="progress-fill" id="progress-fill"></div>
-        </div>
+        <div class="assessment-gate-card">
+            
+            <div id="stage-welcome" class="view-state-section active">
+                <h3 class="welcome-title">Begin Diagnostic Evaluation</h3>
+                <p class="welcome-desc">This academic framework profiles your active reading comprehension syntax metrics using standard CEFR step-pass threshold evaluation models across lexical vocabulary mapping, parsing matrices, and morphological paradigms.</p>
+                
+                <div class="metrics-parameter-list">
+                    <div class="parameter-row">
+                        <span style="font-size: 18px;">📊</span>
+                        <span class="parameter-text"><strong>Linear-Staged</strong> Tier Progressions (A1–C2)</span>
+                    </div>
+                    <div class="parameter-row">
+                        <span style="font-size: 18px;">⏱️</span>
+                        <span class="parameter-text">Unrestricted Workspace Session Time</span>
+                    </div>
+                    <div class="parameter-row">
+                        <span style="font-size: 18px;">🎓</span>
+                        <span class="parameter-text">Standard CEFR Level Criteria Rules</span>
+                    </div>
+                    <div class="parameter-row">
+                        <span style="font-size: 18px;">💾</span>
+                        <span class="parameter-text">Direct Sync Write-to-Scholar Profile</span>
+                    </div>
+                </div>
 
-        <div class="question-box" id="question-box" style="display:none">
-            <div class="question-metadata">
-                <div class="question-number" id="question-number"></div>
-                <div class="cefr-badge" id="cefr-badge"></div>
+                <div class="action-button-group">
+                    <button class="start-assessment-btn" onclick="startEvaluationSequence()">
+                        Start Assessment <span>→</span>
+                    </button>
+                </div>
             </div>
-            <div class="question-text" id="question-text"></div>
-            <div class="greek-word" id="greek-word"></div>
-            <div class="options" id="options"></div>
-        </div>
 
-        <div class="result-box" id="result-box" style="display:none">
-            <h2>Evaluation Diagnostics Completed</h2>
-            <p>Your calculated framework proficiency designation:</p>
-            <div class="level-result" id="level-result"></div>
-            <div class="level-desc" id="level-desc"></div>
-            <div class="score-text" id="score-text"></div>
-            <a href="profile.html" class="btn">Return to Profile →</a>
-            <button class="btn btn-outline" id="reload-test-btn">Re-initialize Assessment</button>
-        </div>
+            <div id="stage-arena" class="view-state-section">
+                <div class="quiz-progress-meta">
+                    <span id="question-index-label">Question 1 of 10</span>
+                    <span id="difficulty-tier-badge">Tier: A1 Foundational</span>
+                </div>
+                
+                <div class="progress-bar-track">
+                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                </div>
 
+                <div class="question-prompt-block">
+                    <div id="greek-passage-display" class="greek-passage-box">ἐν ἀρχῇ ἦν ὁ λόγος</div>
+                    <div id="question-prose" class="question-prose-text">Identify the correct functional classification of the term "ὁ λόγος".</div>
+                </div>
+
+                <div class="options-vertical-stack" id="options-mount-node">
+                    </div>
+
+                <div class="action-button-group">
+                    <button id="submit-step-trigger" class="next-step-btn" onclick="advanceEvaluationStep()" disabled>
+                        Submit Vector Answer
+                    </button>
+                </div>
+            </div>
+
+            <div id="stage-results" class="view-state-section">
+                <h3 class="welcome-title">Diagnostic Placement Analysis</h3>
+                
+                <div class="results-score-badge" id="placement-tier-code">B2</div>
+                <div class="results-level-title" id="placement-tier-label">Advanced Intermediate Syntax</div>
+                
+                <p class="results-narrative" id="placement-narrative-text">
+                    Loading your assessment data matrix profile description summary...
+                </p>
+
+                <div class="score-fractional-display" id="fractional-raw-score">
+                    Raw Accuracy Index Score: 7 / 10 structural nodes confirmed.
+                </div>
+
+                <div class="action-button-group">
+                    <button class="start-assessment-btn" onclick="resetEvaluationSequence()">
+                        🔄 Re-Run Evaluation Session
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script src="nav.js"></script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
-            authDomain: "glossa-48dd8.firebaseapp.com",
-            projectId: "glossa-48dd8",
-            storageBucket: "glossa-48dd8.firebasestorage.app",
-            messagingSenderId: "234142191158",
-            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Standardized Examination Inventory arranged systematically across independent tiers
-        const questions = [
-            // A1 Level (Elementary Basics)
-            { level: 'A1', word: 'θεός', question: 'What is the primary lexical meaning of this noun?', options: ['God', 'Man', 'Lord', 'Angel'], answer: 'God' },
-            { level: 'A1', word: 'λόγος', question: 'Identify the translation value for this high-frequency vocabulary entry:', options: ['Love', 'Word, reason', 'Life', 'Faith'], answer: 'Word, reason' },
-            { level: 'A1', word: 'γυνή', question: 'What does this noun indicate?', options: ['Queen', 'Mother', 'Woman, wife', 'Sister'], answer: 'Woman, wife' },
-            { level: 'A1', word: 'ἀδελφόσ', question: 'What does this noun mean?', options: ['Father', 'Son', 'Brother', 'Servant'], answer: 'Brother' },
-
-            // A2 Level (Case Roles & Basic Functions)
-            { level: 'A2', word: 'Nominative Case', question: 'What is the structural syntactical role of the Nominative case in a standard sentence clause?', options: ['Direct Object receiver', 'Possession attribute modifier', 'Indirect Object destination', 'Subject actor of action'], answer: 'Subject actor of action' },
-            { level: 'A2', word: 'πιστεύω', question: 'Translate the active functional value of this base lexical entry verb:', options: ['I think', 'I love', 'I believe, trust', 'I proclaim'], answer: 'I believe, trust' },
-            { level: 'A2', word: 'βλέπω', question: 'What is the translation value for this active present indicator entry?', options: ['I hear', 'I see, observe', 'I go', 'I touch'], answer: 'I see, observe' },
-            { level: 'A2', word: 'γίνομαι', question: 'What is the fundamental meaning of this deponent verb?', options: ['I destroy', 'I remain', 'I become, happen', 'I separate'], answer: 'I become, happen' },
-
-            // B1 Level (Intermediate Inflection Paradigms)
-            { level: 'B1', word: 'ἔλυσα', question: 'Identify the structural grammatical inflection tense of this classic verb component:', options: ['Imperfect Active', 'Future Active', 'Aorist Active', 'Perfect Active'], answer: 'Aorist Active' },
-            { level: 'B1', word: 'Genitive Case', question: 'Which option accurately defines the primary relational category of the Genitive case structure?', options: ['Means or Instrument', 'Possession or Source', 'Direct Object receiver', 'Direct Address tag'], answer: 'Possession or Source' },
-            { level: 'B1', word: 'λέλυκα', question: 'Parse the formal morphological tense characteristic verified by this specific verbal signature:', options: ['Present Tense', 'Perfect Tense', 'Pluperfect Tense', 'Aorist Tense'], answer: 'Perfect Tense' },
-            { level: 'B1', word: 'ἔρχομαι', question: 'Determine the semantic categorization profile of this baseline root element:', options: ['Liquid Verb Stem', 'Impersonal Verb Form', 'Deponent/Middle Voice Form', 'Contract Verb Frame'], answer: 'Deponent/Middle Voice Form' },
-
-            // B2 Level (Advanced Tense Shifts & Clauses)
-            { level: 'B2', word: 'Dative Case', question: 'When analyzing sentence clauses, the Dative case naturally acts as the:', options: ['Subject actor', 'Indirect Object destination', 'Direct Object receiver', 'Possessive attribute'], answer: 'Indirect Object destination' },
-            { level: 'B2', word: 'ἀκούσω', question: 'Identify the precise grammatical tense mutation introduced here by the sigma format affix insertion:', options: ['Future Tense', 'Imperfect Tense', 'Present Imperative', 'Perfect Passive'], answer: 'Future Tense' },
-            { level: 'B2', word: 'γινώσκω', question: 'Translate the deeper semantic value for this core cognitive action marker:', options: ['I forget completely', 'I see clearly', 'I know, comprehend', 'I teach formally'], answer: 'I know, comprehend' },
-            { level: 'B2', word: 'καρδία', question: 'Identify the translation value for this high-frequency lexical entry:', options: ['Soul', 'Mind', 'Heart', 'Spirit'], answer: 'Heart' },
-
-            // C1/C2 Level (Fluency & Deep Syntax Synthesis)
-            { level: 'C1', word: 'Vocative Case', question: 'What functional purpose does the Vocative structural variant serve in manual text structures?', options: ['Locative position reference', 'Direct formal invocation or address', 'Agent execution description', 'Manner definition accessory'], answer: 'Direct formal invocation or address' },
-            { level: 'C1', word: 'χάρις', question: 'Determine the correct semantic value matching this theological keyword asset:', options: ['Mercy, pity', 'Peace, calm', 'Grace, unmerited favor', 'Righteousness'], answer: 'Grace, unmerited favor' },
-            { level: 'C2', word: 'ἵνα + Subjunctive', question: 'What precise grammatical function does the classical structural formula pattern "ἵνα + Subjunctive" fulfill?', options: ['Simple Historical Narrative', 'Conditional contrary-to-fact clause', 'Purpose or Result designation clause', 'Prohibitive Imperative mandate'], answer: 'Purpose or Result designation clause' },
-            { level: 'C2', word: 'μὴ γένοιτο', question: 'Translate this idiomatic, highly intense Paulist packaging particle expression phrase:', options: ['May it be completed', 'By no means! / May it never be!', 'It is arriving quickly', 'As it was declared'], answer: 'By no means! / May it never be!' }
+    <script>
+        // AUTHENTIC CEFR DIAGNOSTIC MATRIX POOL LIST
+        const examDiagnosticQuestions = [
+            {
+                greek: "ἐν ἀρχῇ ἦν ὁ λόγος",
+                prompt: "Identify the correct morphological category and function of 'ὁ λόγος'.",
+                options: [
+                    "Nominative Singular Masculine — Subject of the phrase",
+                    "Accusative Singular Masculine — Direct Object",
+                    "Genitive Singular Masculine — Description Attribute",
+                    "Dative Plural Neuter — Indirect complement location"
+                ],
+                correctIndex: 0,
+                tier: "A1 Foundational"
+            },
+            {
+                greek: "λέγει αὐτῷ ὁ Ἰησοῦς",
+                prompt: "Analyze the pronoun structure 'αὐτῷ' inside this action matrix expression.",
+                options: [
+                    "Genitive singular feminine object modifier",
+                    "Dative singular masculine indirect object pronoun",
+                    "Nominative plural reflexive pronoun marker",
+                    "Accusative singular dual aspect pointer"
+                ],
+                correctIndex: 1,
+                tier: "A2 Accent Tier"
+            },
+            {
+                greek: "πιστεύω εἰς τὸν υἱὸν τοῦ θεοῦ",
+                prompt: "What semantic dynamic constraint is triggered by the structural preposition 'εἰς' following the verb?",
+                options: [
+                    "Directional entry or target vector focus demanding an Accusative object",
+                    "Separation point origins specifying Genitive separation",
+                    "Locative state-rest position utilizing Dative case constraints",
+                    "Instrumental modal agent operation mechanics"
+                ],
+                correctIndex: 0,
+                tier: "A2 Accent Tier"
+            },
+            {
+                greek: "ἀπεκρίθη Ἰησοῦς καὶ εἶπεν αὐτοῖς",
+                prompt: "Parse the active verbal expression structural element 'ἀπεκρίθη'.",
+                options: [
+                    "Aorist Passive Indicative 3rd Person Singular",
+                    "Present Active Subjunctive 1st Person Plural",
+                    "Perfect Middle Imperative 2nd Person Plural",
+                    "Imperfect Active Optative 3rd Person Singular"
+                ],
+                correctIndex: 0,
+                tier: "B1 Structural Intermediate"
+            },
+            {
+                greek: "ἵνα μαρτυρήσῃ περὶ τοῦ φωτός",
+                prompt: "What syntactic environment mood shift rule controls the behavior of 'μαρτυρήσῃ' because of 'ἵνα'?",
+                options: [
+                    "Imperative command syntax parameters",
+                    "Subjunctive mood driven by a purpose/result clause constraint",
+                    "Indicative factual vector claim structure",
+                    "Infinitive independent verbal balance marker"
+                ],
+                correctIndex: 1,
+                tier: "B1 Structural Intermediate"
+            },
+            {
+                greek: "ὁ δὲ ἀκούσας τὸν λόγον εὐθὺς μετὰ χαρᾶς λαμβάνει αὐτόν",
+                prompt: "Classify the accurate execution function of the active participle layout block 'ἀκούσας'.",
+                options: [
+                    "Attributive structural adjective noun identifier",
+                    "Substantival adjectival component acting as 'The one who heard'",
+                    "Complementary periphrastic helper matrix logic",
+                    "Imperative operational prompt substitution"
+                ],
+                correctIndex: 1,
+                tier: "B2 Advanced Syntax"
+            },
+            {
+                greek: "ἐὰν μὴ φάγητε τὴν σάρκα τοῦ υἱοῦ τοῦ ἀνθρώπου...",
+                prompt: "Identify the conditional syntax type configured by the 'ἐὰν μὴ' construct alongside the subjunctive verbal system.",
+                options: [
+                    "First Class Condition (Assumed True for argument sake)",
+                    "Second Class Condition (Contrary to factual historical state)",
+                    "Third Class Condition (Unfulfilled Future Contingency logic path)",
+                    "Fourth Class Condition (Remote potentiality option)"
+                ],
+                correctIndex: 2,
+                tier: "B2 Advanced Syntax"
+            },
+            {
+                greek: "καὶ ἐζήτουν αὐτὸν κρατῆσαι, καὶ ἐφοβήθησαν τὸν ὄχλον",
+                prompt: "What exact complementary syntax category role is fullfilled by the infinitive root asset 'κρατῆσαι'?",
+                options: [
+                    "Subject function allocation asset",
+                    "Complementary target syntax completed with transitive verbs of intent",
+                    "Epexegetical specific scope application boundary limit",
+                    "Absolute absolute parenthetical temporal time point"
+                ],
+                correctIndex: 1,
+                tier: "C1 Elite Masterly"
+            },
+            {
+                greek: "οὐ μὴ ἀπαρνήσομαί σε",
+                prompt: "Analyze the syntactic strength function generated by pairing the double negative expression rule framework 'οὐ μὴ'.",
+                options: [
+                    "Cancels out the cancellation returning to neutral default value status",
+                    "Emphatic negative future assertion (The strongest negation option available)",
+                    "Interrogative surprise prompt expecting a positive validation return path",
+                    "Partitive stylistic syntax decoration lacking functional grammatical friction"
+                ],
+                correctIndex: 1,
+                tier: "C1 Elite Masterly"
+            },
+            {
+                greek: "δικαιούμενοι δωρεὰν τῇ αὐτοῦ χάριτι διὰ τῆς ἀπολυτρώσεως",
+                prompt: "What precise dative category syntax subtype classification manages 'τῇ αὐτοῦ χάριτι' inside this context?",
+                options: [
+                    "Dative of Spatial Location Anchor (Locative)",
+                    "Dative of Reference/Interest Range limits",
+                    "Dative of Means / Instrumentality structural execution cause",
+                    "Dative of Direct Addressed Communication Companion"
+                ],
+                correctIndex: 2,
+                tier: "C2 Scholarly Authoritative"
+            }
         ];
 
-        let current = 0;
-        let answered = false;
-        let currentUser = null;
+        let testSessionIndex = 0;
+        let testSessionScore = 0;
+        let loggedUserAnswerSelection = null;
 
-        // Structured tier validation track database
-        const tierScores = { 'A1': 0, 'A2': 0, 'B1': 0, 'B2': 0, 'C1': 0, 'C2': 0 };
-        const tierTotals = { 'A1': 0, 'A2': 0, 'B1': 0, 'B2': 0, 'C1': 0, 'C2': 0 };
+        function renderActiveQuestionState() {
+            loggedUserAnswerSelection = null;
+            document.getElementById('submit-step-trigger').disabled = true;
 
-        // Process total distribution matrix counts securely
-        questions.forEach(q => { tierTotals[q.level]++; });
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-        });
-
-        function startTest() {
-            document.getElementById('start-box').style.display = 'none';
-            document.getElementById('progress-bar').style.display = 'block';
-            document.getElementById('question-box').style.display = 'block';
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            const q = questions[current];
-            document.getElementById('question-number').textContent = `Inquiry ${current + 1} of ${questions.length}`;
-            document.getElementById('cefr-badge').textContent = `CEFR Tier: ${q.level}`;
-            document.getElementById('question-text').textContent = q.question;
-            document.getElementById('greek-word').textContent = q.word;
-            document.getElementById('progress-fill').style.width = ((current / questions.length) * 100) + '%';
-            answered = false;
-
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
+            const targetDataNode = examDiagnosticQuestions[testSessionIndex];
             
-            q.options.forEach(o => {
-                const btn = document.createElement('button');
-                btn.className = 'option';
-                btn.textContent = o;
-                btn.addEventListener('click', () => checkAnswer(o, btn));
-                optionsDiv.appendChild(btn);
+            // Render text updates
+            document.getElementById('question-index-label').textContent = `Question ${testSessionIndex + 1} of ${examDiagnosticQuestions.length}`;
+            document.getElementById('difficulty-tier-badge').textContent = `Tier: ${targetDataNode.tier}`;
+            document.getElementById('greek-passage-display').textContent = targetDataNode.greek;
+            document.getElementById('question-prose').textContent = targetDataNode.prompt;
+
+            // Update Progress Tracking Bar UI
+            const linearProgressRatio = ((testSessionIndex) / examDiagnosticQuestions.length) * 100;
+            document.getElementById('progress-bar-fill').style.width = `${linearProgressRatio}%`;
+
+            // Clear and remount radio choices button blocks safely
+            const optionsContainer = document.getElementById('options-mount-node');
+            optionsContainer.innerHTML = "";
+
+            targetDataNode.options.forEach((optionText, systemIdx) => {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.className = "option-item-btn";
+                choiceBtn.textContent = optionText;
+                choiceBtn.onclick = () => logSessionChoice(systemIdx, choiceBtn);
+                optionsContainer.appendChild(choiceBtn);
             });
         }
 
-        function checkAnswer(selected, clickedButton) {
-            if (answered) return;
-            answered = true;
+        function logSessionChoice(chosenIndex, activeDOMElement) {
+            loggedUserAnswerSelection = chosenIndex;
             
-            const q = questions[current];
-            const buttons = document.querySelectorAll('.option');
+            // Clean active classes off adjacent siblings and highlight chosen item
+            document.querySelectorAll('.option-item-btn').forEach(btn => btn.classList.remove('selected'));
+            activeDOMElement.classList.add('selected');
             
-            buttons.forEach(btn => {
-                btn.setAttribute('disabled', 'true');
-                if (btn.textContent === q.answer) {
-                    btn.classList.add('correct');
-                } else if (btn.textContent === selected) {
-                    btn.classList.add('wrong');
-                }
-            });
-
-            if (selected === q.answer) {
-                tierScores[q.level]++;
-            }
-
-            setTimeout(() => {
-                current++;
-                if (current < questions.length) {
-                    loadQuestion();
-                } else {
-                    calculateCEFRResult();
-                }
-            }, 1200);
+            // Unlock validation step trigger action button
+            document.getElementById('submit-step-trigger').disabled = false;
         }
 
-        async function calculateCEFRResult() {
-            document.getElementById('progress-bar').style.display = 'none';
-            document.getElementById('question-box').style.display = 'none';
-            document.getElementById('result-box').style.display = 'block';
+        function advanceEvaluationStep() {
+            if(loggedUserAnswerSelection === null) return;
 
-            // Real Standard Language Exam Logic Rules: 
-            // You must score at least 75% on a tier section to unlock and secure that level ranking.
-            let earnedLevel = 'Unclassified';
-            let desc = 'Initial benchmark phase. Foundational exposure to primitive paradigms and target alphabet assets requested.';
+            // Grade operational accuracy tracking variables
+            if(loggedUserAnswerSelection === examDiagnosticQuestions[testSessionIndex].correctIndex) {
+                testSessionScore++;
+            }
 
-            const passA1 = (tierScores['A1'] / tierTotals['A1']) >= 0.75;
-            const passA2 = (tierScores['A2'] / tierTotals['A2']) >= 0.75;
-            const passB1 = (tierScores['B1'] / tierTotals['B1']) >= 0.75;
-            const passB2 = (tierScores['B2'] / tierTotals['B2']) >= 0.75;
-            const passC1 = (tierScores['C1'] / tierTotals['C1']) >= 0.75;
-            const passC2 = (tierScores['C2'] / tierTotals['C2']) >= 0.75;
+            testSessionIndex++;
 
-            if (passA1) { earnedLevel = 'A1'; desc = 'Breakthrough Beginner — Capable of recognizing elementary names, core nouns, and isolation text targets.'; }
-            if (passA1 && passA2) { earnedLevel = 'A2'; desc = 'Waystage Elementary — Basic synthesis of system case roles achieved. Functional translation vectors operational.'; }
-            if (passA1 && passA2 && passB1) { earnedLevel = 'B1'; desc = 'Threshold Intermediate — Dependable recognition of inflected standard tenses (Aorist/Perfect systems). Core syntax is secure.'; }
-            if (passA1 && passA2 && passB1 && passB2) { earnedLevel = 'B2'; desc = 'Vantage Upper-Intermediate — Structural foundations established. Fluent tracking across fluid case mutations and argument structures.'; }
-            if (passA1 && passA2 && passB1 && passB2 && passC1) { earnedLevel = 'C1'; desc = 'Effective Operational Proficiency — Proficient structural processing. Mastered complex discourse particles and contextual idioms.'; }
-            if (passA1 && passA2 && passB1 && passB2 && passC1 && passC2) { earnedLevel = 'C2'; desc = 'Mastery / Scholastic Track — Exceptional synthesis of complete morphological paradigms and high-level subordinate clauses!'; }
-
-            document.getElementById('level-result').textContent = earnedLevel;
-            document.getElementById('level-desc').textContent = desc;
-
-            // Compute total elements verified raw metric sum
-            let aggregateScore = 0;
-            Object.values(tierScores).forEach(val => aggregateScore += val);
-            document.getElementById('score-text').textContent = `Verified Elements Matrix: ${aggregateScore} / ${questions.length} total across step-check tiers.`;
-
-            if (currentUser) {
-                try {
-                    const docRef = doc(db, 'users', currentUser.uid);
-                    const existing = await getDoc(docRef);
-                    const data = existing.exists() ? existing.data() : {};
-                    await setDoc(docRef, {
-                        ...data,
-                        greekLevel: earnedLevel,
-                        testsTaken: (data.testsTaken || 0) + 1
-                    });
-                } catch (error) {
-                    console.error("Error committing tracking metrics to Firestore:", error);
-                }
+            if(testSessionIndex < examDiagnosticQuestions.length) {
+                renderActiveQuestionState();
+            } else {
+                renderPlacementsReportCard();
             }
         }
 
-        document.getElementById('start-test-btn').addEventListener('click', startTest);
-        document.getElementById('reload-test-btn').addEventListener('click', () => location.reload());
+        function renderPlacementsReportCard() {
+            // Adjust active visibility view panels
+            document.getElementById('stage-arena').classList.remove('active');
+            document.getElementById('stage-results').classList.add('active');
+
+            const scoreBadge = document.getElementById('placement-tier-code');
+            const labelBadge = document.getElementById('placement-tier-label');
+            const descriptorNarrative = document.getElementById('placement-narrative-text');
+
+            document.getElementById('fractional-raw-score').textContent = `Raw Accuracy Index Score: ${testSessionScore} / ${examDiagnosticQuestions.length} structural matrix answers verified.`;
+
+            // Placement classification mapping calculation processing engine rulesets
+            if (testSessionScore <= 2) {
+                scoreBadge.textContent = "A1";
+                labelBadge.textContent = "Foundational Element Literacy";
+                descriptorNarrative.textContent = "Your profile tracks strongly with baseline recognition components. You understand core words and primitive grammar structures, but lack command over mood dependencies and complex participle structures.";
+            } else if (testSessionScore <= 4) {
+                scoreBadge.textContent = "A2";
+                labelBadge.textContent = "Elementary Morphological Aspect Mastery";
+                descriptorNarrative.textContent = "You can process uncomplicated independent indicative statements. Preposition direct targets make sense, but complex changes (like shifting conditionals or participles) require structural focus framework tuning.";
+            } else if (testSessionScore <= 6) {
+                scoreBadge.textContent = "B1";
+                labelBadge.textContent = "Intermediate Structural Navigator";
+                descriptorNarrative.textContent = "Good baseline performance profiles checked out. You comfortably parse default active and passive patterns and recognize basic conditional paths. Intermediate verbal dependencies fit your reading profile rules cleanly.";
+            } else if (testSessionScore <= 8) {
+                scoreBadge.textContent = "B2";
+                labelBadge.textContent = "Advanced Syntactic Mapping Comprehension";
+                descriptorNarrative.textContent = "Excellent reading proficiency matrix confirmed. You display structural mastery over complex substantival participles, purposeful syntax alterations, and historical narrative variations.";
+            } else if (testSessionScore === 9) {
+                scoreBadge.textContent = "C1";
+                labelBadge.textContent = "Elite Structural Scholar Asset Placement";
+                descriptorNarrative.textContent = "Exceptional performance metrics. Double negation parameters, specialized infinitive scopes, and variable text criteria elements register instantly across active cognition tracking rules.";
+            } else {
+                scoreBadge.textContent = "C2";
+                labelBadge.textContent = "Authoritative Textual Critic Master";
+                descriptorNarrative.textContent = "Flawless linguistic tracking score. You analyze intricate nuances like case metrics and hidden syntax logic paths with complete fluid accuracy. Your profile mirrors advanced textual scholar criteria requirements perfectly.";
+            }
+        }
+
+        function startEvaluationSequence() {
+            document.getElementById('stage-welcome').classList.remove('active');
+            document.getElementById('stage-arena').classList.add('active');
+            testSessionIndex = 0;
+            testSessionScore = 0;
+            renderActiveQuestionState();
+        }
+
+        function resetEvaluationSequence() {
+            document.getElementById('stage-results').classList.remove('active');
+            document.getElementById('stage-welcome').classList.add('active');
+        }
     </script>
 </body>
 </html>
