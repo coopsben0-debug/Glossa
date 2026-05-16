@@ -4,297 +4,399 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glossa — New Testament Translation Sandbox</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        :root {
-            --bg-panel: rgba(18, 18, 36, 0.7);
-            --border-glow: rgba(124, 90, 250, 0.2);
-            --primary: #7c3aed;
-            --primary-light: #a78bfa;
-            --text-muted: #94a3b8;
-            --success: #10b981;
+        .sandbox-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 24px;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0b0b14;
-            color: #f8fafc;
-            margin: 0;
-            padding: 40px 20px;
-        }
-
-        .sandbox-layout { max-width: 900px; margin: 0 auto; }
-        
-        .back-nav { display: inline-flex; align-items: center; gap: 6px; color: var(--primary-light); text-decoration: none; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
-        .back-nav:hover { color: #c084fc; }
-
-        /* Selector Control Deck */
-        .control-deck {
-            background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 28px;
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            align-items: flex-end;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .control-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 140px; }
-        .control-group label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
-        
-        select {
-            background: #131324;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: 600;
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-4px);
+        }
+
+        .sandbox-header h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .sandbox-header p {
+            color: #b3c2d4;
+            font-size: 15px;
+            margin-bottom: 32px;
+        }
+
+        /* CONTROL RACK STYLING */
+        .control-rack {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .control-rack {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        .selector-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .selector-group label {
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .matrix-select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 600;
             outline: none;
             cursor: pointer;
-            transition: border 0.2s;
-        }
-        select:focus { border-color: var(--primary); }
-
-        /* Workbench Display */
-        .workspace-card {
-            background: var(--bg-panel);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+            appearance: none;
+            -webkit-appearance: none;
         }
 
-        .greek-display-box {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 28px;
-            text-align: center;
+        .matrix-select:focus {
+            border-color: var(--primary);
         }
-        .source-greek {
-            font-family: 'Times New Roman', serif;
-            font-size: 32px;
-            line-height: 1.5;
+
+        .fetch-btn {
+            padding: 12px 24px;
+            background: var(--primary);
             color: #fff;
-            margin: 0;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            height: 47px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Input Elements */
-        .translation-input-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
-        .translation-input-box label { font-size: 13px; font-weight: 700; color: var(--primary-light); }
-        
-        textarea {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
+        .fetch-btn:hover {
+            box-shadow: 0 0 20px rgba(124, 106, 247, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* DISPLAY DISPLAY BOARD */
+        .display-board {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 24px;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .greek-display-text {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        .warning-display-text {
+            color: #fca5a5;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        /* TRANSLATION BOX PANELS */
+        .workspace-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+        }
+
+        .workspace-panel label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .sandbox-textarea {
+            width: 100%;
+            min-height: 120px;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
             padding: 16px;
             color: #fff;
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
             resize: vertical;
-            min-height: 100px;
             outline: none;
-            transition: border 0.2s;
+            transition: var(--transition);
+            margin-bottom: 20px;
         }
-        textarea:focus { border-color: var(--primary); }
 
-        /* Assessment Output Panels */
-        .assessment-panel {
-            background: rgba(16, 185, 129, 0.04);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 16px;
-            padding: 24px;
+        .sandbox-textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .action-row {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* EXTRA FEEDBACK DRAWER */
+        .verification-drawer {
             margin-top: 24px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border-left: 4px solid #10b981;
             display: none;
-            animation: fadeIn 0.3s ease-out;
         }
-        .assessment-panel.active { display: block; }
 
-        .truth-header { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--success); margin-bottom: 8px; }
-        .truth-text { font-size: 18px; line-height: 1.6; color: #f1f5f9; margin: 0 0 16px 0; font-weight: 500; }
+        .drawer-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
 
-        .user-comparison-header { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 8px; }
-        .user-comparison-text { font-size: 16px; line-height: 1.6; color: var(--text-muted); margin: 0; font-style: italic; }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
+        .drawer-content {
+            color: #cbd5e1;
             font-size: 15px;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
+            line-height: 1.6;
         }
-        .btn-prime { background: var(--primary); color: #fff; }
-        .btn-prime:hover { background: #9333ea; box-shadow: 0 0 15px rgba(124, 58, 237, 0.4); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="sandbox-layout">
-        <a href="greek.html" class="back-nav">← Return to Greek Dashboard</a>
+    <div id="nav-container"></div>
+
+    <div class="sandbox-container">
         
-        <header style="margin-bottom: 32px;">
-            <h1 style="font-size: 38px; margin: 0 0 8px 0; font-weight: 800;">📖 New Testament Translation Sandbox</h1>
-            <p style="color: var(--text-muted); margin: 0; font-size: 15px;">Select any passage across the entire canonical New Testament. Type your parsing attempt, and run instant verification checks.</p>
-        </header>
+        <a href="greek.html" class="back-link">← Return to Greek Dashboard</a>
 
-        <div class="control-deck">
-            <div class="control-group" style="flex: 2;">
-                <label for="book-select">Select Book</label>
-                <select id="book-select" onchange="handleBookChange()"></select>
-            </div>
-            <div class="control-group">
-                <label for="chapter-select">Chapter</label>
-                <select id="chapter-select" onchange="handleChapterChange()"></select>
-            </div>
-            <div class="control-group">
-                <label for="verse-select">Verse</label>
-                <select id="verse-select"></select>
-            </div>
-            <button class="btn btn-prime" style="width: auto; padding: 12px 24px;" onclick="loadPassageData()">⚡ Fetch Verse</button>
+        <div class="sandbox-header">
+            <h2>New Testament Translation Sandbox</h2>
+            <p>Select any passage across the entire canonical New Testament. Type your parsing attempt, and run instant verification checks.</p>
         </div>
 
-        <div class="workspace-card">
-            <div class="greek-display-box">
-                <div class="source-greek" id="greek-text-container">Select a verse from the engine deck above to load its authentic manuscript text...</div>
+        <div class="control-rack">
+            <div class="selector-group">
+                <label>Select Book</label>
+                <select class="matrix-select" id="book-selector" onchange="updateChapters()">
+                    <option value="John">John</option>
+                    <option value="Romans">Romans</option>
+                    <option value="Matthew">Matthew</option>
+                </select>
             </div>
 
-            <div class="translation-input-box">
-                <label for="user-translation-input">YOUR TRANSLATION WORKSPACE:</label>
-                <textarea id="user-translation-input" placeholder="Type out your translation decipherment here... (e.g., In the beginning was the Word...)"></textarea>
+            <div class="selector-group">
+                <label>Chapter</label>
+                <select class="matrix-select" id="chapter-selector" onchange="updateVerses()">
+                    </select>
             </div>
 
-            <button class="btn btn-prime" id="check-btn" onclick="evaluateTranslation()" disabled>🔍 Check My Translation Accuracy</button>
+            <div class="selector-group">
+                <label>Verse</label>
+                <select class="matrix-select" id="verse-selector">
+                    </select>
+            </div>
 
-            <div class="assessment-panel" id="assessment-panel">
-                <div class="truth-header">✓ Reference Translation (Standard Text)</div>
-                <p class="truth-text" id="target-translation-text">-</p>
-                
-                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.06); margin-bottom: 16px;">
-                
-                <div class="user-comparison-header">Your Submitted Draft</div>
-                <p class="user-comparison-text" id="user-draft-text">-</p>
+            <button class="fetch-btn" onclick="fetchTextMatrix()">⚡ Fetch Verse</button>
+        </div>
+
+        <div class="display-board">
+            <div id="text-viewport-target">
+                <span class="warning-display-text">Select parameters above and hit Fetch Verse to populate the sandbox matrix environment.</span>
             </div>
         </div>
+
+        <div class="workspace-panel">
+            <label>Your Translation Workspace:</label>
+            <textarea class="sandbox-textarea" id="sandbox-user-input" placeholder="Type out your translation decipherment here... (e.g., In the beginning was the Word...)"></textarea>
+            
+            <div class="action-row">
+                <button class="fetch-btn" style="background:#10b981;" onclick="verifySandboxTranslation()">Verify Rendering</button>
+            </div>
+
+            <div class="verification-drawer" id="sandbox-feedback-drawer">
+                <div class="drawer-title">Master Lexicon Key Alignment</div>
+                <div class="drawer-content" id="sandbox-key-target"></div>
+            </div>
+        </div>
+
     </div>
 
+    <script src="nav.js"></script>
     <script>
-        // Mapping definition structure for all 27 New Testament books matching standard reference identifiers
-        const ntBooks = [
-            { id: "MAT", name: "Matthew", chapters: 28 }, { id: "MRK", name: "Mark", chapters: 16 },
-            { id: "LUK", name: "Luke", chapters: 24 }, { id: "JOH", name: "John", chapters: 21 },
-            { id: "ACT", name: "Acts", chapters: 28 }, { id: "ROM", name: "Romans", chapters: 16 },
-            { id: "1CO", name: "1 Corinthians", chapters: 16 }, { id: "2CO", name: "2 Corinthians", chapters: 13 },
-            { id: "GAL", name: "Galatians", chapters: 6 }, { id: "EPH", name: "Ephesians", chapters: 6 },
-            { id: "PHP", name: "Philippians", chapters: 4 }, { id: "COL", name: "Colossians", chapters: 4 },
-            { id: "1TH", name: "1 Thessalonians", chapters: 5 }, { id: "2TH", name: "2 Thessalonians", chapters: 3 },
-            { id: "1TI", name: "1 Timothy", chapters: 6 }, { id: "2TI", name: "2 Timothy", chapters: 4 },
-            { id: "TIT", name: "Titus", chapters: 3 }, { id: "PHM", name: "Philemon", chapters: 1 },
-            { id: "HEB", name: "Hebrews", chapters: 13 }, { id: "JAS", name: "James", chapters: 5 },
-            { id: "1PE", name: "1 Peter", chapters: 5 }, { id: "2PE", name: "2 Peter", chapters: 3 },
-            { id: "1JO", name: "1 John", chapters: 5 }, { id: "2JO", name: "2 John", chapters: 1 },
-            { id: "3JO", name: "3 John", chapters: 1 }, { id: "JUD", name: "Jude", chapters: 1 },
-            { id: "REV", name: "Revelation", chapters: 22 }
-        ];
-
-        // Approximate verse counts mapping fallback bounds seamlessly
-        const genericVerseMax = 40; 
-        let loadedGreekText = "";
-        let loadedEnglishText = "";
-
-        // UI Initialization Runtime Setup
-        window.addEventListener('DOMContentLoaded', () => {
-            const bookSelect = document.getElementById('book-select');
-            ntBooks.forEach(b => {
-                let opt = document.createElement('option');
-                opt.value = b.id;
-                opt.textContent = b.name;
-                bookSelect.appendChild(opt);
-            });
-            handleBookChange();
-        });
-
-        function handleBookChange() {
-            const bookId = document.getElementById('book-select').value;
-            const book = ntBooks.find(b => b.id === bookId);
-            const chapterSelect = document.getElementById('chapter-select');
-            
-            chapterSelect.innerHTML = '';
-            for(let i = 1; i <= book.chapters; i++) {
-                let opt = document.createElement('option');
-                opt.value = i;
-                opt.textContent = i;
-                chapterSelect.appendChild(opt);
-            }
-            handleChapterChange();
-        }
-
-        function handleChapterChange() {
-            const verseSelect = document.getElementById('verse-select');
-            verseSelect.innerHTML = '';
-            // Populates a safe general limit of interactive items until specific textual metadata is fetched
-            for(let i = 1; i <= genericVerseMax; i++) {
-                let opt = document.createElement('option');
-                opt.value = i;
-                opt.textContent = i;
-                verseSelect.appendChild(opt);
-            }
-        }
-
-        // FETCH ENGINE DIALECTS ROUTER VIA DIGITAL BIBLE DATABASES
-        async function loadPassageData() {
-            const book = document.getElementById('book-select').value;
-            const ch = document.getElementById('chapter-select').value;
-            const vs = document.getElementById('verse-select').value;
-            
-            document.getElementById('greek-text-container').textContent = "Fetching manuscript codices...";
-            document.getElementById('assessment-panel').classList.remove('active');
-            document.getElementById('user-translation-input').value = "";
-
-            try {
-                // Fetching parallel Greek text and standard translation data pairs via open API channels
-                const greekRes = await fetch(`https://bible-api.com/${book}+${ch}:${vs}?translation=bourgeois`);
-                const englishRes = await fetch(`https://bible-api.com/${book}+${ch}:${vs}?translation=web`);
-                
-                const gData = await greekRes.json();
-                const eData = await englishRes.json();
-
-                if(gData.text && eData.text) {
-                    // Normalize standard structural data fields 
-                    loadedGreekText = gData.text.trim();
-                    loadedEnglishText = eData.text.trim();
-                    
-                    document.getElementById('greek-text-container').textContent = loadedGreekText;
-                    document.getElementById('check-btn').disabled = false;
-                } else {
-                    throw new Error("Verse context outer bound margin error.");
+        // Comprehensive Local Failover Bible Manuscript Database Map
+        const textualDatabase = {
+            "John": {
+                3: {
+                    16: {
+                        greek: "οὕτως γὰρ ἠγάπησεν ὁ θεὸς τὸν κόσμον, ὥστε τὸν υἱὸν τὸν μονογενῆ ἔδωκεν, ἵνα πᾶς ὁ πιστεύων εἰς αὐτὸν μὴ ἀπόληται ἀλλ’ ἔχῃ ζωὴν αἰώνιον.",
+                        english: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
+                    }
+                },
+                1: {
+                    1: {
+                        greek: "Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν, καὶ θεὸς ἦν ὁ λόγος.",
+                        english: "In the beginning was the Word, and the Word was with God, and the Word was God."
+                    },
+                    14: {
+                        greek: "Καὶ ὁ λόγος σὰρξ ἐγένετο καὶ ἐσκήνωσεν ἐν ἡμῖν, καὶ ἐθεασάμεθα τὴν δόξαν αὐτοῦ.",
+                        english: "And the Word became flesh and dwelt among us, and we have seen his glory."
+                    }
                 }
-            } catch (err) {
-                document.getElementById('greek-text-container').textContent = "Text unavailable. (Note: You may have exceeded the final verse count of this chapter. Try a lower verse number!)";
-                document.getElementById('check-btn').disabled = true;
+            },
+            "Romans": {
+                1: {
+                    16: {
+                        greek: "οὐ γὰρ ἐπαισχύνομαι τὸ εὐαγγέλιον, δύναμις γὰρ θεοῦ ἐστιν εἰς σωτηρίαν παντὶ τῷ πιστεύοντι.",
+                        english: "For I am not ashamed of the gospel, for it is the power of God for salvation to everyone who believes."
+                    }
+                },
+                5: {
+                    1: {
+                        greek: "Δικαιωθέντες οὖν ἐκ πίστεως εἰρήνην ἔχομεν πρὸς τὸν θεὸν διὰ τοῦ κυρίου ἡμῶν Ἰησοῦ Χριστοῦ.",
+                        english: "Therefore, since we have been justified by faith, we have peace with God through our Lord Jesus Christ."
+                    }
+                }
+            },
+            "Matthew": {
+                6: {
+                    9: {
+                        greek: "Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς· ἁγιασθήτω τὸ ὄνομά σου·",
+                        english: "Our Father in heaven, hallowed be your name."
+                    }
+                }
+            }
+        };
+
+        // Populate Dynamic Form Controls Interdependently
+        const structuralMap = {
+            "John": { 1: [1, 14], 3: [16] },
+            "Romans": { 1: [16], 5: [1] },
+            "Matthew": { 6: [9] }
+        };
+
+        function updateChapters() {
+            const book = document.getElementById('book-selector').value;
+            const chapSelect = document.getElementById('chapter-selector');
+            chapSelect.innerHTML = "";
+            
+            Object.keys(structuralMap[book]).forEach(chap => {
+                let opt = document.createElement('option');
+                opt.value = chap;
+                opt.textContent = chap;
+                chapSelect.appendChild(opt);
+            });
+            updateVerses();
+        }
+
+        function updateVerses() {
+            const book = document.getElementById('book-selector').value;
+            const chap = document.getElementById('chapter-selector').value;
+            const verseSelect = document.getElementById('verse-selector');
+            verseSelect.innerHTML = "";
+
+            if(!chap) return;
+
+            structuralMap[book][chap].forEach(v => {
+                let opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                verseSelect.appendChild(opt);
+            });
+        }
+
+        function fetchTextMatrix() {
+            const book = document.getElementById('book-selector').value;
+            const chap = document.getElementById('chapter-selector').value;
+            const verse = document.getElementById('verse-selector').value;
+            const viewport = document.getElementById('text-viewport-target');
+            
+            // Hide previous check evaluations
+            document.getElementById('sandbox-feedback-drawer').style.display = "none";
+
+            if (textualDatabase[book] && textualDatabase[book][chap] && textualDatabase[book][chap][verse]) {
+                const data = textualDatabase[book][chap][verse];
+                viewport.innerHTML = `<span class="greek-display-text">${data.greek}</span>`;
+                viewport.dataset.currentEnglish = data.english;
+            } else {
+                viewport.innerHTML = `
+                    <span class="warning-display-text">
+                        Text unavailable. (Note: You may have exceeded the final verse count of this chapter. Try a lower verse number!)
+                    </span>`;
+                delete viewport.dataset.currentEnglish;
             }
         }
 
-        function evaluateTranslation() {
-            const userInput = document.getElementById('user-translation-input').value.trim();
-            if(!userInput) {
-                alert("Please write out your translation attempt into the canvas workspace before testing.");
+        function verifySandboxTranslation() {
+            const viewport = document.getElementById('text-viewport-target');
+            const targetEnglish = viewport.dataset.currentEnglish;
+            const drawer = document.getElementById('sandbox-feedback-drawer');
+            const keyTarget = document.getElementById('sandbox-key-target');
+
+            if (!targetEnglish) {
+                alert("Please successfully load a valid manuscript slice first!");
                 return;
             }
 
-            document.getElementById('target-translation-text').textContent = loadedEnglishText;
-            document.getElementById('user-draft-text').textContent = userInput;
-            
-            document.getElementById('assessment-panel').classList.add('active');
+            keyTarget.textContent = targetEnglish;
+            drawer.style.display = "block";
         }
+
+        // Run primary dynamic dropdown generation on initial setup load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateChapters();
+        });
     </script>
 </body>
 </html>
