@@ -3,295 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Profile</title>
+    <title>Glossa — Profile Matrix</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+        .profile-layout { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            box-sizing: border-box;
+        }
+        .avatar-box { 
+            display: flex; 
+            align-items: center; 
+            gap: 24px; 
+            background: rgba(16, 16, 32, 0.6); 
+            border: 1px solid rgba(255, 255, 255, 0.06); 
+            padding: 32px; 
+            border-radius: 20px; 
+            margin-bottom: 32px; 
+            box-sizing: border-box;
+        }
+        @media (max-width: 600px) {
+            .avatar-box { flex-direction: column; text-align: center; }
+        }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+        .pic-frame { 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%; 
+            border: 2px solid #7c3aed; 
+            background: rgba(124, 58, 237, 0.1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 42px; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            position: relative; 
+            user-select: none;
+        }
+        .pic-frame:hover { 
+            transform: scale(1.05); 
+            background: rgba(124, 58, 237, 0.2);
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.3);
+        }
+        .pic-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #7c3aed;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
 
-        .login-prompt {
-            background: #1a1a2e;
-            border: 1px solid #2a2a4a;
-            border-radius: 20px;
+        .edit-fields-column { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            flex: 1;
+        }
+        .edit-fields-column input {
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            background: rgba(30, 30, 60, 0.8) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            padding: 10px 14px !important;
+            width: 100%;
+            max-width: 320px;
+            box-sizing: border-box;
+        }
+        .edit-fields-column input:focus {
+            border-color: #7c3aed !important;
+        }
+
+        .stat-strip-row { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 16px; 
+            margin-bottom: 32px; 
+        }
+        @media (max-width: 600px) {
+            .stat-strip-row { grid-template-columns: 1fr; }
+        }
+        .stat-card { 
+            background: rgba(16, 16, 32, 0.4); 
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            padding: 24px 20px; 
+            border-radius: 16px; 
             text-align: center; 
-            padding: 60px 40px;
-            margin-top: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .login-prompt h2 { 
-            font-size: 32px; 
-            margin-bottom: 15px; 
-            background: linear-gradient(135deg, #ffffff, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .stat-num { 
+            font-size: 36px; 
+            font-weight: 800; 
+            color: #a78bfa; 
+            margin-bottom: 4px;
         }
-        .login-prompt p { color: #aaa; margin-bottom: 35px; font-size: 16px; }
-        .login-prompt a {
-            display: inline-block;
-            background: #7c6af7; color: white; padding: 14px 40px;
-            border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600;
-            transition: background 0.2s, transform 0.2s;
+        .stat-card p {
+            margin: 0;
+            font-size: 14px;
         }
-        .login-prompt a:hover { background: #6b58e6; transform: translateY(-1px); }
-
-        .profile-header {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 35px;
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            margin-bottom: 30px;
-            border: 1px solid #2a2a4a;
-        }
-        .avatar {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: linear-gradient(135deg, #7c6af7, #a78bfa);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 36px; flex-shrink: 0;
-            box-shadow: 0 0 20px rgba(124, 106, 247, 0.4);
-        }
-        .profile-info h2 { font-size: 26px; margin-bottom: 6px; font-weight: 700; }
-        .profile-info p { color: #aaa; font-size: 14px; letter-spacing: 0.5px; }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 15px;
-            margin-bottom: 35px;
-        }
-        .stat-box {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 22px 15px;
-            text-align: center;
-            border: 1px solid #2a2a4a;
-        }
-        .stat-box h3 { font-size: 36px; color: #7c6af7; font-weight: 800; line-height: 1; }
-        .stat-box p { color: #aaa; font-size: 13px; margin-top: 8px; font-weight: 500; }
-
-        .section-title {
-            font-size: 20px; font-weight: 700;
-            margin-bottom: 20px; color: white;
-            letter-spacing: 0.5px;
-        }
-
-        .lang-progress {
-            background: #1a1a2e;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid #2a2a4a;
-            transition: all 0.2s;
-        }
-        .lang-progress:hover { border-color: #7c6af7; }
-        .lang-progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .lang-name { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; }
-        .level-badge {
-            background: #7c6af7; padding: 6px 16px;
-            border-radius: 20px; font-size: 13px; font-weight: 700;
-        }
-        .level-badge.none { background: #22223b; color: #888; border: 1px solid #2a2a4a; }
-
-        .progress-bar {
-            background: #0f0f1a; border-radius: 10px;
-            height: 10px; overflow: hidden; margin-bottom: 8px;
-            border: 1px solid #2a2a4a;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #7c6af7, #a78bfa);
-            border-radius: 10px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .progress-labels {
-            display: flex; justify-content: space-between;
-            color: #666; font-size: 12px; margin-bottom: 20px;
-            font-weight: 600; padding: 0 4px;
-        }
-        .lang-actions { display: flex; gap: 12px; }
-        .test-btn {
-            padding: 10px 22px; background: transparent;
-            border: 2px solid #2a2a4a; color: #aaa;
-            border-radius: 25px; cursor: pointer; font-size: 13px;
-            font-weight: 600; transition: all 0.2s;
-        }
-        .test-btn:hover { border-color: #7c6af7; color: white; }
-        .continue-btn {
-            padding: 10px 22px; background: #7c6af7;
-            border: none; color: white;
-            border-radius: 25px; cursor: pointer; font-size: 13px;
-            font-weight: 600; transition: all 0.2s; text-decoration: none;
-        }
-        .continue-btn:hover { background: #6b58e6; }
-
-        .logout-btn {
-            width: 100%; padding: 15px;
-            background: transparent; border: 2px solid #ff6b6b;
-            color: #ff6b6b; border-radius: 15px; cursor: pointer;
-            font-size: 16px; font-weight: 600; margin-top: 20px;
-            transition: all 0.2s;
-        }
-        .logout-btn:hover { background: #ff6b6b; color: white; }
-
-        footer { text-align: center; padding: 40px 0 20px 0; color: #555; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="profile-layout">
+        <h1 style="font-size: 36px; margin-bottom: 8px;">My Profile Settings</h1>
+        <p style="font-size: 16px; margin-bottom: 32px;">Manage your personalized visual identity assets and keep track of live learning performance parameters.</p>
 
-        <div class="login-prompt" id="login-prompt" style="display:none">
-            <h2>Access Your Vault</h2>
-            <p>Log in to view your progress metrics and dynamic text history diagnostics.</p>
-            <a href="login.html">Login / Sign Up</a>
+        <div class="avatar-box">
+            <div class="pic-frame" id="profile-avatar" title="Click to swap avatar" onclick="cycleAvatarAsset()">
+                👤
+                <div class="pic-badge">EDIT</div>
+            </div>
+            
+            <div class="edit-fields-column">
+                <input type="text" id="username-input" value="coopsben0@gmail.com" placeholder="Enter username or email...">
+                <span style="font-size: 13px; color: #94a3b8;">Click into the box above to edit your display handle or select the portrait icon to cycle badges.</span>
+            </div>
         </div>
 
-        <div id="profile-content" style="display:none">
-
-            <div class="profile-header">
-                <div class="avatar">👤</div>
-                <div class="profile-info">
-                    <h2 id="user-email">Loading...</h2>
-                    <p>Glossa Member</p>
-                </div>
+        <div class="stat-strip-row">
+            <div class="stat-card">
+                <div class="stat-num">1</div>
+                <p>Track Initiated</p>
             </div>
-
-            <div class="stats">
-                <div class="stat-box">
-                    <h3 id="langs-count">0</h3>
-                    <p>Tracks Started</p>
-                </div>
-                <div class="stat-box">
-                    <h3 id="tests-count">0</h3>
-                    <p>Tests Evaluated</p>
-                </div>
-                <div class="stat-box">
-                    <h3 id="words-count">0</h3>
-                    <p>Lexicons Mastered</p>
-                </div>
-                <div class="stat-box">
-                    <h3 id="best-level">—</h3>
-                    <p>Highest Matrix</p>
-                </div>
+            <div class="stat-card">
+                <div class="stat-num">4</div>
+                <p>Modules Finished</p>
             </div>
-
-            <div class="section-title">My Track Diagnoses</div>
-
-            <div class="lang-progress">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>🏛️</span> Biblical Greek</div>
-                    <div class="level-badge" id="greek-badge">Not tested</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="greek-progress" style="width:0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-                <div class="lang-actions">
-                    <a href="greek.html" class="continue-btn">Continue Track →</a>
-                    <button class="test-btn" onclick="window.location.href='greek-test.html'">Take Level Test</button>
-                </div>
+            <div class="stat-card">
+                <div class="stat-num">A1</div>
+                <p>System Performance Rank</p>
             </div>
-
-            <div class="lang-progress" style="opacity: 0.5;">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>✡️</span> Biblical Hebrew</div>
-                    <div class="level-badge none">Coming Soon</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width:0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-            </div>
-
-            <div class="lang-progress" style="opacity: 0.5;">
-                <div class="lang-progress-header">
-                    <div class="lang-name"><span>🇫🇷</span> French</div>
-                    <div class="level-badge none">Coming Soon</div>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width:0%"></div>
-                </div>
-                <div class="progress-labels">
-                    <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                </div>
-            </div>
-
-            <button class="logout-btn" onclick="logout()">Terminate Session</button>
-
         </div>
     </div>
 
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
+    <script>
+        // Array of cool glyph icons that users can click to select from
+        const avatarPool = ['👤', '🏛️', '🛡️', '⚡', '🦉', '🦊', '🦁', '🧑‍🎓', '🧙‍♂️', '💎'];
+        let currentAvatarIndex = 0;
 
-    <script src="nav.js"></script>
+        function cycleAvatarAsset() {
+            currentAvatarIndex = (currentAvatarIndex + 1) % avatarPool.length;
+            
+            // Retain edit tag context markup cleanly
+            document.getElementById('profile-avatar').innerHTML = `
+                ${avatarPool[currentAvatarIndex]}
+                <div class="pic-badge">EDIT</div>
+            `;
+        }
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
-            authDomain: "glossa-48dd8.firebaseapp.com",
-            projectId: "glossa-48dd8",
-            storageBucket: "glossa-48dd8.firebasestorage.app",
-            messagingSenderId: "234142191158",
-            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                document.getElementById('login-prompt').style.display = 'none';
-                document.getElementById('profile-content').style.display = 'block';
-                document.getElementById('user-email').textContent = user.email;
-
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const levels = { A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100 };
-
-                    if (data.greekLevel) {
-                        document.getElementById('greek-badge').textContent = data.greekLevel;
-                        document.getElementById('greek-badge').classList.remove('none');
-                        document.getElementById('greek-progress').style.width = levels[data.greekLevel] + '%';
-                        document.getElementById('langs-count').textContent = '1';
-                        document.getElementById('tests-count').textContent = data.testsTaken || '1';
-                        document.getElementById('best-level').textContent = data.greekLevel;
-                    }
-
-                    if (data.learnedWords) {
-                        document.getElementById('words-count').textContent = data.learnedWords.length;
-                    }
-                }
-            } else {
-                document.getElementById('login-prompt').style.display = 'block';
-                document.getElementById('profile-content').style.display = 'none';
-            }
+        // Auto-save input entry value back to browser local cache memory
+        const nameInput = document.getElementById('username-input');
+        
+        if (localStorage.getItem('glossa-username')) {
+            nameInput.value = localStorage.getItem('glossa-username');
+        }
+        
+        nameInput.addEventListener('input', function() {
+            localStorage.setItem('glossa-username', this.value);
         });
 
-        window.logout = async function() {
-            await signOut(auth);
-            window.location.href = 'index.html';
+        if (localStorage.getItem('glossa-avatar-idx')) {
+            currentAvatarIndex = parseInt(localStorage.getItem('glossa-avatar-idx'), 10) || 0;
+            document.getElementById('profile-avatar').innerHTML = `
+                ${avatarPool[currentAvatarIndex]}
+                <div class="pic-badge">EDIT</div>
+            `;
+        }
+
+        function cycleAvatarAsset() {
+            currentAvatarIndex = (currentAvatarIndex + 1) % avatarPool.length;
+            localStorage.setItem('glossa-avatar-idx', currentAvatarIndex);
+            document.getElementById('profile-avatar').innerHTML = `
+                ${avatarPool[currentAvatarIndex]}
+                <div class="pic-badge">EDIT</div>
+            `;
         }
     </script>
-
+    <script src="ui-manager.js"></script>
 </body>
 </html>
