@@ -316,49 +316,49 @@
 
     <script src="nav.js"></script>
     <script>
-        // High-fidelity structural mapping with structural mapping translations
+        // Official, clean string codes used by the robust Bible-API system
         const bibleApiMatrix = [
-            { id: 40, greekId: 1, name: "Matthew", chapters: 28 },
-            { id: 41, greekId: 2, name: "Mark", chapters: 16 },
-            { id: 42, greekId: 3, name: "Luke", chapters: 24 },
-            { id: 43, greekId: 4, name: "John", chapters: 21 },
-            { id: 44, greekId: 5, name: "Acts", chapters: 28 },
-            { id: 45, greekId: 6, name: "Romans", chapters: 16 },
-            { id: 46, greekId: 7, name: "1 Corinthians", chapters: 16 },
-            { id: 47, greekId: 8, name: "2 Corinthians", chapters: 13 },
-            { id: 48, greekId: 9, name: "Galatians", chapters: 6 },
-            { id: 49, greekId: 10, name: "Ephesians", chapters: 6 },
-            { id: 50, greekId: 11, name: "Philippians", chapters: 4 },
-            { id: 51, greekId: 12, name: "Colossians", chapters: 4 },
-            { id: 52, greekId: 13, name: "1 Thessalonians", chapters: 5 },
-            { id: 53, greekId: 14, name: "2 Thessalonians", chapters: 3 },
-            { id: 54, greekId: 15, name: "1 Timothy", chapters: 6 },
-            { id: 55, greekId: 16, name: "2 Timothy", chapters: 4 },
-            { id: 56, greekId: 17, name: "Titus", chapters: 3 },
-            { id: 57, greekId: 18, name: "Philemon", chapters: 1 },
-            { id: 58, greekId: 19, name: "Hebrews", chapters: 13 },
-            { id: 59, greekId: 20, name: "James", chapters: 5 },
-            { id: 60, greekId: 21, name: "1 Peter", chapters: 5 },
-            { id: 61, greekId: 22, name: "2 Peter", chapters: 3 },
-            { id: 62, greekId: 23, name: "1 John", chapters: 5 },
-            { id: 63, greekId: 24, name: "2 John", chapters: 1 },
-            { id: 64, greekId: 25, name: "3 John", chapters: 1 },
-            { id: 65, greekId: 26, name: "Jude", chapters: 1 },
-            { id: 66, greekId: 27, name: "Revelation", chapters: 22 }
+            { code: "matthew", name: "Matthew", chapters: 28 },
+            { code: "mark", name: "Mark", chapters: 16 },
+            { code: "luke", name: "Luke", chapters: 24 },
+            { code: "john", name: "John", chapters: 21 },
+            { code: "acts", name: "Acts", chapters: 28 },
+            { code: "romans", name: "Romans", chapters: 16 },
+            { code: "1corinthians", name: "1 Corinthians", chapters: 16 },
+            { code: "2corinthians", name: "2 Corinthians", chapters: 13 },
+            { code: "galatians", name: "Galatians", chapters: 6 },
+            { code: "ephesians", name: "Ephesians", chapters: 6 },
+            { code: "philippians", name: "Philippians", chapters: 4 },
+            { code: "colossians", name: "Colossians", chapters: 4 },
+            { code: "1thessalonians", name: "1 Thessalonians", chapters: 5 },
+            { code: "2thessalonians", name: "2 Thessalonians", chapters: 3 },
+            { code: "1timothy", name: "1 Timothy", chapters: 6 },
+            { code: "2timothy", name: "2 Timothy", chapters: 4 },
+            { code: "titus", name: "Titus", chapters: 3 },
+            { code: "philemon", name: "Philemon", chapters: 1 },
+            { code: "hebrews", name: "Hebrews", chapters: 13 },
+            { code: "james", name: "James", chapters: 5 },
+            { code: "1peter", name: "1 Peter", chapters: 5 },
+            { code: "2peter", name: "2 Peter", chapters: 3 },
+            { code: "1john", name: "1 John", chapters: 5 },
+            { code: "2john", name: "2 John", chapters: 1 },
+            { code: "3john", name: "3 John", chapters: 1 },
+            { code: "jude", name: "Jude", chapters: 1 },
+            { code: "revelation", name: "Revelation", chapters: 22 }
         ];
 
         function bootSandboxEngine() {
             const bookBox = document.getElementById('book-selector');
             bookBox.innerHTML = "";
             bibleApiMatrix.forEach(book => {
-                bookBox.options[bookBox.options.length] = new Option(book.name, book.id);
+                bookBox.options[bookBox.options.length] = new Option(book.name, book.code);
             });
             allocateChapters();
         }
 
         function allocateChapters() {
-            const currentBookId = parseInt(document.getElementById('book-selector').value);
-            const bookData = bibleApiMatrix.find(b => b.id === currentBookId);
+            const currentBookCode = document.getElementById('book-selector').value;
+            const bookData = bibleApiMatrix.find(b => b.code === currentBookCode);
             const chapBox = document.getElementById('chapter-selector');
             chapBox.innerHTML = "";
             
@@ -373,47 +373,46 @@
         function allocateVerses() {
             const verseBox = document.getElementById('verse-selector');
             verseBox.innerHTML = "";
-            for (let v = 1; v <= 80; v++) {
+            // Generates standard verse option selection safely
+            for (let v = 1; v <= 60; v++) {
                 verseBox.options[verseBox.options.length] = new Option(v, v);
             }
         }
 
         async function queryScriptureApiEngine() {
-            const bookId = parseInt(document.getElementById('book-selector').value);
+            const bookCode = document.getElementById('book-selector').value;
             const chapter = document.getElementById('chapter-selector').value;
             const verse = document.getElementById('verse-selector').value;
             const displayViewport = document.getElementById('text-viewport-target');
             
-            const bookData = bibleApiMatrix.find(b => b.id === bookId);
-            if (!bookData) return;
-
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
             displayViewport.innerHTML = `<span class="fallback-status-render">Extracting Ancient Manuscripts...</span>`;
 
             try {
-                // Cross-mapped translation targets: Greek parses relative index (1-27), English takes absolute index (40-66)
-                const greekUrl = `https://bolls.life/get-text/BYZ/${bookData.greekId}/${chapter}/${verse}/`;
+                // Fetch authentic Greek New Testament text directly using the official academic engine
+                const greekUrl = `https://bible-api.com/${bookCode}+${chapter}:${verse}?translation=el-tr`;
                 const greekResponse = await fetch(greekUrl);
-                if (!greekResponse.ok) throw new Error("Greek pipeline failed.");
+                if (!greekResponse.ok) throw new Error("Greek query context empty.");
                 const gData = await greekResponse.json();
 
-                const englishUrl = `https://bolls.life/get-text/YLT/${bookId}/${chapter}/${verse}/`;
+                // Fetch English Translation reference key simultaneously from the same origin 
+                const englishUrl = `https://bible-api.com/${bookCode}+${chapter}:${verse}`;
                 const englishResponse = await fetch(englishUrl);
-                if (!englishResponse.ok) throw new Error("English pipeline failed.");
+                if (!englishResponse.ok) throw new Error("English alignment context empty.");
                 const eData = await englishResponse.json();
 
                 if (gData && gData.text) {
-                    let cleanGreekText = gData.text.replace(/<\/?[^>]+(>|$)/g, "").trim();
+                    let cleanGreekText = gData.text.trim();
                     displayViewport.innerHTML = `<span class="ancient-script-render">${cleanGreekText}</span>`;
-                    displayViewport.dataset.currentEnglish = eData.text.replace(/<\/?[^>]+(>|$)/g, "").trim();
+                    displayViewport.dataset.currentEnglish = eData.text.trim();
                 } else {
-                    throw new Error("Target verse return is empty.");
+                    throw new Error("Invalid response dataset.");
                 }
 
             } catch (error) {
                 displayViewport.innerHTML = `
                     <span class="fallback-status-render" style="color: #fca5a5; font-weight: 600;">
-                        Passage index trace is blank. (Note: You may have chosen a verse number higher than the total verses in this chapter!)
+                        Coordinates unavailable. (Note: You may have chosen a verse number higher than the total verses in this chapter!)
                     </span>`;
                 delete displayViewport.dataset.currentEnglish;
             }
