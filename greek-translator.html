@@ -100,7 +100,7 @@
             letter-spacing: 0.1em;
         }
 
-        /* PREMIUM FORM COMPONENTS */
+        /* PREMIUM DROPDOWN COMPONENTS */
         .premium-select-element {
             background: var(--bg-inner-input);
             border: 1px solid var(--border-slate);
@@ -316,35 +316,35 @@
 
     <script src="nav.js"></script>
     <script>
-        // High-fidelity structural mapping for the 27 books of the New Testament (Fixed Syntax Errors)
+        // High-fidelity structural mapping with structural mapping translations
         const bibleApiMatrix = [
-            { id: 40, name: "Matthew", chapters: 28 },
-            { id: 41, name: "Mark", chapters: 16 },
-            { id: 42, name: "Luke", chapters: 24 },
-            { id: 43, name: "John", chapters: 21 },
-            { id: 44, name: "Acts", chapters: 28 },
-            { id: 45, name: "Romans", chapters: 16 },
-            { id: 46, name: "1 Corinthians", chapters: 16 },
-            { id: 47, name: "2 Corinthians", chapters: 13 },
-            { id: 48, name: "Galatians", chapters: 6 },
-            { id: 49, name: "Ephesians", chapters: 6 },
-            { id: 50, name: "Philippians", chapters: 4 },
-            { id: 51, name: "Colossians", chapters: 4 },
-            { id: 52, name: "1 Thessalonians", chapters: 5 },
-            { id: 53, name: "2 Thessalonians", chapters: 3 },
-            { id: 54, name: "1 Timothy", chapters: 6 },
-            { id: 55, name: "2 Timothy", chapters: 4 },
-            { id: 56, name: "Titus", chapters: 3 },
-            { id: 57, name: "Philemon", chapters: 1 },
-            { id: 58, name: "Hebrews", chapters: 13 },
-            { id: 59, name: "James", chapters: 5 },
-            { id: 60, name: "1 Peter", chapters: 5 },
-            { id: 61, name: "2 Peter", chapters: 3 },
-            { id: 62, name: "1 John", chapters: 5 },
-            { id: 63, name: "2 John", chapters: 1 },
-            { id: 64, name: "3 John", chapters: 1 },
-            { id: 65, name: "Jude", chapters: 1 },
-            { id: 66, name: "Revelation", chapters: 22 }
+            { id: 40, greekId: 1, name: "Matthew", chapters: 28 },
+            { id: 41, greekId: 2, name: "Mark", chapters: 16 },
+            { id: 42, greekId: 3, name: "Luke", chapters: 24 },
+            { id: 43, greekId: 4, name: "John", chapters: 21 },
+            { id: 44, greekId: 5, name: "Acts", chapters: 28 },
+            { id: 45, greekId: 6, name: "Romans", chapters: 16 },
+            { id: 46, greekId: 7, name: "1 Corinthians", chapters: 16 },
+            { id: 47, greekId: 8, name: "2 Corinthians", chapters: 13 },
+            { id: 48, greekId: 9, name: "Galatians", chapters: 6 },
+            { id: 49, greekId: 10, name: "Ephesians", chapters: 6 },
+            { id: 50, greekId: 11, name: "Philippians", chapters: 4 },
+            { id: 51, greekId: 12, name: "Colossians", chapters: 4 },
+            { id: 52, greekId: 13, name: "1 Thessalonians", chapters: 5 },
+            { id: 53, greekId: 14, name: "2 Thessalonians", chapters: 3 },
+            { id: 54, greekId: 15, name: "1 Timothy", chapters: 6 },
+            { id: 55, greekId: 16, name: "2 Timothy", chapters: 4 },
+            { id: 56, greekId: 17, name: "Titus", chapters: 3 },
+            { id: 57, greekId: 18, name: "Philemon", chapters: 1 },
+            { id: 58, greekId: 19, name: "Hebrews", chapters: 13 },
+            { id: 59, greekId: 20, name: "James", chapters: 5 },
+            { id: 60, greekId: 21, name: "1 Peter", chapters: 5 },
+            { id: 61, greekId: 22, name: "2 Peter", chapters: 3 },
+            { id: 62, greekId: 23, name: "1 John", chapters: 5 },
+            { id: 63, greekId: 24, name: "2 John", chapters: 1 },
+            { id: 64, greekId: 25, name: "3 John", chapters: 1 },
+            { id: 65, greekId: 26, name: "Jude", chapters: 1 },
+            { id: 66, greekId: 27, name: "Revelation", chapters: 22 }
         ];
 
         function bootSandboxEngine() {
@@ -379,23 +379,27 @@
         }
 
         async function queryScriptureApiEngine() {
-            const bookId = document.getElementById('book-selector').value;
+            const bookId = parseInt(document.getElementById('book-selector').value);
             const chapter = document.getElementById('chapter-selector').value;
             const verse = document.getElementById('verse-selector').value;
             const displayViewport = document.getElementById('text-viewport-target');
             
+            const bookData = bibleApiMatrix.find(b => b.id === bookId);
+            if (!bookData) return;
+
             document.getElementById('sandbox-feedback-drawer').style.display = "none";
             displayViewport.innerHTML = `<span class="fallback-status-render">Extracting Ancient Manuscripts...</span>`;
 
             try {
-                const greekUrl = `https://bolls.life/get-text/BYZ/${bookId}/${chapter}/${verse}/`;
+                // Cross-mapped translation targets: Greek parses relative index (1-27), English takes absolute index (40-66)
+                const greekUrl = `https://bolls.life/get-text/BYZ/${bookData.greekId}/${chapter}/${verse}/`;
                 const greekResponse = await fetch(greekUrl);
-                if (!greekResponse.ok) throw new Error("Greek database fetch error.");
+                if (!greekResponse.ok) throw new Error("Greek pipeline failed.");
                 const gData = await greekResponse.json();
 
                 const englishUrl = `https://bolls.life/get-text/YLT/${bookId}/${chapter}/${verse}/`;
                 const englishResponse = await fetch(englishUrl);
-                if (!englishResponse.ok) throw new Error("English database fetch error.");
+                if (!englishResponse.ok) throw new Error("English pipeline failed.");
                 const eData = await englishResponse.json();
 
                 if (gData && gData.text) {
