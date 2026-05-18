@@ -3,116 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa — Languages</title>
+    <title>Glossa — Language Tracks</title>
     <style>
-        .app-container {
-            max-width: 1100px;
-            margin: 0 auto;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
+
+        nav {
+            background: #1a1a2e;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
+        nav a:hover, nav a.active { color: #7c6af7; }
+
+        .container {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
             text-align: center;
         }
-        .main-headline {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(to right, #ffffff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .sub-headline {
-            margin-bottom: 48px;
-            font-size: 16px;
-            color: #94a3b8;
-        }
-        .section-label {
-            text-align: left;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-            margin-bottom: 24px;
+
+        h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .subtitle { color: #aaa; margin-bottom: 40px; font-size: 16px; }
+
+        .lang-pills {
             display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #a78bfa;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-bottom: 40px;
         }
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 24px;
-        }
-        .lang-card {
-            background: rgba(18, 18, 36, 0.7);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 32px 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 240px;
-            transition: all 0.3s ease;
-        }
-        .lang-card:hover {
-            border-color: rgba(124, 58, 237, 0.4);
-            transform: translateY(-4px);
-            box-shadow: 0 0 25px rgba(124, 58, 237, 0.15);
-        }
-        .lang-icon { font-size: 36px; margin-bottom: 16px; }
-        .lang-card h3 { font-size: 18px; margin-bottom: 8px; color: #ffffff; }
-        .lang-card p { font-size: 13px; flex-grow: 1; margin-bottom: 20px; color: #94a3b8; }
-        .btn {
-            padding: 10px 24px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 12px;
+
+        .lang-pill {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 30px;
+            padding: 14px 28px;
+            font-size: 15px;
+            transition: all 0.2s;
+            cursor: pointer;
             text-decoration: none;
-            width: 100%;
-            display: inline-block;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-        .btn-primary { background: linear-gradient(135deg, #7c3aed 0%, #5b4ee4 100%); color: #fff; }
-        .btn-primary:hover { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
-        .btn-disabled { background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; pointer-events: none; }
+
+        .lang-pill.active-track {
+            border-color: #7c6af7;
+            background: rgba(124, 106, 247, 0.1);
+            font-weight: bold;
+        }
+
+        .lang-pill:hover {
+            border-color: #7c6af7;
+            color: #7c6af7;
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            font-size: 11px;
+            background: rgba(124, 106, 247, 0.25);
+            color: #a78bfa;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        footer { background: #1a1a2e; text-align: center; padding: 30px; color: #555; font-size: 14px; margin-top: 100px;}
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <h1 class="main-headline">Choose Your Language</h1>
-        <p class="sub-headline">Explore ancient textual scripts or practice conversational fluency with modern tracks.</p>
+    <nav>
+        <h1>Glossa</h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html" class="active">Languages</a>
+            <a href="chat.html">Chat</a>
+            <a href="ai-tutor.html">AI Tutor</a>
+            <a href="profile.html">Profile</a>
+        </div>
+    </nav>
 
-        <div class="section-label">🏛️ Ancient Languages</div>
+    <div class="container">
+        <h2>Ancient & Modern Tracks</h2>
+        <p class="subtitle">Select an active master track module below to enter your workspace.</p>
         
-        <div class="cards-grid">
-            <div class="lang-card">
-                <div class="lang-icon">🏛️</div>
-                <h3>Biblical Greek</h3>
-                <p>Koine vocabulary of the New Testament script matrix.</p>
-                <a href="greek.html" class="btn btn-primary">Enter Track</a>
-            </div>
-            <div class="lang-card" style="opacity: 0.5;">
-                <div class="lang-icon">🔯</div>
-                <h3>Biblical Hebrew</h3>
-                <p>Old Testament textual markers and verb roots.</p>
-                <div class="btn btn-disabled">Coming Soon</div>
-            </div>
-            <div class="lang-card" style="opacity: 0.5;">
-                <div class="lang-icon">🏺</div>
-                <h3>Latin</h3>
-                <p>Classical paradigms and ecclesiastical sentence rules.</p>
-                <div class="btn btn-disabled">Coming Soon</div>
-            </div>
-            <div class="lang-card" style="opacity: 0.5;">
-                <div class="lang-icon">👁️</div>
-                <h3>Aramaic</h3>
-                <p>Historical syntax and Northwest Semitic language roots.</p>
-                <div class="btn btn-disabled">Coming Soon</div>
-            </div>
+        <div class="lang-pills">
+            <a href="greek.html" class="lang-pill active-track">🏛️ Biblical Greek <span class="badge">403 Words</span></a>
+            <a href="spanish.html" class="lang-pill active-track">🇪🇸 Spanish <span class="badge">Audio Active</span></a>
+            
+            <a href="#" class="lang-pill">✡️ Biblical Hebrew</a>
+            <a href="#" class="lang-pill">🏺 Latin</a>
+            <a href="#" class="lang-pill">𓂀 Aramaic</a>
+            <a href="#" class="lang-pill">🇫🇷 French</a>
+            <a href="#" class="lang-pill">🇩🇪 German</a>
+            <a href="#" class="lang-pill">🇮🇹 Italian</a>
+            <a href="#" class="lang-pill">🇸🇦 Arabic</a>
+            <a href="#" class="lang-pill">🇯🇵 Japanese</a>
         </div>
     </div>
 
-    <script src="ui-manager.js"></script>
+    <footer>
+        <p>© 2026 Glossa — All rights reserved</p>
+    </footer>
+
 </body>
 </html>
