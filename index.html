@@ -53,7 +53,7 @@
             max-width: 600px;
             margin: 0 auto 40px;
             line-height: 1.7;
-        }
+            }
         .hero-buttons {
             display: flex;
             gap: 15px;
@@ -175,7 +175,12 @@
             text-decoration: none;
             color: white;
         }
-        .lang-pill:hover { border-color: #7c6af7; color: #7c6af7; }
+        .lang-pill.active-track {
+            border-color: #7c6af7;
+            background: rgba(124, 106, 247, 0.1);
+            box-shadow: 0 0 15px rgba(124, 106, 247, 0.2);
+        }
+        .lang-pill:hover { border-color: #7c6af7; color: #7c6af7; transform: scale(1.03); }
 
         /* CTA */
         .cta {
@@ -210,9 +215,9 @@
     </nav>
 
     <div class="hero">
-        <div class="hero-badge">✨ Ancient & Modern Languages</div>
+        <div class="hero-badge">✨ Ancient Structural Formations & Modern Fluency</div>
         <h2>Learn Any Language,<br>Ancient or Modern</h2>
-        <p>Glossa is the only platform that combines Biblical Greek and Hebrew parse training with modern language live chat, AI tutoring, and real level testing.</p>
+        <p>Glossa combines analytical morphological parse modules for ancient frameworks with multimodal reading, writing, listening, and oral speaking engines for modern fluency.</p>
         <div class="hero-buttons">
             <a href="languages.html" class="btn-primary">Get Started Free →</a>
             <a href="ai-tutor.html" class="btn-outline">Try AI Tutor</a>
@@ -221,12 +226,12 @@
 
     <div class="stats">
         <div class="stat">
-            <h3>10+</h3>
-            <p>Languages</p>
+            <h3>2 Active</h3>
+            <p>Mastery Tracks Live</p>
         </div>
         <div class="stat">
-            <h3>145+</h3>
-            <p>NT Greek Words</p>
+            <h3>80+ Tiers</h3>
+            <p>Lexicon Data Vectors</p>
         </div>
         <div class="stat">
             <h3>A1–C2</h3>
@@ -234,7 +239,7 @@
         </div>
         <div class="stat">
             <h3>Free</h3>
-            <p>Always</p>
+            <p>Always Open Source</p>
         </div>
     </div>
 
@@ -244,33 +249,33 @@
         <div class="features-grid">
             <div class="feature-card">
                 <span class="feature-icon">🔬</span>
-                <h3>Parse Trainer</h3>
-                <p>Master verb tenses, cases, moods and grammar through interactive drills designed for Biblical Greek and Hebrew.</p>
+                <h3>Linguistic Architect Engines</h3>
+                <p>Master structural verb inflections, cases, syntax parameters, and complex tense matrices across ancient and modern track branches.</p>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">💬</span>
-                <h3>Live Chat Rooms</h3>
-                <p>Practice in real time with learners from around the world. Rooms for every language from Greek to French.</p>
+                <span class="feature-icon">🎙️</span>
+                <h3>Oral & Aural Sandbox</h3>
+                <p>Train voice production mechanics and speech analysis listening matrices alongside native text playback nodes.</p>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">📖</span>
-                <h3>Word Library</h3>
-                <p>All high frequency NT words organised by occurrence. Tick off words as you learn them and track your progress.</p>
+                <span class="feature-icon">📁</span>
+                <h3>Dynamic Vector Feeds</h3>
+                <p>High-frequency item logs mapped directly by historical occurrence. Filter, sort, and forge custom cards into structural rep-decks.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🏛️</span>
-                <h3>Grammar Guides</h3>
-                <p>Clear guides from beginner basics to advanced syntax covering alphabet, cases, tenses and more.</p>
+                <h3>Grammar Matrices</h3>
+                <p>Clear guides from beginner syntax rules to complex mood applications covering thematic parsing and dialect exceptions.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">📜</span>
-                <h3>Translation Exercises</h3>
-                <p>Translate real NT verses at easy, medium or difficult level and get AI feedback with a score out of 10.</p>
+                <h3>Translation Blocks</h3>
+                <p>Work directly with prose passages and ancient source variants while receiving direct AI vector breakdowns and contextual accuracy scoring.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🤖</span>
-                <h3>AI Tutor</h3>
-                <p>Ask anything about grammar, vocabulary or translation. Practice conversation in any language 24/7.</p>
+                <h3>AI Fluid Tutor</h3>
+                <p>Query grammatical structures, test structural translations, and run conversation loops in target paradigms 24/7.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🎓</span>
@@ -286,15 +291,16 @@
     </div>
 
     <div class="languages-section">
-        <h2>Ancient & Modern Languages</h2>
-        <p>Start with Biblical Greek today — more languages coming soon</p>
+        <h2>Ancient & Modern Tracks Available</h2>
+        <p>Select a fully deployed architectural course track below to launch your workspace dashboards.</p>
         <div class="lang-pills">
-            <a href="greek.html" class="lang-pill">🏛️ Biblical Greek</a>
+            <a href="greek.html" class="lang-pill active-track">🏛️ Biblical Greek (Active Track)</a>
+            <a href="spanish.html" class="lang-pill active-track">🇪🇸 Spanish (Active Track)</a>
+            
             <a href="#" class="lang-pill">✡️ Biblical Hebrew</a>
             <a href="#" class="lang-pill">🏺 Latin</a>
             <a href="#" class="lang-pill">𓂀 Aramaic</a>
             <a href="#" class="lang-pill">🇫🇷 French</a>
-            <a href="#" class="lang-pill">🇪🇸 Spanish</a>
             <a href="#" class="lang-pill">🇩🇪 German</a>
             <a href="#" class="lang-pill">🇮🇹 Italian</a>
             <a href="#" class="lang-pill">🇸🇦 Arabic</a>
