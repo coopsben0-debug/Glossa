@@ -1,4 +1,4 @@
-/* Core Structural Setup */
+/* RESET & CORE STYLING */
 * { 
     margin: 0; 
     padding: 0; 
@@ -12,8 +12,8 @@ body {
     line-height: 1.6;
 }
 
-/* Header & Navigation Elements */
-.main-header {
+/* NAVIGATION */
+nav, .main-header {
     background: #1a1a2e;
     padding: 20px 40px;
     display: flex;
@@ -22,14 +22,14 @@ body {
     border-bottom: 1px solid #2a2a4a;
 }
 
-.logo { 
+nav h1, .logo { 
     color: #7c6af7; 
-    font-size: 24px; 
+    font-size: 28px; 
     font-weight: 800; 
     letter-spacing: 1px; 
 }
 
-.nav-links a { 
+nav div a, .nav-links a { 
     color: #ffffff; 
     text-decoration: none; 
     margin-left: 20px; 
@@ -37,13 +37,14 @@ body {
     transition: color 0.2s;
 }
 
-.nav-links a:hover, .nav-links a.active { 
+nav div a:hover, .nav-links a:hover, .nav-links a.active { 
     color: #7c6af7; 
 }
 
 .sub-nav {
     padding: 15px 40px;
     background: #131324;
+    border-bottom: 1px solid #2a2a4a;
 }
 
 .back-link {
@@ -52,13 +53,130 @@ body {
     font-size: 14px;
 }
 
-/* Main Dashboard Elements */
-.dashboard-wrapper {
-    padding: 30px 40px;
-    max-width: 1600px;
+/* TRACK WORKSPACE DASHBOARD (GREEK / SPANISH MASTER HUBS) */
+.hub-container, .dashboard-wrapper {
+    padding: 40px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
+.welcome-banner {
+    margin-bottom: 30px;
+}
+
+.welcome-banner h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.welcome-banner p {
+    color: #aaa;
+    font-size: 16px;
+}
+
+/* PROGRESS MATRIX GRID */
+.matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+    gap: 24px;
+    padding: 20px 0;
+}
+
+.hub-card {
+    background: #16162a;
+    border: 1px solid #2a2a4a;
+    border-radius: 16px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 220px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.hub-card:hover {
+    transform: translateY(-2px);
+    border-color: #7c6af7;
+}
+
+.card-header {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.card-header .icon {
+    font-size: 28px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.card-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.card-header p {
+    color: #aaa;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.progress-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.progress-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.05em;
+}
+
+.progress-percentage {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7c6af7;
+}
+
+.hub-btn {
+    width: 100%;
+    background: #1e1e38;
+    color: white;
+    border: 1px solid #2a2a4a;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.hub-btn:hover {
+    background: #252547;
+    border-color: #7c6af7;
+}
+
+.hub-btn.highlight {
+    background: #7c6af7;
+    border: none;
+}
+
+.hub-btn.highlight:hover {
+    background: #6b58e6;
+}
+
+/* VOCAB MATRIX 3-COLUMN LAYOUT */
 .stats-banner {
     background: #1a1a2e;
     border: 1px solid #2a2a4a;
@@ -93,11 +211,8 @@ body {
     transition: background 0.2s;
 }
 
-.arena-btn:hover {
-    background: #6b58e6;
-}
+.arena-btn:hover { background: #6b58e6; }
 
-/* 3-Column Workspace Grid Layout */
 .workspace-grid {
     display: grid;
     grid-template-columns: 320px 1fr 360px;
@@ -105,19 +220,10 @@ body {
     align-items: start;
 }
 
-/* Sidebar & Filtering Layout */
 .deck-sidebar, .tools-sidebar {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.section-divider {
-    font-size: 11px;
-    font-weight: 700;
-    color: #6b7280;
-    letter-spacing: 0.05em;
-    margin-top: 10px;
 }
 
 .category-group {
@@ -154,23 +260,9 @@ body {
     font-size: 12px;
 }
 
-/* Feed Column & Functional Vector Cards */
-.card-feed-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.feed-header {
-    font-size: 24px;
-    font-weight: 700;
-}
-
-.feed-subheader {
-    color: #8a99ad;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
+.card-feed-column { display: flex; flex-direction: column; gap: 16px; }
+.feed-header { font-size: 24px; font-weight: 700; }
+.feed-subheader { color: #8a99ad; font-size: 14px; margin-bottom: 10px; }
 
 .vector-card {
     background: #16162a;
@@ -180,106 +272,19 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: border-color 0.2s;
 }
 
-.vector-card:hover {
-    border-color: #4c3eaf;
-}
+.greek-term { font-size: 24px; font-weight: 700; color: #ffffff; }
+.meaning-text { color: #cbd5e1; font-size: 15px; }
+.translit-text { color: #64748b; font-size: 13px; font-style: italic; }
+.card-meta { text-align: right; display: flex; flex-direction: column; gap: 6px; }
+.freq-metric { font-size: 12px; color: #a78bfa; font-weight: 600; }
+.srs-status { font-size: 11px; color: #64748b; background: #1e1e38; padding: 2px 6px; border-radius: 4px; }
 
-.greek-term {
-    font-size: 24px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 4px;
-}
-
-.meaning-text {
-    color: #cbd5e1;
-    font-size: 15px;
-}
-
-.translit-text {
-    color: #64748b;
-    font-size: 13px;
-    font-style: italic;
-    margin-top: 2px;
-}
-
-.card-meta {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.freq-metric {
-    font-size: 12px;
-    color: #a78bfa;
-    font-weight: 600;
-}
-
-.srs-status {
-    font-size: 11px;
-    color: #64748b;
-    background: #1e1e38;
-    padding: 2px 6px;
-    border-radius: 4px;
-    display: inline-block;
-}
-
-/* Tools Components */
-.tool-card {
-    background: #16162a;
-    border: 1px solid #2a2a4a;
-    border-radius: 12px;
-    padding: 20px;
-}
-
-.tool-header {
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #a78bfa;
-}
-
-#codex-notepad {
-    width: 100%;
-    height: 150px;
-    background: #0f0f1a;
-    border: 1px solid #2a2a4a;
-    border-radius: 8px;
-    color: white;
-    padding: 12px;
-    resize: none;
-    font-family: inherit;
-}
-
-.sync-status {
-    font-size: 11px;
-    color: #10b981;
-    margin-top: 8px;
-}
-
-.forge-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.forge-form input {
-    background: #0f0f1a;
-    border: 1px solid #2a2a4a;
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-}
-
-.forge-form button {
-    background: #7c6af7;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-}
+.tool-card { background: #16162a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 20px; }
+.tool-header { font-weight: 600; margin-bottom: 12px; color: #a78bfa; }
+#codex-notepad { width: 100%; height: 150px; background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px; color: white; padding: 12px; resize: none; }
+.sync-status { font-size: 11px; color: #10b981; margin-top: 8px; }
+.forge-form { display: flex; flex-direction: column; gap: 10px; }
+.forge-form input { background: #0f0f1a; border: 1px solid #2a2a4a; color: white; padding: 10px; border-radius: 6px; }
+.forge-form button { background: #7c6af7; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
