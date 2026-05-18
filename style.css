@@ -1,417 +1,285 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glossa - Profile</title>
-    <style>
-        :root {
-            --bg-main: #06060c;
-            --bg-panel: rgba(18, 18, 36, 0.7);
-            --bg-input: rgba(26, 26, 54, 0.5);
-            --primary: #7c3aed;
-            --primary-hover: #9333ea;
-            --accent-glow: rgba(124, 58, 237, 0.15);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(124, 58, 237, 0.4);
-            --radius-lg: 20px;
-            --radius-md: 12px;
-            --glass-blur: blur(16px);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+/* Core Structural Setup */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #0f0f1a; 
+    color: #ffffff; 
+    line-height: 1.6;
+}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #06060c 70%);
-            background-attachment: fixed;
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-            min-height: 100vh;
-        }
+/* Header & Navigation Elements */
+.main-header {
+    background: #1a1a2e;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a2a4a;
+}
 
-        .app-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 48px 24px;
-        }
+.logo { 
+    color: #7c6af7; 
+    font-size: 24px; 
+    font-weight: 800; 
+    letter-spacing: 1px; 
+}
 
-        /* Profile Block Card Overlay */
-        .profile-user-card {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            margin-bottom: 40px;
-        }
+.nav-links a { 
+    color: #ffffff; 
+    text-decoration: none; 
+    margin-left: 20px; 
+    font-size: 14px; 
+    transition: color 0.2s;
+}
 
-        .avatar-sphere {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #a78bfa);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
-        }
+.nav-links a:hover, .nav-links a.active { 
+    color: #7c6af7; 
+}
 
-        .profile-meta h2 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
+.sub-nav {
+    padding: 15px 40px;
+    background: #131324;
+}
 
-        .profile-meta p {
-            color: var(--text-muted);
-            font-size: 13px;
-        }
+.back-link {
+    color: #a78bfa;
+    text-decoration: none;
+    font-size: 14px;
+}
 
-        /* Metrics Display row grid */
-        .metrics-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 40px;
-        }
+/* Main Dashboard Elements */
+.dashboard-wrapper {
+    padding: 30px 40px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
 
-        @media (max-width: 768px) {
-            .metrics-row { grid-template-columns: repeat(2, 1fr); }
-        }
+.stats-banner {
+    background: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 30px;
+}
 
-        .metric-card {
-            background: var(--bg-panel);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
+.mastery-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 4px solid #7c6af7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
 
-        .metric-card label {
-            font-size: 10px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 4px;
-        }
+.arena-btn {
+    margin-left: auto;
+    background: #7c6af7;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
 
-        .metric-card .value {
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(45deg, #ffffff, #e2e8f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.arena-btn:hover {
+    background: #6b58e6;
+}
 
-        /* Workspace Cards Panel Architecture */
-        .panel {
-            background: var(--bg-panel);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            box-shadow: var(--shadow-lg);
-        }
+/* 3-Column Workspace Grid Layout */
+.workspace-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr 360px;
+    gap: 24px;
+    align-items: start;
+}
 
-        .panel-header h2 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            letter-spacing: -0.2px;
-        }
+/* Sidebar & Filtering Layout */
+.deck-sidebar, .tools-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        .lang-strip {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin-bottom: 16px;
-            transition: var(--transition);
-        }
+.section-divider {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b7280;
+    letter-spacing: 0.05em;
+    margin-top: 10px;
+}
 
-        .lang-strip:hover {
-            border-color: var(--border-hover);
-            box-shadow: 0 0 25px var(--accent-glow);
-        }
+.category-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
-        .strip-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
+.filter-btn {
+    background: #16162a;
+    border: 1px solid #2a2a4a;
+    color: #ecf0f1;
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
 
-        .strip-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 16px;
-            font-weight: 700;
-        }
+.filter-btn:hover, .filter-btn.active {
+    border-color: #7c6af7;
+    background: rgba(124, 106, 247, 0.1);
+}
 
-        .badge {
-            background: var(--primary);
-            color: #fff;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
+.badge {
+    background: #2a2a4a;
+    color: #8a99ad;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
 
-        .badge.locked {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            border: 1px solid var(--border);
-        }
+/* Feed Column & Functional Vector Cards */
+.card-feed-column {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 
-        /* Linear Progress Architecture */
-        .progress-container { margin-bottom: 20px; }
-        
-        .progress-track {
-            background: #090911;
-            height: 8px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            margin-bottom: 6px;
-        }
+.feed-header {
+    font-size: 24px;
+    font-weight: 700;
+}
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #a78bfa);
-            width: 0%;
-            border-radius: 10px;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+.feed-subheader {
+    color: #8a99ad;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
-        .progress-nodes {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 600;
-            padding: 0 2px;
-        }
+.vector-card {
+    background: #16162a;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s;
+}
 
-        /* Workspace Interaction Nodes */
-        .strip-actions { display: flex; gap: 12px; }
+.vector-card:hover {
+    border-color: #4c3eaf;
+}
 
-        .btn {
-            padding: 10px 20px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+.greek-term {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, #5b4ee4 100%);
-            color: #fff;
-            box-shadow: 0 4px 14px rgba(109, 93, 252, 0.3);
-        }
+.meaning-text {
+    color: #cbd5e1;
+    font-size: 15px;
+}
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #8b5cf6 0%, var(--primary) 100%);
-            box-shadow: 0 6px 20px rgba(109, 93, 252, 0.5);
-        }
+.translit-text {
+    color: #64748b;
+    font-size: 13px;
+    font-style: italic;
+    margin-top: 2px;
+}
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.02);
-            border-color: var(--border);
-            color: #e2e8f0;
-        }
+.card-meta {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
+.freq-metric {
+    font-size: 12px;
+    color: #a78bfa;
+    font-weight: 600;
+}
 
-        .btn-danger {
-            background: transparent;
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            margin-top: 24px;
-            width: 100%;
-            border-radius: var(--radius-md);
-        }
+.srs-status {
+    font-size: 11px;
+    color: #64748b;
+    background: #1e1e38;
+    padding: 2px 6px;
+    border-radius: 4px;
+    display: inline-block;
+}
 
-        .btn-danger:hover {
-            background: #ef4444;
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-        }
+/* Tools Components */
+.tool-card {
+    background: #16162a;
+    border: 1px solid #2a2a4a;
+    border-radius: 12px;
+    padding: 20px;
+}
 
-        .login-prompt {
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .login-prompt h2 { font-size: 28px; margin-bottom: 12px; font-weight: 800; }
-        .login-prompt p { color: var(--text-muted); margin-bottom: 32px; }
+.tool-header {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #a78bfa;
+}
 
-        footer { text-align: center; padding: 40px; color: var(--text-muted); opacity: 0.4; font-size: 13px; }
-    </style>
-</head>
-<body>
+#codex-notepad {
+    width: 100%;
+    height: 150px;
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    color: white;
+    padding: 12px;
+    resize: none;
+    font-family: inherit;
+}
 
-    <div class="app-container">
+.sync-status {
+    font-size: 11px;
+    color: #10b981;
+    margin-top: 8px;
+}
 
-        <div class="panel login-prompt" id="login-prompt" style="display:none">
-            <h2>Access Unresolved</h2>
-            <p>Please establish security credentials to preview your workspace metrics.</p>
-            <a href="login.html" class="btn btn-primary" style="border-radius: 30px; padding: 12px 36px;">Authenticate Session</a>
-        </div>
+.forge-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-        <div id="profile-content" style="display:none">
-            
-            <div class="profile-user-card">
-                <div class="avatar-sphere">👤</div>
-                <div class="profile-meta">
-                    <h2 id="user-email">Loading Node...</h2>
-                    <p>Glossa Matrix Operator</p>
-                </div>
-            </div>
+.forge-form input {
+    background: #0f0f1a;
+    border: 1px solid #2a2a4a;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+}
 
-            <div class="metrics-row">
-                <div class="metric-card">
-                    <label>Tracks Started</label>
-                    <div class="value" id="langs-count">0</div>
-                </div>
-                <div class="metric-card">
-                    <label>Evaluations Run</label>
-                    <div class="value" id="tests-count">0</div>
-                </div>
-                <div class="metric-card">
-                    <label>Lexicons Logged</label>
-                    <div class="value" id="words-count">0</div>
-                </div>
-                <div class="metric-card">
-                    <label>Peak Matrix</label>
-                    <div class="value" id="best-level">—</div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Active Linguistic Tracks</h2>
-                </div>
-
-                <div class="lang-strip">
-                    <div class="strip-header">
-                        <div class="strip-title"><span>🏛️</span> Biblical Greek</div>
-                        <div class="badge" id="greek-badge">Unevaluated</div>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-track">
-                            <div class="progress-bar" id="greek-progress"></div>
-                        </div>
-                        <div class="progress-nodes">
-                            <span>A1</span><span>A2</span><span>B1</span><span>B2</span><span>C1</span><span>C2</span>
-                        </div>
-                    </div>
-                    <div class="strip-actions">
-                        <a href="greek.html" class="btn btn-primary">Resume Environment</a>
-                        <button class="btn btn-secondary" onclick="window.location.href='greek-test.html'">Run Level Diagnosis</button>
-                    </div>
-                </div>
-
-                <div class="lang-strip" style="opacity: 0.4;">
-                    <div class="strip-header">
-                        <div class="strip-title"><span>✡️</span> Biblical Hebrew</div>
-                        <div class="badge locked">Pending Initialization</div>
-                    </div>
-                    <div class="progress-track"><div class="progress-bar"></div></div>
-                </div>
-
-                <div class="lang-strip" style="opacity: 0.4;">
-                    <div class="strip-header">
-                        <div class="strip-title"><span>🇫🇷</span> French</div>
-                        <div class="badge locked">Pending Initialization</div>
-                    </div>
-                    <div class="progress-track"><div class="progress-bar"></div></div>
-                </div>
-
-                <button class="btn btn-danger" onclick="logout()">Terminate Current Session</button>
-            </div>
-
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2026 Glossa — All rights reserved</p>
-    </footer>
-
-    <script src="nav.js"></script>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyACce1a2nqKGlqj-ztghmZ4FVwTx3NTcCY",
-            authDomain: "glossa-48dd8.firebaseapp.com",
-            projectId: "glossa-48dd8",
-            storageBucket: "glossa-48dd8.firebasestorage.app",
-            messagingSenderId: "234142191158",
-            appId: "1:234142191158:web:3fad4d8a6bd5bbd78ad297"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                document.getElementById('login-prompt').style.display = 'none';
-                document.getElementById('profile-content').style.display = 'block';
-                document.getElementById('user-email').textContent = user.email;
-
-                const docRef = doc(db, 'users', user.uid);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    const levels = { A1: 17, A2: 33, B1: 50, B2: 67, C1: 83, C2: 100 };
-
-                    if (data.greekLevel) {
-                        document.getElementById('greek-badge').textContent = data.greekLevel;
-                        document.getElementById('greek-progress').style.width = levels[data.greekLevel] + '%';
-                        document.getElementById('langs-count').textContent = '1';
-                        document.getElementById('tests-count').textContent = data.testsTaken || '1';
-                        document.getElementById('best-level').textContent = data.greekLevel;
-                    }
-
-                    if (data.learnedWords) {
-                        document.getElementById('words-count').textContent = data.learnedWords.length;
-                    }
-                }
-            } else {
-                document.getElementById('login-prompt').style.display = 'block';
-                document.getElementById('profile-content').style.display = 'none';
-            }
-        });
-
-        window.logout = async function() {
-            await signOut(auth);
-            window.location.href = 'index.html';
-        }
-    </script>
-</body>
-</html>
+.forge-form button {
+    background: #7c6af7;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
