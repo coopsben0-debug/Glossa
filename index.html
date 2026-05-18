@@ -6,7 +6,7 @@
     <title>Glossa — Learn Any Language</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f1a; color: white; line-height: 1.6; }
+        body { font-family: Arial, sans-serif; background: #0f0f1a; color: white; }
 
         nav {
             background: #1a1a2e;
@@ -17,13 +17,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #2a2a4a;
         }
         nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
-        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; transition: color 0.2s; }
+        nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
         nav a:hover { color: #7c6af7; }
 
-        /* HERO */
         .hero {
             text-align: center;
             padding: 100px 20px 80px;
@@ -51,181 +49,32 @@
         .hero p {
             color: #aaa;
             font-size: 18px;
-            max-width: 650px;
+            max-width: 600px;
             margin: 0 auto 40px;
             line-height: 1.7;
         }
-        .hero-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn-primary {
-            background: #7c6af7;
-            color: white;
-            padding: 16px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: #7c6af7; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
         .btn-primary:hover { background: #6b58e6; transform: translateY(-2px); }
-        .btn-outline {
-            background: transparent;
-            color: white;
-            padding: 16px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 600;
-            border: 2px solid #333;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .btn-outline { background: transparent; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: 2px solid #333; cursor: pointer; transition: all 0.2s; }
         .btn-outline:hover { border-color: #7c6af7; color: #7c6af7; }
 
-        /* STATS */
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            padding: 40px 20px;
-            background: #1a1a2e;
-            flex-wrap: wrap;
-            border-bottom: 1px solid #2a2a4a;
-        }
+        .stats { display: flex; justify-content: center; gap: 60px; padding: 40px 20px; background: #1a1a2e; flex-wrap: wrap; }
         .stat { text-align: center; }
         .stat h3 { font-size: 36px; font-weight: 800; color: #7c6af7; }
         .stat p { color: #aaa; font-size: 14px; margin-top: 4px; }
 
-        /* FEATURES */
-        .features {
-            padding: 80px 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .features-title {
-            text-align: center;
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-        .features-subtitle {
-            text-align: center;
-            color: #aaa;
-            margin-bottom: 50px;
-            font-size: 16px;
-        }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        .feature-card {
-            background: #1a1a2e;
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid #2a2a4a;
-            transition: all 0.3s;
-        }
-        .feature-card:hover {
-            border-color: #7c6af7;
-            transform: translateY(-4px);
-            box-shadow: 0 0 30px rgba(124, 106, 247, 0.15);
-        }
+        .features { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+        .features-title { text-align: center; font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .features-subtitle { text-align: center; color: #aaa; margin-bottom: 50px; font-size: 16px; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+        .feature-card { background: #1a1a2e; border-radius: 20px; padding: 30px; border: 1px solid #2a2a4a; transition: all 0.3s; }
+        .feature-card:hover { border-color: #7c6af7; transform: translateY(-4px); box-shadow: 0 0 30px rgba(124, 106, 247, 0.15); }
         .feature-icon { font-size: 36px; margin-bottom: 15px; display: block; }
         .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #7c6af7; }
         .feature-card p { color: #aaa; font-size: 14px; line-height: 1.7; }
 
-        /* INTERACTIVE LANGUAGES SECTION */
-        .languages-section {
-            background: #1a1a2e;
-            padding: 80px 20px;
-            text-align: center;
-            border-top: 1px solid #2a2a4a;
-        }
-        .languages-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
-        .languages-section p { color: #aaa; margin-bottom: 30px; font-size: 16px; }
-        
-        /* Filter Controls Grid */
-        .filter-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        .track-filter-btn {
-            background: #0f0f1a;
-            border: 1px solid #2a2a4a;
-            color: #8a99ad;
-            padding: 10px 24px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .track-filter-btn:hover, .track-filter-btn.active {
-            border-color: #7c6af7;
-            color: white;
-            background: rgba(124, 106, 247, 0.15);
-        }
-
-        .lang-pills {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            max-width: 900px;
-            margin: 0 auto 40px;
-            min-height: 120px;
-        }
-        .lang-pill {
-            background: #0f0f1a;
-            border: 1px solid #2a2a4a;
-            border-radius: 30px;
-            padding: 12px 24px;
-            font-size: 14px;
-            transition: all 0.2s;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .lang-pill.active-track {
-            border-color: #7c6af7;
-            background: rgba(124, 106, 247, 0.1);
-            box-shadow: 0 0 15px rgba(124, 106, 247, 0.2);
-            font-weight: bold;
-        }
-        .lang-pill:hover { border-color: #7c6af7; color: #7c6af7; transform: translateY(-2px); }
-        
-        /* Hidden Class for Filter Engine */
-        .hidden-card { display: none !important; }
-
-        /* CTA */
-        .cta {
-            text-align: center;
-            padding: 100px 20px;
-            background: radial-gradient(ellipse at center, #1e1040 0%, #0f0f1a 70%);
-        }
-        .cta h2 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
-        .cta p { color: #aaa; font-size: 18px; margin-bottom: 40px; }
-
-        footer {
-            background: #1a1a2e;
-            text-align: center;
-            padding: 30px;
-            color: #555;
-            font-size: 14px;
-            border-top: 1px solid #2a2a4a;
-        }
+        footer { background: #1a1a2e; text-align: center; padding: 30px; color: #555; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -234,132 +83,60 @@
         <h1>Glossa</h1>
         <div>
             <a href="index.html">Home</a>
-            <a href="#languages-arena">Languages</a>
+            <a href="languages.html">Languages</a>
             <a href="chat.html">Chat</a>
             <a href="ai-tutor.html">AI Tutor</a>
-            <a href="login.html">Login</a>
             <a href="profile.html">Profile</a>
         </div>
     </nav>
 
     <div class="hero">
-        <div class="hero-badge">✨ Multi-Track Linguistic Platform Deployed</div>
+        <div class="hero-badge">✨ Ancient & Modern Languages</div>
         <h2>Learn Any Language,<br>Ancient or Modern</h2>
-        <p>Glossa combines deep structural parse training for ancient frameworks with multimodal reading, writing, listening, and speaking modules built for modern languages.</p>
+        <p>Glossa is the only platform that combines Biblical Greek and Hebrew parse training with modern language live chat, AI tutoring, and real level testing.</p>
         <div class="hero-buttons">
-            <a href="#languages-arena" class="btn-primary">Browse Active Tracks ↓</a>
+            <a href="languages.html" class="btn-primary">Get Started Free →</a>
             <a href="ai-tutor.html" class="btn-outline">Try AI Tutor</a>
         </div>
     </div>
 
     <div class="stats">
-        <div class="stat">
-            <h3>2 Deployed</h3>
-            <p>Mastery Blueprints</p>
-        </div>
-        <div class="stat">
-            <h3>400+ Cards</h3>
-            <p>Active Greek Lexicon</p>
-        </div>
-        <div class="stat">
-            <h3>Multi-Modal</h3>
-            <p>Spanish Audio Drills</p>
-        </div>
-        <div class="stat">
-            <h3>Free</h3>
-            <p>Always Open-Source</p>
-        </div>
+        <div class="stat"><h3>10+</h3><p>Languages</p></div>
+        <div class="stat"><h3>403</h3><p>Active Greek Vectors</p></div>
+        <div class="stat"><h3>A1–C2</h3><p>CEFR Level Testing</p></div>
+        <div class="stat"><h3>Free</h3><p>Always</p></div>
     </div>
 
     <div class="features">
         <h2 class="features-title">Everything You Need</h2>
-        <p class="features-subtitle">Serious tools engineered for deep linguistic study.</p>
+        <p class="features-subtitle">One platform for serious language learners</p>
         <div class="features-grid">
             <div class="feature-card">
                 <span class="feature-icon">🔬</span>
-                <h3>Morphology Parsing</h3>
-                <p>Deconstruct compound historical verb inflections, syntax anomalies, case flags, and original dialect variables smoothly.</p>
+                <h3>Parse Trainer</h3>
+                <p>Master verb tenses, cases, moods and grammar through interactive drills designed for Biblical Greek and Hebrew.</p>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">🎧</span>
-                <h3>Aural Audio Nodes</h3>
-                <p>Train responsive comprehension speeds against text-to-speech synthesis profiles calibrated for modern regional dictation.</p>
+                <span class="feature-icon">💬</span>
+                <h3>Live Chat Rooms</h3>
+                <p>Practice in real time with learners from around the world. Rooms for every language from Greek to French.</p>
             </div>
             <div class="feature-card">
-                <span class="feature-icon">📁</span>
-                <h3>Dynamic Vector Feeds</h3>
-                <p>Manage large structural datasets inside your browser. Filter items by high-frequency markers or forge custom vectors.</p>
+                <span class="feature-icon">📖</span>
+                <h3>Word Library</h3>
+                <p>All high frequency NT words organised by occurrence. Tick off words as you learn them and track your progress.</p>
             </div>
             <div class="feature-card">
                 <span class="feature-icon">🤖</span>
-                <h3>Interactive AI Tutors</h3>
-                <p>Query composition syntax parameters, ask translation questions, or launch active chat scenarios instantly.</p>
+                <h3>AI Tutor</h3>
+                <p>Ask anything about grammar, vocabulary or translation. Practice conversation in any language 24/7.</p>
             </div>
         </div>
-    </div>
-
-    <div class="languages-section" id="languages-arena">
-        <h2>Language Matrix Matrix</h2>
-        <p>Toggle below to filter between historical morphological tracks and active multi-modal tracks.</p>
-        
-        <div class="filter-controls">
-            <button class="track-filter-btn active" data-filter="all">All Tracks Available</button>
-            <button class="track-filter-btn" data-filter="ancient">🏛️ Ancient Structural</button>
-            <button class="track-filter-btn" data-filter="modern">💃 Modern Conversational</button>
-        </div>
-
-        <div class="lang-pills">
-            <a href="greek.html" class="lang-pill active-track" data-category="ancient">
-                <span>🏛️ Biblical Greek</span>
-                <span style="font-size: 11px; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 10px;">403 Words</span>
-            </a>
-            
-            <a href="spanish.html" class="lang-pill active-track" data-category="modern">
-                <span>🇪🇸 Spanish</span>
-                <span style="font-size: 11px; background: rgba(124, 106, 247, 0.3); padding: 2px 6px; border-radius: 10px;">Audio Live</span>
-            </a>
-            
-            <a href="#" class="lang-pill" data-category="ancient">✡️ Biblical Hebrew</a>
-            <a href="#" class="lang-pill" data-category="ancient">🏺 Latin</a>
-            <a href="#" class="lang-pill" data-category="ancient">𓂀 Aramaic</a>
-            <a href="#" class="lang-pill" data-category="modern">🇫🇷 French</a>
-            <a href="#" class="lang-pill" data-category="modern">🇩🇪 German</a>
-            <a href="#" class="lang-pill" data-category="modern">🇮🇹 Italian</a>
-            <a href="#" class="lang-pill" data-category="modern">🇸🇦 Arabic</a>
-            <a href="#" class="lang-pill" data-category="modern">... Coming Soon</a>
-        </div>
-    </div>
-
-    <div class="cta">
-        <h2>Start Learning Today</h2>
-        <p>Free forever. No configuration or credit cards needed.</p>
-        <a href="login.html" class="btn-primary">Create Free Account →</a>
     </div>
 
     <footer>
         <p>© 2026 Glossa — All rights reserved</p>
     </footer>
 
-    <script>
-        document.querySelectorAll('.track-filter-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Toggle state color classes
-                document.querySelectorAll('.track-filter-btn').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-
-                const selectedFilter = button.getAttribute('data-filter');
-                
-                // Card evaluation loop
-                document.querySelectorAll('.lang-pills .lang-pill').forEach(pill => {
-                    const itemType = pill.getAttribute('data-category');
-                    if (selectedFilter === 'all' || itemType === selectedFilter) {
-                        pill.classList.remove('hidden-card');
-                    } else {
-                        pill.classList.add('hidden-card');
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 </html>
