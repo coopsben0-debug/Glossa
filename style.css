@@ -1,59 +1,75 @@
-/* RESET & CORE STYLING */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+/* ==========================================================================
+   GLOSSA MASTER STYLING — RECOVERY LAYER
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body { 
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background: #0f0f1a; 
-    color: #ffffff; 
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background-color: #0f0f1a !important; /* Forces uniform dark background */
+    color: #ffffff !important;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
-/* NAVIGATION */
+/* GLOBAL HEADER NAVIGATION */
 nav, .main-header {
     background: #1a1a2e;
-    padding: 20px 40px;
+    padding: 18px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #2a2a4a;
 }
 
-nav h1, .logo { 
-    color: #7c6af7; 
-    font-size: 28px; 
-    font-weight: 800; 
-    letter-spacing: 1px; 
+nav h1, .logo {
+    color: #7c6af7;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
 }
 
-nav div a, .nav-links a { 
-    color: #ffffff; 
-    text-decoration: none; 
-    margin-left: 20px; 
-    font-size: 14px; 
-    transition: color 0.2s;
+nav div a, .nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 24px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
-nav div a:hover, .nav-links a:hover, .nav-links a.active { 
-    color: #7c6af7; 
+nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
+    color: #7c6af7;
 }
 
+/* SUB-NAVIGATION BAR */
 .sub-nav {
-    padding: 15px 40px;
+    padding: 14px 40px;
     background: #131324;
     border-bottom: 1px solid #2a2a4a;
+    display: flex;
+    align-items: center;
 }
 
 .back-link {
     color: #a78bfa;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
-/* TRACK WORKSPACE DASHBOARD (GREEK / SPANISH MASTER HUBS) */
+.back-link:hover {
+    color: #c084fc;
+}
+
+/* MASTER CONTAINERS & GRIDS */
 .hub-container, .dashboard-wrapper {
     padding: 40px;
     max-width: 1400px;
@@ -61,76 +77,81 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
 }
 
 .welcome-banner {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 }
 
 .welcome-banner h1 {
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 800;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
 }
 
 .welcome-banner p {
-    color: #aaa;
+    color: #94a3b8;
     font-size: 16px;
 }
 
-/* PROGRESS MATRIX GRID */
+/* TWO-COLUMN MATRIX HUBS (greek.html / spanish.html) */
 .matrix-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(48%, 1fr));
     gap: 24px;
-    padding: 20px 0;
+    padding: 10px 0;
 }
 
 .hub-card {
     background: #16162a;
     border: 1px solid #2a2a4a;
     border-radius: 16px;
-    padding: 30px;
+    padding: 28px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 220px;
-    transition: transform 0.2s, border-color 0.2s;
+    min-height: 230px;
+    transition: border-color 0.25s ease, transform 0.2s ease;
 }
 
 .hub-card:hover {
-    transform: translateY(-2px);
     border-color: #7c6af7;
+    transform: translateY(-2px);
 }
 
 .card-header {
     display: flex;
-    gap: 20px;
+    gap: 18px;
     align-items: flex-start;
 }
 
 .card-header .icon {
-    font-size: 28px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px;
+    font-size: 26px;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 12px;
     border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card-header h3 {
     font-size: 20px;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     color: #ffffff;
 }
 
 .card-header p {
-    color: #aaa;
+    color: #94a3b8;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
+/* PROGRESS METRICS PARSER */
 .progress-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 25px;
     margin-bottom: 15px;
 }
 
@@ -139,27 +160,30 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
     font-weight: 700;
     color: #64748b;
     letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .progress-percentage {
     font-size: 14px;
     font-weight: 700;
-    color: #7c6af7;
+    color: #a78bfa;
 }
 
+/* BUTTON ENGINE */
 .hub-btn {
     width: 100%;
     background: #1e1e38;
-    color: white;
+    color: #ffffff;
     border: 1px solid #2a2a4a;
     padding: 14px;
-    border-radius: 8px;
+    border-radius: 10px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: all 0.2s;
     text-align: center;
     text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
 }
 
 .hub-btn:hover {
@@ -174,9 +198,10 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
 
 .hub-btn.highlight:hover {
     background: #6b58e6;
+    box-shadow: 0 0 15px rgba(124, 106, 247, 0.3);
 }
 
-/* VOCAB MATRIX 3-COLUMN LAYOUT */
+/* 3-COLUMN VOCAB STUDY ARENA STYLES */
 .stats-banner {
     background: #1a1a2e;
     border: 1px solid #2a2a4a;
@@ -208,28 +233,19 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    text-decoration: none;
 }
-
-.arena-btn:hover { background: #6b58e6; }
 
 .workspace-grid {
     display: grid;
-    grid-template-columns: 320px 1fr 360px;
+    grid-template-columns: 300px 1fr 340px;
     gap: 24px;
-    align-items: start;
 }
 
 .deck-sidebar, .tools-sidebar {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.category-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 .filter-btn {
@@ -243,13 +259,7 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s;
     width: 100%;
-}
-
-.filter-btn:hover, .filter-btn.active {
-    border-color: #7c6af7;
-    background: rgba(124, 106, 247, 0.1);
 }
 
 .badge {
@@ -261,9 +271,6 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
 }
 
 .card-feed-column { display: flex; flex-direction: column; gap: 16px; }
-.feed-header { font-size: 24px; font-weight: 700; }
-.feed-subheader { color: #8a99ad; font-size: 14px; margin-bottom: 10px; }
-
 .vector-card {
     background: #16162a;
     border: 1px solid #2a2a4a;
@@ -273,18 +280,5 @@ nav div a:hover, .nav-links a:hover, .nav-links a.active {
     justify-content: space-between;
     align-items: center;
 }
-
 .greek-term { font-size: 24px; font-weight: 700; color: #ffffff; }
 .meaning-text { color: #cbd5e1; font-size: 15px; }
-.translit-text { color: #64748b; font-size: 13px; font-style: italic; }
-.card-meta { text-align: right; display: flex; flex-direction: column; gap: 6px; }
-.freq-metric { font-size: 12px; color: #a78bfa; font-weight: 600; }
-.srs-status { font-size: 11px; color: #64748b; background: #1e1e38; padding: 2px 6px; border-radius: 4px; }
-
-.tool-card { background: #16162a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 20px; }
-.tool-header { font-weight: 600; margin-bottom: 12px; color: #a78bfa; }
-#codex-notepad { width: 100%; height: 150px; background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 8px; color: white; padding: 12px; resize: none; }
-.sync-status { font-size: 11px; color: #10b981; margin-top: 8px; }
-.forge-form { display: flex; flex-direction: column; gap: 10px; }
-.forge-form input { background: #0f0f1a; border: 1px solid #2a2a4a; color: white; padding: 10px; border-radius: 6px; }
-.forge-form button { background: #7c6af7; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
