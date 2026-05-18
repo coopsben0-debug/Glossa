@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa — Spanish Vocabulary Arena</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">Glossa</div>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="spanish.html" class="active">Languages</a>
+            <a href="#">Chat</a>
+            <a href="#">AI Tutor</a>
+            <a href="#">Profile</a>
+        </nav>
+    </header>
+
+    <div class="sub-nav">
+        <a href="spanish.html" class="back-link">← Return to Spanish Dashboard</a>
+    </div>
+
+    <main class="dashboard-wrapper">
+        <div class="stats-banner">
+            <div class="mastery-circle">
+                <span class="percentage-val" id="mastery-percent">0%</span>
+            </div>
+            <div class="mastery-text">
+                <h3>Lexicon Mastery Quotient</h3>
+                <p><span id="mastered-count">0</span> of <span id="total-count">25</span> active vocab vectors mastered</p>
+            </div>
+            <button class="arena-btn">⚡ Launch Spaced-Repetition Arena</button>
+        </div>
+
+        <div class="workspace-grid">
+            
+            <section class="deck-sidebar">
+                <div class="category-group">
+                    <button class="filter-btn active" data-set="all">
+                        <span>All Structural Sets</span>
+                        <span class="badge" id="badge-all">25</span>
+                    </button>
+                    <button class="filter-btn custom-deck" data-set="custom">
+                        <span>⭐ Custom Forged Deck</span>
+                        <span class="badge" id="badge-custom">0</span>
+                    </button>
+                </div>
+
+                <div class="section-divider">CORE GRAMMAR FUNCTIONS</div>
+                <div class="category-group">
+                    <button class="filter-btn" data-set="verbs"><span>Essential Verbs</span><span class="badge">5</span></button>
+                    <button class="filter-btn" data-set="nouns"><span>High-Freq Nouns</span><span class="badge">5</span></button>
+                    <button class="filter-btn" data-set="conjunctions"><span>Structural Connectors</span><span class="badge">5</span></button>
+                </div>
+
+                <div class="section-divider">CONVERSATIONAL MODALITIES</div>
+                <div class="category-group">
+                    <button class="filter-btn" data-set="idioms"><span>Idiomatic Phrases</span><span class="badge">5</span></button>
+                    <button class="filter-btn" data-set="temporal"><span>Temporal / Time Tags</span><span class="badge">5</span></button>
+                </div>
+            </section>
+
+            <section class="card-feed-column">
+                <h2 id="feed-title" class="feed-header">All Structural Sets</h2>
+                <p class="feed-subheader">Click the 🔊 icon on any item to trigger audio text-to-speech engine playback.</p>
+                
+                <div id="lexicon-feed" class="lexicon-feed">
+                    </div>
+            </section>
+
+            <section class="tools-sidebar">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <span>📝 Spanish Syntax & Grammar Notes</span>
+                    </div>
+                    <textarea id="codex-notepad" placeholder="Jot down irregular conjugation patterns, gender agreements, and subjunctive triggers here..."></textarea>
+                    <div class="sync-status">⚡ Local storage sync architecture live</div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <span>🔨 Spanish Card Forge</span>
+                    </div>
+                    <div class="forge-form">
+                        <input type="text" id="forge-spanish" placeholder="Spanish Word / Phrase (e.g., Desarrollo)">
+                        <input type="text" id="forge-type" placeholder="Category Type (e.g., Noun, Verb, Phrase)">
+                        <input type="text" id="forge-meaning" placeholder="English Translation">
+                        <input type="text" id="forge-usecase" placeholder="Context Example Sentence">
+                        <button id="forge-mint-btn">Mint Spanish Vector</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        // High Frequency Core Spanish Dataset
+        let coreLexicon = [
+            // Verbs
+            { id: 1, set: "verbs", word: "ser", type: "Verb", meaning: "to be (essential, permanent quality)", contexts: "Yo soy estudiante.", srs: "0/3" },
+            { id: 2, set: "verbs", word: "estar", type: "Verb", meaning: "to be (location, temporary state)", contexts: "El café está caliente.", srs: "0/3" },
+            { id: 3, set: "verbs", word: "tener", type: "Verb", meaning: "to have, possess", contexts: "Tengo veinticinco años.", srs: "0/3" },
+            { id: 4, set: "verbs", word: "hacer", type: "Verb", meaning: "to do, make", contexts: "Hace buen tiempo hoy.", srs: "0/3" },
+            { id: 5, set: "verbs", word: "poder", type: "Verb", meaning: "to be able to, can", contexts: "¿Puedo hablar contigo?", srs: "0/3" },
+
+            // Nouns
+            { id: 6, set: "nouns", word: "el tiempo", type: "Noun", meaning: "time, weather", contexts: "No tengo tiempo hoy.", srs: "0/3" },
+            { id: 7, set: "nouns", word: "la parte", type: "Noun", meaning: "part, section", contexts: "Esta parte es difícil.", srs: "0/3" },
+            { id: 8, set: "nouns", word: "el caso", type: "Noun", meaning: "case, instance", contexts: "En ese caso, sí.", srs: "0/3" },
+            { id: 9, set: "nouns", word: "la vida", type: "Noun", meaning: "life", contexts: "La buena vida.", srs: "0/3" },
+            { id: 10, set: "nouns", word: "el hecho", type: "Noun", meaning: "fact, deed", contexts: "Es un hecho comprobado.", srs: "0/3" },
+
+            // Conjunctions & Connectors
+            { id: 11, set: "conjunctions", word: "porque", type: "Connector", meaning: "because", contexts: "No fui porque estaba cansado.", srs: "0/3" },
+            { id: 12, set: "conjunctions", word: "sin embargo", type: "Connector", meaning: "nevertheless, however", contexts: "Es difícil; sin embargo, posible.", srs: "0/3" },
+            { id: 13, set: "conjunctions", word: "aunque", type: "Connector", meaning: "although, even though", contexts: "Aunque llueva, iré.", srs: "0/3" },
+            { id: 14, set: "conjunctions", word: "así que", type: "Connector", meaning: "so, therefore", contexts: "Terminé, así que me voy.", srs: "0/3" },
+            { id: 15, set: "conjunctions", word: "mientras", type: "Connector", meaning: "while, whereas", contexts: "Estudia mientras escuchas.", srs: "0/3" },
+
+            // Idioms
+            { id: 16, set: "idioms", word: "echar de menos", type: "Idiom", meaning: "to miss someone/something", contexts: "Te echo de menos.", srs: "0/3" },
+            { id: 17, set: "idioms", word: "dar una vuelta", type: "Idiom", meaning: "to take a walk/stroll", contexts: "Vamos a dar una vuelta.", srs: "0/3" },
+            { id: 18, set: "idioms", word: "valer la pena", type: "Idiom", meaning: "to be worth the trouble", contexts: "El viaje vale la pena.", srs: "0/3" },
+            { id: 19, set: "idioms", word: "tener ganas de", type: "Idiom", meaning: "to feel like doing something", contexts: "Tengo ganas de comer tacos.", srs: "0/3" },
+            { id: 20, set: "idioms", word: "por si acaso", type: "Idiom", meaning: "just in case", contexts: "Lleva un paraguas por si acaso.", srs: "0/3" },
+
+            // Temporal
+            { id: 21, set: "temporal", word: "ayer", type: "Temporal", meaning: "yesterday", contexts: "Ayer hablé con María.", srs: "0/3" },
+            { id: 22, set: "temporal", word: "ahora mismo", type: "Temporal", meaning: "right now", contexts: "Necesito la respuesta ahora mismo.", srs: "0/3" },
+            { id: 23, set: "temporal", word: "la semana que viene", type: "Temporal", meaning: "next week", contexts: "Nos vemos la semana que viene.", srs: "0/3" },
+            { id: 24, set: "temporal", word: "a menudo", type: "Temporal", meaning: "often", contexts: "Visito museos a menudo.", srs: "0/3" },
+            { id: 25, set: "temporal", word: "todavía", type: "Temporal", meaning: "still, yet", contexts: "Todavía no ha llegado.", srs: "0/3" }
+        ];
+
+        let customLexicon = JSON.parse(localStorage.getItem('customSpanishCards')) || [];
+
+        // UI Hooks
+        const feedContainer = document.getElementById('lexicon-feed');
+        const notepad = document.getElementById('codex-notepad');
+        const mintBtn = document.getElementById('forge-mint-btn');
+        const badgeAll = document.getElementById('badge-all');
+        const badgeCustom = document.getElementById('badge-custom');
+        const totalCountSpan = document.getElementById('total-count');
+
+        function initApp() {
+            notepad.value = localStorage.getItem('spanishNotesText') || '';
+            updateBadges();
+            renderFeed('all');
+        }
+
+        notepad.addEventListener('input', (e) => {
+            localStorage.setItem('spanishNotesText', e.target.value);
+        });
+
+        function updateBadges() {
+            badgeCustom.textContent = customLexicon.length;
+            let totalActive = coreLexicon.length + customLexicon.length;
+            badgeAll.textContent = totalActive;
+            totalCountSpan.textContent = totalActive;
+        }
+
+        // Integrated Audio Speaking/Listening trigger via TextToSpeech
+        function playSpanishAudio(phrase) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(phrase);
+                utterance.lang = 'es-ES'; // Uses clean Castilian profile; adjust to 'es-MX' if desired
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Your browser does not support audio speech synthesis engines.");
+            }
+        }
+
+        function renderFeed(filterType) {
+            feedContainer.innerHTML = '';
+            let filteredList = [];
+
+            if (filterType === 'all') {
+                filteredList = [...coreLexicon, ...customLexicon];
+            } else if (filterType === 'custom') {
+                filteredList = customLexicon;
+            } else {
+                filteredList = coreLexicon.filter(item => item.set === filterType);
+            }
+
+            if(filteredList.length === 0) {
+                feedContainer.innerHTML = `<div class="empty-state">No vectors found in selection matrix.</div>`;
+                return;
+            }
+
+            filteredList.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'vector-card';
+                card.style.position = 'relative';
+                card.innerHTML = `
+                    <div class="card-main">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="greek-term" style="font-family:sans-serif; font-size:1.6rem;">${item.word}</div>
+                            <button class="audio-btn" onclick="playSpanishAudio('${item.word}')" style="background:none; border:none; cursor:pointer; font-size:1.3rem; color:#7c4dff;">🔊</button>
+                        </div>
+                        <div class="meaning-text" style="margin-top:4px;"><strong>${item.meaning}</strong></div>
+                        <div class="translit-text" style="font-style:italic; color:#8a99ad; margin-top:4px;">Ej: ${item.contexts}</div>
+                    </div>
+                    <div class="card-meta">
+                        <span class="freq-metric">🏷️ ${item.type.toUpperCase()}</span>
+                        <span class="srs-status">SRS: ${item.srs}</span>
+                    </div>
+                `;
+                feedContainer.appendChild(card);
+            });
+        }
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                const targetedButton = e.currentTarget;
+                targetedButton.classList.add('active');
+                
+                const setID = targetedButton.getAttribute('data-set');
+                document.getElementById('feed-title').textContent = targetedButton.querySelector('span').textContent;
+                renderFeed(setID);
+            });
+        });
+
+        mintBtn.addEventListener('click', () => {
+            const wordInput = document.getElementById('forge-spanish').value.trim();
+            const typeInput = document.getElementById('forge-type').value.trim();
+            const meaningInput = document.getElementById('forge-meaning').value.trim();
+            const contextInput = document.getElementById('forge-usecase').value.trim();
+
+            if (!wordInput || !meaningInput) {
+                alert('Please provide a Spanish phrase and its corresponding translation.');
+                return;
+            }
+
+            const checkNewCard = {
+                id: Date.now(),
+                set: 'custom',
+                word: wordInput,
+                type: typeInput || 'Custom',
+                meaning: meaningInput,
+                contexts: contextInput || 'No context phrase set.',
+                srs: "0/3"
+            };
+
+            customLexicon.push(checkNewCard);
+            localStorage.setItem('customSpanishCards', JSON.stringify(customLexicon));
+            
+            document.getElementById('forge-spanish').value = '';
+            document.getElementById('forge-type').value = '';
+            document.getElementById('forge-meaning').value = '';
+            document.getElementById('forge-usecase').value = '';
+
+            updateBadges();
+            document.querySelector('[data-set="custom"]').click();
+        });
+
+        initApp();
+    </script>
+</body>
+</html>
