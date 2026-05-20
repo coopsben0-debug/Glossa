@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa — French Core Track</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f1a; color: white; padding-bottom: 60px; }
+        nav { background: #1a1a2e; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2a4a; }
+        nav h1 a { color: #7c6af7; text-decoration: none; font-size: 26px; font-weight: 800; }
+        nav a { color: white; text-decoration: none; margin-left: 24px; font-size: 14px; }
+        .container { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
+        .header { margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: #16162a; border: 1px solid #2a2a4a; border-radius: 12px; padding: 24px; }
+        .btn { display: inline-block; background: #7c6af7; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; margin-top: 15px; font-size: 14px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1><a href="index.html">Glossa</a></h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="chat.html">Chat</a>
+            <a href="ai-tutor.html">AI Tutor</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h2>🇫🇷 French Workspace</h2>
+            <p style="color: #94a3b8; margin-top: 5px;">Deconstruct complex vowel liaisons and idiom systems.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Pronunciation Matrix</h3>
+                <p style="color: #94a3b8; font-size: 14px; margin-top: 8px;">Break down silent letters, combinations, and phrasing patterns.</p>
+                <a href="#" class="btn" onclick="alert('Speech analytics starting...')">Launch Microphone</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
