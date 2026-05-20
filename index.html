@@ -17,11 +17,13 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid #2a2a4a;
         }
-        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+        nav h1 { color: #7c6af7; font-size: 28px; font-weight: 800; letter-spacing: 1px; cursor: pointer; }
         nav a { color: white; text-decoration: none; margin-left: 20px; font-size: 14px; }
         nav a:hover { color: #7c6af7; }
 
+        /* HERO LAYOUT STATES */
         .hero {
             text-align: center;
             padding: 100px 20px 80px;
@@ -54,11 +56,107 @@
             line-height: 1.7;
         }
         .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn-primary { background: #7c6af7; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
+        
+        .btn-primary { background: #7c6af7; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; display: inline-block; }
         .btn-primary:hover { background: #6b58e6; transform: translateY(-2px); }
-        .btn-outline { background: transparent; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: 2px solid #333; cursor: pointer; transition: all 0.2s; }
+        .btn-outline { background: transparent; color: white; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-size: 16px; font-weight: 600; border: 2px solid #333; cursor: pointer; transition: all 0.2s; display: inline-block; }
         .btn-outline:hover { border-color: #7c6af7; color: #7c6af7; }
 
+        /* DASHBOARD STATE LAYOUT (LOGGED IN ONLY) */
+        .dashboard-view {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: none; /* Managed via application auth state state check */
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 900px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+
+        /* CARD PLATFORM COMPONENT SYSTEM */
+        .panel-card {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        .profile-strip {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #2a2a4a;
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+        .profile-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .profile-img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid #7c6af7;
+            background: #111122;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #a78bfa;
+            object-fit: cover;
+        }
+        .clock-widget {
+            text-align: right;
+            font-family: monospace;
+            color: #a78bfa;
+        }
+        .clock-time { font-size: 20px; font-weight: bold; }
+        .clock-date { font-size: 12px; color: #64748b; margin-top: 2px; }
+
+        /* PORTFOLIO METRICS */
+        .portfolio-list { display: flex; flex-direction: column; gap: 16px; margin-top: 15px; }
+        .portfolio-item {
+            background: #111122;
+            border: 1px solid #2a2a4a;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .progress-bar-container {
+            width: 150px;
+            background: #0f0f1a;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #7c6af7;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        /* WORD OF THE DAY BOX */
+        .wotd-box {
+            background: linear-gradient(145deg, #1e1040, #1a1a2e);
+            border-left: 4px solid #7c6af7;
+        }
+        .wotd-lang { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; font-weight: bold; }
+        .wotd-word { font-size: 32px; font-weight: 800; color: white; margin: 6px 0; }
+        .wotd-translation { color: #cbd5e1; font-style: italic; font-size: 15px; }
+
+        /* TRADITIONAL DESIGN UNITS */
         .stats { display: flex; justify-content: center; gap: 60px; padding: 40px 20px; background: #1a1a2e; flex-wrap: wrap; }
         .stat { text-align: center; }
         .stat h3 { font-size: 36px; font-weight: 800; color: #7c6af7; }
@@ -74,35 +172,96 @@
         .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #7c6af7; }
         .feature-card p { color: #aaa; font-size: 14px; line-height: 1.7; }
 
-        footer { background: #1a1a2e; text-align: center; padding: 30px; color: #555; font-size: 14px; }
+        footer { background: #1a1a2e; text-align: center; padding: 30px; color: #555; font-size: 14px; border-top: 1px solid #2a2a4a; }
     </style>
 </head>
 <body>
 
     <nav>
-        <h1>Glossa</h1>
+        <h1 onclick="toggleMockAuth()">Glossa</h1>
         <div>
             <a href="index.html">Home</a>
-            <a href="languages.html">Languages</a>
+            <a href="greek-vocab.html">Languages</a>
             <a href="chat.html">Chat</a>
             <a href="ai-tutor.html">AI Tutor</a>
-            <a href="profile.html">Profile</a>
+            <a href="profile.html" id="profile-nav-item">Profile</a>
         </div>
     </nav>
 
-    <div class="hero">
+    <div class="hero" id="marketing-hero-viewport">
         <div class="hero-badge">✨ Ancient & Modern Languages</div>
         <h2>Learn Any Language,<br>Ancient or Modern</h2>
         <p>Glossa is the only platform that combines Biblical Greek and Hebrew parse training with modern language live chat, AI tutoring, and real level testing.</p>
         <div class="hero-buttons">
-            <a href="languages.html" class="btn-primary">Get Started Free →</a>
+            <button class="btn-primary" onclick="simulateLogin()">Sign In to Dashboard Portfolio →</button>
             <a href="ai-tutor.html" class="btn-outline">Try AI Tutor</a>
+        </div>
+    </div>
+
+    <div class="dashboard-view" id="academic-dashboard-viewport">
+        <div class="profile-strip">
+            <div class="profile-meta">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" onerror="this.style.display='none'; document.getElementById('avatar-text-fallback').style.display='flex';" class="profile-img" alt="User Headshot">
+                <div id="avatar-text-fallback" class="profile-img" style="display:none;">S</div>
+                <div>
+                    <h2 style="font-size: 22px; color: white;" id="dashboard-username-string">Scholar Profile</h2>
+                    <p style="color: #64748b; font-size: 13px;">Academic Track Tier Account</p>
+                </div>
+            </div>
+            <div class="clock-widget">
+                <div class="clock-time" id="live-time-string">00:00:00</div>
+                <div class="clock-date" id="live-date-string">Thursday, May 21, 2026</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div>
+                <div class="panel-card">
+                    <h3 style="font-size: 20px; margin-bottom: 6px;">Your Language Performance Portfolio</h3>
+                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">Tracked progress coefficients across targeted active structures.</p>
+                    
+                    <div class="portfolio-list">
+                        <div class="portfolio-item">
+                            <div>
+                                <h4 style="font-size: 16px; color: white;">Koine Greek (Biblical)</h4>
+                                <p style="color: #64748b; font-size: 12px; margin-top: 2px;">Target Vector: Novum Testamentum Graece</p>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="greek-progress-fill" style="width: 4%"></div>
+                                </div>
+                            </div>
+                            <a href="greek-vocab.html" class="btn-primary" style="padding: 10px 24px; font-size: 14px; border-radius: 8px;">Continue Learning →</a>
+                        </div>
+
+                        <div class="portfolio-item" style="opacity: 0.6;">
+                            <div>
+                                <h4 style="font-size: 16px; color: white;">Classical Hebrew</h4>
+                                <p style="color: #64748b; font-size: 12px; margin-top: 2px;">Target Vector: Biblia Hebraica Stuttgartensia</p>
+                                <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 0%"></div></div>
+                            </div>
+                            <button class="btn-outline" style="padding: 10px 24px; font-size: 14px; border-radius: 8px;" onclick="alert('Module loading soon.')">Initialize</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel-card wotd-box">
+                    <span class="wotd-lang" id="wotd-language-tag">Loading Language...</span>
+                    <h3 class="wotd-word" id="wotd-term-string">...</h3>
+                    <p class="wotd-translation" id="wotd-definition-string">Loading global lexicon translation vector...</p>
+                    <div style="margin-top: 20px; font-size: 12px; color: #64748b;" id="wotd-context-string">
+                        Daily parsing metric selection.
+                    </div>
+                </div>
+                
+                <button class="btn-outline" style="width: 100%; padding: 12px; font-size: 14px;" onclick="signOutAction()">Log Out of Portfolio</button>
+            </div>
         </div>
     </div>
 
     <div class="stats">
         <div class="stat"><h3>10+</h3><p>Languages</p></div>
-        <div class="stat"><h3>403</h3><p>Active Greek Vectors</p></div>
+        <div class="stat"><h3>535+</h3><p>Active Greek Vectors</p></div>
         <div class="stat"><h3>A1–C2</h3><p>CEFR Level Testing</p></div>
         <div class="stat"><h3>Free</h3><p>Always</p></div>
     </div>
@@ -138,5 +297,110 @@
         <p>© 2026 Glossa — All rights reserved</p>
     </footer>
 
+    <script>
+        // WORD OF THE DAY MATRIX RANDOMIZATION DICTIONARY
+        const randomLexicalPool = [
+            { lang: "Koine Greek", word: "ἀγάπη (agape)", trans: "Love, benevolence, goodwill expressions", context: "Appears 116 times across historical documents." },
+            { lang: "Classical Latin", word: "Veritas", trans: "Truth, reality, precision nature", context: "Foundational vector inside early Western manuscripts." },
+            { lang: "Biblical Hebrew", word: "שָׁלוֹם (Shalom)", trans: "Peace, completeness, welfare state", context: "Root core structural greeting motif context." },
+            { lang: "Classical Sanskrit", word: "ज्ञान (Jnana)", trans: "Knowledge, higher cognitive awareness", context: "Philosophical concept across text lines." }
+        ];
+
+        function checkAppAuthenticationState() {
+            const activeUser = localStorage.getItem('glossa_active_user') || localStorage.getItem('glossa_username');
+            const marketingHero = document.getElementById('marketing-hero-viewport');
+            const dashboardViewport = document.getElementById('academic-dashboard-viewport');
+            const profileNav = document.getElementById('profile-nav-item');
+
+            if (activeUser) {
+                // Adjust interface arrays to display current running profile
+                marketingHero.style.display = 'none';
+                dashboardViewport.style.display = 'block';
+                document.getElementById('dashboard-username-string').textContent = activeUser;
+                profileNav.textContent = `Profile (${activeUser.split('@')[0]})`;
+                
+                // Read from shared app storage to pull accurate progress bar fills dynamically
+                syncLiveSystemProgress();
+                generateWordOfTheDay();
+            } else {
+                // Revert interface models to standard marketing overview frames
+                marketingHero.style.display = 'block';
+                dashboardViewport.style.display = 'none';
+                profileNav.textContent = 'Profile';
+            }
+        }
+
+        function syncLiveSystemProgress() {
+            let customCards = JSON.parse(localStorage.getItem('customGreekCards')) || [];
+            let masteredCustomCount = customCards.filter(c => c.mastered).length;
+            
+            // Generate visual filling metric properties dynamically based on actual status
+            let calculatedTotalCount = 535 + customCards.length;
+            let dynamicPercentageValue = Math.min(100, Math.max(4, Math.round((masteredCustomCount / calculatedTotalCount) * 100)));
+            
+            setTimeout(() => {
+                const fillElement = document.getElementById('greek-progress-fill');
+                if(fillElement) fillElement.style.width = `${dynamicPercentageValue}%`;
+            }, 100);
+        }
+
+        function generateWordOfTheDay() {
+            // Seed randomization selector array securely using current calendar tracking data index keys
+            const dayIndex = new Date().getDate() % randomLexicalPool.length;
+            const targetData = randomLexicalPool[dayIndex];
+
+            document.getElementById('wotd-language-tag').textContent = `✨ Word of the Day — ${targetData.lang}`;
+            document.getElementById('wotd-term-string').textContent = targetData.word;
+            document.getElementById('wotd-definition-string').textContent = targetData.trans;
+            document.getElementById('wotd-context-string').textContent = targetData.context;
+        }
+
+        // CHRONOGRAPH COMPONENT RUNTIME ENGINE
+        function executeChronographUpdate() {
+            const currentMoment = new Date();
+            
+            // Format time accurately
+            let hours = String(currentMoment.getHours()).padStart(2, '0');
+            let minutes = String(currentMoment.getMinutes()).padStart(2, '0');
+            let seconds = String(currentMoment.getSeconds()).padStart(2, '0');
+            
+            const timeDisplay = document.getElementById('live-time-string');
+            if (timeDisplay) timeDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+            // Format date string explicitly
+            const visualOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateDisplay = document.getElementById('live-date-string');
+            if (dateDisplay) dateDisplay.textContent = currentMoment.toLocaleDateString('en-US', visualOptions);
+        }
+        
+        setInterval(executeChronographUpdate, 1000);
+
+        // ACCESS CONTEXT CONTROL TRIGGERS
+        function simulateLogin() {
+            localStorage.setItem('glossa_active_user', 'scholar@glossa.edu');
+            checkAppAuthenticationState();
+        }
+
+        function signOutAction() {
+            localStorage.removeItem('glossa_active_user');
+            localStorage.removeItem('glossa_username');
+            checkAppAuthenticationState();
+        }
+
+        function toggleMockAuth() {
+            // Secret clicking on brand word toggles authorization space instantly for developer sandbox workflows
+            if(localStorage.getItem('glossa_active_user')) {
+                signOutAction();
+            } else {
+                simulateLogin();
+            }
+        }
+
+        // Initialize runtime hooks on frame presentation callbacks
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAppAuthenticationState();
+            executeChronographUpdate();
+        });
+    </script>
 </body>
 </html>
