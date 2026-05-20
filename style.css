@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GLOSSA MASTER STYLING — RECOVERY LAYER
+   GLOSSA MASTER STYLING — RECOVERY & INTERACTION LAYER
    ========================================================================== */
 
 * {
@@ -110,6 +110,8 @@ nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
     justify-content: space-between;
     min-height: 230px;
     transition: border-color 0.25s ease, transform 0.2s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .hub-card:hover {
@@ -169,7 +171,7 @@ nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
     color: #a78bfa;
 }
 
-/* BUTTON ENGINE */
+/* BUTTON ENGINE & CLICK RECOVERY LAYER */
 .hub-btn {
     width: 100%;
     background: #1e1e38;
@@ -179,16 +181,22 @@ nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
     border-radius: 10px;
     font-weight: 600;
     font-size: 14px;
-    cursor: pointer;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     transition: all 0.2s ease;
+    
+    /* Clickability Engine Safeguards */
+    position: relative;
+    z-index: 10 !important;
+    cursor: pointer !important;
 }
 
 .hub-btn:hover {
     background: #252547;
     border-color: #7c6af7;
+    transform: translateY(-1px);
+    filter: brightness(1.15);
 }
 
 .hub-btn.highlight {
@@ -270,7 +278,12 @@ nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
     font-size: 12px;
 }
 
-.card-feed-column { display: flex; flex-direction: column; gap: 16px; }
+.card-feed-column { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+}
+
 .vector-card {
     background: #16162a;
     border: 1px solid #2a2a4a;
@@ -280,5 +293,14 @@ nav div a:hover, nav div a.active, .nav-links a:hover, .nav-links a.active {
     justify-content: space-between;
     align-items: center;
 }
-.greek-term { font-size: 24px; font-weight: 700; color: #ffffff; }
-.meaning-text { color: #cbd5e1; font-size: 15px; }
+
+.greek-term { 
+    font-size: 24px; 
+    font-weight: 700; 
+    color: #ffffff; 
+}
+
+.meaning-text { 
+    color: #cbd5e1; 
+    font-size: 15px; 
+}
