@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glossa — Tetun Dili SRS Arena</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #0f0f1a; color: white; padding-bottom: 60px; }
+        
+        nav { 
+            background: #1a1a2e; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2a2a4a; 
+        }
+        nav h1 a { color: #7c6af7; text-decoration: none; font-size: 26px; font-weight: 800; }
+        nav a { color: white; text-decoration: none; margin-left: 24px; font-size: 14px; }
+        nav a:hover { color: #7c6af7; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        
+        .header-panel { 
+            background: linear-gradient(135deg, #1e1e38 0%, #16162a 100%); border: 1px solid #2a2a4a; border-radius: 16px; padding: 30px; margin-bottom: 30px;
+        }
+        .flag-tag { background: #f59e0b; color: black; font-weight: 800; padding: 4px 8px; border-radius: 4px; font-size: 12px; display: inline-block; margin-bottom: 10px; }
+
+        /* SRS Layout Panels */
+        .grid-layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+        @media (max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
+
+        .arena-card {
+            background: #16162a; border: 2px solid #2a2a4a; border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative;
+        }
+        .srs-badge { position: absolute; top: 20px; right: 20px; background: #2a2a5a; color: #7c6af7; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700; text-transform: uppercase; }
+
+        .word-display { font-size: 48px; font-weight: 800; color: #fff; margin: 25px 0 5px 0; }
+        .pos-tag { color: #a5b4fc; font-style: italic; font-size: 15px; margin-bottom: 25px; display: block; }
+
+        .input-group input {
+            width: 100%; background: #0f0f1a; border: 2px solid #2a2a4a; border-radius: 10px; padding: 16px 20px; color: white; font-size: 18px; text-align: center; outline: none; transition: border-color 0.2s;
+        }
+        .input-group input:focus { border-color: #7c6af7; }
+
+        .btn-action { background: #7c6af7; color: white; border: none; padding: 14px 30px; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; width: 100%; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: #634ef5; }
+
+        .feedback { margin-top: 20px; font-size: 15px; font-weight: 600; min-height: 24px; }
+        .feedback.correct { color: #10b981; }
+        .feedback.incorrect { color: #ef4444; }
+
+        .srs-controls { display: flex; gap: 10px; margin-top: 15px; display: none; }
+        .btn-srs { flex: 1; padding: 12px; border-radius: 8px; font-weight: 700; border: none; cursor: pointer; color: white; }
+        .btn-hard { background: #ef4444; }
+        .btn-good { background: #3b82f6; }
+        .btn-easy { background: #10b981; }
+
+        /* Sidebar Stats Panel */
+        .sidebar-panel { background: #16162a; border: 1px solid #2a2a4a; border-radius: 16px; padding: 20px; height: fit-content; }
+        .stat-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2a2a4a; font-size: 14px; color: #94a3b8; }
+        .stat-item span { color: white; font-weight: 600; }
+
+        /* Integrated Dictionary Section */
+        .dict-section { margin-top: 40px; background: #16162a; border: 1px solid #2a2a4a; border-radius: 16px; padding: 30px; }
+        .search-bar { width: 100%; background: #0f0f1a; border: 1px solid #2a2a4a; padding: 12px 16px; border-radius: 8px; color: white; margin-bottom: 20px; outline: none; }
+        .search-bar:focus { border-color: #7c6af7; }
+        .dict-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+        .dict-card { background: #1e1e38; padding: 12px 16px; border-radius: 8px; border: 1px solid #2a2a4a; }
+        .dict-term { font-weight: 700; color: #7c6af7; }
+        .dict-pos { font-size: 12px; color: #a5b4fc; font-style: italic; margin-left: 5px; }
+        .dict-def { font-size: 13px; color: #cbd5e1; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1><a href="index.html">Glossa</a></h1>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="languages.html">Languages</a>
+            <a href="chat.html">Chat</a>
+            <a href="ai-tutor.html">AI Tutor</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header-panel">
+            <span class="flag-tag">🇹🇱 TETUN DILI SRS ENGINE</span>
+            <h2>Vocab Arena & Integrated Glossary</h2>
+            <p style="color: #94a3b8; margin-top: 6px;">An interactive Leitner-inspired Spaced Repetition engine tracking lexical retention curves.</p>
+        </div>
+
+        <div class="grid-layout">
+            <div>
+                <!-- SRS Arena Card -->
+                <div class="arena-card">
+                    <div class="srs-badge" id="card-box">Box 1</div>
+                    
+                    <div class="word-container">
+                        <div class="word-display" id="target-word">...</div>
+                        <span class="pos-tag" id="part-of-speech">...</span>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" id="user-translation" placeholder="Type English translation..." autocomplete="off" autofocus>
+                    </div>
+
+                    <button class="btn-action" id="submit-btn" onclick="verifyInput()">Verify Translation</button>
+                    
+                    <div class="srs-controls" id="srs-actions">
+                        <button class="btn-srs btn-hard" onclick="processSRS(1)">Hard (Box 1)</button>
+                        <button class="btn-srs btn-good" onclick="processSRS(2)">Good (Box 2)</button>
+                        <button class="btn-srs btn-easy" onclick="processSRS(3)">Easy (Box 3)</button>
+                    </div>
+
+                    <div class="feedback" id="feedback-box"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar Stats Panel -->
+            <div class="sidebar-panel">
+                <h3 style="font-size: 16px; margin-bottom: 15px; border-bottom: 1px solid #2a2a4a; padding-bottom: 8px;">SRS Metadata</h3>
+                <div class="stat-item">Box 1 (Review) <span id="box1-count">0</span></div>
+                <div class="stat-item">Box 2 (Learning) <span id="box2-count">0</span></div>
+                <div class="stat-item">Box 3 (Mastered) <span id="box3-count">0</span></div>
+                <div class="stat-item">Session Score <span id="session-score">0</span></div>
+            </div>
+        </div>
+
+        <!-- Integrated Dictionary Module -->
+        <div class="dict-section">
+            <h3 style="margin-bottom: 15px;">Tetun - English Lexicon Masterlist</h3>
+            <input type="text" class="search-bar" id="dict-search" placeholder="Filter vocabulary terms..." oninput="filterLexicon()">
+            <div class="dict-grid" id="dictionary-container">
+                <!-- Sourced system loops populate elements here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Meticulously parsed comprehensive lexicon sourced directly from your verified dictionary pages
+        const database = [
+            { word: "aat", pos: "adj", def: "broken; bad; ugly" },
+            { word: "aban", pos: "adv", def: "tomorrow" },
+            { word: "abó-feto", pos: "n", def: "grandmother" },
+            { word: "abó-mane", pos: "n", def: "grandfather" },
+            { word: "agora", pos: "adv", def: "now; at present" },
+            { word: "agradu", pos: "n", def: "pleasure" },
+            { word: "ajuda", pos: "vi/n", def: "to help, to assist; assistance" },
+            { word: "alin", pos: "n", def: "younger brother/sister" },
+            { word: "amá", pos: "n", def: "mom, mamma" },
+            { word: "ami", pos: "pron", def: "we (exclusive)" },
+            { word: "apariensia", pos: "n", def: "appearance" },
+            { word: "as", pos: "adj", def: "high; height" },
+            { word: "atú", pos: "conj", def: "in order to, for the purpose of" },
+            { word: "ba", pos: "prep", def: "to; for; into; as" },
+            { word: "bá", pos: "vi", def: "to go" },
+            { word: "baibain", pos: "adj/adv", def: "usual, normal; usually" },
+            { word: "bainhira", pos: "adv/conj", def: "when" },
+            { word: "balu", pos: "adj/pron", def: "some; several" },
+            { word: "banku", pos: "n", def: "bank" },
+            { word: "barak", pos: "adj/adv", def: "many, much, a lot" },
+            { word: "baratu", pos: "adj", def: "cheap" },
+            { word: "basar", pos: "n", def: "market" },
+            { word: "bee", pos: "n", def: "water" },
+            { word: "beibeik", pos: "adv", def: "always; often" },
+            { word: "bele", pos: "vi/adj", def: "can, to be able to, may; possible" },
+            { word: "besik", pos: "adv/adj", def: "near; close to, about to" },
+            { word: "biin", pos: "n", def: "older sister" },
+            { word: "bikan", pos: "n", def: "plate" },
+            { word: "biru", pos: "adj", def: "blue" },
+            { word: "bisikleta", pos: "n", def: "bicycle" },
+            { word: "bokon", pos: "adj", def: "wet" },
+            { word: "bokur", pos: "adj", def: "fat" },
+            { word: "bolu", pos: "vt", def: "to call, to telephone" },
+            { word: "bondia!", pos: "interj", def: "good morning!" },
+            { word: "bonita", pos: "adj", def: "pretty, nice, lovely" },
+            { word: "bonitu", pos: "adj", def: "handsome, good-looking" },
+            { word: "boa-noite!", pos: "interj", def: "good evening/night!" },
+            { word: "bót", pos: "adj", def: "big, large" },
+            { word: "bravu!", pos: "interj", def: "bravo! well done!" },
+            { word: "buat", pos: "n", def: "thing; something" },
+            { word: "buka", pos: "vt", def: "to look for, search for" },
+            { word: "bulak", pos: "adj", def: "crazy, mad" },
+            { word: "busa", pos: "n", def: "cat" },
+            { word: "dada", pos: "v", def: "to pull, to drag, to attract" },
+            { word: "dadeer", pos: "n/adv", def: "morning; in the morning" },
+            { word: "dala", pos: "n", def: "time (e.g., once, twice)" },
+            { word: "dale", pos: "vi", def: "to talk, to speak" },
+            { word: "dalen", pos: "n", def: "language" },
+            { word: "dehan", pos: "vt", def: "to say, to tell" },
+            { word: "demokrasia", pos: "n", def: "democracy" },
+            { word: "depois", pos: "adv", def: "after, afterwards" },
+            { word: "desizaun", pos: "n", def: "decision" },
+            { word: "deskansa", pos: "vi", def: "to rest, to take a rest" },
+            { word: "deskreve", pos: "vt", def: "to describe" },
+            { word: "deskulpa!", pos: "interj", def: "sorry! excuse me!" },
+            { word: "destrui", pos: "vt", def: "to destroy" },
+            { word: "dezembre", pos: "n", def: "December" },
+            { word: "dia", pos: "n", def: "date" },
+            { word: "di'ak", pos: "adj/n", def: "good, nice, fine; well" },
+            { word: "didi'ak", pos: "adv", def: "carefully, very well" },
+            { word: "difikuldade", pos: "n", def: "difficulty" },
+            { word: "dimensaun", pos: "n", def: "dimension" },
+            { word: "diploma", pos: "n", def: "diploma" },
+            { word: "disionáriu", pos: "n", def: "dictionary" },
+            { word: "diskusaun", pos: "n", def: "discussion" },
+            { word: "duni", pos: "vt/adj", def: "to chase away; indeed, really" },
+            { word: "durante", pos: "prep", def: "during" },
+            { word: "du'ut", pos: "n", def: "grass" },
+            { word: "edukasaun", pos: "n", def: "education" },
+            { word: "eletrisidade", pos: "n", def: "electricity" },
+            { word: "ema", pos: "n", def: "person, people, somebody" },
+            { word: "embora", pos: "conj", def: "although" },
+            { word: "enkuantu", pos: "conj", def: "while, as" },
+            { word: "entre", pos: "prep", def: "between, among" },
+            { word: "entrega", pos: "vt", def: "to deliver" },
+            { word: "eskola", pos: "n", def: "school" },
+            { word: "españól", pos: "adj/n", def: "Spanish" },
+            { word: "estrada", pos: "n", def: "road, highway" },
+            { word: "estuda", pos: "vti", def: "to study" },
+            { word: "euro", pos: "n", def: "euro" },
+            { word: "fafahek", pos: "n", def: "distribution" },
+            { word: "fahe", pos: "vt", def: "to divide, to give out, to share" },
+            { word: "familia", pos: "n", def: "family" },
+            { word: "fasil", pos: "adj", def: "easy" },
+            { word: "fatin", pos: "n", def: "place; space; site" },
+            { word: "favór", pos: "n", def: "please" },
+            { word: "fiar", pos: "vti/n", def: "to believe; belief" },
+            { word: "filme", pos: "n", def: "movie, film" },
+            { word: "fó", pos: "vt", def: "to give" },
+            { word: "fo'er", pos: "adj", def: "dirty" },
+            { word: "foho", pos: "n", def: "mountain" },
+            { word: "foin", pos: "adv", def: "just now, not long ago" },
+            { word: "foun", pos: "adj", def: "new; fresh" },
+            { word: "fransa", pos: "n", def: "France" },
+            { word: "fransés", pos: "adj/n", def: "French" },
+            { word: "fulan", pos: "n", def: "moon; month" },
+            { word: "fuma", pos: "vti", def: "to smoke" },
+            { word: "funsiona", pos: "vi", def: "to function" },
+            { word: "furak", pos: "adj", def: "pretty, lovely, nice, beautiful" },
+            { word: "garajen", pos: "n", def: "garage" },
+            { word: "gasta", pos: "vt", def: "to spend" },
+            { word: "governu", pos: "n", def: "government" },
+            { word: "goza", pos: "vt", def: "to enjoy" },
+            { word: "gramátika", pos: "n", def: "grammar" },
+            { word: "gravata", pos: "n", def: "tie" },
+            { word: "gregu", pos: "adj/n", def: "Greek" },
+            { word: "grupu", pos: "n", def: "group" },
+            { word: "haas", pos: "n", def: "mango" },
+            { word: "haat", pos: "num", def: "four" },
+            { word: "habosok", pos: "vt", def: "to deceive" },
+            { word: "hadi'a", pos: "vt", def: "to mend, repair" },
+            { word: "hadomi", pos: "vt", def: "to love" },
+            { word: "hahán", pos: "n", def: "food" },
+            { word: "hakarak", pos: "vt", def: "to want, to wish; to like" },
+            { word: "hakmatek", pos: "adj/adv", def: "peaceful, quiet" },
+            { word: "hakotu", pos: "vt", def: "to cut off; to decide" },
+            { word: "haksolok", pos: "adj", def: "happy, glad" },
+            { word: "haktuir", pos: "prep/v", def: "according to; to tell" },
+            { word: "halai", pos: "vi", def: "to run" },
+            { word: "halakon", pos: "vt", def: "to destroy" },
+            { word: "hale'u", pos: "adv", def: "around" },
+            { word: "halo", pos: "vt", def: "to make, to do" },
+            { word: "halubun", pos: "vt", def: "to group" },
+            { word: "han", pos: "vt", def: "to eat, to consume" },
+            { word: "hananu", pos: "vti", def: "to sing; song" },
+            { word: "hanesan", pos: "vt/prep", def: "the same; like, as" },
+            { word: "hanoin", pos: "vti/n", def: "to think, consider; idea" },
+            { word: "haree", pos: "vti", def: "to see; to watch, look at" },
+            { word: "hariis", pos: "vti", def: "to bathe, take a bath" },
+            { word: "haruka", pos: "vt", def: "to send" },
+            { word: "hasarahun", pos: "n", def: "beard" },
+            { word: "hasoru", pos: "vt/prep", def: "to meet; against, toward" },
+            { word: "hatais", pos: "vt/vi", def: "to wear; to dress" },
+            { word: "hatama", pos: "vt", def: "to put into" },
+            { word: "hatán", pos: "vti/n", def: "to answer, respond; reply" },
+            { word: "hatene", pos: "vti", def: "to know" },
+            { word: "hateten", pos: "vti", def: "to say, to tell" },
+            { word: "hatoman", pos: "vt", def: "to accustom, to make" },
+            { word: "hatudu", pos: "vt", def: "to indicate; to show" },
+            { word: "hatutuk", pos: "vt/prep", def: "to head for; straight toward" },
+            { word: "ha'u", pos: "pron", def: "I; me" },
+            { word: "hein", pos: "vti", def: "to wait; to hope; to watch" },
+            { word: "hela", pos: "vi/adj", def: "to live, to stay; in the process of" },
+            { word: "hemu", pos: "vt", def: "to drink" },
+            { word: "henu", pos: "n", def: "necklace" },
+            { word: "hetan", pos: "vt", def: "to find; to discover; to obtain" },
+            { word: "hira", pos: "adv/pron", def: "how many/much" },
+            { word: "hirak", pos: "adj", def: "a few, several" },
+            { word: "hitu", pos: "num", def: "seven" },
+            { word: "ho", pos: "prep/conj", def: "with; and" },
+            { word: "hodi", pos: "conj/prep", def: "by, in, with; in order to" },
+            { word: "hola", pos: "vt", def: "to get, to fetch; to buy" },
+            { word: "hori", pos: "prep", def: "since, from" },
+            { word: "horik", pos: "vi", def: "to live; to live in" },
+            { word: "horikalan", pos: "adv", def: "last night" },
+            { word: "horisehik", pos: "adv", def: "yesterday" },
+            { word: "horiuluk", pos: "adv", def: "in the past" },
+            { word: "hosi", pos: "prep", def: "from; out of" },
+            { word: "hotu", pos: "adj/pron", def: "all; whole, entire" },
+            { word: "husu", pos: "vti", def: "to ask" },
+            { word: "ia", pos: "conj", def: "and" },
+            { word: "ida", pos: "article/num", def: "a, one" },
+            { word: "ida-idak", pos: "adj/pron", def: "each, every (one)" },
+            { word: "ideia", pos: "n", def: "idea, thought" },
+            { word: "iha", pos: "vt/prep", def: "to have, to possess; there is, inside" },
+            { word: "imi", pos: "pron", def: "you (plural)" },
+            { word: "importante", pos: "adj", def: "important" },
+            { word: "indonézia", pos: "n", def: "Indonesia" },
+            { word: "inglaterra-oan", pos: "n", def: "English (person)" },
+            { word: "inglés", pos: "adj/n", def: "English" },
+            { word: "internet", pos: "n", def: "internet" },
+            { word: "ita", pos: "pron", def: "we (inclusive)" },
+            { word: "Ita-Boot", pos: "pron", def: "you (polite address)" },
+            { word: "janela", pos: "n", def: "window" },
+            { word: "janeiru", pos: "n", def: "January" },
+            { word: "japonés", pos: "adj/n", def: "Japanese" },
+            { word: "jerál", pos: "adj", def: "general" },
+            { word: "jornalista", pos: "n", def: "journalist" },
+            { word: "joven", pos: "adj", def: "young (for people)" },
+            { word: "jullu", pos: "n", def: "July" },
+            { word: "juñu", pos: "n", def: "June" },
+            { word: "justisa", pos: "n", def: "justice" },
+            { word: "ka", pos: "conj", def: "or; question tag marker" },
+            { word: "kaer", pos: "vt", def: "to hold, to take, to grab, to catch" },
+            { word: "kakorok", pos: "n", def: "neck" },
+            { word: "kala", pos: "adv/prep", def: "maybe, perhaps; about" },
+            { word: "kamaan", pos: "adj", def: "light" },
+            { word: "kamiza", pos: "n", def: "shirt" },
+            { word: "kanuru", pos: "n", def: "spoon" },
+            { word: "kapás", pos: "adj", def: "good, nice, beautiful; nicely" },
+            { word: "kapela", pos: "n", def: "chapel" },
+            { word: "karan", pos: "n", def: "desire, wish" },
+            { word: "karik", pos: "adv", def: "maybe, perhaps" },
+            { word: "karun", pos: "adj", def: "expensive" },
+            { word: "katak", pos: "conj", def: "that" },
+            { word: "katuas", pos: "adj/n", def: "old (for men); old man" },
+            { word: "kbiit", pos: "n", def: "power, strength" },
+            { word: "ke'e", pos: "vt", def: "to dig" },
+            { word: "keta", pos: "adv", def: "don't; don't forget" },
+            { word: "kiak", pos: "adj", def: "poor" },
+            { word: "kilat", pos: "n", def: "gun, weapon" },
+            { word: "klase", pos: "n", def: "class" },
+            { word: "kleur", pos: "adj/adv", def: "long (time); not soon" },
+            { word: "klosan", pos: "adj", def: "young (for people); single" },
+            { word: "knua", pos: "n", def: "village" },
+            { word: "ko'alia", pos: "vi", def: "to talk, to speak" },
+            { word: "kobra", pos: "vt", def: "to collect; to collect money" },
+            { word: "kolega", pos: "n", def: "friend; partner" },
+            { word: "komesa", pos: "vti", def: "to begin, start, commence" },
+            { word: "komik", pos: "adj", def: "funny" },
+            { word: "kompletamente", pos: "adv", def: "completely" },
+            { word: "kompletu", pos: "adj", def: "complete" },
+            { word: "komputadór", pos: "n", def: "computer" },
+            { word: "komunika", pos: "vti", def: "communicate" },
+            { word: "komunikasaun", pos: "n", def: "communication" },
+            { word: "kona-ba", pos: "prep", def: "about, concerning" },
+            { word: "kondisaun", pos: "n", def: "condition" },
+            { word: "koñese", pos: "vt", def: "to know, recognize, be acquainted with" },
+            { word: "konfiansa", pos: "n", def: "trust, confidence" },
+            { word: "konforme", pos: "prep", def: "according to" },
+            { word: "kontra", pos: "prep", def: "against, versus" },
+            { word: "kontratu", pos: "n", def: "contract" },
+            { word: "kopu", pos: "n", def: "glass (for drinking)" },
+            { word: "kór", pos: "n", def: "colour" },
+            { word: "kotuk", pos: "n/adv", def: "back; adv behind" },
+            { word: "krusiál", pos: "adj", def: "crucial" },
+            { word: "ksolok", pos: "n", def: "happiness, joy" },
+            { word: "kualidade", pos: "n", def: "quality" },
+            { word: "kuana", pos: "adj", def: "right (side)" },
+            { word: "kuantidade", pos: "n", def: "quantity" },
+            { word: "kuandu", pos: "conj", def: "when" },
+            { word: "kuarta", pos: "n", def: "Wednesday" },
+            { word: "kuartu", pos: "n", def: "room" },
+            { word: "kuaze", pos: "adv", def: "almost" },
+            { word: "kuda", pos: "n/vt", def: "horse; vt to plant" },
+            { word: "kuidadu", pos: "n/vi", def: "care; vi to be careful" },
+            { word: "kulabu", pos: "adj", def: "grey" },
+            { word: "kultura", pos: "n", def: "culture" },
+            { word: "kunir", pos: "adj", def: "yellow" },
+            { word: "kuran", pos: "vt/vi", def: "to need; to lack" },
+            { word: "kuriozidade", pos: "n", def: "curiosity" },
+            { word: "kuriozu", pos: "adj", def: "curious" },
+            { word: "la", pos: "adv", def: "not (negative marker)" },
+            { word: "la'ós", pos: "adv", def: "not" },
+            { word: "labarik", pos: "n", def: "child" },
+            { word: "labele", pos: "adv", def: "not to; do not" },
+            { word: "ladauk", pos: "adv", def: "not yet" },
+            { word: "ladún", pos: "adv", def: "not very, not so" },
+            { word: "lae", pos: "adv", def: "no (as an answer)" },
+            { word: "lahakmatek", pos: "adv", def: "restlessly" },
+            { word: "lahalimar", pos: "adv", def: "really, extremely" },
+            { word: "lahó", pos: "prep", def: "without" },
+            { word: "lahodi", pos: "prep", def: "without" },
+            { word: "lai", pos: "adv", def: "please" },
+            { word: "laiha", pos: "prep", def: "without" },
+            { word: "lailais", pos: "adv", def: "quickly, fast, rapidly; early" },
+            { word: "lais", pos: "adj", def: "quick, rapid" },
+            { word: "lakan", pos: "n/vi", def: "flame; vi to be on (light/fire)" },
+            { word: "lakin", pos: "adj", def: "very old" },
+            { word: "lakleur", pos: "adv", def: "soon" },
+            { word: "lakohi", pos: "vi", def: "not to want" },
+            { word: "lakon", pos: "vi", def: "to disappear; to lose" },
+            { word: "lalika", pos: "adv", def: "don't; do not" },
+            { word: "laran", pos: "n/prep", def: "interior; heart; prep in, within" },
+            { word: "laran-haksolok", pos: "adj", def: "glad, proud" },
+            { word: "laranja", pos: "adj", def: "orange" },
+            { word: "laran-kraik", pos: "adj", def: "sad" },
+            { word: "lasusar", pos: "adj", def: "easy" },
+            { word: "lato'o", pos: "adj/prep", def: "not enough; prep within (time)" },
+            { word: "lee", pos: "vt", def: "to read" },
+            { word: "leet", pos: "n/adv", def: "space; opportunity; adv in vain" },
+            { word: "leten", pos: "n", def: "top, summit" },
+            { word: "lia", pos: "n", def: "language; speech; word" },
+            { word: "liafuan", pos: "n", def: "word" },
+            { word: "lian", pos: "n", def: "sound, voice, language" },
+            { word: "lima", pos: "num", def: "five" },
+            { word: "liman", pos: "n", def: "hand" },
+            { word: "língua", pos: "n", def: "language" },
+            { word: "liu", pos: "vi/prep", def: "past, to pass; prep after, following" },
+            { word: "liuhosi", pos: "prep", def: "through, via" },
+            { word: "liuliu", pos: "adv", def: "especially, above all" },
+            { word: "liurai", pos: "n", def: "king" },
+            { word: "liután", pos: "adv", def: "more, further" },
+            { word: "livru", pos: "n", def: "book" },
+            { word: "lohi", pos: "vt", def: "deceive" },
+            { word: "loja", pos: "n", def: "shop, store" },
+            { word: "loos", pos: "adj/adv", def: "right; real; adv really; actually" },
+            { word: "loraik", pos: "lokraik n", def: "afternoon" },
+            { word: "lori", pos: "vt", def: "to bring; to take; to carry" },
+            { word: "loroloron", pos: "adj/adv", def: "daily; everyday" },
+            { word: "loron", pos: "n", def: "day; sun" },
+            { word: "lubun", pos: "n", def: "group" },
+            { word: "luli", pos: "adv", def: "to be forbidden" },
+            { word: "lulik", pos: "adj", def: "sacred, holy" },
+            { word: "lumut", pos: "adj", def: "green" },
+            { word: "lurón", pos: "n", def: "street" },
+            { word: "mahorik", pos: "n", def: "citizen" },
+            { word: "mai", pos: "vi/prep", def: "to come; prep to; adv hither" },
+            { word: "maibé", pos: "conj", def: "but, however, yet" },
+            { word: "mais", pos: "conj", def: "but" },
+            { word: "maiu", pos: "n", def: "May" },
+            { word: "mak", pos: "rel pron", def: "the one who, that, which" },
+            { word: "maka'as", pos: "adj", def: "hard; strong" },
+            { word: "malae", pos: "adj/n", def: "foreign; foreigner" },
+            { word: "malirin", pos: "adj", def: "cold" },
+            { word: "mamuk", pos: "adj", def: "empty" },
+            { word: "mana", pos: "n", def: "older sister" },
+            { word: "manán", pos: "vti", def: "to win; to earn (money)" },
+            { word: "manas", pos: "adj", def: "hot; n heat" },
+            { word: "manko", pos: "n", def: "bowl" },
+            { word: "mantein", pos: "vt", def: "to keep, to maintain" },
+            { word: "manu", pos: "n", def: "chicken; bird" },
+            { word: "maran", pos: "adj/vi", def: "dry; vi to dry" },
+            { word: "maromak", pos: "n", def: "good, deity, God" },
+            { word: "marsu", pos: "n", def: "March" },
+            { word: "maski", pos: "adv/adj", def: "although, though" },
+            { word: "matabixu", pos: "vi/n", def: "to have breakfast; n breakfast" },
+            { word: "matak", pos: "adj", def: "green; unripe" },
+            { word: "mate", pos: "vi/adj", def: "to die; dead; n death" },
+            { word: "matenek", pos: "adj/n", def: "intelligent, wise; n intelligence" },
+            { word: "maun", pos: "n", def: "brother (also address term)" },
+            { word: "mean", pos: "adj", def: "red" },
+            { word: "medak", pos: "adj", def: "dirty" },
+            { word: "menas", pos: "prep/adv", def: "except; adv less" },
+            { word: "mesak", pos: "adj/adv", def: "alone, lonely; adv alone, all alone" },
+            { word: "meskita", pos: "n", def: "mosque" },
+            { word: "mestre", pos: "n", def: "teacher; master" },
+            { word: "metan", pos: "adj", def: "black" },
+            { word: "meza", pos: "n", def: "table" },
+            { word: "mezmu", pos: "adv", def: "even" },
+            { word: "mézmuke", pos: "conj", def: "even though, although" },
+            { word: "midar", pos: "adj", def: "sweet; delicious" },
+            { word: "minutu", pos: "n", def: "minute" },
+            { word: "modo", pos: "n", def: "vegetable" },
+            { word: "momentu", pos: "n", def: "moment" },
+            { word: "moris", pos: "v/adj", def: "to live; to be alive; adj alive" },
+            { word: "mós", pos: "adv", def: "also, too" },
+            { word: "motór", pos: "n", def: "motorcycle" },
+            { word: "muli", pos: "vi", def: "disappear" },
+            { word: "mutin", pos: "adj", def: "white" },
+            { word: "nada!", pos: "interj", def: "you're welcome" },
+            { word: "nafatin", pos: "adv", def: "always, still, continuously" },
+            { word: "nakonu", pos: "adj", def: "full" },
+            { word: "nakukun", pos: "adj", def: "dark; dim" },
+            { word: "na'in-rua", pos: "pron", def: "the two of them, both of them" },
+            { word: "na'ok-teen", pos: "n", def: "thief, robber" },
+            { word: "naran", pos: "n/vi", def: "name; vi name is; conj provided that" },
+            { word: "naroman", pos: "adj", def: "bright" },
+            { word: "naruk", pos: "adj", def: "long; n length" },
+            { word: "nacionalidade", pos: "n", def: "nationality" },
+            { word: "natar", pos: "n", def: "rice field, paddy field" },
+            { word: "nato'on", pos: "adj", def: "enough, sufficient" },
+            { word: "naturál", pos: "adj", def: "natural" },
+            { word: "ne'e", pos: "pron/adj", def: "this; it is; make, it is" },
+            { word: "ne'ebé", pos: "pron/adv", def: "where; which; relative marker" },
+            { word: "ne'e-duni", pos: "adv", def: "therefore, hence, that's why" },
+            { word: "neen", pos: "num", def: "six" },
+            { word: "nega", pos: "vt", def: "deny" },
+            { word: "nein", pos: "conj", def: "neither; nor" },
+            { word: "neineik", pos: "adv", def: "slowly" },
+            { word: "nia", pos: "pron", def: "he; she; it; possessive marker" },
+            { word: "ninian", pos: "poss pron", def: "his, hers, its" },
+            { word: "nivel", pos: "n", def: "level" },
+            { word: "no", pos: "conj", def: "and" },
+            { word: "norte", pos: "adj/n", def: "north" },
+            { word: "novembru", pos: "n", def: "November" },
+            { word: "nu'udar", pos: "prep/conj", def: "as" },
+            { word: "nu'usá", pos: "adv", def: "why" },
+            { word: "nunka", pos: "adv", def: "never" },
+            { word: "nune'e ka?", pos: "adv", def: "really? is that so?" },
+            { word: "nurak", pos: "adj", def: "young, youthful" },
+            { word: "oan", pos: "n", def: "child, son or daughter" },
+            { word: "obrigadu!", pos: "interj", def: "thank you (by a man)" },
+            { word: "obrigada!", pos: "interj", def: "thank you (by a woman)" },
+            { word: "ohin", pos: "adv", def: "today" },
+            { word: "oinsá", pos: "adv", def: "how" },
+            { word: "ona", pos: "adv", def: "already" },
+            { word: "oras", pos: "n", def: "hour" },
+            { word: "osan", pos: "n", def: "money" },
+            { word: "otél", pos: "n", def: "hotel" },
+            { word: "outubru", pos: "n", def: "October" },
+            { word: "para", pos: "prep", def: "in order to, so that, to" },
+            { word: "parénteze", pos: "n", def: "parenthesis" },
+            { word: "parese", pos: "vi", def: "to seem, to look" },
+            { word: "parte", pos: "n", def: "part" },
+            { word: "páskua", pos: "n", def: "Easter" },
+            { word: "pergunta", pos: "n", def: "question" },
+            { word: "períodu", pos: "n", def: "period" },
+            { word: "planu", pos: "n", def: "plan" },
+            { word: "podér", pos: "n", def: "power" },
+            { word: "pontu", pos: "n", def: "full stop, period" },
+            { word: "porfavór", pos: "conj", def: "please" },
+            { word: "porsentu", pos: "n", def: "percent" },
+            { word: "portugés", pos: "adj/n", def: "Portuguese" },
+            { word: "povu", pos: "n", def: "people" },
+            { word: "prepara", pos: "vt", def: "to prepare" },
+            { word: "prezidente", pos: "n", def: "president" },
+            { word: "primu", pos: "n", def: "male cousin" },
+            { word: "prima", pos: "n", def: "female cousin" },
+            { word: "problema", pos: "n", def: "problem, trouble" },
+            { word: "profesór", pos: "n", def: "male teacher" },
+            { word: "profesora", pos: "n", def: "female teacher" },
+            { word: "promesa", pos: "n", def: "promise" },
+            { word: "promete", pos: "vt", def: "to promise" },
+            { word: "raan", pos: "n", def: "blood" },
+            { word: "rabat", pos: "vt/prep", def: "to juxtapose; prep right next to, side by side" },
+            { word: "rade", pos: "n", def: "duck" },
+            { word: "rai", pos: "n", def: "earth, land, island, country" },
+            { word: "rai-loro", pos: "n", def: "daytime" },
+            { word: "rain", pos: "n", def: "country, land" },
+            { word: "raiseluk", pos: "adj", def: "foreign; foreign language" },
+            { word: "ramata", pos: "vt", def: "to finish, conclude" },
+            { word: "rame", pos: "adj", def: "busy; crowded" },
+            { word: "regra", pos: "n", def: "rule" },
+            { word: "rekere", pos: "vt", def: "to demand" },
+            { word: "relasaun", pos: "n", def: "relation" },
+            { word: "relativu", pos: "adj", def: "relative" },
+            { word: "resente", pos: "adj", def: "recent" },
+            { word: "roma", pos: "adj", def: "many/much" },
+            { word: "rona", pos: "vt", def: "to hear; to listen (to)" },
+            { word: "rua", pos: "num", def: "two" },
+            { word: "semana", pos: "n", def: "week" },
+            { word: "sempre", pos: "adv", def: "always" },
+            { word: "sé-nia", pos: "adj", def: "whose" },
+            { word: "señór", pos: "n/pron", def: "sir" },
+            { word: "sentru", pos: "n", def: "centre, UK center" },
+            { word: "serbisu", pos: "vi/n", def: "to work; n work, job, workplace" },
+            { word: "sin", pos: "adv", def: "yes" }
+        ];
+
+        // SRS System Implementation state tracking variables
+        let srsDeck = [];
+        let currentItem = null;
+        let score = 0;
+
+        function initSRSDeck() {
+            const saved = localStorage.getItem('glossa_tetun_srs_deck');
+            if (saved) {
+                srsDeck = JSON.parse(saved);
+                // Dynamically append any new terms found in the database matrix additions
+                if (srsDeck.length !== database.length) {
+                    database.forEach(d => {
+                        if (!srsDeck.some(s => s.word === d.word)) {
+                            srsDeck.push({ ...d, box: 1 });
+                        }
+                    });
+                }
+            } else {
+                srsDeck = database.map(item => ({ ...item, box: 1 }));
+            }
+            saveDeck();
+            updateUIMetadata();
+        }
+
+        function saveDeck() {
+            localStorage.setItem('glossa_tetun_srs_deck', JSON.stringify(srsDeck));
+        }
+
+        function loadSRSNextWord() {
+            // Priority selector logic: Focus heavily on lower verification boxes (Leitner implementation)
+            let box1 = srsDeck.filter(i => i.box === 1);
+            let box2 = srsDeck.filter(i => i.box === 2);
+            let box3 = srsDeck.filter(i => i.box === 3);
+
+            let pool = [];
+            if (box1.length > 0) pool = box1;
+            else if (box2.length > 0) pool = box2;
+            else pool = box3;
+
+            if(pool.length === 0) return;
+
+            currentItem = pool[Math.floor(Math.random() * pool.length)];
+            
+            document.getElementById("target-word").innerText = currentItem.word;
+            document.getElementById("part-of-speech").innerText = currentItem.pos;
+            document.getElementById("card-box").innerText = `Box ${currentItem.box}`;
+            
+            document.getElementById("user-translation").value = "";
+            document.getElementById("user-translation").disabled = false;
+            document.getElementById("feedback-box").innerText = "";
+            document.getElementById("feedback-box").className = "feedback";
+            
+            document.getElementById("submit-btn").style.display = "block";
+            document.getElementById("srs-actions").style.display = "none";
+            document.getElementById("user-translation").focus();
+        }
+
+        function verifyInput() {
+            const val = document.getElementById("user-translation").value.trim().toLowerCase();
+            if(!val) return;
+
+            // Normalize match criteria to allow flexible lookup boundaries
+            const targetDefinitions = currentItem.def.toLowerCase();
+            const isCorrect = targetDefinitions.includes(val) && val.length > 2;
+
+            document.getElementById("user-translation").disabled = true;
+            document.getElementById("submit-btn").style.display = "none";
+            document.getElementById("srs-actions").style.display = "flex";
+
+            const feed = document.getElementById("feedback-box");
+            if(isCorrect) {
+                feed.innerText = `✓ Correct interpretation matched! Context entries: "${currentItem.def}"`;
+                feed.className = "feedback correct";
+                score += 10;
+            } else {
+                feed.innerText = `❌ Discrepancy detected. True Dictionary meaning: "${currentItem.def}"`;
+                feed.className = "feedback incorrect";
+            }
+            document.getElementById("session-score").innerText = score;
+        }
+
+        function processSRS(buttonRating) {
+            // Box sorting rules updating Leitner curves
+            if(buttonRating === 1) {
+                currentItem.box = 1; // Demote or hold in review loop
+            } else if(buttonRating === 2) {
+                currentItem.box = Math.min(currentItem.box + 1, 3); // Graduate progress layer
+            } else if(buttonRating === 3) {
+                currentItem.box = 3; // Fast track direct to master layout
+            }
+
+            saveDeck();
+            updateUIMetadata();
+            loadSRSNextWord();
+        }
+
+        function updateUIMetadata() {
+            document.getElementById("box1-count").innerText = srsDeck.filter(i => i.box === 1).length;
+            document.getElementById("box2-count").innerText = srsDeck.filter(i => i.box === 2).length;
+            document.getElementById("box3-count").innerText = srsDeck.filter(i => i.box === 3).length;
+        }
+
+        // Dictionary Section Functions
+        function populateDictionary() {
+            const container = document.getElementById("dictionary-container");
+            container.innerHTML = "";
+            
+            // Sort systematically A-Z
+            const sorted = [...database].sort((a,b) => a.word.localeCompare(b.word));
+            
+            sorted.forEach(item => {
+                const card = document.createElement("div");
+                card.className = "dict-card";
+                card.innerHTML = `
+                    <div><span class="dict-term">${item.word}</span><span class="dict-pos">${item.pos}</span></div>
+                    <div class="dict-def">${item.def}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterLexicon() {
+            const query = document.getElementById("dict-search").value.toLowerCase();
+            const cards = document.querySelectorAll(".dict-card");
+
+            cards.forEach(card => {
+                const term = card.querySelector(".dict-term").innerText.toLowerCase();
+                const def = card.querySelector(".dict-def").innerText.toLowerCase();
+                if(term.includes(query) || def.includes(query)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        // Event listener for entry fields
+        document.getElementById("user-translation").addEventListener("keypress", function(e) {
+            if(e.key === "Enter" && !this.disabled) {
+                verifyInput();
+            }
+        });
+
+        // Initialize Module Instance runtime loops
+        initSRSDeck();
+        loadSRSNextWord();
+        populateDictionary();
+    </script>
+</body>
+</html>
